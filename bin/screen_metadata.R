@@ -163,11 +163,19 @@ for (col in c("fastq_1", "fastq_2")) {
            sprintf("%s '%s' does not contain the sample ID", rep(col, length(r)), basename(v[r])))
 }
 
-# Mates named the wrong way round.
-m1 <- mate_from_name(sheet$fastq_1)
-m2 <- mate_from_name(sheet$fastq_2)
-r  <- which((m1 %in% "R2") | (m2 %in% "R1"))
+# Mate naming. Paired rows: mates named the wrong way round, using either
+# _R2 or bare _2. Single-file rows: "swapped" means nothing, so flag only an
+# EXPLICIT _R2 (a lone second mate suggests R1 is missing). A bare _2 is too
+# often just part of a name ("test_2.fastq.gz"): the first end-to-end run
+# showed exactly that false positive on real ONT test data.
+m1       <- mate_from_name(sheet$fastq_1)
+m2       <- mate_from_name(sheet$fastq_2)
+paired   <- !is.na(sheet$fastq_2)
+explicit <- grepl("[_.]R[12](_001)?\\.f(ast)?q(\\.gz)?$", basename(sheet$fastq_1))
+r <- which(paired & ((m1 %in% "R2") | (m2 %in% "R1")))
 add_flag(r, "MATES_POSSIBLY_SWAPPED", rep("fastq_1 is named like R2 or fastq_2 like R1", length(r)))
+r <- which(!paired & m1 %in% "R2" & explicit)
+add_flag(r, "SINGLE_FILE_NAMED_R2", rep("only one file given and it is named like a second mate (_R2); check R1 is not missing", length(r)))
 
 # The same file used by more than one sample.
 files  <- data.frame(row = c(seq_len(n), seq_len(n)),
