@@ -5,3 +5,8 @@ channels:
   - bioconda
 dependencies:
   - bioconda::nanoplot=1.47.0
+  # seq-triage patch (CLAUDE.md CI fix log, 2026-10-20): pin to the versions
+  # inside the module's container. Unpinned, conda installs a newer plotly
+  # that has removed figure_factory.create_2d_density, and NanoPlot crashes.
+  - conda-forge::plotly=6.6.0
+  - conda-forge::python=3.13

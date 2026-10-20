@@ -261,4 +261,16 @@ vs reported 3.0.1 (docs/reproducibility.md).
 
 Every automatic CI fix is recorded here in plain language: what failed, why, what changed, how it was verified (user rule, 2026-10-20). Fixes are never applied silently.
 
-_No fixes yet._
+**1. 2026-10-20, PR #9, job "End-to-end, conda".**
+- *What failed:* NanoPlot crashed on the nanopore test samples:
+  `AttributeError: module 'plotly.figure_factory' has no attribute 'create_2d_density'`.
+- *Why:* NanoPlot's nf-core conda recipe pins NanoPlot (1.47.0) but not its
+  plotting library. Conda installed the newest plotly (on Python 3.14),
+  which has removed a function NanoPlot uses. The Docker container works
+  because its plotly was frozen at build time.
+- *What changed:* NanoPlot's conda recipe now also pins `plotly=6.6.0` and
+  `python=3.13`, the exact versions inside the working container (read with
+  `docker run ... python -c "import plotly; ..."`). Recorded as an nf-core
+  patch (`modules/nf-core/nanoplot/nanoplot.diff`, referenced in
+  `modules.json`), so a module update reapplies it instead of losing it.
+- *How verified:* the conda CI job on the next push (see below).
