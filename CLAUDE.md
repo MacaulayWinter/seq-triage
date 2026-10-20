@@ -208,23 +208,26 @@ Findings:
 
 ## Status
 
-**Current state (end of session 1, 2026-10-20):** v0.1 works end to end and
-is validated. `main` at `2b21437` (PR #6). 6 PRs, each merged only after CI
-passed. Tests: screen 17/17, detection 29/29, report 20/20 (all in CI),
-survey 12/12 (local), e2e 6/6 (CI). Validation round 1 re-run: A 0 wrong at
-high confidence, B 542/542, C 29/29 (D39, D40, `docs/validation.md`).
+**Current state (end of session 1, 2026-10-20):** `main` at `a19dd41` (PR #10). 10 PRs, each
+merged only after CI passed (CI: unit tests, e2e with Docker, e2e with conda).
+- v0.1: validated (round 1 re-run: A 0 wrong-high, B 542/542, C 29/29; D39, D40).
+- v0.2 contamination screen (D41): built, tested in CI with Docker and conda.
+- HPC support: `conda` + `slurm` profiles (D42); ISCA has no Apptainer/Singularity.
+- Validation layer D (D43): kit merged and rehearsed locally end to end; **results pending
+  the user's ISCA run** (`validation/layer_D/README.md`; their Kraken2 DB is Standard-8,
+  Oct 2025). Claude never acts on the HPC.
 
 **Next:**
-1. **Repo stays private until fully developed** (user decision, 2026-10-20:
-   not wanting unfinished code public, or an incomplete product left out
-   if the project stalls). To show it to a specific reviewer meanwhile,
-   add them as a read-only collaborator. `seq-triage-test-data` is public.
-2. Validation round 2: ~150 runs, wider candidate pools (raise `CANDIDATES`
-   or use several date windows per stratum, since one-run-per-study left
-   some strata with 4-11 eligible runs).
-3. v0.2: contaminant screen (with the HG002 spike-in validation), BAM/uBAM
-   input, PacBio QC, rRNA fraction (D38).
-4. Open questions above.
+1. User runs layer D on ISCA and copies back `layer_D_results.tgz`; score with
+   `validation/layer_D/score_layer_D.R`, then write the results into `docs/validation.md`
+   (naming the database) and decide on any limit changes.
+2. Repo stays private until fully developed (user decision). To share with one reviewer,
+   add them as a read-only collaborator.
+3. Validation round 2 (~150 runs, wider candidate pools).
+4. Remaining v0.2: BAM/uBAM input, PacBio QC, rRNA fraction, isolate/metagenome
+   classification, downstream pipeline recommendation; strain-level contamination
+   (ConFindr-style) as its own item.
+5. Open questions above.
 
 **How to run things (notes for future sessions):**
 - User's shell: `conda activate seq-triage-dev` before `nextflow`/`nf-core`.
@@ -240,7 +243,7 @@ high confidence, B 542/542, C 29/29 (D39, D40, `docs/validation.md`).
   free on 2026-10-20): delete work dirs after each run.
 - Deadline for the portfolio piece: Thursday 2026-10-22; careful steps over speed.
 
-**Layer D kit (branch `validation-layer-d`):** sources fetched (checksums in kit output; the ECE107 ONT
+**Layer D kit (merged as PR #10):** sources fetched (checksums in kit output; the ECE107 ONT
 file matches the test-data repo's md5); full local rehearsal passes end to end (Docker + tiny DB: 120
 tasks, 374 KB results file, no reads inside); scorer verified to FAIL on meaningless estimates. Next:
 the user runs `validation/layer_D/README.md` on ISCA and brings back `layer_D_results.tgz`.
@@ -262,6 +265,10 @@ vs reported 3.0.1 (docs/reproducibility.md).
 - Validation round 1; silent seqkit failure fixed (D39) -> PR #5 (`2e2ad6e`).
 - Read-name markers, adapter checker, placeholder cap; ENA label error
   adjudicated (D40) -> PR #6 (`2b21437`).
+- Tidy-up; repo kept private -> PR #7 (`b112c53`).
+- Contamination screen, species level (D41) -> PR #8 (`83efa08`).
+- conda + slurm profiles; NanoPlot conda fix (CI fix #1) (D42) -> PR #9 (`376bf5f`).
+- Validation layer D kit, rehearsed; two pre-run fixes (D43) -> PR #10 (`a19dd41`).
 
 ## CI fix log
 
