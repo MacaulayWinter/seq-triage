@@ -1,0 +1,6 @@
+# Tells nf-core tools this repository is a pipeline (not a modules repo), so
+# `nf-core modules install` knows where to put modules and records them in
+# modules.json. seq-triage is not an nf-core pipeline; this file only enables
+# the module tooling.
+repository_type: pipeline
+nf_core_version: 4.1.0
