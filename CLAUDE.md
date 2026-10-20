@@ -95,6 +95,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D17 | **Resource labels use nf-core names but laptop-sized values**: single 1 CPU/2 GB, low 2/4 GB, medium 4/8 GB, high 8/16 GB. Memory and time double on retry; CPUs do not. | Every tool here is lightweight QC. nf-core template values are HPC-sized (process_high = 72 GB). Containers on this Mac are capped by the Docker VM (11.7 GB), and private-repo GitHub runners are about 2 CPU / 7 GB. A kill for lack of memory is fixed by memory, not threads. |
 | D18 | **Retry only exit 104 and 130-145, once; everything else `finish`.** Fusion Snapshot codes 175-177 from the nf-core template are deliberately left out. Verified 2026-10-20 with a scratch test: exit 137 retried with 4 GB -> 8 GB and succeeded; exit 1 got one attempt and the run stopped. | Retrying a genuine error only hides it. 175-177 cannot occur without Seqera Fusion. **Known interaction:** after a genuine error, `finish` submits no new tasks, *including pending retries elsewhere*. Accepted: the fix is to correct the error and `-resume`, which reruns the killed task anyway. |
 | D19 | `validation.logging.unrecognisedParams` and `unrecognisedHeaders` set to `error` (nf-schema default is `warn`). Tested: `--outdr` typo -> exit 1; valid run -> exit 0. | Conservative rule: a misspelled samplesheet column (`fastq2`) would otherwise be dropped with a warning, silently turning paired data into single-end. The same options exist in nf-schema 3.0, so this survives an upgrade. |
+| D20 | **MIT licence** (user choice, 2026-10-20), "for now". | Same licence as nf-core, so it matches the ecosystem the pipeline builds on. Without any licence the code is all rights reserved, even once public. |
 
 ## Open questions
 
@@ -144,7 +145,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
   `conf/base.config` (labels + retry policy, tested), `main.nf` +
   `nextflow_schema.json` (parameter validation, tested with 6 cases).
   Pushed up to `9fcdce3`.
-- Next: README, then `assets/schema_input.json` (samplesheet rules), then
+- README + MIT LICENSE added. Next: `assets/schema_input.json` (samplesheet rules), then
   `nf-core modules install` for seqkit/stats, fastp, fastqc, nanoplot, multiqc.
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
