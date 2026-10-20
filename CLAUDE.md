@@ -129,7 +129,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 - Dev env `seq-triage-dev`: OpenJDK 17.0.18, Nextflow 26.10.2,
   nf-core tools 4.1.0, nf-test 0.9.5
 - Local R 4.5.2. git 2.50.1 (Apple) / 2.56.0 (in env). gh 2.102.0
-- GitHub: `MacaulayWinter/seq-triage` (private), HTTPS auth via gh keyring
+- GitHub: `MacaulayWinter/seq-triage` (private). HTTPS auth via the gh keyring. `gh auth setup-git` puts the credential helper in `~/.gitconfig`, which is needed because the env ships its own git 2.56, and that git does not read Apple git's system `osxkeychain` helper.
 
 ## Status
 
@@ -139,7 +139,12 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
   created and pushed, CLAUDE.md written. Reproducible launch env
   (`environment.yml` + osx-arm64 lockfile), `docs/reproducibility.md`, and
   provisional `assets/metric_guide.tsv` (13 metrics) drafted.
-- Next: Nextflow skeleton (`nextflow.config`, `main.nf`, `conf/base.config`,
-  README), then install the nf-core modules.
+- Skeleton so far: `nextflow.config` (manifest, params, nf-schema 2.8.0,
+  strict validation, docker/emulate_amd64 profiles, run reports),
+  `conf/base.config` (labels + retry policy, tested), `main.nf` +
+  `nextflow_schema.json` (parameter validation, tested with 6 cases).
+  Pushed up to `9fcdce3`.
+- Next: README, then `assets/schema_input.json` (samplesheet rules), then
+  `nf-core modules install` for seqkit/stats, fastp, fastqc, nanoplot, multiqc.
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
