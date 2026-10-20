@@ -98,6 +98,8 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D20 | **MIT licence** (user choice, 2026-10-20), "for now". | Same licence as nf-core, so it matches the ecosystem the pipeline builds on. Without any licence the code is all rights reserved, even once public. |
 | D21 | **Validation boundary:** anything unambiguously wrong in one row and checkable without reading the data is a hard error at parse time (`assets/schema_input.json`, plus Groovy for R1 == R2). Cross-row or merely suspicious issues (`S1` vs `s1`, filename-like IDs, the same FASTQ in two rows) are R-screen warnings. Tested 2026-10-20: 1 valid + 8 broken sheets (duplicate ID, `/` in ID, missing file, not gzipped, `PacBio`, R1 == R2, `fastq2` header, missing fastq_1); all 8 stop with a message naming row, field and value. | Fail fast on certainties, report on suspicions. R1 == R2 must be a hard error, because seqkit would see equal counts and call it paired with high confidence. JSON Schema cannot compare fields, hence the Groovy check. A shared FASTQ can be legitimate (our test sheet reuses files on purpose), so it is a warning, not an error. |
 | D22 | `platform`/`sample_type` accept case variants and empty tokens (`N/A`, `.`, `none` ...) via a case-insensitive `(?i)` pattern. This was confirmed to work in nf-schema 2.8.0. Blank cells (returned by nf-schema as `[]`) become `null` in `main.nf`. Non-blank values reach the R screen **exactly as written**. | One meaning of "not declared" downstream. Normalisation happens in one place (the R screen), which reports it (D7). |
+| D23 | **`bin/screen_metadata.R`** (base R) reads the RAW samplesheet and writes one row per sample: raw + normalised platform/type with a match tier (`blank`/`empty_token`/`exact`/`normalised`), plus warning flags `EMPTY_TOKEN`, `NORMALISED`, `WHITESPACE`, `ID_COLLISION`, `ID_LOOKS_LIKE_FILENAME`, `BASENAME_MISMATCH`, `MATES_POSSIBLY_SWAPPED`, `FASTQ_SHARED`, `LAYOUT_CONFLICT`. One root cause gives one flag (file noise is stripped from both ID and file name before comparing). | Raw input, because the screen must see what the user typed. Helpers adapted from R_Bible Parts 01 and 23. **Finding:** nf-schema silently trims whitespace (tested), so the `WHITESPACE` flag is the only record of that edit, and the output `sample` column is trimmed to match `meta.id`. Otherwise a padded ID would silently drop out of the join. |
+| D24 | **Self-checking tests in the repo:** `tests/screen_metadata/` holds a synthetic 13-row samplesheet (no real files), the expected flag codes per row, and `test_screen_metadata.R`, which exits 1 on any mismatch. Verified it fails when an expectation is wrong. | Shows the logic is checked, not just written. Runnable in CI. Synthetic sheets contain no data, so the hard rule is kept. |
 
 ## Open questions
 
@@ -147,7 +149,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
   `conf/base.config` (labels + retry policy, tested), `main.nf` +
   `nextflow_schema.json` (parameter validation, tested with 6 cases).
   Pushed up to `9fcdce3`.
-- README + MIT LICENSE added. Samplesheet schema + parse-time checks done (D21, D22). Next: R metadata screen (SCREEN_METADATA), then
+- README + MIT LICENSE added. Samplesheet schema + parse-time checks done (D21, D22). `bin/screen_metadata.R` + tests done (D23, D24). Next: SCREEN_METADATA Nextflow module (pinned R container) and join onto ch_samples, then
   `nf-core modules install` for seqkit/stats, fastp, fastqc, nanoplot, multiqc.
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
