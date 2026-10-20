@@ -1,0 +1,7 @@
+group	taxid	name	reason	source
+Escherichia coli / Shigella	562	Escherichia coli	Shigella species are lineages within E. coli; k-mer classifiers can split E. coli reads between them, which would look like contamination (to be measured in validation layer D).	Lan R, Reeves PR (2002) Escherichia coli in disguise: molecular origins of Shigella. Microbes Infect 4:1125-32. doi:10.1016/s1286-4579(02)01637-4 (verified on PubMed 2026-10-20)
+Escherichia coli / Shigella	620	Shigella	(genus node, for reads assigned above species level)	as above
+Escherichia coli / Shigella	621	Shigella boydii	as above	as above
+Escherichia coli / Shigella	622	Shigella dysenteriae	as above	as above
+Escherichia coli / Shigella	623	Shigella flexneri	as above	as above
+Escherichia coli / Shigella	624	Shigella sonnei	as above	as above

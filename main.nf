@@ -47,5 +47,5 @@ workflow {
             [ clean + [ single_end: single_end ], single_end ? [ r1 ] : [ r1, r2 ] ]
         }
 
-    SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide))
+    SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide), file(params.species_groups))
 }

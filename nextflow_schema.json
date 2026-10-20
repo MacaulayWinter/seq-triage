@@ -9,7 +9,10 @@
             "title": "Input/output options",
             "type": "object",
             "description": "Where the samplesheet comes from and where results go.",
-            "required": ["input", "outdir"],
+            "required": [
+                "input",
+                "outdir"
+            ],
             "properties": {
                 "input": {
                     "type": "string",
@@ -38,14 +41,58 @@
                 "publish_dir_mode": {
                     "type": "string",
                     "default": "copy",
-                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ],
                     "description": "How results are written to outdir.",
                     "help_text": "copy is the default so that deleting work/ never empties results/."
+                }
+            }
+        },
+        "contamination_screen": {
+            "title": "Contamination screen",
+            "type": "object",
+            "description": "Optional: host and contaminant screening with Kraken2 (all routed samples) and Bracken (Illumina, species-level re-estimation).",
+            "properties": {
+                "kraken2_db": {
+                    "type": "string",
+                    "description": "Kraken2 database: a directory containing hash.k2d, opts.k2d and taxo.k2d, or a .tar.gz of one. Leave unset to skip the screen; the report then says 'not screened'.",
+                    "help_text": "Species-level results depend on the database. Validated results are reported per database in docs/validation.md.",
+                    "pattern": "^\\S+$"
+                },
+                "kraken2_memory_mapping": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Read the Kraken2 database from disk instead of loading it into memory. Slower, but fits a laptop."
+                },
+                "bracken_read_length": {
+                    "type": "integer",
+                    "default": 150,
+                    "minimum": 1,
+                    "description": "Read length Bracken uses; the database must contain a matching database<N>mers.kmer_distrib file (prebuilt databases include 100, 150, 200, 250, 300)."
+                },
+                "species_groups": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.tsv$",
+                    "description": "TSV of species judged as one group by the contamination screen (e.g. E. coli and Shigella), with the reason for each.",
+                    "help_text": "Defaults to assets/species_groups.tsv."
                 }
             }
         }
     },
     "allOf": [
-        { "$ref": "#/$defs/input_output_options" }
+        {
+            "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/contamination_screen"
+        }
     ]
 }

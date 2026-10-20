@@ -52,6 +52,9 @@ so the module code and its container version are frozen together.
 | FastQC | 0.13.0 | `18eb358065` |
 | NanoPlot | 1.47.0 | `cc4d441624` |
 | MultiQC | 1.35 | `98403d15b0` |
+| Kraken2 (contamination screen) | 2.1.6 | `d67d33d592` |
+| Bracken (contamination screen) | **3.0.1 reported** (container tagged `bracken:3.1`; see below) | `6d46786420` |
+| untar (unpacks a .tar.gz database) | 1.34 | `6d46786420` |
 
 Local modules (our R scripts) use `docker.io/rocker/r-ver:4.5.2`, pinned by
 **tag and digest** (`@sha256:fd4ccdd3...`). The tag names the R version; the
@@ -59,6 +62,13 @@ digest guarantees the exact image even if the tag is ever moved.
 
 On Apple Silicon, amd64-only images run under Rosetta emulation via
 `-profile docker,emulate_amd64` (see the README).
+
+**Bracken's version, as found by layer 4 (2026-10-20).** The nf-core module's
+container is `community.wave.seqera.io/library/bracken:3.1--22a4e66ce04c5e01`,
+but `bracken -v` inside it reports `3.0.1`. Either Bracken 3.1 still prints
+an old version string, or the image holds 3.0.1. This is not resolved yet;
+`software_versions.tsv` records what the tool itself reports, and that is
+the number to cite.
 
 ## Layer 4: the run-time record
 

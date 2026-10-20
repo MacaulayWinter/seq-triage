@@ -24,6 +24,11 @@ FASTP_OK <- c("summary.after_filtering.total_reads" = 500000, "summary.after_fil
 NANO_OK  <- c(number_of_reads = 20000, number_of_bases = 1e8, n50 = 10000, mean_qual = 15, median_read_length = 5000)
 SEQKIT_OK <- c(num_seqs = 250000, sum_len = 75000000, sum_n = 1000)
 
+# Kraken2 report lines as the workflow flattens them: "rank|taxid|name" = clade reads.
+# A clean E. coli isolate: 1,000,000 reads, 2% unclassified, a little Shigella.
+KRAKEN_OK <- c("U|0|unclassified" = 20000, "R|1|root" = 980000, "S|562|Escherichia coli" = 900000,
+               "S|623|Shigella flexneri" = 30000, "S|573|Klebsiella pneumoniae" = 5000, "S|9606|Homo sapiens" = 2000)
+
 # Cases: platform route, metadata, detection, QC overrides (NA removes a
 # field), and what to expect.
 cases <- list(
@@ -64,6 +69,23 @@ cases <- list(
   # placeholder, so it cannot be assessed: WARN, never PASS.
   list(id = "ONT_PLACEHOLDER_HIGH", route = "ont", nano = c(mean_qual = 40), flags = "QUALITY_UNINFORMATIVE",
        verdict = "WARN", check = c(mean_read_quality = "not_meaningful")),
+  # Contamination screen (D41). Shigella counts with E. coli (species_groups.tsv).
+  list(id = "SCREEN_CLEAN",       route = "illumina", screen = TRUE, verdict = "PASS",
+       check = c(host_fraction = "PASS", off_target_fraction = "PASS", dominant_species = "info")),
+  list(id = "SCREEN_HOST_WARN",   route = "ont", screen = TRUE, kraken = c("S|9606|Homo sapiens" = 50000),
+       type = "isolate", verdict = "WARN", check = c(host_fraction = "WARN")),          # declared: no hint
+  list(id = "SCREEN_HOST_FAIL",   route = "ont", screen = TRUE, kraken = c("S|9606|Homo sapiens" = 200000),
+       verdict = "FAIL", check = c(host_fraction = "FAIL"), hint = TRUE),              # blank type: metagenome hint
+  list(id = "SCREEN_HOST_META",   route = "ont", screen = TRUE, kraken = c("S|9606|Homo sapiens" = 200000), type = "metagenome",
+       verdict = "PASS", check = c(host_fraction = "exempt")),
+  list(id = "SCREEN_MIXED",       route = "ont", screen = TRUE, kraken = c("S|573|Klebsiella pneumoniae" = 300000),
+       verdict = "FAIL", check = c(off_target_fraction = "FAIL"), hint = TRUE),
+  list(id = "SCREEN_SAME_GENUS",  route = "ont", screen = TRUE, kraken = c("S|564|Escherichia fergusonii" = 90000),
+       verdict = "WARN", check = c(off_target_fraction = "WARN"), hint = TRUE),
+  list(id = "SCREEN_BRACKEN",     route = "illumina", screen = TRUE, bracken = c("S|562|Escherichia coli" = 700000, "S|573|Klebsiella pneumoniae" = 300000),
+       verdict = "FAIL", check = c(off_target_fraction = "FAIL"), hint = TRUE),
+  list(id = "SCREEN_NO_SPECIES",  route = "ont", screen = TRUE, kraken = c("U|0|unclassified" = 999995, "R|1|root" = 5, "S|562|Escherichia coli" = 5, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0),
+       verdict = "PASS", check = c(off_target_fraction = "not_available", unclassified_fraction = "info")),
   # D40: a platform seq-triage names but has no QC for.
   list(id = "UNSUPPORTED_PACBIO", route = "unrouted", routed_by = "unsupported", detected = "pacbio",
        declared = NA, flags = "PLATFORM_NOT_HANDLED", verdict = "UNCERTAIN")
@@ -95,6 +117,18 @@ build <- function(cases, dir) {
         field = c("Per base sequence content", "Overrepresented sequences", "Per sequence GC content"), value = st)
     }
     if (route == "ont") qc[[paste0(cs$id, "n")]] <- add("NanoPlot", NANO_OK, cs$nano)
+    if (isTRUE(cs$screen)) {
+      kr <- add("Kraken2", KRAKEN_OK, cs$kraken)
+      if (!is.null(cs$kraken) && any(names(cs$kraken) != "U|0|unclassified")) {
+        # keep root consistent: root = classified total
+        v <- as.numeric(kr$value); n <- kr$field
+        v[n == "R|1|root"] <- sum(v[grepl("^S\\|", n)])
+        kr$value <- format(v, scientific = FALSE, trim = TRUE)
+        if ("R|1|root" %in% names(cs$kraken)) kr$value[n == "R|1|root"] <- format(cs$kraken[["R|1|root"]], scientific = FALSE)
+      }
+      qc[[paste0(cs$id, "k")]] <- kr
+      if (!is.null(cs$bracken)) qc[[paste0(cs$id, "b")]] <- add("Bracken", cs$bracken, NULL)
+    }
   }
   write_tsv(do.call(rbind, screen),  file.path(dir, "screen.tsv"))
   write_tsv(do.call(rbind, samples), file.path(dir, "samples.tsv"))
@@ -103,16 +137,23 @@ build <- function(cases, dir) {
 
 run_report <- function(dir) {
   system2("Rscript", c("--vanilla", "bin/triage_report.R", file.path(dir, "screen.tsv"), file.path(dir, "samples.tsv"),
-                       "assets/metric_guide.tsv", file.path(dir, "qc.tsv"), file.path(dir, "out")),
+                       "assets/metric_guide.tsv", file.path(dir, "qc.tsv"), "assets/species_groups.tsv", file.path(dir, "out")),
           stdout = FALSE, stderr = FALSE)
 }
 
-# Main run
-build(cases, tmp)
-status <- run_report(tmp)
-if (status != 0) stop("triage_report.R exited with status ", status)
-summ <- read.delim(file.path(tmp, "out_summary.tsv"), colClasses = "character", na.strings = "")
-mets <- read.delim(file.path(tmp, "out_metrics.tsv"), colClasses = "character", na.strings = "")
+# Two report runs: without the contamination screen, and with it (when the
+# screen is on, EVERY sample sent to QC must have Kraken2 results, so the two
+# kinds cannot share one report).
+screened <- vapply(cases, function(cs) isTRUE(cs$screen), TRUE)
+summ <- mets <- NULL
+for (part in list(cases[!screened], cases[screened])) {
+  d <- tempfile("run_", tmpdir = tmp); dir.create(d)
+  build(part, d)
+  status <- run_report(d)
+  if (status != 0) stop("triage_report.R exited with status ", status)
+  summ <- rbind(summ, read.delim(file.path(d, "out_summary.tsv"), colClasses = "character", na.strings = ""))
+  mets <- rbind(mets, read.delim(file.path(d, "out_metrics.tsv"), colClasses = "character", na.strings = ""))
+}
 
 res <- do.call(rbind, lapply(cases, function(cs) {
   got_v <- summ$verdict[summ$sample == cs$id]
@@ -133,6 +174,14 @@ write_tsv(qcg[qcg$tool == "seqkit", ], file.path(gate, "qc.tsv"))
 gate_status <- run_report(gate)
 res <- rbind(res, data.frame(case = "GATE_MISSING_QC", got = sprintf("exit %d", gate_status),
                              expected = "non-zero exit", result = if (gate_status != 0) "PASS" else "FAIL"))
+
+# Gate: screen on, but one sample sent to QC has no Kraken2 results.
+gate2 <- file.path(tmp, "gate2"); dir.create(gate2)
+build(list(list(id = "HAS_SCREEN", route = "ont", screen = TRUE, verdict = ""),
+           list(id = "NO_SCREEN",  route = "ont", verdict = "")), gate2)
+gate2_status <- run_report(gate2)
+res <- rbind(res, data.frame(case = "GATE_MISSING_KRAKEN2", got = sprintf("exit %d", gate2_status),
+                             expected = "non-zero exit", result = if (gate2_status != 0) "PASS" else "FAIL"))
 
 print(res, row.names = FALSE, right = FALSE)
 n_fail <- sum(res$result == "FAIL")

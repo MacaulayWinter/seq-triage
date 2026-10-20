@@ -48,7 +48,7 @@ check("no FASTQ files published", length(fq) == 0, paste(fq, collapse = ", "))
 
 # 4. Versions recorded for every tool
 v <- read_tsv(file.path(res, "pipeline_info", "software_versions.tsv"))
-need <- c("seqkit", "fastp", "fastqc", "NanoPlot", "multiqc", "R")
+need <- c("seqkit", "fastp", "fastqc", "NanoPlot", "multiqc", "R", "kraken2", "bracken")   # test profile runs the contamination screen
 absent <- setdiff(need, v$tool[!is.na(v$version) & nzchar(v$version)])
 check("every tool reported a version", length(absent) == 0, paste("missing:", paste(absent, collapse = ", ")))
 
