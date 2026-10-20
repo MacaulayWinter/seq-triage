@@ -98,6 +98,19 @@ run_case <- function(i) {
 
 res <- data.frame(case = cases$id, t(vapply(seq_len(nrow(cases)), run_case, c(got = "", expected = ""))),
                   stringsAsFactors = FALSE)
+# Regression (validation round 1): seqkit exits 0 on a truncated gzip but
+# writes no row for it. Detection must stop with a message saying so.
+trunc_stats <- file.path(tmp, "TRUNCATED.stats.tsv")
+writeLines("file\tnum_seqs\tmax_len\tQ1\tQ2\tQ3", trunc_stats)
+trunc_reads <- file.path(tmp, "TRUNCATED.fastq.gz")
+make_fastq(trunc_reads, 10, "illumina", "casava", "binned")
+msg <- suppressWarnings(system2("Rscript", c("--vanilla", "bin/detect_platform.R", "TRUNCATED", trunc_stats,
+                                             file.path(tmp, "TRUNCATED.out.tsv"), trunc_reads),
+                                stdout = TRUE, stderr = TRUE))
+ok <- !is.null(attr(msg, "status")) && any(grepl("could not read TRUNCATED.fastq.gz", msg, fixed = TRUE))
+res <- rbind(res, data.frame(case = "SEQKIT_SILENT_FAILURE", got = if (ok) "stopped with clear message" else paste(msg, collapse = " "),
+                             expected = "stopped with clear message", stringsAsFactors = FALSE))
+
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")
 print(res, row.names = FALSE, right = FALSE)
 

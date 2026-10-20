@@ -19,6 +19,9 @@ process TRIAGE_REPORT {
     path 'triage_summary.tsv', emit: tsv
     path 'triage_summary.md',  emit: md
     path 'triage_metrics.tsv', emit: metrics
+    // The raw QC numbers the report judged, published alongside it so any
+    // value in the report can be traced back to the tool that produced it.
+    path 'qc_values.tsv', includeInputs: true, emit: qc_values
     tuple val("${task.process}"), val('R'), eval("Rscript --version 2>&1 | sed 's/^.*version //; s/ .*//'"), topic: versions
 
     script:

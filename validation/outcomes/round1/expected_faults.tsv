@@ -1,0 +1,30 @@
+sample	batch	fastq_1	fastq_2	platform	sample_type	molecule	expected_verdict	expected_flags	note
+CTRL_ILM	main	CTRL_ILM_R1.fastq.gz	CTRL_ILM_R2.fastq.gz	illumina	isolate	dna	PASS		unmodified ECE107 NovaSeq: the reference every Illumina case is compared with
+CTRL_ONT	main	CTRL_ONT.fastq.gz		ont	isolate	dna	PASS		unmodified ECE107 R10.4.1: the reference every ONT case is compared with
+ILM_READS_40K	main	ILM_READS_40K_R1.fastq.gz	ILM_READS_40K_R2.fastq.gz	illumina	isolate	dna	WARN		20,000 pairs = 40,000 reads, under the 100,000 warn limit
+ILM_READS_400	main	ILM_READS_400_R1.fastq.gz	ILM_READS_400_R2.fastq.gz	illumina	isolate	dna	FAIL		200 pairs = 400 reads, under the 1,000 fail limit
+ONT_READS_5K	main	ONT_READS_5K.fastq.gz		ont	isolate	dna	WARN		5,000 reads, under the 10,000 warn limit
+ONT_READS_500	main	ONT_READS_500.fastq.gz		ont	isolate	dna	FAIL		500 reads, under the 1,000 fail limit
+ONT_N50_WARN	main	ONT_N50_WARN.fastq.gz		ont	isolate	dna	WARN		every read cut to 30%: read N50 4639, under 5,000
+ONT_N50_FAIL	main	ONT_N50_FAIL.fastq.gz		ont	isolate	dna	FAIL		every read cut to 4.5%: read N50 696, under 1,000
+ONT_N50_AMPLICON	main	ONT_N50_AMPLICON.fastq.gz		ont	amplicon	dna	PASS		same reads as ONT_N50_FAIL, declared amplicon: N50 not judged
+ILM_Q30_72	main	ILM_Q30_72_R1.fastq.gz	ILM_Q30_72_R2.fastq.gz	illumina	isolate	dna	WARN		Q30 lowered from 87.5% to about 72% (warn below 75%, fail below 70%)
+ILM_Q30_60	main	ILM_Q30_60_R1.fastq.gz	ILM_Q30_60_R2.fastq.gz	illumina	isolate	dna	FAIL		Q30 lowered from 87.5% to about 60% (warn below 75%, fail below 70%)
+ONT_QUAL_8_5	main	ONT_QUAL_8_5.fastq.gz		ont	isolate	dna	WARN		every base quality lowered by 18: mean read quality 8.6 (warn below 10, fail below 7)
+ONT_QUAL_5_5	main	ONT_QUAL_5_5.fastq.gz		ont	isolate	dna	FAIL		every base quality lowered by 28: mean read quality 5.5 (warn below 10, fail below 7)
+ONT_PLACEHOLDER_Q	main	ONT_PLACEHOLDER_Q.fastq.gz		ont	isolate	dna	WARN	QUALITY_UNINFORMATIVE	every base Q20: placeholder quality. Headers still confirm ONT (high confidence). DESIRED answer WARN: quality cannot be assessed, so no PASS (D1). Current rules may give PASS (quality metrics 'not judged', nothing else wrong); if so, that is a design finding for the user.
+ILM_DUP_DNA	main	ILM_DUP_DNA_R1.fastq.gz	ILM_DUP_DNA_R2.fastq.gz	illumina	isolate	dna	WARN		second half of the pairs copies the first half: duplication about 50%, over the 30% warn limit
+ILM_DUP_RNA	main	ILM_DUP_RNA_R1.fastq.gz	ILM_DUP_RNA_R2.fastq.gz	illumina	isolate	rna	PASS		same reads, declared rna: duplication not judged
+ILM_ADAPTER	main	ILM_ADAPTER_R1.fastq.gz	ILM_ADAPTER_R2.fastq.gz	illumina	isolate	dna	WARN		45615 of 120000 pairs (38%) have an 80 bp fragment, so reads run into adapter: adapter-trimmed reads over the 30% warn limit
+ILM_N_WARN	main	ILM_N_WARN_R1.fastq.gz	ILM_N_WARN_R2.fastq.gz	illumina	isolate	dna	WARN		1.5% of bases set to N: N rate over the 1% warn limit; fastp discards only the few reads with > 5 N, so passed-filter stays above 90%
+ILM_N_FAIL	main	ILM_N_FAIL_R1.fastq.gz	ILM_N_FAIL_R2.fastq.gz	illumina	isolate	dna	FAIL		6% of bases set to N: N rate over the 5% fail limit (fastp also discards most reads)
+ILM_EMPTY	main	ILM_EMPTY.fastq.gz		illumina	isolate	dna	FAIL		empty file: no reads
+ILM_DECLARED_ONT	main	CTRL_ILM_R1.fastq.gz	CTRL_ILM_R2.fastq.gz	ont	isolate	dna	WARN	LAYOUT_CONFLICT,FASTQ_SHARED	control Illumina reads declared ont: metadata contradicts reads (screen also flags ont + 2 files and the shared file)
+ILM_UNDECLARED	main	CTRL_ILM_R1.fastq.gz	CTRL_ILM_R2.fastq.gz		isolate	dna	WARN	FASTQ_SHARED	control Illumina reads, no platform declared: platform inferred, so at most WARN
+ILM_MIXED_MATES	main	ILM_MIXED_MATES_R1.fastq.gz	ILM_MIXED_MATES_R2.fastq.gz	illumina	isolate	dna	WARN	MATE_NAMES_DIFFER	R1 from ECE107, R2 from a different isolate (bacass A1403KPN): read names do not match
+ILM_SWAPPED_FILES	main	ILM_SWAP_R2.fastq.gz	ILM_SWAP_R1.fastq.gz	illumina	isolate	dna	PASS	MATES_POSSIBLY_SWAPPED	R2 file given as fastq_1: flagged by the screen; metadata flags do not lower the verdict today (open question)
+ONT_TWO_FILES	main	ONT_TWO_FILES_R1.fastq.gz	ONT_TWO_FILES_R2.fastq.gz	ont	isolate	dna	UNCERTAIN	TWO_FILES_LONG_READS,LAYOUT_CONFLICT	nanopore reads split into two files: kept out of NanoPlot, no QC
+ONT_U_DNA	main	ONT_U_DNA.fastq.gz		ont	isolate	dna	WARN	U_BASES	T written as U, as direct RNA is, but molecule declared dna: contradiction
+ONT_U_RNA	main	ONT_U_DNA.fastq.gz		ont	isolate	rna	PASS	U_BASES,FASTQ_SHARED	same reads, declared rna: consistent
+ILM_R2_SHORT	isolated_r2_short	ILM_R2_SHORT_R1.fastq.gz	ILM_R2_SHORT_R2.fastq.gz	illumina	isolate	dna	WARN	MATE_COUNT_MISMATCH	R2 has 100,000 reads, R1 120,000. Desired: WARN with MATE_COUNT_MISMATCH. If fastp stops the run instead, that is a finding
+ILM_TRUNCATED_GZ	isolated_truncated_gz	ILM_TRUNCATED_GZ.fastq.gz		illumina	isolate	dna	RUN_STOPS		gzip cut in half. Current behaviour (D18): seqkit fails and the run stops with an error naming the sample
