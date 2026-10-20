@@ -1,0 +1,23 @@
+# Launch environment for seq-triage.
+#
+# This environment runs Nextflow and the nf-core tooling. It does NOT contain
+# the analysis tools (seqkit, fastp, FastQC, NanoPlot, MultiQC, R): those run
+# inside version-pinned containers declared by each module. See
+# docs/reproducibility.md for the full picture.
+#
+# Install (any OS with conda/mamba):
+#   conda env create -f environment.yml
+#   conda activate seq-triage-dev
+#
+# Every package is pinned to an exact version. For a byte-identical rebuild
+# on Apple Silicon, use the explicit lockfile instead:
+#   conda create -n seq-triage-dev --file envs/seq-triage-dev.osx-arm64.lock.txt
+name: seq-triage-dev
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - openjdk=17.0.18
+  - nextflow=26.10.2
+  - nf-core=4.1.0
+  - nf-test=0.9.5
