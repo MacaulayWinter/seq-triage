@@ -8,6 +8,7 @@
  */
 
 include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin/nf-schema'
+include { SEQ_TRIAGE } from './workflows/seq_triage'
 
 workflow {
     // Stop before any work if a parameter is missing, mistyped or points at
@@ -46,5 +47,5 @@ workflow {
             [ clean + [ single_end: single_end ], single_end ? [ r1 ] : [ r1, r2 ] ]
         }
 
-    ch_samples.view { meta, reads -> "sample: ${meta}  reads: ${reads*.name}" }
+    SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide))
 }

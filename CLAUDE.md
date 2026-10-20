@@ -89,7 +89,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D11 | Commits made by Claude carry a `Co-Authored-By: Claude` line. Commits the user types do not. | Kept on the first commit (user pushed it as-is). Revisit if wanted. |
 | D12 | The report explains every metric it shows, driven by `assets/metric_guide.tsv` (metric, applies_to, what it measures, how to read it, warn/fail thresholds, caveat, provenance). The report quotes value + threshold + meaning per sample, and ends with a "How to read these numbers" section covering only the metrics present. | User wants interpretation advice in the output. Keeping it as data makes thresholds reviewable, overridable (`--metric_guide`) and traceable. Wording adapted from R_Bible Parts 16.2 and 18.3. |
 | D13 | Metrics are tagged by what they were measured on (`illumina_reads`, `ont_reads`, later `assembly`). R_Bible's N50 guidance (> 100 kb good) is for **assembly contigs** and is not applied to **read N50**. | Same formula, different scale. Applying assembly thresholds to reads would flag every healthy ONT run. Assembly guidance waits for v0.2. |
-| D14 | **Reproducibility in four layers** (see `docs/reproducibility.md`): (1) launch env: `environment.yml` with exact pins plus a platform lockfile `envs/*.lock.txt` (every package, URL + md5); (2) `manifest.nextflowVersion` + `NXF_VER` in CI; (3) one pinned container per process, nf-core modules frozen in `modules.json`; (4) run-time `software_versions.yml` collected from every process. Analysis tools live only in containers, never in the conda env. | User requirement: every version recorded, and the environment installable by anyone. One source of truth per layer prevents drift. `environment.yml` verified to solve on linux-64, linux-aarch64, osx-64 and osx-arm64 (2026-10-20). |
+| D14 | **Reproducibility in four layers** (see `docs/reproducibility.md`): (1) launch env: `environment.yml` with exact pins plus a platform lockfile `envs/*.lock.txt` (every package, URL + md5); (2) `manifest.nextflowVersion` + `NXF_VER` in CI; (3) one pinned container per process, nf-core modules frozen in `modules.json`; (4) run-time `pipeline_info/software_versions.tsv`, collected from every process via the `versions` topic channel. Analysis tools live only in containers, never in the conda env. | User requirement: every version recorded, and the environment installable by anyone. One source of truth per layer prevents drift. `environment.yml` verified to solve on linux-64, linux-aarch64, osx-64 and osx-arm64 (2026-10-20). |
 | D15 | **Provisional thresholds drafted by Claude**, every row labelled `provisional pipeline default` (or "adapted from R_Bible ..."). Read-count thresholds are *sanity floors*, not adequacy thresholds. Depth-type metrics (total bases, GC) carry no threshold, because v0.1 has no genome size or species. Duplication and adapter content can WARN but never FAIL. | User chose option 2. Conservative: only flag what can be judged without knowing the organism. |
 | D16 | Pin **nf-schema 2.8.0**, not 3.0.0. | 3.0.0 (2026-09-29) is a new major release with breaking changes to `paramsSummaryLog()`/`paramsHelp()`, and the nf-core 4.1 template still pins 2.5.1. The functions we rely on (`validateParameters`, `samplesheetToList`) are unchanged in 3.0, so upgrading later is a small change. |
 | D17 | **Resource labels use nf-core names but laptop-sized values**: single 1 CPU/2 GB, low 2/4 GB, medium 4/8 GB, high 8/16 GB. Memory and time double on retry; CPUs do not. | Every tool here is lightweight QC. nf-core template values are HPC-sized (process_high = 72 GB). Containers on this Mac are capped by the Docker VM (11.7 GB), and private-repo GitHub runners are about 2 CPU / 7 GB. A kill for lack of memory is fixed by memory, not threads. |
@@ -100,9 +100,38 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D22 | `platform`/`sample_type` accept case variants and empty tokens (`N/A`, `.`, `none` ...) via a case-insensitive `(?i)` pattern. This was confirmed to work in nf-schema 2.8.0. Blank cells (returned by nf-schema as `[]`) become `null` in `main.nf`. Non-blank values reach the R screen **exactly as written**. | One meaning of "not declared" downstream. Normalisation happens in one place (the R screen), which reports it (D7). |
 | D23 | **`bin/screen_metadata.R`** (base R) reads the RAW samplesheet and writes one row per sample: raw + normalised platform/type with a match tier (`blank`/`empty_token`/`exact`/`normalised`), plus warning flags `EMPTY_TOKEN`, `NORMALISED`, `WHITESPACE`, `ID_COLLISION`, `ID_LOOKS_LIKE_FILENAME`, `BASENAME_MISMATCH`, `MATES_POSSIBLY_SWAPPED`, `FASTQ_SHARED`, `LAYOUT_CONFLICT`. One root cause gives one flag (file noise is stripped from both ID and file name before comparing). | Raw input, because the screen must see what the user typed. Helpers adapted from R_Bible Parts 01 and 23. **Finding:** nf-schema silently trims whitespace (tested), so the `WHITESPACE` flag is the only record of that edit, and the output `sample` column is trimmed to match `meta.id`. Otherwise a padded ID would silently drop out of the join. |
 | D24 | **Self-checking tests in the repo:** `tests/screen_metadata/` holds a synthetic 13-row samplesheet (no real files), the expected flag codes per row, and `test_screen_metadata.R`, which exits 1 on any mismatch. Verified it fails when an expectation is wrong. | Shows the logic is checked, not just written. Runnable in CI. Synthetic sheets contain no data, so the hard rule is kept. |
+| D25 | **Test samplesheet (6 rows, ~17 MB, all public):** `BF_ILLUMINA_PE` (B. fragilis test2 R1+R2; illumina, isolate; expect PASS), `SC2_ONT` (SARS-CoV-2 test_2, real ONT; ont, amplicon; expect PASS), `SIM_ONT_Q40` (B. fragilis nanopore, placeholder Q40; ont; expect WARN, reads do not confirm), `CONTRADICTION` (B. fragilis R1 declared ont; expect WARN, review), `NO_METADATA` (SARS-CoV-2 test_2, nothing declared; expect WARN, inferred), `ILLUMINA_SE` (B. fragilis R1; illumina; expect PASS). | Every row has a known correct answer, so the end-to-end test can check verdicts automatically. Shared files also exercise `FASTQ_SHARED`. User approved 2026-10-20. |
+| D26 | **Uninformative quality:** if Q20 % and Q30 % are both 100, quality is excluded from the detection evidence and flagged `QUALITY_UNINFORMATIVE`. Confidence comes from the remaining signals and is capped accordingly. | Placeholder or simulated quality (`SIM_ONT_Q40`: every base `I`) would otherwise count as evidence against ONT. Excluding it is the conservative, honest reading. User approved. |
+| D27 | **`exempt_types` column in `metric_guide.tsv`:** a metric is skipped (and the report says why) when the sample's `sample_type` is listed. `read_n50` and `duplication_rate` are exempt for `amplicon`. This means `sample_type` now affects verdicts in v0.1 (README updated). | Short reads and high duplication are the design of amplicon libraries, not faults. Real SARS-CoV-2 ONT has a read N50 of 686 bp. User chose option (b) over a blanket warn-only rule. |
+| D28 | **Walking skeleton first; nothing reaches `main` untested.** Each feature is built on its own branch. CI (`.github/workflows/ci.yml`) runs the R unit tests, installs from `environment.yml`, runs `-profile test` end to end, and checks the results with `tests/e2e/check_test_profile.R` (every row has a verdict, verdicts match `tests/e2e/expected_verdicts.tsv`, no FASTQ published, every tool versioned). Merge only when green. | User requirement (2026-10-20): test code end to end at the earliest version, not just publish it. The first end-to-end run immediately caught a bug the unit tests missed (false `MATES_POSSIBLY_SWAPPED` on single-file `test_2.fastq.gz`), now fixed with regression tests. |
+| D29 | **`meta` carries only what downstream tasks need.** Screen flag counts and raw values stay in the screen TSV, which the report reads directly. | `meta` is part of every task's cache key. Tested: with the flag count in `meta`, a screen wording change re-ran NanoPlot. Without it, only SCREEN_METADATA and TRIAGE_REPORT re-run (20/22 cached). |
+| D30 | **Pin everything external by immutable reference:** test data by nf-core/test-datasets commit (`76179c1c`), R image by digest (`rocker/r-ver:4.5.2@sha256:fd4ccdd3...`), GitHub Actions by commit SHA (tag in a comment), Miniforge installer `26.7.2-0`, Nextflow via `NXF_VER`. Avoid releases younger than about two weeks (upload-artifact v7.0.1 chosen over v7.0.2, which was 13 days old). | Tags and branches can move; commits and digests cannot. SHA-pinned actions also close a known supply-chain risk. |
+
+## Test data findings (2026-10-20, inspected with seqkit 2.13.0)
+
+nf-core/test-datasets, `modules` branch, `data/genomics/...`:
+
+| File | Reads | Length min/mean/max | N50 | Q30 % | AvgQual | What it really is |
+|---|---|---|---|---|---|---|
+| `prokaryotes/bacteroides_fragilis/illumina/fastq/test2_{1,2}` | 24,993 pairs | 151/151/151 | 151 | 96 / 90 | 27.5 / 23.7 | **Simulated** Illumina (headers `@CP009257.1_0_0/1`), NovaSeq-style binned quality (F, -, 8, #) |
+| `prokaryotes/bacteroides_fragilis/nanopore/fastq/test` | 1,000 | 62/33,344/773,417 | 63,032 | **100** | **40.00** | **Simulated E. coli K-12** (header `NC-000913.3_..._unaligned_...`), *not* B. fragilis. **Every base quality is `I` (Q40): a placeholder.** |
+| `sarscov2/nanopore/fastq/test_2` | 4,000 | 131/537/3,523 | 686 | 13 | 11.9 | **Real** ONT (MinKNOW UUID + `runid=` headers, 62 distinct quality values). Amplicon-length reads. |
+| `sarscov2/nanopore/fastq/test` | 100 | 228/383/1,664 | 365 | 24 | 12.6 | Real ONT, very small |
+
+Implications:
+- Constant quality (Q20 = Q30 = 100%) must make quality an **excluded** signal (flagged), not evidence against ONT.
+- Read headers can be supporting evidence when recognisable (MinKNOW `runid=`, Illumina `@instrument:run:flowcell:`), and are neutral otherwise. Test data headers are mostly simulated.
+- Real amplicon ONT has read N50 well under 1 kb, so the provisional `read_n50` FAIL < 1 kb (D15) would wrongly fail it.
+- seqkit/stats module container `community.wave.seqera.io/library/seqkit:2.13.0--3bacfb68370dd835` is **amd64 only** (digest `sha256:4f2a66d7...8567507`), so it needs `emulate_amd64` on the M1. A separate arm64 tag `...--2c3127bb2c908a0f` exists.
+- nf-core modules now report versions through `topic: versions` channels, not `versions.yml`. `docs/reproducibility.md` layer 4 needs updating.
 
 ## Open questions
 
+- **Before ruling that no test sample can PASS:** survey more public data (real Illumina with instrument headers and realistic read counts, larger real ONT, possibly PacBio HiFi as a negative case) from other nf-core/test-datasets branches and subsampled ENA runs, run the screen and detection inputs over it, then decide thresholds. User request, 2026-10-20; not started.
+- **Read-count floors vs test data:** with the D15 floors, no test sample can PASS (Illumina 50k reads < 100k warn; ONT 4k < 10k warn). Decide before detection lands: a labelled test-only metric guide, lower floors, or accept WARN in the test.
+- **Do screen flags affect the verdict ceiling?** Currently they are listed as notes only. LAYOUT_CONFLICT, MATES_POSSIBLY_SWAPPED and ID_COLLISION arguably should cap at WARN.
+- **Known gap:** an ONT-routed sample with two FASTQs makes NanoPlot fail, which stops the run under D18. Route it to `unrouted` (or join files) when detection lands.
+- **Native arm64 option:** `nf-core modules install` generated `conf/containers_*_{amd64,arm64}.config` (not included by any config, so currently inert). `containers_docker_arm64.config` maps seqkit, fastp, FastQC and MultiQC to native arm64 images; NanoPlot has none (BioContainers, amd64 only). An `arm64` profile including it would speed up local M1 runs, with only NanoPlot emulated.
 - Final allowed values for `sample_type` (proposed:
   `isolate | metagenome | amplicon | unknown`). Recorded and checked only in
   v0.1.
@@ -149,7 +178,20 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
   `conf/base.config` (labels + retry policy, tested), `main.nf` +
   `nextflow_schema.json` (parameter validation, tested with 6 cases).
   Pushed up to `9fcdce3`.
-- README + MIT LICENSE added. Samplesheet schema + parse-time checks done (D21, D22). `bin/screen_metadata.R` + tests done (D23, D24). Next: SCREEN_METADATA Nextflow module (pinned R container) and join onto ch_samples, then
-  `nf-core modules install` for seqkit/stats, fastp, fastqc, nanoplot, multiqc.
+- README + MIT LICENSE added. Samplesheet schema + parse-time checks (D21, D22).
+  `bin/screen_metadata.R` + unit tests (D23, D24).
+- **Walking skeleton runs end to end** on branch `walking-skeleton`: SCREEN_METADATA,
+  SEQKIT_STATS, DETECT_PLATFORM (stub: all uncertain), join + routeSample + branch,
+  FASTP/FASTQC/NANOPLOT, MULTIQC, TRIAGE_REPORT (real D2 ceiling), versions topic.
+  Local run: 22/22 tasks, e2e checks 4/4. CI added (D28).
+- Next: open a PR for `walking-skeleton`, get CI green, merge. Then replace the
+  detection stub with real rules (D3, D26), updating `tests/e2e/expected_verdicts.tsv`
+  to the final D25 answers.
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
+
+## CI fix log
+
+Every automatic CI fix is recorded here in plain language: what failed, why, what changed, how it was verified (user rule, 2026-10-20). Fixes are never applied silently.
+
+_No fixes yet._

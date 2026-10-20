@@ -104,11 +104,34 @@ UNKNOWN_01,UNKNOWN_01.fastq.gz,,,
 | `fastq_1` | yes | Gzipped FASTQ. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
 | `platform` | no | `illumina` or `ont`. Leave blank to have it detected. |
-| `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Recorded only in v0.1. |
+| `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. In v0.1 it only exempts `amplicon` samples from the read-length and duplication thresholds, which amplicon libraries fail by design. |
 
 Unknown parameters and unknown samplesheet columns are errors, not warnings.
 This stops a typo such as `fastq2` from silently turning paired data into
 single-end.
+
+## Testing
+
+The `test` profile runs the whole pipeline on six small public samples
+(~17 MB, from [nf-core/test-datasets](https://github.com/nf-core/test-datasets),
+pinned by commit). Each sample has a known correct answer: a clean Illumina
+pair, real ONT amplicon reads, simulated ONT reads with placeholder quality,
+Illumina reads mislabelled as ONT, a sample with no metadata, and single-end
+Illumina.
+
+```bash
+nextflow run main.nf -profile test,docker --outdir results              # Linux
+nextflow run main.nf -profile test,docker,emulate_amd64 --outdir results # Apple Silicon
+Rscript tests/e2e/check_test_profile.R results
+```
+
+The check confirms that every sample got a verdict, that each verdict matches
+`tests/e2e/expected_verdicts.tsv`, that no reads were copied into `results/`,
+and that every tool's version was recorded. Unit tests for the metadata
+screen run with `Rscript tests/screen_metadata/test_screen_metadata.R`.
+
+GitHub Actions runs both on every pull request, and changes reach `main`
+only after they pass.
 
 ## Roadmap
 
@@ -117,11 +140,11 @@ single-end.
 - [x] Reproducible launch environment (`environment.yml` + lockfile)
 - [x] Configuration, resource labels and retry policy
 - [x] Parameter validation
-- [ ] Samplesheet validation and metadata screening
-- [ ] Platform and layout detection with confidence levels
-- [ ] Routed QC (fastp + FastQC, NanoPlot) and MultiQC
-- [ ] Triage summary report with metric interpretation
-- [ ] `-profile test` on small public data, run in GitHub Actions
+- [x] Samplesheet validation and metadata screening
+- [ ] Platform and layout detection with confidence levels (stub in place: reports every sample as *uncertain*)
+- [x] Routed QC (fastp + FastQC, NanoPlot) and MultiQC
+- [ ] Triage summary report with metric interpretation (verdict ceiling done; QC metrics not yet applied)
+- [x] `-profile test` on small public data, run in GitHub Actions
 
 **v0.2** (planned)
 

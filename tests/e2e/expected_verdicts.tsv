@@ -1,0 +1,7 @@
+sample	expected_verdict	note
+BF_ILLUMINA_PE	WARN	stub stage; final D25 answer is PASS
+SC2_ONT	WARN	stub stage; final D25 answer is PASS
+SIM_ONT_Q40	WARN	final D25 answer is also WARN (reads do not confirm)
+CONTRADICTION	WARN	final D25 answer is also WARN (metadata contradicts reads)
+NO_METADATA	UNCERTAIN	stub stage; final D25 answer is WARN (inferred)
+ILLUMINA_SE	WARN	stub stage; final D25 answer is PASS

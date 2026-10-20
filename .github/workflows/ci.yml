@@ -1,0 +1,91 @@
+# seq-triage CI
+#
+# Runs on every pull request and on every push to main:
+#   1. unit:  R unit tests, in the same pinned R container the pipeline uses
+#   2. e2e:   installs the launch environment from environment.yml exactly as
+#             the README tells users to, runs `-profile test` end to end on
+#             six public samples, then checks the results
+#             (tests/e2e/check_test_profile.R)
+# Nothing should reach main without both passing (CLAUDE.md D28).
+#
+# Every action is pinned to a full commit SHA, not a tag: a tag can be moved
+# to point at different code, a SHA cannot. The tag is noted alongside.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A new push to the same branch cancels the run in progress.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  R_IMAGE: docker.io/rocker/r-ver:4.5.2@sha256:fd4ccdd3a4a6f7ef805e2daeee2a0fe3bf126bc231f36351223baecf5a595a4c
+  NXF_VER: 26.10.2          # exact Nextflow version (reproducibility layer 2)
+  NXF_ANSI_LOG: false       # plain log lines, readable in CI
+
+jobs:
+  unit:
+    name: R unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Metadata screen tests
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/screen_metadata/test_screen_metadata.R
+
+  e2e:
+    name: End-to-end (-profile test)
+    needs: unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash -el {0}   # login shell, so the conda env is active
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install launch environment from environment.yml
+        uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb # v4.1.0
+        with:
+          miniforge-version: 26.7.2-0
+          environment-file: environment.yml
+          activate-environment: seq-triage-dev
+          conda-remove-defaults: true
+
+      - name: Record versions
+        run: |
+          java -version
+          nextflow -version
+
+      - name: Run pipeline on the test profile
+        run: nextflow run main.nf -profile test,docker --outdir results
+
+      - name: Check results
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/e2e/check_test_profile.R results
+
+      - name: Keep the report and run records
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-profile-results
+          path: |
+            results/triage_summary.*
+            results/pipeline_info/
+            results/multiqc/
+            .nextflow.log
+          if-no-files-found: warn
+          retention-days: 14

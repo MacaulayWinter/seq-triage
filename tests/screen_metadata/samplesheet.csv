@@ -12,3 +12,5 @@ LC,fq/LC_R1.fastq.gz,fq/LC_R2.fastq.gz,ont,
 ET,fq/ET.fastq.gz,,N/A,none
 WS,fq/WS.fastq.gz,, illumina,
  WSID,fq/WSID.fastq.gz,,,
+SE_2,fq/SE_2.fastq.gz,,ont,
+ONLYR2,fq/ONLYR2_R2.fastq.gz,,,
