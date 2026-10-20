@@ -212,8 +212,10 @@ survey 12/12 (local), e2e 6/6 (CI). Validation round 1 re-run: A 0 wrong at
 high confidence, B 542/542, C 29/29 (D39, D40, `docs/validation.md`).
 
 **Next:**
-1. Decide whether to make `MacaulayWinter/seq-triage` public (portfolio
-   visibility; user's call). `seq-triage-test-data` is already public.
+1. **Repo stays private until fully developed** (user decision, 2026-10-20:
+   not wanting unfinished code public, or an incomplete product left out
+   if the project stalls). To show it to a specific reviewer meanwhile,
+   add them as a read-only collaborator. `seq-triage-test-data` is public.
 2. Validation round 2: ~150 runs, wider candidate pools (raise `CANDIDATES`
    or use several date windows per stratum, since one-run-per-study left
    some strata with 4-11 eligible runs).
