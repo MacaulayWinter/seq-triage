@@ -38,10 +38,11 @@ LENGTHS <- list(
 )
 
 # WHAT IT DOES  Writes one FASTQ and returns its seqkit-style stats row.
-make_fastq <- function(path, n, lengths, header, qual, mate = 1) {
+make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna") {
   len <- LENGTHS[[lengths]](n)
   hdr <- HEADERS[[header]](n, mate)
-  seq <- vapply(len, function(l) paste(sample(c("A", "C", "G", "T"), l, TRUE), collapse = ""), "")
+  bases <- if (alphabet == "rna") c("A", "C", "G", "U") else c("A", "C", "G", "T")
+  seq <- vapply(len, function(l) paste(sample(bases, l, TRUE), collapse = ""), "")
   q   <- vapply(len, function(l) paste(sample(QUAL[[qual]], l, TRUE), collapse = ""), "")
   con <- gzfile(path, "w")
   if (n) writeLines(c(rbind(hdr, seq, "+", q)), con)
@@ -51,7 +52,7 @@ make_fastq <- function(path, n, lengths, header, qual, mate = 1) {
              Q1 = qs[1], Q2 = qs[2], Q3 = qs[3])
 }
 
-# Each case: files as "n:lengths:header:qual", and the expected result
+# Each case: files as "n:lengths:header:qual[:rna]", and the expected result
 cases <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, text = "
 id                   | file1                         | file2                          | platform  | layout    | confidence | flags
 ILLUMINA_PAIRED      | 500:illumina:casava:binned    | 500:illumina:casava:binned     | illumina  | paired    | high       |
@@ -70,6 +71,7 @@ MATE_NAMES_DIFFER    | 500:illumina:plain:binned     | 500:illumina:renamed:binn
 ONT_TWO_FILES        | 500:ont:ont:full              | 500:ont:ont:full               | ont       | uncertain | high       | TWO_FILES_LONG_READS
 FILES_DISAGREE       | 500:illumina:casava:binned    | 500:ont:ont:full               | uncertain | uncertain | uncertain  | FILES_DISAGREE
 EMPTY                | 0:illumina:casava:binned      |                                | uncertain | uncertain | uncertain  |
+ONT_DIRECT_RNA       | 500:ont:ont:full:rna          |                                | ont       | single    | high       | U_BASES
 ")
 
 run_case <- function(i) {
@@ -79,7 +81,8 @@ run_case <- function(i) {
   for (m in seq_along(specs)) {
     p <- strsplit(specs[m], ":")[[1]]
     path  <- file.path(tmp, sprintf("%s_R%d.fastq.gz", cs$id, m))
-    rows[[m]] <- make_fastq(path, as.integer(p[1]), p[2], p[3], p[4], mate = m)
+    rows[[m]] <- make_fastq(path, as.integer(p[1]), p[2], p[3], p[4], mate = m,
+                            alphabet = if (length(p) > 4) p[5] else "dna")
     paths <- c(paths, path)
   }
   stats <- file.path(tmp, paste0(cs$id, ".stats.tsv"))

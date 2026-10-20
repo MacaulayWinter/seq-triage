@@ -57,14 +57,14 @@ probe_fastq <- function(path, n) {
   on.exit(close(con))
   x <- readLines(con, n = 4 * n, warn = FALSE)
   k <- length(x) %/% 4
-  if (k == 0) return(list(headers = character(0), names = character(0), qual = character(0)))
+  if (k == 0) return(list(headers = character(0), names = character(0), seq = character(0), qual = character(0)))
   i <- seq_len(k)
   headers <- x[4 * i - 3]
   # Read name = first word of the header, without a trailing /1 or /2, so
   # mates can be compared. Casava 1.8 puts the mate number after the space,
   # so it is already outside the first word.
   first <- sub("^@", "", sub(" .*$", "", headers))
-  list(headers = headers, names = sub("/[12]$", "", first), qual = x[4 * i])
+  list(headers = headers, names = sub("/[12]$", "", first), seq = x[4 * i - 2], qual = x[4 * i])
 }
 
 # WHAT IT DOES  Which platform the header format points to: "illumina",
@@ -91,6 +91,16 @@ quality_evidence <- function(qual) {
   n <- length(unique(utf8ToInt(paste(qual, collapse = ""))))
   ev <- if (n == 1) "excluded" else if (n <= BINNED_MAX) "illumina" else "neutral"
   list(evidence = ev, n_distinct = n)
+}
+
+# WHAT IT DOES  TRUE when the reads are written with U instead of T, as
+#               direct-RNA basecalls often are. Not platform evidence: it
+#               tells the report the molecule, to compare with what was
+#               declared. cDNA (any RNA-seq on Illumina) is written with T,
+#               so its absence proves nothing.
+written_as_rna <- function(seq) {
+  if (!length(seq)) return(FALSE)
+  mean(grepl("U", seq, fixed = TRUE) & !grepl("T", seq, fixed = TRUE)) >= HEADER_FRAC
 }
 
 # WHAT IT DOES  The core call for one file, from seqkit's longest read and
@@ -135,6 +145,7 @@ write_result <- function(platform, layout, confidence, evidence = list()) {
     length_spread     = paste(evidence$spread,  collapse = ";"),
     header_evidence   = paste(evidence$header,  collapse = ";"),
     quality_values    = paste(evidence$n_q,     collapse = ";"),
+    u_bases           = paste(evidence$u,       collapse = ";"),
     stringsAsFactors  = FALSE
   )
   write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -161,7 +172,12 @@ hdr_ev  <- vapply(probes, function(p) header_evidence(p$headers), "")
 q_ev    <- lapply(probes, function(p) quality_evidence(p$qual))
 q_evid  <- vapply(q_ev, `[[`, "", "evidence")
 q_n     <- vapply(q_ev, `[[`, 0L, "n_distinct")
-evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n)
+u_bases <- vapply(probes, function(p) written_as_rna(p$seq), FALSE)
+evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases)
+if (any(u_bases)) {
+  flags <- c(flags, "U_BASES")
+  why   <- c(why, "Reads are written with U instead of T, as direct-RNA basecalls are.")
+}
 
 describe <- function(i) sprintf("longest read %s bp, length spread %.2f", format(max_ln[i], big.mark = ","), spread[i])
 
@@ -185,7 +201,7 @@ if (call == "uncertain") {
   write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
 }
 
-why <- sprintf("Read lengths indicate %s (%s).", if (call == "illumina") "Illumina" else "ONT", describe(1))
+why <- c(sprintf("Read lengths indicate %s (%s).", if (call == "illumina") "Illumina" else "ONT", describe(1)), why)
 
 
 # 2. Supporting evidence -------------------------------------------------------

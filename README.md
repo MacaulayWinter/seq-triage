@@ -92,10 +92,11 @@ x86_64/amd64 emulation on Apple Silicon*. Profile order matters: put
 A CSV with one row per sample:
 
 ```csv
-sample,fastq_1,fastq_2,platform,sample_type
-ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,illumina,isolate
-ONT_01,ONT_01.fastq.gz,,ont,
-UNKNOWN_01,UNKNOWN_01.fastq.gz,,,
+sample,fastq_1,fastq_2,platform,sample_type,molecule
+ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,illumina,isolate,dna
+MTX_01,MTX_01_R1.fastq.gz,MTX_01_R2.fastq.gz,illumina,metagenome,rna
+ONT_01,ONT_01.fastq.gz,,ont,,
+UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,
 ```
 
 | Column | Required | Notes |
@@ -104,7 +105,8 @@ UNKNOWN_01,UNKNOWN_01.fastq.gz,,,
 | `fastq_1` | yes | Gzipped FASTQ. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
 | `platform` | no | `illumina` or `ont`. Leave blank to have it detected. |
-| `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. In v0.1 it only exempts `amplicon` samples from the read-length and duplication thresholds, which amplicon libraries fail by design. |
+| `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
+| `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
 Unknown parameters and unknown samplesheet columns are errors, not warnings.
 This stops a typo such as `fastq2` from silently turning paired data into
@@ -132,11 +134,21 @@ Rscript tests/e2e/check_test_profile.R results
 
 The check confirms that every sample got a verdict, that each verdict matches
 `tests/e2e/expected_verdicts.tsv`, that no reads were copied into `results/`,
-and that every tool's version was recorded. Unit tests for the metadata
-screen run with `Rscript tests/screen_metadata/test_screen_metadata.R`.
+that every tool's version was recorded, that every sample sent to QC has
+judged metrics, and that MultiQC read every tool's output.
 
-GitHub Actions runs both on every pull request, and changes reach `main`
-only after they pass.
+Unit tests, each on synthetic inputs built inside the test (no data needed):
+
+```bash
+Rscript tests/screen_metadata/test_screen_metadata.R   # metadata screen
+Rscript tests/detect_platform/test_detect_platform.R   # platform detection rules
+Rscript tests/triage_report/test_triage_report.R       # QC limits and verdicts
+```
+
+GitHub Actions runs all of these on every pull request, and changes reach
+`main` only after they pass. `tests/survey/check_survey.R` checks detection
+against 12 real public samples; it runs locally, because the data stays
+outside the repository.
 
 ## Roadmap
 
@@ -148,11 +160,18 @@ only after they pass.
 - [x] Samplesheet validation and metadata screening
 - [x] Platform and layout detection with confidence levels
 - [x] Routed QC (fastp + FastQC, NanoPlot) and MultiQC
-- [ ] Triage summary report with metric interpretation (verdict ceiling done; QC metrics not yet applied)
+- [x] Triage summary report: QC metrics judged and explained, `molecule` column for RNA
 - [x] `-profile test` on small public data, run in GitHub Actions
+- [ ] **Validation** on a large panel with known answers: platform truth from
+  ENA metadata, QC values checked against an independent calculation, and
+  deliberately degraded data with known verdicts. v0.1 is not complete
+  until this passes.
 
 **v0.2** (planned)
 
+- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM)
+- PacBio as a routed platform, not just *uncertain*
+- rRNA fraction for metatranscriptomes
 - Isolate vs metagenome vs amplicon classification
 - Host and contaminant screen
 - Recommendation of the right downstream nf-core pipeline, with a

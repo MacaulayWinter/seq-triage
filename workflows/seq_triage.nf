@@ -22,6 +22,68 @@ def blankToNull(String s) {
 }
 
 /*
+ * QC values -> one long table (CLAUDE.md D34)
+ *
+ * Each helper turns one tool's output file into rows of
+ *     sample <TAB> tool <TAB> file <TAB> field <TAB> value
+ * where `field` uses the same names as metric_guide.tsv's source_field.
+ * This is format conversion only: no thresholds, no judgement. All of that
+ * stays in bin/triage_report.R. Done here because Groovy reads JSON and zip
+ * files natively, and the pinned R container cannot read JSON.
+ */
+def qcRow(String sample, String tool, String file, String field, Object value) {
+    return [ sample, tool, file, field, value ].join('\t')
+}
+
+// Nested JSON -> [ "summary.after_filtering.q30_rate", 0.88 ] pairs. Only
+// numbers are kept; lists (per-cycle curves) and text are not needed.
+def flattenJson(Object node, String prefix) {
+    if (node instanceof Map) {
+        return node.collectMany { k, v -> flattenJson(v, prefix ? "${prefix}.${k}" : k.toString()) }
+    }
+    if (node instanceof Number) {
+        return [ [ prefix, node ] ]
+    }
+    return []
+}
+
+def fastpRows(String sample, json) {
+    def parsed = new groovy.json.JsonSlurper().parseText(json.text)
+    return flattenJson(parsed, '').collect { kv -> qcRow(sample, 'fastp', json.name, kv[0], kv[1]) }
+}
+
+// NanoStats.txt written with --tsv_stats: a header line, then "field<TAB>value".
+def nanoplotRows(String sample, stats) {
+    return stats.readLines().drop(1)
+        .collect { line -> line.split('\t') }
+        .findAll { parts -> parts.size() == 2 }
+        .collect { parts -> qcRow(sample, 'NanoPlot', stats.name, parts[0].trim(), parts[1].trim()) }
+}
+
+// FastQC's zip holds summary.txt: "STATUS<TAB>Module name<TAB>file" per module.
+// withCloseable closes the zip afterwards (Nextflow's strict syntax has no
+// try/finally).
+def fastqcRows(String sample, zip) {
+    return new java.util.zip.ZipFile(zip.toFile()).withCloseable { zf ->
+        def entry = zf.entries().find { e -> e.name.endsWith('/summary.txt') }
+        if (!entry) {
+            return []
+        }
+        zf.getInputStream(entry).text.readLines()
+            .collect { line -> line.split('\t') }
+            .findAll { parts -> parts.size() >= 2 }
+            .collect { parts -> qcRow(sample, 'FastQC', zip.name, parts[1], parts[0]) }
+    }
+}
+
+// seqkit stats: one row per FASTQ file; the report sums over a sample's files.
+def seqkitRows(String sample, tsv) {
+    return tsv.splitCsv(header: true, sep: '\t').collectMany { row ->
+        [ 'num_seqs', 'sum_len', 'sum_n' ].collect { k -> qcRow(sample, 'seqkit', row.file, k, row[k]) }
+    }
+}
+
+/*
  * routeSample: decide which QC a sample gets, and on what basis (CLAUDE.md D2).
  *   no reads                  -> route 'empty'    (FAIL; no QC can run)
  *   high-confidence detection -> route by DETECTED platform
@@ -132,7 +194,18 @@ workflow SEQ_TRIAGE {
     ch_samples_tsv = ch_triaged
         .map { meta, _reads -> cols.collect { c -> meta[c] == null ? '' : meta[c].toString() }.join('\t') }
         .collectFile(name: 'samples.tsv', seed: (['sample'] + cols.drop(1)).join('\t'), newLine: true, sort: true)
-    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide)
+
+    //    QC values from every tool, as one long table (helpers above).
+    //    seqkit runs on every sample, so this channel is never empty and the
+    //    report always runs, even if no sample was routed to QC.
+    ch_qc_values = channel.empty()
+        .mix(SEQKIT_STATS.out.stats.flatMap { meta, f -> seqkitRows(meta.id, f) })
+        .mix(FASTP.out.json.flatMap         { meta, f -> fastpRows(meta.id, f) })
+        .mix(NANOPLOT.out.txt.flatMap       { meta, f -> [ f ].flatten().findAll { x -> x.name.endsWith('NanoStats.txt') }.collectMany { x -> nanoplotRows(meta.id, x) } })
+        .mix(FASTQC.out.zip.flatMap         { meta, f -> [ f ].flatten().collectMany { x -> fastqcRows(meta.id, x) } })
+        .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
+
+    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values)
 
     // 7. Software versions actually used (reproducibility layer 4): every
     //    module reports [process, tool, version] to the 'versions' topic.
