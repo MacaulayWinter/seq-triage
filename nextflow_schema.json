@@ -17,6 +17,7 @@
                     "exists": true,
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
+                    "schema": "assets/schema_input.json",
                     "description": "Samplesheet CSV: one row per sample, columns sample, fastq_1, fastq_2, platform, sample_type.",
                     "help_text": "fastq_2, platform and sample_type are optional. Leave platform blank to have it detected from the reads."
                 },
