@@ -1,0 +1,13 @@
+sample	files	platform	layout	confidence	flags	what_it_is
+HISEQ2000	HISEQ2000_R1.fastq.gz,HISEQ2000_R2.fastq.gz	illumina	paired	high		ERR044595, HiSeq 2000, old #idx/1 headers
+HISEQ2500_SRA	HISEQ2500_SRA_R1.fastq.gz,HISEQ2500_SRA_R2.fastq.gz	illumina	paired	high		SRR2838702, HiSeq 2500, headers rewritten by SRA
+KPN_NEXTSEQ	KPN_NEXTSEQ_R1.fastq.gz,KPN_NEXTSEQ_R2.fastq.gz	illumina	paired	high		bacass A1403KPN, NextSeq 500
+MISEQ_META	MISEQ_META_R1.fastq.gz,MISEQ_META_R2.fastq.gz	illumina	paired	high		ERR5766176, MiSeq
+SC2_NEXTSEQ_TINY	SC2_NEXTSEQ_TINY_R1.fastq.gz,SC2_NEXTSEQ_TINY_R2.fastq.gz	illumina	paired	high		sarscov2 test, NextSeq, 100 pairs (exactly at the few-reads limit)
+KPN_ONT	KPN_ONT.fastq.gz	ont	single	high		bacass A1403KPN, older ONT chemistry
+ONT_LONG	ONT_LONG.fastq.gz	ont	single	high		bacass subset15000
+ONT_HUMAN	ONT_HUMAN.fastq.gz	ont	single	high		nanoseq NA12878, 334 reads
+ONT_SRA_SLASH1	ONT_SRA_SLASH1.fastq.gz	ont	single	high		ERR3201952, SRA adds /1 to nanopore read names
+ONT_SRA_NOID	ONT_SRA_NOID.fastq.gz	ont	single	medium		ERR3772599, no read ID in headers: length shape alone
+ONT_R10	ONT_R10.fastq.gz	ont	single	high		SRR34410547, R10.4.1
+PACBIO_HIFI	PACBIO_HIFI.fastq.gz	uncertain	single	uncertain	LONG_READS_NARROW_SPREAD	SRR10382244, PacBio HiFi

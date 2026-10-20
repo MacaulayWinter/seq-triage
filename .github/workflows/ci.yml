@@ -1,7 +1,8 @@
 # seq-triage CI
 #
 # Runs on every pull request and on every push to main:
-#   1. unit:  R unit tests, in the same pinned R container the pipeline uses
+#   1. unit:  R unit tests (metadata screen, platform detection), in the
+#             same pinned R container the pipeline uses
 #   2. e2e:   installs the launch environment from environment.yml exactly as
 #             the README tells users to, runs `-profile test` end to end on
 #             six public samples, then checks the results
@@ -44,6 +45,11 @@ jobs:
         run: |
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
             Rscript tests/screen_metadata/test_screen_metadata.R
+
+      - name: Platform detection tests
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/detect_platform/test_detect_platform.R
 
   e2e:
     name: End-to-end (-profile test)
