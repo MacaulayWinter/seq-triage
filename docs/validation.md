@@ -205,6 +205,38 @@ This changes the reading of round 1 in two ways:
    adapters counted as evidence, data like this with stripped read names
    could be called Illumina at high confidence.
 
+## Layer D: contamination screen accuracy (method; results pending)
+
+Mixtures built on purpose, so the true contamination is known. Full design,
+run guide and scripts: [`validation/layer_D/`](../validation/layer_D/).
+
+- **Sources:** 5 isolates sequenced on both platforms in one study
+  (PRJNA1287288): *E. coli* ECE107 (base) and ECE170 (second strain),
+  *K. pneumoniae*, *K. variicola*, *E. hormaechei*. Plus human HG002
+  (Genome in a Bottle, openly consented), checked to match the bacterial
+  reads in length and quality, so only contamination differs.
+- **13 mixtures on both platforms (26 samples):**
+  - controls;
+  - human at 0.5, 2, 10 and 30%, plus 10% declared metagenome;
+  - *K. pneumoniae* at 2, 10 and 30%;
+  - *Enterobacter* at 10%;
+  - *K. variicola* into *K. pneumoniae* (same genus);
+  - a second *E. coli* strain at 30%. This one is expected to be **missed**,
+    documenting the method's limit.
+- **Pass marks (fixed before any real run):** estimate within 20% of the
+  true value (floor 0.2 percentage points), and true contamination must be
+  detected. Controls must show less than 5% off-target, and verdicts must be
+  as listed in `mixtures.tsv`.
+- **Rehearsed locally** end to end with nf-core's tiny test database (which
+  makes the scores meaningless). The rehearsal found two problems, fixed
+  before any real run:
+  1. a script bug that stopped the run silently after the pipeline step;
+  2. a flaw in the first tolerance. Its 2-point floor would have let a
+     complete miss at 0.5% count as a success.
+- **To be run by the user on ISCA** with their Kraken2 database (prebuilt
+  Standard-8, October 2025). Results will be reported here, naming the
+  database.
+
 ### Not covered by round 1
 
 - **Contamination.** seq-triage has no contamination screen yet (v0.2).

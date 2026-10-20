@@ -51,3 +51,6 @@ scratch/
 # --- Secrets -----------------------------------------------------------------
 # Nothing in this pipeline needs credentials; this is a guard, not a hint.
 .env
+
+# Layer D: per-site settings (account, partition, database path) stay local
+validation/layer_D/settings.config
