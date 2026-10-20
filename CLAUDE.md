@@ -92,6 +92,8 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D14 | **Reproducibility in four layers** (see `docs/reproducibility.md`): (1) launch env: `environment.yml` with exact pins plus a platform lockfile `envs/*.lock.txt` (every package, URL + md5); (2) `manifest.nextflowVersion` + `NXF_VER` in CI; (3) one pinned container per process, nf-core modules frozen in `modules.json`; (4) run-time `software_versions.yml` collected from every process. Analysis tools live only in containers, never in the conda env. | User requirement: every version recorded, and the environment installable by anyone. One source of truth per layer prevents drift. `environment.yml` verified to solve on linux-64, linux-aarch64, osx-64 and osx-arm64 (2026-10-20). |
 | D15 | **Provisional thresholds drafted by Claude**, every row labelled `provisional pipeline default` (or "adapted from R_Bible ..."). Read-count thresholds are *sanity floors*, not adequacy thresholds. Depth-type metrics (total bases, GC) carry no threshold, because v0.1 has no genome size or species. Duplication and adapter content can WARN but never FAIL. | User chose option 2. Conservative: only flag what can be judged without knowing the organism. |
 | D16 | Pin **nf-schema 2.8.0**, not 3.0.0. | 3.0.0 (2026-09-29) is a new major release with breaking changes to `paramsSummaryLog()`/`paramsHelp()`, and the nf-core 4.1 template still pins 2.5.1. The functions we rely on (`validateParameters`, `samplesheetToList`) are unchanged in 3.0, so upgrading later is a small change. |
+| D17 | **Resource labels use nf-core names but laptop-sized values**: single 1 CPU/2 GB, low 2/4 GB, medium 4/8 GB, high 8/16 GB. Memory and time double on retry; CPUs do not. | Every tool here is lightweight QC. nf-core template values are HPC-sized (process_high = 72 GB). Containers on this Mac are capped by the Docker VM (11.7 GB), and private-repo GitHub runners are about 2 CPU / 7 GB. A kill for lack of memory is fixed by memory, not threads. |
+| D18 | **Retry only exit 104 and 130-145, once; everything else `finish`.** Fusion Snapshot codes 175-177 from the nf-core template are deliberately left out. Verified 2026-10-20 with a scratch test: exit 137 retried with 4 GB -> 8 GB and succeeded; exit 1 got one attempt and the run stopped. | Retrying a genuine error only hides it. 175-177 cannot occur without Seqera Fusion. **Known interaction:** after a genuine error, `finish` submits no new tasks, *including pending retries elsewhere*. Accepted: the fix is to correct the error and `-resume`, which reruns the killed task anyway. |
 
 ## Open questions
 
@@ -110,6 +112,10 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
   README or to choose larger test files.
 - Add a linux-64 lockfile, generated from a real install in CI, so Linux users
   can do a byte-identical rebuild too.
+- A corrupt input (e.g. truncated gzip) makes seqkit exit non-zero, which
+  stops the whole run under D18. Decide whether one bad file should halt the
+  batch (current, conservative) or become a FAIL row in the report while the
+  other samples continue.
 - Depth of coverage needs a genome size, so it is not reported in v0.1. The
   guide states this explicitly.
 
