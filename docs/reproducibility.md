@@ -74,9 +74,11 @@ ran. CI runs the test profile both ways and requires identical verdicts.
 **Bracken's version, as found by layer 4 (2026-10-20).** The nf-core module's
 container is `community.wave.seqera.io/library/bracken:3.1--22a4e66ce04c5e01`,
 but `bracken -v` inside it reports `3.0.1`. Either Bracken 3.1 still prints
-an old version string, or the image holds 3.0.1. This is not resolved yet;
-`software_versions.tsv` records what the tool itself reports, and that is
-the number to cite.
+an old version string, or the image holds 3.0.1. **Resolved (PR #9):** the
+conda build of `bracken=3.1` also reports `3.0.1`. Two independent builds of
+3.1 printing the same string means Bracken 3.1 itself prints a stale version
+number. `software_versions.tsv` records what the tool reports; cite it as
+"Bracken 3.1 (reports 3.0.1)".
 
 ## Layer 4: the run-time record
 

@@ -1,0 +1,7 @@
+source	organism	isolate	study	illumina_run	ont_run	role
+ECE107	Escherichia coli	ECE107	PRJNA1287288	SRR36800568	SRR34410547	base (the known-good sample used throughout)
+KPE111	Klebsiella pneumoniae	KPE111	PRJNA1287288	SRR34410536	SRR34410534	different genus; also the base for the same-genus test
+ECE170	Escherichia coli	ECE170	PRJNA1287288	SRR36800567	SRR34410525	second strain of the base species (expected to be MISSED)
+KPE072	Klebsiella variicola	KPE072	PRJNA1287288	SRR34410540	SRR34410539	same genus as KPE111, different species
+CPO025	Enterobacter hormaechei	CPO025	PRJNA1287288	SRR34410462	SRR34410461	same family (Enterobacteriaceae), different genus
+HG002	Homo sapiens	HG002 (NA24385, Genome in a Bottle; openly consented)	PRJNA1427896 / PRJEB86853	SRR37356339	ERR14767823	host

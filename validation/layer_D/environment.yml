@@ -1,0 +1,7 @@
+# Tiny R environment for build_mixtures.R and score_layer_D.R on machines
+# without R (e.g. the HPC). Same R as the pipeline's container (D42).
+name: seq-triage-validation
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::r-base=4.5.2
