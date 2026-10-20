@@ -5,9 +5,11 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: under development (v0.1).** The configuration, parameter
-> validation and reproducible environment are in place. The analysis steps
-> are being built now. See [Roadmap](#roadmap) for what works today.
+> **Status: v0.1, working and validated.** Every step runs end to end and is
+> tested in CI on every change. Validation on 40 public runs it was not tuned
+> on, plus 29 deliberately damaged samples, passes all of its pre-set pass
+> marks ([results](docs/validation.md)). A larger validation round and the
+> v0.2 features are planned; see [Roadmap](#roadmap).
 
 ## Why
 
@@ -130,6 +132,26 @@ Unknown parameters and unknown samplesheet columns are errors, not warnings.
 This stops a typo such as `fastq2` from silently turning paired data into
 single-end.
 
+### Outputs
+
+| File (in `--outdir`) | What it is |
+|---|---|
+| `triage_summary.md` | **Start here.** One line per sample with its verdict, then each sample's reasons, its QC numbers with their limits, and a *How to read these numbers* section explaining every metric shown (N50, Q30 and so on) |
+| `triage_summary.tsv` | The same verdicts and reasons as a table |
+| `triage_metrics.tsv` | One row per sample and metric: value, limits, result and note |
+| `qc_values.tsv` | Every raw number the report judged, traced to the tool and file it came from |
+| `multiqc/` | MultiQC report over all QC tools |
+| `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
+| `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
+| `pipeline_info/` | Software versions actually used, run timeline, resource report |
+
+Verdicts:
+
+- **PASS:** the reads confirm the metadata and every QC number is within its limits.
+- **WARN:** usable, but something needs a look; the report says what.
+- **FAIL:** too little or too poor data to use.
+- **UNCERTAIN:** the platform could not be established, so no QC was run.
+
 ## Testing
 
 The `test` profile runs the whole pipeline on nine small public samples
@@ -168,9 +190,27 @@ GitHub Actions runs all of these on every pull request, and changes reach
 against 12 real public samples; it runs locally, because the data stays
 outside the repository.
 
+## Validation
+
+Tests check the code does what it was designed to do. Validation checks the
+design is right, on data it was never tuned on, against answers known
+independently of the pipeline. The pass marks were fixed before any result
+was seen. Round 1 (full write-up in [docs/validation.md](docs/validation.md)):
+
+| Layer | Question | Result |
+|---|---|---|
+| A | Is the platform call right? (40 public ENA runs, 18 kinds of data, chosen by seeded rule) | **0 wrong calls at high confidence**; 29 of 40 correct at high confidence; the rest medium, low or *uncertain* |
+| B | Are the reported numbers right? (recomputed independently in base R) | **542 / 542** agree |
+| C | Do damaged files get the verdict they should? (29 cases, answers written in advance) | **29 / 29** |
+
+Validation found and fixed a silent failure in a dependency (seqkit reports
+success on a truncated gzip), pinned down how NanoPlot averages quality, and
+found one run whose ENA instrument label is wrong; that correction is
+recorded with its evidence.
+
 ## Roadmap
 
-**v0.1** (in progress)
+**v0.1**
 
 - [x] Reproducible launch environment (`environment.yml` + lockfile)
 - [x] Configuration, resource labels and retry policy
@@ -180,18 +220,18 @@ outside the repository.
 - [x] Routed QC (fastp + FastQC, NanoPlot) and MultiQC
 - [x] Triage summary report: QC metrics judged and explained, `molecule` column for RNA
 - [x] `-profile test` on small public data, run in GitHub Actions
-- [ ] **Validation** on a large panel with known answers: platform truth from
-  ENA metadata, QC values checked against an independent calculation, and
-  deliberately degraded data with known verdicts. v0.1 is not complete
-  until this passes.
+- [x] Validation round 1: 40 public runs + 29 damaged samples, all pass marks met
+- [x] PacBio, MGI/DNBSEQ and Element recognised and named (no QC yet)
+- [ ] Validation round 2: ~150 runs, wider candidate pools
 
 **v0.2** (planned)
 
 - BAM/uBAM input (current nanopore and PacBio data is delivered as BAM)
-- PacBio as a routed platform, not just *uncertain*
+- QC for PacBio (already recognised by name, but not yet QC'd)
 - rRNA fraction for metatranscriptomes
 - Isolate vs metagenome vs amplicon classification
-- Host and contaminant screen
+- Host and contaminant screen, validated with human reads spiked into
+  bacterial reads at known fractions
 - Recommendation of the right downstream nf-core pipeline, with a
   ready-to-run parameters file
 

@@ -179,18 +179,16 @@ Findings:
 - Final allowed values for `sample_type` (proposed:
   `isolate | metagenome | amplicon | unknown`). Recorded and checked only in
   v0.1.
-- Exact test-data URLs: confirm they exist in nf-core/test-datasets before
-  use.
 - Review the provisional thresholds in `assets/metric_guide.tsv` and replace
   them with lab-practice values over time (change `provenance` when you do).
 - Verify the claim that Q7 is below every MinKNOW default pass filter.
   (Field names were checked on 2026-10-20: see the ECE107 run note.)
 - Add a linux-64 lockfile, generated from a real install in CI, so Linux users
   can do a byte-identical rebuild too.
-- A corrupt input (e.g. truncated gzip) makes seqkit exit non-zero, which
-  stops the whole run under D18. Decide whether one bad file should halt the
-  batch (current, conservative) or become a FAIL row in the report while the
-  other samples continue.
+- **One corrupt input halts the whole batch.** seqkit exits 0 on a truncated
+  gzip, so detection stops the run with a plain message naming the file (D39).
+  Decide whether that should stay (conservative) or become a FAIL row while
+  the other samples continue.
 - Depth of coverage needs a genome size, so it is not reported in v0.1. The
   guide states this explicitly.
 
@@ -207,50 +205,49 @@ Findings:
 
 ## Status
 
-**Session 1 (2026-10-20)**
-- Done: environment checked and installed, git identity set, repo
-  initialised, `.gitignore` committed (`45a93d9`), private GitHub repo
-  created and pushed, CLAUDE.md written. Reproducible launch env
-  (`environment.yml` + osx-arm64 lockfile), `docs/reproducibility.md`, and
-  provisional `assets/metric_guide.tsv` (13 metrics) drafted.
-- Skeleton so far: `nextflow.config` (manifest, params, nf-schema 2.8.0,
-  strict validation, docker/emulate_amd64 profiles, run reports),
-  `conf/base.config` (labels + retry policy, tested), `main.nf` +
-  `nextflow_schema.json` (parameter validation, tested with 6 cases).
-  Pushed up to `9fcdce3`.
-- README + MIT LICENSE added. Samplesheet schema + parse-time checks (D21, D22).
-  `bin/screen_metadata.R` + unit tests (D23, D24).
-- **Walking skeleton runs end to end** on branch `walking-skeleton`: SCREEN_METADATA,
-  SEQKIT_STATS, DETECT_PLATFORM (stub: all uncertain), join + routeSample + branch,
-  FASTP/FASTQC/NANOPLOT, MULTIQC, TRIAGE_REPORT (real D2 ceiling), versions topic.
-  Local run: 22/22 tasks, e2e checks 4/4. CI added (D28).
-- Next: open a PR for `walking-skeleton`, get CI green, merge. Then replace the
-  detection stub with real rules (D3, D26), updating `tests/e2e/expected_verdicts.tsv`
-  to the final D25 answers.
-- PR #1 merged after CI passed (`5bf5d13`). Test-data survey done (see "Test data survey").
-  Public test-data repo created (D31), and `ECE107_NOVASEQ` + `ECE107_R10` added to the
-  test samplesheet on branch `test-data-ece107` (stub-stage verdicts: WARN). PR #2 merged
-  (`4f20b11`); D32 settled (100,000 reads as fastp counts them).
-- PR #3 merged (`b5c7993`): real detection (D33), unit tests, survey check, `PACBIO_HIFI`
-  control, two-file ONT block.
-- Branch `qc-metrics`: QC metrics judged and explained in the report (D34), adoptions from
-  the external QC list (D35), `molecule` column and direct-RNA flag (D36). Tests: screen
-  17/17, detection 17/17, report 18/18, e2e 6/6. Verdicts: 2 PASS, 5 WARN, 1 FAIL,
-  1 UNCERTAIN, as expected.
-- PR #4 merged (`c8e3b56`). Branch `validation-round1`: scripts in `validation/`, round 1 run
-  and scored (D39): A pass, B pass, C 28/29 (C1 is a user decision). Silent seqkit failure fixed.
-- PR #5 merged (`2e2ad6e`). Branch `detection-markers`: D40 (read-name markers, adapter
-  checker, placeholder cap). Validation round 1 re-run: A 0 wrong-high (after adjudicating
-  SRR24724636: ENA says NovaSeq, submitter protocol and read names say MGI), 29/40 correct-high
-  (was 19); B 542/542; C 29/29. Tests: detection 29/29, report 20/20, screen 17/17, survey
-  12/12, e2e 6/6.
-- Next: merge `detection-markers`; then round 2 (~150 runs, wider candidate pools).
-  Deadline Thursday 2026-10-22; careful steps over speed.
-- Note: `~/Documents` is synced to iCloud ("Desktop & Documents"). The pipelines folder is
-  set to "Keep Downloaded". Bulky data and Nextflow work dirs go in `~/seqtriage-scratch/`
-  (not synced).
-- Reminder: run `conda activate seq-triage-dev` before using
-  `nextflow` or `nf-core`.
+**Current state (end of session 1, 2026-10-20):** v0.1 works end to end and
+is validated. `main` at `2b21437` (PR #6). 6 PRs, each merged only after CI
+passed. Tests: screen 17/17, detection 29/29, report 20/20 (all in CI),
+survey 12/12 (local), e2e 6/6 (CI). Validation round 1 re-run: A 0 wrong at
+high confidence, B 542/542, C 29/29 (D39, D40, `docs/validation.md`).
+
+**Next:**
+1. **Repo stays private until fully developed** (user decision, 2026-10-20:
+   not wanting unfinished code public, or an incomplete product left out
+   if the project stalls). To show it to a specific reviewer meanwhile,
+   add them as a read-only collaborator. `seq-triage-test-data` is public.
+2. Validation round 2: ~150 runs, wider candidate pools (raise `CANDIDATES`
+   or use several date windows per stratum, since one-run-per-study left
+   some strata with 4-11 eligible runs).
+3. v0.2: contaminant screen (with the HG002 spike-in validation), BAM/uBAM
+   input, PacBio QC, rRNA fraction (D38).
+4. Open questions above.
+
+**How to run things (notes for future sessions):**
+- User's shell: `conda activate seq-triage-dev` before `nextflow`/`nf-core`.
+- Claude's shell: `conda run` fails ("permission denied"); call the env
+  directly: `PATH=~/.conda/envs/seq-triage-dev/bin:$PATH JAVA_HOME=~/.conda/envs/seq-triage-dev/lib/jvm nextflow ...`.
+- R tests run in the pinned rocker container, from the repo root:
+  `docker run --rm -v "$PWD":/w -w /w <R_IMAGE> Rscript tests/<suite>/<test>.R`.
+- Large runs outside the test profile: add `-c validation/local.config`
+  (caps memory at Docker's 11.7 GB).
+- `~/Documents` is synced to iCloud ("Desktop & Documents"); the pipelines
+  folder is set to "Keep Downloaded". Bulky data and Nextflow work dirs go in
+  `~/seqtriage-scratch/` (not synced). The Mac's disk is nearly full (~7 GB
+  free on 2026-10-20): delete work dirs after each run.
+- Deadline for the portfolio piece: Thursday 2026-10-22; careful steps over speed.
+
+**History (session 1, 2026-10-20):**
+- Environment, git identity, repo, reproducible launch env, skeleton config,
+  parameter and samplesheet validation, metadata screen (D1-D24).
+- Walking skeleton end to end with CI (D25-D30) -> PR #1 (`5bf5d13`).
+- Test-data survey; public test-data repo; ECE107 samples (D31, D32) -> PR #2 (`4f20b11`).
+- Real platform detection (D33) -> PR #3 (`b5c7993`).
+- QC metrics judged and explained; external QC list reviewed; `molecule`
+  column (D34-D38) -> PR #4 (`c8e3b56`).
+- Validation round 1; silent seqkit failure fixed (D39) -> PR #5 (`2e2ad6e`).
+- Read-name markers, adapter checker, placeholder cap; ENA label error
+  adjudicated (D40) -> PR #6 (`2b21437`).
 
 ## CI fix log
 
