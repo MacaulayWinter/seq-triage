@@ -9,9 +9,9 @@
 #               results, rather than writing a shorter table. Same idea as
 #               the author's 116_check_rerun_complete.sh: a sample must never
 #               vanish silently between stages.
-# STATUS        WALKING SKELETON. The verdict ceiling is real. QC metrics
-#               from fastp/NanoPlot and the metric guide are not applied yet;
-#               the report says so.
+# STATUS        The verdict ceiling uses real platform detection (D33). QC
+#               metrics from fastp/NanoPlot and the metric guide are not
+#               applied yet; the report says so.
 #
 # Usage:  triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <out_prefix>
 #*******************************************************************************
@@ -46,6 +46,8 @@ d <- d[match(screen$sample, d$sample), ]   # keep samplesheet order
 # RULE          No PASS unless the reads independently confirm the metadata.
 ceiling_for <- function(route, routed_by, confidence, declared, detected) {
   if (route == "empty")      return(c("FAIL",      "No reads in the file."))
+  if (routed_by == "blocked")
+    return(c("UNCERTAIN", "Long (nanopore-type) reads were given as two files. Nanopore reads are never paired, so the samplesheet is probably wrong. No QC was run."))
   if (routed_by == "none")   return(c("UNCERTAIN", "Platform could not be determined from the reads, and none was declared. No QC was run."))
   if (routed_by == "declared") {
     if (confidence == "uncertain")
@@ -75,9 +77,8 @@ md <- c(
   sprintf("%d sample(s): %s.", nrow(d),
           paste(sprintf("%d %s", table(factor(d$verdict, c("PASS", "WARN", "UNCERTAIN", "FAIL"))),
                         c("PASS", "WARN", "UNCERTAIN", "FAIL")), collapse = ", ")), "",
-  "> **Walking-skeleton build.** Platform detection is a stub that reports every sample as",
-  "> *uncertain*, and QC metrics are not yet applied to the verdicts. Verdicts below reflect",
-  "> metadata and routing only.", "",
+  "> **Development build.** QC metrics (read counts, quality, N50) are not yet applied to the",
+  "> verdicts. Verdicts below reflect metadata and platform detection only.", "",
   "| Sample | Verdict | Declared | Detected | Confidence | QC route | Metadata flags |",
   "|---|---|---|---|---|---|---|",
   sprintf("| %s | **%s** | %s | %s | %s | %s | %s |", d$sample, d$verdict, show(d$declared_platform),
@@ -86,6 +87,8 @@ md <- c(
   unlist(lapply(seq_len(nrow(d)), function(i) c(
     sprintf("### %s: %s", d$sample[i], d$verdict[i]), "",
     paste0("- ", d$verdict_reason[i]),
+    paste0("- Detection (", show(d$confidence[i]), " confidence): ", show(d$reasons[i])),
+    if (!is.na(d$detection_flags[i])) paste0("- Detection flags: ", gsub(",", ", ", d$detection_flags[i], fixed = TRUE)),
     if (!is.na(d$flags[i])) paste0("- Metadata: ", strsplit(d$flags[i], " | ", fixed = TRUE)[[1]]),
     "")))
 )

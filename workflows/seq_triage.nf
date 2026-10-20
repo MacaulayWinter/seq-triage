@@ -27,20 +27,27 @@ def blankToNull(String s) {
  *   high-confidence detection -> route by DETECTED platform
  *   otherwise, if declared    -> route by DECLARED platform (verdict capped at WARN)
  *   otherwise                 -> 'unrouted'      (UNCERTAIN; no QC run)
+ * Then one safety rule (D33): a sample headed for ONT QC with two files is
+ * stopped ('unrouted', routed_by 'blocked'). Nanopore reads are never
+ * paired, and NanoPlot fails on two files, which would stop the whole run.
  * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unrouted') and
- * routed_by ('detected' | 'declared' | 'none').
+ * routed_by ('detected' | 'declared' | 'blocked' | 'none').
  */
 def routeSample(Map meta) {
+    def r
     if (meta.n_reads == 0) {
-        return meta + [ route: 'empty', routed_by: 'none' ]
+        r = [ route: 'empty', routed_by: 'none' ]
+    } else if (meta.confidence == 'high') {
+        r = [ route: meta.detected_platform, routed_by: 'detected' ]
+    } else if (meta.declared_platform) {
+        r = [ route: meta.declared_platform, routed_by: 'declared' ]
+    } else {
+        r = [ route: 'unrouted', routed_by: 'none' ]
     }
-    if (meta.confidence == 'high') {
-        return meta + [ route: meta.detected_platform, routed_by: 'detected' ]
+    if (r.route == 'ont' && meta.n_files > 1) {
+        r = [ route: 'unrouted', routed_by: 'blocked' ]
     }
-    if (meta.declared_platform) {
-        return meta + [ route: meta.declared_platform, routed_by: 'declared' ]
-    }
-    return meta + [ route: 'unrouted', routed_by: 'none' ]
+    return meta + r
 }
 
 workflow SEQ_TRIAGE {
@@ -59,9 +66,13 @@ workflow SEQ_TRIAGE {
         .splitCsv(header: true, sep: '\t')
         .map { row -> [ row.sample, row ] }
 
-    // 2. Read statistics and platform detection, per sample.
+    // 2. Read statistics and platform detection, per sample. Detection
+    //    needs the stats AND the reads (headers, quality values), so the
+    //    stats are joined back onto the reads by meta.
     SEQKIT_STATS(ch_samples)
-    DETECT_PLATFORM(SEQKIT_STATS.out.stats)
+    DETECT_PLATFORM(
+        SEQKIT_STATS.out.stats.join(ch_samples, failOnMismatch: true, failOnDuplicate: true)
+    )
     ch_detect = DETECT_PLATFORM.out.tsv
         .map { meta, tsv -> [ meta.id, tsv.splitCsv(header: true, sep: '\t')[0] ] }
 

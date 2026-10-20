@@ -112,12 +112,13 @@ single-end.
 
 ## Testing
 
-The `test` profile runs the whole pipeline on eight small public samples
-(~125 MB), pinned by commit. Six come from
+The `test` profile runs the whole pipeline on nine small public samples
+(~130 MB), pinned by commit. Seven come from
 [nf-core/test-datasets](https://github.com/nf-core/test-datasets): a
 simulated Illumina pair, real ONT amplicon reads, simulated ONT reads with
 placeholder quality, Illumina reads mislabelled as ONT, a sample with no
-metadata, and single-end Illumina. Two come from
+metadata, single-end Illumina, and PacBio HiFi reads, which seq-triage must
+report as *uncertain* rather than force into a platform. Two come from
 [seq-triage-test-data](https://github.com/MacaulayWinter/seq-triage-test-data):
 real NovaSeq and R10.4.1 nanopore reads of one *E. coli* isolate, subsampled
 from ENA and large enough to pass every threshold. Each sample has a known
@@ -145,7 +146,7 @@ only after they pass.
 - [x] Configuration, resource labels and retry policy
 - [x] Parameter validation
 - [x] Samplesheet validation and metadata screening
-- [ ] Platform and layout detection with confidence levels (stub in place: reports every sample as *uncertain*)
+- [x] Platform and layout detection with confidence levels
 - [x] Routed QC (fastp + FastQC, NanoPlot) and MultiQC
 - [ ] Triage summary report with metric interpretation (verdict ceiling done; QC metrics not yet applied)
 - [x] `-profile test` on small public data, run in GitHub Actions

@@ -1,9 +1,10 @@
 sample	expected_verdict	note
-BF_ILLUMINA_PE	WARN	stub stage; final D25 answer is PASS
-SC2_ONT	WARN	stub stage; final D25 answer is PASS
-SIM_ONT_Q40	WARN	final D25 answer is also WARN (reads do not confirm)
-CONTRADICTION	WARN	final D25 answer is also WARN (metadata contradicts reads)
-NO_METADATA	UNCERTAIN	stub stage; final D25 answer is WARN (inferred)
-ILLUMINA_SE	WARN	stub stage; final D25 answer is PASS
-ECE107_NOVASEQ	WARN	stub stage; final answer is PASS (real NovaSeq, clears every floor)
-ECE107_R10	WARN	stub stage; final answer is PASS (real R10.4.1, clears every floor)
+BF_ILLUMINA_PE	PASS	high-confidence Illumina (binned quality) confirms declared; becomes WARN when QC applies (49,986 reads < 100,000)
+SC2_ONT	PASS	high-confidence ONT (MinKNOW headers) confirms declared; becomes WARN when QC applies (4,000 reads < 10,000)
+SIM_ONT_Q40	WARN	placeholder quality ignored, no header evidence: medium confidence, so declared ONT is unconfirmed
+CONTRADICTION	WARN	high-confidence Illumina, declared ONT: metadata contradicts reads
+NO_METADATA	WARN	high-confidence ONT inferred, nothing declared
+ILLUMINA_SE	PASS	high-confidence Illumina single-end confirms declared; becomes WARN when QC applies (24,993 reads)
+ECE107_NOVASEQ	PASS	real NovaSeq, high confidence, clears every QC floor
+ECE107_R10	PASS	real R10.4.1, high confidence, clears every QC floor
+PACBIO_HIFI	UNCERTAIN	PacBio HiFi: long but uniform reads, neither platform; nothing declared, no QC
