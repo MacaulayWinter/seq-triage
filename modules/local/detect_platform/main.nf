@@ -12,6 +12,7 @@ process DETECT_PLATFORM {
     tag "${meta.id}"
     label 'process_single'
 
+    conda "${moduleDir}/environment.yml"
     container 'docker.io/rocker/r-ver:4.5.2@sha256:fd4ccdd3a4a6f7ef805e2daeee2a0fe3bf126bc231f36351223baecf5a595a4c'
 
     input:
