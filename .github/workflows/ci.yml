@@ -100,3 +100,51 @@ jobs:
             .nextflow.log
           if-no-files-found: warn
           retention-days: 14
+
+  # Same test profile with conda instead of containers: the set-up used on
+  # HPCs without Apptainer/Singularity (CLAUDE.md D42). Same checks, same
+  # expected verdicts: results must not depend on how the tools are installed.
+  e2e-conda:
+    name: End-to-end, conda (-profile test,conda)
+    needs: unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      NXF_CONDA_CACHEDIR: ${{ github.workspace }}/conda-envs
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install launch environment from environment.yml
+        uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb # v4.1.0
+        with:
+          miniforge-version: 26.7.2-0
+          environment-file: environment.yml
+          activate-environment: seq-triage-dev
+          conda-remove-defaults: true
+
+      - name: Run pipeline on the test profile with conda
+        run: nextflow run main.nf -profile test,conda --outdir results
+
+      - name: Check results
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/e2e/check_test_profile.R results
+
+      - name: Tool versions under conda
+        if: always()
+        run: cat results/pipeline_info/software_versions.tsv
+
+      - name: Keep the report and run records
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-profile-results-conda
+          path: |
+            results/triage_summary.*
+            results/pipeline_info/
+            .nextflow.log
+          if-no-files-found: warn
+          retention-days: 14

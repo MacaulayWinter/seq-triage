@@ -10,6 +10,7 @@ process SCREEN_METADATA {
     // Tag + digest: the tag says which R, the digest guarantees the exact
     // image. Multi-arch index (amd64 + arm64). The registry is written out
     // because nextflow.config sets docker.registry = 'quay.io' for nf-core.
+    conda "${moduleDir}/environment.yml"
     container 'docker.io/rocker/r-ver:4.5.2@sha256:fd4ccdd3a4a6f7ef805e2daeee2a0fe3bf126bc231f36351223baecf5a595a4c'
 
     input:

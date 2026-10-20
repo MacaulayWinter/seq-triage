@@ -63,6 +63,14 @@ digest guarantees the exact image even if the tag is ever moved.
 On Apple Silicon, amd64-only images run under Rosetta emulation via
 `-profile docker,emulate_amd64` (see the README).
 
+**Without containers (`-profile conda`).** Every module also has a pinned
+conda recipe (`environment.yml` next to its `main.nf`): bioconda tool
+versions for nf-core modules, and `r-base=4.5.2` (the same R as the pinned
+container) for the local R modules. This is for HPCs with no Docker,
+Apptainer or Singularity. It pins versions, not builds, so it is a step
+weaker than an image digest; `software_versions.tsv` records what actually
+ran. CI runs the test profile both ways and requires identical verdicts.
+
 **Bracken's version, as found by layer 4 (2026-10-20).** The nf-core module's
 container is `community.wave.seqera.io/library/bracken:3.1--22a4e66ce04c5e01`,
 but `bracken -v` inside it reports `3.0.1`. Either Bracken 3.1 still prints

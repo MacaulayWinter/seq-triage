@@ -1,0 +1,20 @@
+Changes in component 'nf-core/nanoplot'
+Changes in 'nanoplot/environment.yml':
+--- modules/nf-core/nanoplot/environment.yml
++++ modules/nf-core/nanoplot/environment.yml
+@@ -5,3 +5,8 @@
+   - bioconda
+ dependencies:
+   - bioconda::nanoplot=1.47.0
++  # seq-triage patch (CLAUDE.md CI fix log, 2026-10-20): pin to the versions
++  # inside the module's container. Unpinned, conda installs a newer plotly
++  # that has removed figure_factory.create_2d_density, and NanoPlot crashes.
++  - conda-forge::plotly=6.6.0
++  - conda-forge::python=3.13
+
+'modules/nf-core/nanoplot/meta.yml' is unchanged
+'modules/nf-core/nanoplot/main.nf' is unchanged
+'modules/nf-core/nanoplot/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/nanoplot/tests/main.nf.test' is unchanged
+'modules/nf-core/nanoplot/tests/tags.yaml' is unchanged
+************************************************************

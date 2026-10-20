@@ -107,6 +107,25 @@ Enable Rosetta first: Docker Desktop → Settings → General → *Use Rosetta f
 x86_64/amd64 emulation on Apple Silicon*. Profile order matters: put
 `emulate_amd64` after `docker`.
 
+**On an HPC or any machine without Docker** (no Apptainer/Singularity
+either), use conda for the tools and SLURM for the jobs:
+
+```bash
+nextflow run main.nf -profile conda,slurm -c my_cluster.config --input samplesheet.csv --outdir results
+```
+
+where `my_cluster.config` holds your own cluster settings, which never
+belong in this repository:
+
+```groovy
+process.queue          = 'my_partition'
+process.clusterOptions = '-A my_account'
+```
+
+Each tool's environment is built once from its pinned recipe; set
+`NXF_CONDA_CACHEDIR` to a shared folder to reuse them between runs. CI runs
+the full test with conda as well as Docker, and expects identical verdicts.
+
 ### Contamination screen (optional)
 
 Give a Kraken2 database to also check each sample for human DNA and for a
