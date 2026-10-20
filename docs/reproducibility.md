@@ -71,9 +71,13 @@ it. The end-to-end test fails if any tool is missing from it.
 
 ## Test data
 
-`assets/samplesheet_test.csv` points at nf-core/test-datasets **by commit**
-(`76179c1c...`), not by branch name, so the test inputs cannot change
-underneath the pipeline.
+`assets/samplesheet_test.csv` points at its two sources **by commit**, not
+by branch name, so the test inputs cannot change underneath the pipeline:
+nf-core/test-datasets (`76179c1c...`) and
+[seq-triage-test-data](https://github.com/MacaulayWinter/seq-triage-test-data)
+(`b18e39da...`). The second holds subsamples of public ENA runs, and its
+README gives each file's accession, the exact command that cut it, and
+checksums, so the subsample can be checked against or rebuilt from ENA.
 
 ## Recording a change
 

@@ -112,12 +112,16 @@ single-end.
 
 ## Testing
 
-The `test` profile runs the whole pipeline on six small public samples
-(~17 MB, from [nf-core/test-datasets](https://github.com/nf-core/test-datasets),
-pinned by commit). Each sample has a known correct answer: a clean Illumina
-pair, real ONT amplicon reads, simulated ONT reads with placeholder quality,
-Illumina reads mislabelled as ONT, a sample with no metadata, and single-end
-Illumina.
+The `test` profile runs the whole pipeline on eight small public samples
+(~125 MB), pinned by commit. Six come from
+[nf-core/test-datasets](https://github.com/nf-core/test-datasets): a
+simulated Illumina pair, real ONT amplicon reads, simulated ONT reads with
+placeholder quality, Illumina reads mislabelled as ONT, a sample with no
+metadata, and single-end Illumina. Two come from
+[seq-triage-test-data](https://github.com/MacaulayWinter/seq-triage-test-data):
+real NovaSeq and R10.4.1 nanopore reads of one *E. coli* isolate, subsampled
+from ENA and large enough to pass every threshold. Each sample has a known
+correct answer.
 
 ```bash
 nextflow run main.nf -profile test,docker --outdir results              # Linux

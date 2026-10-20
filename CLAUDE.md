@@ -105,6 +105,8 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D27 | **`exempt_types` column in `metric_guide.tsv`:** a metric is skipped (and the report says why) when the sample's `sample_type` is listed. `read_n50` and `duplication_rate` are exempt for `amplicon`. This means `sample_type` now affects verdicts in v0.1 (README updated). | Short reads and high duplication are the design of amplicon libraries, not faults. Real SARS-CoV-2 ONT has a read N50 of 686 bp. User chose option (b) over a blanket warn-only rule. |
 | D28 | **Walking skeleton first; nothing reaches `main` untested.** Each feature is built on its own branch. CI (`.github/workflows/ci.yml`) runs the R unit tests, installs from `environment.yml`, runs `-profile test` end to end, and checks the results with `tests/e2e/check_test_profile.R` (every row has a verdict, verdicts match `tests/e2e/expected_verdicts.tsv`, no FASTQ published, every tool versioned). Merge only when green. | User requirement (2026-10-20): test code end to end at the earliest version, not just publish it. The first end-to-end run immediately caught a bug the unit tests missed (false `MATES_POSSIBLY_SWAPPED` on single-file `test_2.fastq.gz`), now fixed with regression tests. |
 | D29 | **`meta` carries only what downstream tasks need.** Screen flag counts and raw values stay in the screen TSV, which the report reads directly. | `meta` is part of every task's cache key. Tested: with the flag count in `meta`, a screen wording change re-ran NanoPlot. Without it, only SCREEN_METADATA and TRIAGE_REPORT re-run (20/22 cached). |
+| D31 | **Own test data lives in a separate public repo, `MacaulayWinter/seq-triage-test-data`**, pinned by commit (`b18e39da`). It holds subsamples of public ENA runs only, with accession, cutting command and checksums in its README. First contents: *E. coli* ECE107 (PRJNA1287288), NovaSeq SRR36800568 (first 120,000 pairs, 19 MB) and R10.4.1 SRR34410547 (first 12,000 reads, 89 MB). Added to the test samplesheet as `ECE107_NOVASEQ` and `ECE107_R10`. | User chose option A (2026-10-20): CI must show a PASS under the real thresholds, not test-only ones. Hosted data is needed for `-profile test` to stay one command; a separate repo is the nf-core test-datasets model and keeps the "no data in this repo" rule. ECE107 was chosen over the bacass *Klebsiella* (no documented source) for traceable provenance, a current instrument, and the same isolate on both platforms. |
+| D32 | **Keep the Illumina 100,000-read floor for now.** | User decision, 2026-10-20. The survey shows three real runs clear it and one (97,729 pairs) falls just under. Depth of coverage is the better measure, but it needs a genome size (v0.2). |
 | D30 | **Pin everything external by immutable reference:** test data by nf-core/test-datasets commit (`76179c1c`), R image by digest (`rocker/r-ver:4.5.2@sha256:fd4ccdd3...`), GitHub Actions by commit SHA (tag in a comment), Miniforge installer `26.7.2-0`, Nextflow via `NXF_VER`. Avoid releases younger than about two weeks (upload-artifact v7.0.1 chosen over v7.0.2, which was 13 days old). | Tags and branches can move; commits and digests cannot. SHA-pinned actions also close a known supply-chain risk. |
 
 ## Test data findings (2026-10-20, inspected with seqkit 2.13.0)
@@ -125,10 +127,44 @@ Implications:
 - seqkit/stats module container `community.wave.seqera.io/library/seqkit:2.13.0--3bacfb68370dd835` is **amd64 only** (digest `sha256:4f2a66d7...8567507`), so it needs `emulate_amd64` on the M1. A separate arm64 tag `...--2c3127bb2c908a0f` exists.
 - nf-core modules now report versions through `topic: versions` channels, not `versions.yml`. `docs/reproducibility.md` layer 4 needs updating.
 
+## Test data survey (2026-10-20, seqkit 2.13.0)
+
+12 real public samples, kept outside the repo in `~/seqtriage-scratch/survey/` (manifest with source commit or accession, md5s, seqkit stats, screen output). Read counts per file; ONT quality is seqkit AvgQual.
+
+| Sample (source) | Platform / instrument | Reads | N50 | Q30 % | AvgQual | Against D15 floors |
+|---|---|---|---|---|---|---|
+| ECE107 NovaSeq (ENA SRR36800568, first 120k pairs) | Illumina NovaSeq 6000, 4 binned quality values | 120,000 pairs | 151 | 87 / 88 | 23.1 | **PASS** |
+| A1403KPN (bacass) | Illumina NextSeq 500 | 643,986 pairs | 150 | 96 / 95 | 30.3 | **PASS** |
+| ERR044595 (bacass) | Illumina HiSeq 2000, 75 bp, old `#idx/1` headers | 1,000,000 pairs | 75 | 96 / 95 | 28.3 | **PASS** |
+| ERR5766176 (taxprofiler) | Illumina MiSeq | 632,060 pairs | 151 | 91 / 85 | 24.6 | **PASS** |
+| SRR2838702 Portiera (modules) | Illumina HiSeq 2500 via SRA | 97,729 pairs | 101 | 93 / 89 | 21.8 | WARN (reads) |
+| sarscov2 test (modules) | Illumina NextSeq | 100 pairs | 150 | 88 | 24.9 | FAIL (reads) |
+| ECE107 R10 (ENA SRR34410547, first 12k) | ONT R10.4.1 MinION | 12,000 | 15,463 | 72 | 16.7 | **PASS** |
+| A1403KPN ONT (bacass) | ONT, older chemistry | 28,803 | 4,886 | 5 | 10.3 | WARN (N50) |
+| subset15000 (bacass) | ONT | 3,750 | 21,650 | 0 | 10.3 | WARN (reads) |
+| Portiera ONT (modules) | ONT via SRA, **no read UUID in headers** | 7,100 | 3,086 | 0 | 10.3 | WARN (reads, N50) |
+| ERR3201952 (taxprofiler) | ONT via SRA, **headers end `/1`** | 10,000 | 1,942 | 0 | 6.5 | FAIL (quality) |
+| NA12878 (nanoseq) | ONT, human | 334 | 22,913 | 7 | 9.1 | FAIL (reads) |
+| SRR10382244 (modules) | **PacBio HiFi** | 204 | 18,494 | 97 | 27.3 | must be UNCERTAIN |
+
+Findings:
+- "No test sample can PASS" was a property of the small simulated CI set, not of the floors. Real runs pass on both platforms.
+- mag's `test_minigut_R1/R2` are the same size as B. fragilis `test1_1/2`, so they are almost certainly the same simulated data. Not used.
+- **Detection rules (D3):** SRA appends `/1` to ONT read names, so `/1` is not Illumina evidence. Some SRA ONT files carry no read UUID, so headers can be absent and detection must work from length and quality alone. Quality cannot separate platforms: PacBio HiFi (Q27) and R10 ONT (Q17, Q30 72%) overlap Illumina. **Read-length spread** separates them: Illumina lengths are near-constant (after trimming, at most 151), long-read lengths vary widely.
+- ENA metadata can contradict the reads. SRR30615993 claims R9.4.1 + Guppy 2.0.10, but its reads look far better than that chemistry. Rejected as a reference.
+- Arithmetic means of Phred scores overstate quality: SRR34410547 looked Q34 that way, but its error-rate-averaged quality is Q16.7. Thresholds must say which mean they use. Verify NanoPlot's definition against `mean_read_quality`.
+- To verify: three different old-chemistry ONT files all give AvgQual 10.25–10.26. This could be coincidence or how seqkit averages; check with NanoPlot.
+- **Screen on real file names:** 11 flags on 11 rows, all correct. No false `MATES_POSSIBLY_SWAPPED` on accession `_1`/`_2` names. One debatable flag: sample `A1403KPN_ont` with file `A1403KPN.fq.gz` gets `BASENAME_MISMATCH` (the ID has a suffix the file lacks). Decide whether that is noise.
+
+**First end-to-end run with ECE107 (2026-10-20, local, emulate_amd64):** 29/29 tasks in 3 min, e2e checks 4/4. Tool output checked against `metric_guide.tsv`:
+- **fastp: all 9 `source_field` paths exist** (ECE107_NOVASEQ: 236,248 reads after filtering, Q30 0.88, duplication 0.013, insert peak 209). But `total_reads` **counts both mates**: 120,000 pairs = 240,000 reads. The 100,000 floor therefore means 50,000 pairs. Decide which is intended before the report applies it.
+- fastp single-end JSON has **no `adapter_cutting` or `insert_size` section**. The report must treat these as "not available", not as zero or an error.
+- **NanoPlot: the guide's field names (`mean_qual`, `n50`, `number_of_reads` ...) do not appear in `NanoStats.txt`**, which uses labels ("Mean read quality:"). They are the keys of NanoPlot's `--tsv_stats` output. Fix when the report reads metrics: add `--tsv_stats` to `NANOPLOT` `ext.args`. ECE107_R10: mean read quality 16.6 (seqkit said 16.7), N50 15,463, 12,000 reads, so it clears every ONT floor.
+
 ## Open questions
 
-- **Before ruling that no test sample can PASS:** survey more public data (real Illumina with instrument headers and realistic read counts, larger real ONT, possibly PacBio HiFi as a negative case) from other nf-core/test-datasets branches and subsampled ENA runs, run the screen and detection inputs over it, then decide thresholds. User request, 2026-10-20; not started.
-- **Read-count floors vs test data:** with the D15 floors, no test sample can PASS (Illumina 50k reads < 100k warn; ONT 4k < 10k warn). Decide before detection lands: a labelled test-only metric guide, lower floors, or accept WARN in the test.
+- **Illumina read-count floor: reads or pairs?** fastp counts both mates. Survey table above counts pairs. See ECE107 run note.
+- **BASENAME_MISMATCH when the sample ID is the file name plus a suffix** (`A1403KPN_ont` vs `A1403KPN.fq.gz`): warn (current) or accept? Found in the survey.
 - **Do screen flags affect the verdict ceiling?** Currently they are listed as notes only. LAYOUT_CONFLICT, MATES_POSSIBLY_SWAPPED and ID_COLLISION arguably should cap at WARN.
 - **Known gap:** an ONT-routed sample with two FASTQs makes NanoPlot fail, which stops the run under D18. Route it to `unrouted` (or join files) when detection lands.
 - **Native arm64 option:** `nf-core modules install` generated `conf/containers_*_{amd64,arm64}.config` (not included by any config, so currently inert). `containers_docker_arm64.config` maps seqkit, fastp, FastQC and MultiQC to native arm64 images; NanoPlot has none (BioContainers, amd64 only). An `arm64` profile including it would speed up local M1 runs, with only NanoPlot emulated.
@@ -139,12 +175,8 @@ Implications:
   use.
 - Review the provisional thresholds in `assets/metric_guide.tsv` and replace
   them with lab-practice values over time (change `provenance` when you do).
-- Verify on the first real run: the fastp JSON and NanoStats field names in
-  `source_field`, and the claim that Q7 is below every MinKNOW default pass
-  filter.
-- Tiny test data will trip the read-count sanity floors, so CI reports will
-  show WARN/FAIL. That is correct behaviour; decide whether to say so in the
-  README or to choose larger test files.
+- Verify the claim that Q7 is below every MinKNOW default pass filter.
+  (Field names were checked on 2026-10-20: see the ECE107 run note.)
 - Add a linux-64 lockfile, generated from a real install in CI, so Linux users
   can do a byte-identical rebuild too.
 - A corrupt input (e.g. truncated gzip) makes seqkit exit non-zero, which
@@ -187,6 +219,12 @@ Implications:
 - Next: open a PR for `walking-skeleton`, get CI green, merge. Then replace the
   detection stub with real rules (D3, D26), updating `tests/e2e/expected_verdicts.tsv`
   to the final D25 answers.
+- PR #1 merged after CI passed (`5bf5d13`). Test-data survey done (see "Test data survey").
+  Public test-data repo created (D31), and `ECE107_NOVASEQ` + `ECE107_R10` added to the
+  test samplesheet on branch `test-data-ece107` (stub-stage verdicts: WARN).
+- Note: `~/Documents` is synced to iCloud ("Desktop & Documents"). The pipelines folder is
+  set to "Keep Downloaded". Bulky data and Nextflow work dirs go in `~/seqtriage-scratch/`
+  (not synced).
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
 
