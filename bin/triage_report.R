@@ -55,6 +55,12 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected) {
   if (route == "empty")      return(c("FAIL",      "No reads in the file."))
   if (routed_by == "blocked")
     return(c("UNCERTAIN", "Long (nanopore-type) reads were given as two files. Nanopore reads are never paired, so the samplesheet is probably wrong. No QC was run."))
+  if (routed_by == "unsupported") {
+    name <- c(pacbio = "PacBio", dnbseq = "MGI/DNBSEQ", element = "Element AVITI")[detected]
+    return(c("UNCERTAIN", sprintf("Reads come from %s%s. seq-triage v0.1 has no QC for this platform, so no QC was run.",
+                                  if (is.na(name)) detected else name,
+                                  if (!is.na(declared)) sprintf(" (declared: %s)", declared) else "")))
+  }
   if (routed_by == "none")   return(c("UNCERTAIN", "Platform could not be determined from the reads, and none was declared. No QC was run."))
   if (routed_by == "declared") {
     if (confidence == "uncertain")
@@ -211,6 +217,19 @@ for (i in seq_len(nrow(d))) {
   d$qc_result[i]   <- worst
   d$qc_findings[i] <- paste(vapply(seq_len(nrow(m)), function(k) qc_line(m[k, ]), ""), collapse = " ")
   if (d$ceiling[i] %in% names(RANK) && RANK[[worst]] > RANK[[d$ceiling[i]]]) d$verdict[i] <- worst
+}
+
+# Quality that could not be judged (placeholder scores, D26) means QC is
+# incomplete, so the sample cannot PASS (D1; user decision after validation
+# round 1, finding C1).
+for (i in seq_len(nrow(d))) {
+  if (d$verdict[i] != "PASS") next
+  if (any(metrics$sample == d$sample[i] & metrics$result == "not_meaningful")) {
+    d$verdict[i]     <- "WARN"
+    d$qc_result[i]   <- "WARN"
+    d$qc_findings[i] <- trimws(paste(d$qc_findings[i],
+      "Quality could not be assessed: every base has the same score. The sample cannot PASS until real quality values are available."))
+  }
 }
 
 # Hint: a metric failed that would NOT be judged for some library type the

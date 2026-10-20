@@ -59,7 +59,14 @@ cases <- list(
        routed_by = "declared", verdict = "FAIL", check = c(number_of_reads = "FAIL")),
   list(id = "ONT_U_DECLARED_DNA", route = "ont", flags = "U_BASES", molecule = "dna", verdict = "WARN"),
   list(id = "UNROUTED",          route = "unrouted", routed_by = "none", confidence = "uncertain",
-       declared = NA, verdict = "UNCERTAIN")
+       declared = NA, verdict = "UNCERTAIN"),
+  # Decision C1 (validation round 1): headers confirm ONT, but quality is a
+  # placeholder, so it cannot be assessed: WARN, never PASS.
+  list(id = "ONT_PLACEHOLDER_HIGH", route = "ont", nano = c(mean_qual = 40), flags = "QUALITY_UNINFORMATIVE",
+       verdict = "WARN", check = c(mean_read_quality = "not_meaningful")),
+  # D40: a platform seq-triage names but has no QC for.
+  list(id = "UNSUPPORTED_PACBIO", route = "unrouted", routed_by = "unsupported", detected = "pacbio",
+       declared = NA, flags = "PLATFORM_NOT_HANDLED", verdict = "UNCERTAIN")
 )
 
 build <- function(cases, dir) {
@@ -71,7 +78,7 @@ build <- function(cases, dir) {
       declared_type = if (is.null(cs$type)) NA else cs$type,
       declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",
-      detected_platform = if (route %in% c("illumina", "ont")) route else "uncertain",
+      detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "ont")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,
       detection_flags = if (is.null(cs$flags)) NA else cs$flags, reasons = "synthetic",
       route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by)
