@@ -89,7 +89,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D11 | Commits made by Claude carry a `Co-Authored-By: Claude` line. Commits the user types do not. | Kept on the first commit (user pushed it as-is). Revisit if wanted. |
 | D12 | The report explains every metric it shows, driven by `assets/metric_guide.tsv` (metric, applies_to, what it measures, how to read it, warn/fail thresholds, caveat, provenance). The report quotes value + threshold + meaning per sample, and ends with a "How to read these numbers" section covering only the metrics present. | User wants interpretation advice in the output. Keeping it as data makes thresholds reviewable, overridable (`--metric_guide`) and traceable. Wording adapted from R_Bible Parts 16.2 and 18.3. |
 | D13 | Metrics are tagged by what they were measured on (`illumina_reads`, `ont_reads`, later `assembly`). R_Bible's N50 guidance (> 100 kb good) is for **assembly contigs** and is not applied to **read N50**. | Same formula, different scale. Applying assembly thresholds to reads would flag every healthy ONT run. Assembly guidance waits for v0.2. |
-| D14 | **Reproducibility in four layers** (see `docs/reproducibility.md`): (1) launch env: `environment.yml` with exact pins plus a platform lockfile `envs/*.lock.txt` (every package, URL + md5); (2) `manifest.nextflowVersion` + `NXF_VER` in CI; (3) one pinned container per process, nf-core modules frozen in `modules.json`; (4) run-time `software_versions.yml` collected from every process. Analysis tools live only in containers, never in the conda env. | User requirement: every version recorded, and the environment installable by anyone. One source of truth per layer prevents drift. `environment.yml` verified to solve on linux-64, linux-aarch64, osx-64 and osx-arm64 (2026-10-20). |
+| D14 | **Reproducibility in four layers** (see `docs/reproducibility.md`): (1) launch env: `environment.yml` with exact pins plus a platform lockfile `envs/*.lock.txt` (every package, URL + md5); (2) `manifest.nextflowVersion` + `NXF_VER` in CI; (3) one pinned container per process, nf-core modules frozen in `modules.json`; (4) run-time `pipeline_info/software_versions.tsv`, collected from every process via the `versions` topic channel. Analysis tools live only in containers, never in the conda env. | User requirement: every version recorded, and the environment installable by anyone. One source of truth per layer prevents drift. `environment.yml` verified to solve on linux-64, linux-aarch64, osx-64 and osx-arm64 (2026-10-20). |
 | D15 | **Provisional thresholds drafted by Claude**, every row labelled `provisional pipeline default` (or "adapted from R_Bible ..."). Read-count thresholds are *sanity floors*, not adequacy thresholds. Depth-type metrics (total bases, GC) carry no threshold, because v0.1 has no genome size or species. Duplication and adapter content can WARN but never FAIL. | User chose option 2. Conservative: only flag what can be judged without knowing the organism. |
 | D16 | Pin **nf-schema 2.8.0**, not 3.0.0. | 3.0.0 (2026-09-29) is a new major release with breaking changes to `paramsSummaryLog()`/`paramsHelp()`, and the nf-core 4.1 template still pins 2.5.1. The functions we rely on (`validateParameters`, `samplesheetToList`) are unchanged in 3.0, so upgrading later is a small change. |
 | D17 | **Resource labels use nf-core names but laptop-sized values**: single 1 CPU/2 GB, low 2/4 GB, medium 4/8 GB, high 8/16 GB. Memory and time double on retry; CPUs do not. | Every tool here is lightweight QC. nf-core template values are HPC-sized (process_high = 72 GB). Containers on this Mac are capped by the Docker VM (11.7 GB), and private-repo GitHub runners are about 2 CPU / 7 GB. A kill for lack of memory is fixed by memory, not threads. |
@@ -127,6 +127,7 @@ Implications:
 
 ## Open questions
 
+- **Before ruling that no test sample can PASS:** survey more public data (real Illumina with instrument headers and realistic read counts, larger real ONT, possibly PacBio HiFi as a negative case) from other nf-core/test-datasets branches and subsampled ENA runs, run the screen and detection inputs over it, then decide thresholds. User request, 2026-10-20; not started.
 - **Read-count floors vs test data:** with the D15 floors, no test sample can PASS (Illumina 50k reads < 100k warn; ONT 4k < 10k warn). Decide before detection lands: a labelled test-only metric guide, lower floors, or accept WARN in the test.
 - **Do screen flags affect the verdict ceiling?** Currently they are listed as notes only. LAYOUT_CONFLICT, MATES_POSSIBLY_SWAPPED and ID_COLLISION arguably should cap at WARN.
 - **Known gap:** an ONT-routed sample with two FASTQs makes NanoPlot fail, which stops the run under D18. Route it to `unrouted` (or join files) when detection lands.
@@ -188,3 +189,9 @@ Implications:
   to the final D25 answers.
 - Reminder: run `conda activate seq-triage-dev` before using
   `nextflow` or `nf-core`.
+
+## CI fix log
+
+Every automatic CI fix is recorded here in plain language: what failed, why, what changed, how it was verified (user rule, 2026-10-20). Fixes are never applied silently.
+
+_No fixes yet._
