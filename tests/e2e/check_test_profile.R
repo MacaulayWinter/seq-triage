@@ -10,6 +10,8 @@
 #   2. each verdict matches tests/e2e/expected_verdicts.tsv
 #   3. no FASTQ was published to results/ (reads never belong there)
 #   4. every tool reported its version (reproducibility layer 4)
+#   5. every sample sent to QC has judged metrics, each gap explained
+#   6. MultiQC parsed fastp, FastQC and NanoPlot output
 # Run from the repository root.
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -49,6 +51,18 @@ v <- read_tsv(file.path(res, "pipeline_info", "software_versions.tsv"))
 need <- c("seqkit", "fastp", "fastqc", "NanoPlot", "multiqc", "R")
 absent <- setdiff(need, v$tool[!is.na(v$version) & nzchar(v$version)])
 check("every tool reported a version", length(absent) == 0, paste("missing:", paste(absent, collapse = ", ")))
+
+# 5. Every sample sent to QC has judged QC numbers, and none is unexplained
+m <- read_tsv(file.path(res, "triage_metrics.tsv"))
+routed <- summary$sample[summary$route %in% c("illumina", "ont")]
+no_metrics <- setdiff(routed, m$sample)
+unexplained <- m$sample[m$result %in% c("not_available", "exempt", "not_meaningful") & is.na(m$note)]
+check("every QC'd sample has judged metrics", length(no_metrics) == 0 && length(unexplained) == 0,
+      paste("no metrics:", paste(no_metrics, collapse = ", "), "| unexplained:", paste(unique(unexplained), collapse = ", ")))
+
+# 6. MultiQC picked up every tool (it must still read NanoPlot's --tsv_stats output)
+mq <- list.files(file.path(res, "multiqc"), pattern = "^multiqc_(fastp|fastqc|nanostat)\\.txt$", recursive = TRUE)
+check("MultiQC parsed fastp, FastQC and NanoPlot", length(mq) == 3, paste("found:", paste(basename(mq), collapse = ", ")))
 
 n_fail <- sum(results == "FAIL")
 cat(sprintf("\n%d / %d checks passed\n", length(results) - n_fail, length(results)))

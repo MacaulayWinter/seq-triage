@@ -1,16 +1,18 @@
-sample,fastq_1,fastq_2,platform,sample_type
-ISO_01,fq/ISO_01_R1.fastq.gz,fq/ISO_01_R2.fastq.gz,illumina,isolate
-ONT_01,fq/ONT_01.fastq.gz,,Nanopore,
-S1,fq/S1.fastq.gz,,,
-s-1,fq/s-1.fastq.gz,,,
-X_R1_001,fq/X_R1_001.fastq.gz,,,
-SAMPLE_A,fq/SRR123_1.fastq.gz,fq/SRR123_2.fastq.gz,illumina,
-SW,fq/SW_R2.fastq.gz,fq/SW_R1.fastq.gz,illumina,
-SH1,fq/SH1.fastq.gz,,ont,
-SH2,fq/SH1.fastq.gz,,ont,
-LC,fq/LC_R1.fastq.gz,fq/LC_R2.fastq.gz,ont,
-ET,fq/ET.fastq.gz,,N/A,none
-WS,fq/WS.fastq.gz,, illumina,
- WSID,fq/WSID.fastq.gz,,,
-SE_2,fq/SE_2.fastq.gz,,ont,
-ONLYR2,fq/ONLYR2_R2.fastq.gz,,,
+sample,fastq_1,fastq_2,platform,sample_type,molecule
+ISO_01,fq/ISO_01_R1.fastq.gz,fq/ISO_01_R2.fastq.gz,illumina,isolate,
+ONT_01,fq/ONT_01.fastq.gz,,Nanopore,,
+S1,fq/S1.fastq.gz,,,,
+s-1,fq/s-1.fastq.gz,,,,
+X_R1_001,fq/X_R1_001.fastq.gz,,,,
+SAMPLE_A,fq/SRR123_1.fastq.gz,fq/SRR123_2.fastq.gz,illumina,,
+SW,fq/SW_R2.fastq.gz,fq/SW_R1.fastq.gz,illumina,,
+SH1,fq/SH1.fastq.gz,,ont,,
+SH2,fq/SH1.fastq.gz,,ont,,
+LC,fq/LC_R1.fastq.gz,fq/LC_R2.fastq.gz,ont,,
+ET,fq/ET.fastq.gz,,N/A,none,
+WS,fq/WS.fastq.gz,, illumina,,
+ WSID,fq/WSID.fastq.gz,,,,
+SE_2,fq/SE_2.fastq.gz,,ont,,
+ONLYR2,fq/ONLYR2_R2.fastq.gz,,,,
+RNA_01,fq/RNA_01.fastq.gz,,ont,,RNA
+MOL_NA,fq/MOL_NA.fastq.gz,,ont,,n/a

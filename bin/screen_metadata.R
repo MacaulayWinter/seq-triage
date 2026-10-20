@@ -84,6 +84,7 @@ normalise_vocab <- function(raw, synonyms) {
 PLATFORM_SYNONYMS <- c(illumina = "illumina", ont = "ont", nanopore = "ont")
 TYPE_SYNONYMS     <- c(isolate = "isolate", metagenome = "metagenome",
                        amplicon = "amplicon", unknown = "unknown")
+MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 
 
 # Read ---------------------------------------------------------------------------
@@ -92,7 +93,7 @@ TYPE_SYNONYMS     <- c(isolate = "isolate", metagenome = "metagenome",
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_2", "platform", "sample_type")) {
+for (col in c("fastq_2", "platform", "sample_type", "molecule")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -110,10 +111,12 @@ add_flag <- function(rows, code, msg) {
 
 plat <- normalise_vocab(sheet$platform,    PLATFORM_SYNONYMS)
 type <- normalise_vocab(sheet$sample_type, TYPE_SYNONYMS)
+mol  <- normalise_vocab(sheet$molecule,    MOLECULE_SYNONYMS)
 
 # Values that needed interpreting: report them, never hide them.
 for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
-               list(name = "sample_type", raw = sheet$sample_type, norm = type))) {
+               list(name = "sample_type", raw = sheet$sample_type, norm = type),
+               list(name = "molecule",    raw = sheet$molecule,    norm = mol))) {
   r <- which(f$norm$tier == "empty_token")
   add_flag(r, "EMPTY_TOKEN", sprintf("%s '%s' treated as not declared", f$name, f$raw[r]))
   r <- which(f$norm$tier == "normalised")
@@ -124,7 +127,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "platform", "sample_type")) {
+for (col in c("sample", "fastq_1", "fastq_2", "platform", "sample_type", "molecule")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))
@@ -210,6 +213,9 @@ out <- data.frame(
   declared_type_raw      = sheet$sample_type,
   declared_type          = type$value,
   type_tier              = type$tier,
+  declared_molecule_raw  = sheet$molecule,
+  declared_molecule      = mol$value,
+  molecule_tier          = mol$tier,
   n_flags                = lengths(flags),
   flags                  = vapply(flags, function(f) paste(f, collapse = " | "), character(1)),
   stringsAsFactors       = FALSE
