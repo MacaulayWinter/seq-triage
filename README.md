@@ -107,6 +107,24 @@ Enable Rosetta first: Docker Desktop → Settings → General → *Use Rosetta f
 x86_64/amd64 emulation on Apple Silicon*. Profile order matters: put
 `emulate_amd64` after `docker`.
 
+### Contamination screen (optional)
+
+Give a Kraken2 database to also check each sample for human DNA and for a
+second organism:
+
+```bash
+nextflow run main.nf -profile docker --input samplesheet.csv --outdir results \
+    --kraken2_db /path/to/kraken2_db          # a directory, or a .tar.gz of one
+```
+
+The report then adds the human fraction, the share of reads from species
+other than the most common one, the unclassified fraction and the top
+species. Illumina samples get Bracken's species-level re-estimate. Results
+depend on the database, and the screen **cannot detect contamination by
+another strain of the same species**. Without a database the report says
+"not screened". On a laptop, add `--kraken2_memory_mapping` to read the
+database from disk instead of loading it into memory.
+
 ### Samplesheet
 
 A CSV with one row per sample:
@@ -154,12 +172,13 @@ Verdicts:
 
 ## Testing
 
-The `test` profile runs the whole pipeline on nine small public samples
-(~130 MB), pinned by commit. Seven come from
+The `test` profile runs the whole pipeline on ten small public samples
+(~130 MB), pinned by commit. Eight come from
 [nf-core/test-datasets](https://github.com/nf-core/test-datasets): a
 simulated Illumina pair, real ONT amplicon reads, simulated ONT reads with
 placeholder quality, Illumina reads mislabelled as ONT, a sample with no
-metadata, single-end Illumina, and PacBio HiFi reads, which seq-triage must
+metadata, single-end Illumina, a tiny real Illumina SARS-CoV-2 amplicon pair (so the
+contamination screen's species step runs), and PacBio HiFi reads, which seq-triage must
 report as *uncertain* rather than force into a platform. Two come from
 [seq-triage-test-data](https://github.com/MacaulayWinter/seq-triage-test-data):
 real NovaSeq and R10.4.1 nanopore reads of one *E. coli* isolate, subsampled

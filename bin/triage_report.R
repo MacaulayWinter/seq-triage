@@ -16,19 +16,20 @@
 #               QC numbers. Same idea as the author's
 #               116_check_rerun_complete.sh: nothing vanishes silently.
 #
-# Usage:  triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <out_prefix>
+# Usage:  triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix>
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 5) {
-  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <out_prefix>")
+if (length(args) != 6) {
+  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix>")
 }
 read_tsv <- function(f) read.delim(f, colClasses = "character", na.strings = "", check.names = FALSE, quote = "")
 screen  <- read_tsv(args[1])
 samples <- read_tsv(args[2])
 guide   <- read_tsv(args[3])
 qc      <- read_tsv(args[4])
-prefix  <- args[5]
+groups  <- read_tsv(args[5])
+prefix  <- args[6]
 options(scipen = 999)
 
 
@@ -116,6 +117,55 @@ status_value <- function(rows, field) {
 
 QUALITY_METRICS <- c("q30_rate", "mean_read_quality")   # meaningless on placeholder quality (D26)
 
+# Contamination screen (D41) ----------------------------------------------------
+# On only if Kraken2 ran (a database was given); then every sample sent to QC
+# must have Kraken2 results.
+SCREEN_ON   <- any(qc$tool == "Kraken2")
+SCREEN_TOOL <- "Kraken2"
+HOST_TAXID  <- "9606"           # Homo sapiens
+MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
+
+# WHAT IT DOES  Contamination numbers for one sample from its Kraken2 report
+#               (host, unclassified) and species-level counts (Bracken for
+#               Illumina when it ran, Kraken2's own species counts otherwise).
+#               Look-alike species in species_groups.tsv count as one.
+# RETURNS       named list: host_fraction, unclassified_fraction,
+#               off_target_fraction, dominant_species, top_species, and
+#               species_note when no species-level estimate was possible.
+contamination <- function(rows, route) {
+  k <- rows[rows$tool == "Kraken2", ]
+  part <- do.call(rbind, strsplit(k$field, "|", fixed = TRUE))
+  k$rank <- part[, 1]; k$taxid <- part[, 2]; k$name <- part[, 3]
+  k$n <- as.numeric(k$value)
+  total <- sum(k$n[k$taxid %in% c("0", "1")])          # unclassified + root
+  out <- list(host_fraction = if (total > 0) sum(k$n[k$taxid == HOST_TAXID]) / total else NA_real_,
+              unclassified_fraction = if (total > 0) sum(k$n[k$taxid == "0"]) / total else NA_real_,
+              off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
+
+  b <- rows[rows$tool == "Bracken", ]
+  if (route == "illumina" && nrow(b)) {
+    bp <- do.call(rbind, strsplit(b$field, "|", fixed = TRUE))
+    sp <- data.frame(rank = bp[, 1], taxid = bp[, 2], name = bp[, 3], n = as.numeric(b$value))
+    source <- "Bracken"
+  } else {
+    sp <- k[k$rank == "S", c("rank", "taxid", "name", "n")]
+    source <- "Kraken2"
+  }
+  sp <- sp[sp$taxid != HOST_TAXID & sp$rank == "S", ]
+  if (sum(sp$n) < MIN_SPECIES_READS) {
+    out$species_note <- sprintf("species-level estimate not possible: fewer than %d reads were classified to a species", MIN_SPECIES_READS)
+    return(out)
+  }
+  sp$unit <- ifelse(sp$taxid %in% groups$taxid, groups$group[match(sp$taxid, groups$taxid)], sp$name)
+  by_unit <- sort(tapply(sp$n, sp$unit, sum), decreasing = TRUE)
+  share <- by_unit / sum(by_unit)
+  out$off_target_fraction <- 1 - share[[1]]
+  out$dominant_species <- sprintf("%s (%.1f%% of species-level reads, %s)", names(share)[1], 100 * share[[1]], source)
+  top <- head(share, 3)
+  out$top_species <- paste(sprintf("%s %.1f%%", names(top), 100 * top), collapse = "; ")
+  out
+}
+
 # WHAT IT DOES  Judges every guide metric that applies to one sample.
 # RETURNS       data.frame(sample, metric, value, unit, warn, fail, result, note)
 #               result: PASS | WARN | FAIL | info | exempt | not_meaningful | not_available
@@ -130,14 +180,32 @@ judge_sample <- function(s) {
   }
   declared  <- na.omit(c(s$declared_type, s$declared_molecule))
   flags     <- if (is.na(s$detection_flags)) character(0) else strsplit(s$detection_flags, ",")[[1]]
+  contam    <- NULL
+  if (SCREEN_ON) {
+    if (!any(rows$tool == "Kraken2")) {
+      stop(sprintf("Sample %s was sent to QC and the contamination screen is on, but no Kraken2 results reached the report.", s$sample))
+    }
+    contam <- contamination(rows, route)
+  }
 
-  out <- lapply(which(vapply(strsplit(guide$applies_to, ","), function(a) tag %in% a, TRUE)), function(j) {
+  applies <- which(vapply(strsplit(guide$applies_to, ","), function(a) tag %in% a, TRUE) &
+                   (SCREEN_ON | guide$source_tool != SCREEN_TOOL))
+  out <- lapply(applies, function(j) {
     g      <- guide[j, ]
     trows  <- rows[rows$tool == g$source_tool, ]
     exempt <- intersect(strsplit(ifelse(is.na(g$exempt_types), "", g$exempt_types), ",")[[1]], declared)
     warn   <- suppressWarnings(as.numeric(g$warn))
     fail   <- suppressWarnings(as.numeric(g$fail))
     note   <- ""
+
+    if (g$source_tool == SCREEN_TOOL) {
+      value <- contam[[g$metric]]
+      if (g$direction == "label") {
+        return(data.frame(metric = g$metric, value = if (is.na(value)) "" else value,
+                          result = if (is.na(value)) "not_available" else "info",
+                          note = if (is.na(value) && !is.null(contam$species_note)) contam$species_note else ""))
+      }
+    }
 
     if (g$direction == "status") {
       value  <- status_value(trows, g$source_field)
@@ -146,7 +214,7 @@ judge_sample <- function(s) {
       return(data.frame(metric = g$metric, value = value, result = result, note = note))
     }
 
-    value <- field_value(trows, g$source_field, g$source_tool)
+    if (g$source_tool != SCREEN_TOOL) value <- field_value(trows, g$source_field, g$source_tool)
     result <-
       if (is.na(value))                                 "not_available"
       else if (length(exempt))                          "exempt"
@@ -158,7 +226,8 @@ judge_sample <- function(s) {
         if (!is.na(fail) && value > fail) "FAIL" else if (!is.na(warn) && value > warn) "WARN" else "PASS"
       } else "info"
     note <- switch(result,
-      not_available  = sprintf("not reported by %s", g$source_tool),
+      not_available  = if (g$source_tool == SCREEN_TOOL && !is.null(contam$species_note)) contam$species_note
+                       else sprintf("not reported by %s", g$source_tool),
       exempt         = sprintf("not judged: %s library", exempt[1]),
       not_meaningful = "not judged: quality scores are a placeholder (every base the same)",
       "")
@@ -292,6 +361,7 @@ guide_section <- unlist(lapply(present, function(mt) {
             if (!is.na(g$fail)) paste0(", fail ", if (g$direction == "higher_is_better") "below " else "above ", format_value(g$fail, g$unit)) else "",
             if (!is.na(g$exempt_types)) sprintf("Not applied to: %s.", gsub(",", ", ", g$exempt_types)) else "")
   else if (g$direction == "status") "- **Information only:** never changes the verdict."
+  else if (g$source_tool == SCREEN_TOOL) "- **Information only:** never changes the verdict."
   else "- **Information only:** no limit, because judging it needs to know the organism."
   c(sprintf("### %s", label[[mt]]), "",
     sprintf("- **What it measures:** %s", g$what_it_measures),
@@ -306,6 +376,8 @@ md <- c(
   "# seq-triage summary", "",
   sprintf("%d sample(s): %s.", nrow(d), paste(sprintf("%d %s", counts, names(counts)), collapse = ", ")), "",
   "A sample can only PASS when its reads confirm its metadata and every QC number is within its limits.",
+  if (SCREEN_ON) "The contamination screen ran (Kraken2): host and contaminant fractions are judged below." else
+    "The contamination screen did not run (no Kraken2 database was given): host DNA and contaminants were not checked.",
   "QC numbers can lower a verdict but never raise it. The limits are provisional defaults; see",
   "*How to read these numbers* at the end.", "",
   "| Sample | Verdict | Declared | Detected | Confidence | QC | Metadata flags |",
@@ -319,6 +391,7 @@ md <- c(
     if (nzchar(d$qc_findings[i])) paste0("- QC: ", d$qc_findings[i]),
     if (nzchar(d$hint[i])) paste0("- Hint: ", d$hint[i]),
     paste0("- Detection (", show(d$confidence[i]), " confidence): ", show(d$reasons[i])),
+    if (!SCREEN_ON && d$route[i] %in% c("illumina", "ont")) "- Contamination: not screened (no Kraken2 database was given).",
     if (!is.na(d$detection_flags[i])) paste0("- Detection flags: ", gsub(",", ", ", d$detection_flags[i], fixed = TRUE)),
     if (!is.na(d$flags[i])) paste0("- Metadata: ", strsplit(d$flags[i], " | ", fixed = TRUE)[[1]]),
     metric_table(d$sample[i]),

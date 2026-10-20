@@ -14,6 +14,9 @@ include { FASTP           } from '../modules/nf-core/fastp/main'
 include { FASTQC          } from '../modules/nf-core/fastqc/main'
 include { NANOPLOT        } from '../modules/nf-core/nanoplot/main'
 include { MULTIQC         } from '../modules/nf-core/multiqc/main'
+include { UNTAR           } from '../modules/nf-core/untar/main'
+include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../modules/nf-core/kraken2/kraken2/main'
+include { BRACKEN_BRACKEN as BRACKEN } from '../modules/nf-core/bracken/bracken/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
 // "not present" throughout the pipeline (CLAUDE.md D22).
@@ -76,6 +79,34 @@ def fastqcRows(String sample, zip) {
     }
 }
 
+// Kraken2 report: "pct<TAB>clade reads<TAB>direct reads<TAB>rank<TAB>taxid<TAB>name"
+// (name indented by depth). Field = "rank|taxid|name", value = clade reads.
+def kraken2Rows(String sample, report) {
+    return report.readLines()
+        .collect { line -> line.split('\t') }
+        .findAll { p -> p.size() >= 6 }
+        .collect { p -> qcRow(sample, 'Kraken2', report.name, "${p[3].trim()}|${p[4].trim()}|${p[5].trim()}", p[1].trim()) }
+}
+
+// Bracken species table: name, taxonomy_id, taxonomy_lvl, kraken_assigned_reads,
+// added_reads, new_est_reads, fraction_total_reads. Value = re-estimated reads.
+def brackenRows(String sample, tsv) {
+    return tsv.splitCsv(header: true, sep: '\t').collect { r ->
+        qcRow(sample, 'Bracken', tsv.name, "${r.taxonomy_lvl}|${r.taxonomy_id}|${r.name}", r.new_est_reads)
+    }
+}
+
+// Largest species-level clade count in a Kraken2 report. Bracken stops with
+// "no reads found" (and writes nothing, which would stop the run) when no
+// species has at least 10 reads, so it only runs above that (D41).
+def maxSpeciesReads(report) {
+    def counts = report.readLines()
+        .collect { line -> line.split('\t') }
+        .findAll { p -> p.size() >= 6 && p[3].trim() == 'S' }
+        .collect { p -> p[1].trim() as Long }
+    return counts ? counts.max() : 0L
+}
+
 // seqkit stats: one row per FASTQ file; the report sums over a sample's files.
 def seqkitRows(String sample, tsv) {
     return tsv.splitCsv(header: true, sep: '\t').collectMany { row ->
@@ -125,6 +156,7 @@ workflow SEQ_TRIAGE {
     ch_samples      // [ meta, [ reads ] ] from the samplesheet
     samplesheet     // the raw samplesheet file, for the metadata screen
     metric_guide    // assets/metric_guide.tsv or the user's own
+    species_groups  // assets/species_groups.tsv or the user's own
 
     main:
 
@@ -187,10 +219,31 @@ workflow SEQ_TRIAGE {
     FASTQC(ch_routed.illumina)
     NANOPLOT(ch_routed.ont)
 
+    // 5b. Contamination screen (CLAUDE.md D41), only when a Kraken2 database
+    //     is given. Every sample sent to QC is classified by Kraken2 (host
+    //     and unclassified fractions, species for ONT). Illumina samples
+    //     also get Bracken's species-level re-estimate; it is calibrated for
+    //     a fixed read length, so it is not used on nanopore reads.
+    ch_kraken_reports = channel.empty()
+    ch_bracken_tables = channel.empty()
+    if (params.kraken2_db) {
+        if (params.kraken2_db.endsWith('.tar.gz') || params.kraken2_db.endsWith('.tgz')) {
+            UNTAR(channel.of([ [ id: 'kraken2_db' ], file(params.kraken2_db, checkIfExists: true) ]))
+            ch_db = UNTAR.out.untar.map { _meta, dir -> dir }.first()
+        } else {
+            ch_db = channel.value(file(params.kraken2_db, checkIfExists: true))
+        }
+        KRAKEN2(ch_routed.illumina.mix(ch_routed.ont), ch_db, false, false)
+        ch_kraken_reports = KRAKEN2.out.report
+        BRACKEN(KRAKEN2.out.report.filter { meta, report -> meta.route == 'illumina' && maxSpeciesReads(report) >= 10 }, ch_db)
+        ch_bracken_tables = BRACKEN.out.reports
+    }
+
     ch_multiqc_files = channel.empty()
         .mix(FASTP.out.json.map    { _meta, f -> f })
         .mix(FASTQC.out.zip.map    { _meta, f -> f })
         .mix(NANOPLOT.out.txt.map  { _meta, f -> f })
+        .mix(ch_kraken_reports.map { _meta, f -> f })
         .collect()
     MULTIQC(ch_multiqc_files.map { files -> [ [ id: 'seq-triage' ], files, [], [], [], [] ] })
 
@@ -210,9 +263,11 @@ workflow SEQ_TRIAGE {
         .mix(FASTP.out.json.flatMap         { meta, f -> fastpRows(meta.id, f) })
         .mix(NANOPLOT.out.txt.flatMap       { meta, f -> [ f ].flatten().findAll { x -> x.name.endsWith('NanoStats.txt') }.collectMany { x -> nanoplotRows(meta.id, x) } })
         .mix(FASTQC.out.zip.flatMap         { meta, f -> [ f ].flatten().collectMany { x -> fastqcRows(meta.id, x) } })
+        .mix(ch_kraken_reports.flatMap      { meta, f -> kraken2Rows(meta.id, f) })
+        .mix(ch_bracken_tables.flatMap      { meta, f -> brackenRows(meta.id, f) })
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 
-    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values)
+    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups)
 
     // 7. Software versions actually used (reproducibility layer 4): every
     //    module reports [process, tool, version] to the 'versions' topic.
