@@ -158,6 +158,53 @@ numbers faithfully.
   somewhat lower in NanoPlot's terms, still on the intended side of each
   limit.
 
+## Results: round 1 re-run with the D40 rules (2026-10-20)
+
+Same 40 runs and 29 damaged samples, after the changes the user decided on
+from round 1's findings: read-name markers for PacBio, MGI/DNBSEQ and
+Element; an adapter checker; placeholder quality capped at WARN (CLAUDE.md
+D40). Tables: [`validation/outcomes/round1_rerun/`](../validation/outcomes/round1_rerun/).
+
+| | Round 1 | Re-run |
+|---|---|---|
+| **A** Wrong at high confidence | 0 | **0** ✓ (after one documented correction of ENA, below) |
+| **A** Correct at high confidence | 19 / 40 | **29 / 40** |
+| **A** Wrong at medium or low | 8 | **2** (Ion Torrent DRR191002; PacBio CLR DRR032990, read names stripped) |
+| **A** Layout | 29 / 29 | 28 / 28 |
+| **B** Independent checks | 526 / 526 | **542 / 542** ✓ |
+| **C** Damaged samples | 28 / 29 | **29 / 29** ✓ |
+
+- **PacBio, MGI/DNBSEQ and Element are now named** for every run that kept
+  its read names (2 HiFi, 1 CLR, 2 DNBSEQ, 2 Element). Two older-chemistry
+  nanopore runs rose from medium to high on ONT adapters.
+- **Illumina runs with stripped names stay at medium.** This is by design:
+  Illumina adapters do not confirm the instrument (see below).
+
+### ENA was wrong about one run (adjudicated)
+
+The first score of the re-run had **one wrong high-confidence call**:
+SRR24724636, labelled "Illumina NovaSeq 6000" in ENA, called MGI/DNBSEQ.
+The review by hand found the pipeline right and ENA wrong:
+
+- every read name is an MGI flowcell name (`V350004723L1C001R003...`);
+- the submitter's own design description says sequencing was run *"on
+  DNBSEQ-G400RS (MGI, China)"* using MGI's *App-A* kit.
+
+The correction is recorded with its evidence in
+[`validation/adjudications.tsv`](../validation/adjudications.tsv). The scorer
+applies it and keeps both truths in its output (`ena_truth`, `truth`,
+`adjudicated`).
+
+This changes the reading of round 1 in two ways:
+
+1. **Round 1 scored this run as correct when it was wrong.** It was called
+   Illumina at medium confidence, which matched ENA's mistaken label.
+2. **It is the exact case behind the rule that Illumina adapters never raise
+   confidence.** The library was made with an Illumina-compatible kit
+   (NEBNext), then converted with App-A for MGI sequencing. Had Illumina
+   adapters counted as evidence, data like this with stripped read names
+   could be called Illumina at high confidence.
+
 ### Not covered by round 1
 
 - **Contamination.** seq-triage has no contamination screen yet (v0.2).

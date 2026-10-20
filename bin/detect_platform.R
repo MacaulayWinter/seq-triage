@@ -2,14 +2,20 @@
 #*******************************************************************************
 # detect_platform.R: infer sequencing platform and layout from the reads
 #
-# WHAT IT DOES  Calls each sample Illumina, ONT or uncertain, with a confidence
-#               level, a layout, warning flags and a plain-language reason.
+# WHAT IT DOES  Calls each sample Illumina, ONT, a named platform seq-triage
+#               does not handle (PacBio, MGI/DNBSEQ, Element) or uncertain,
+#               with a confidence level, a layout, warning flags and a
+#               plain-language reason.
 # HOW           1. CORE CALL from read-length shape (seqkit stats, whole
 #                  file). The longest read and the length spread must agree;
 #                  one alone is never enough (CLAUDE.md D3).
-#               2. SUPPORTING EVIDENCE from the first PROBE_N reads: header
-#                  format and the number of distinct quality values. These
-#                  raise or lower confidence but never make the call.
+#               2. SUPPORTING EVIDENCE from the first PROBE_N reads: read-name
+#                  format, library adapters and the number of distinct
+#                  quality values. These raise or lower confidence but never
+#                  make an Illumina/ONT call.
+#               2b. INSTRUMENT MARKERS (read names, MGI/PacBio adapters) NAME a
+#                  platform seq-triage does not handle, if the read lengths
+#                  agree (D40).
 #               3. LAYOUT from the number of files, their read counts and
 #                  their read names.
 # RULE          When the evidence is weak or disagrees, say so. "uncertain"
@@ -67,21 +73,82 @@ probe_fastq <- function(path, n) {
   list(headers = headers, names = sub("/[12]$", "", first), seq = x[4 * i - 2], qual = x[4 * i])
 }
 
-# WHAT IT DOES  Which platform the header format points to: "illumina",
-#               "ont" or "neutral" (unrecognised or mixed).
+# Read-name formats written by each instrument's software (D40). Each is a
+# fixed, structured convention, so it does not turn up by chance.
+#   pacbio   movie name + well:  m84093_240509_111803_s2/63964829/ccs (HiFi)
+#                                m161120_144858_42197_c1010..._s1_p0/9807 (CLR)
+#   dnbseq   MGI flowcell + Lane/Column/Row:  V350125880L1C002R03800156256
+#   element  instrument ID "AV" + 6 digits:  AV224102:run:flowcell:1:10102:0388:0011
+#            Element deliberately mimics the Illumina format, so it is tested
+#            FIRST: otherwise Element reads could count as Illumina evidence.
+#   illumina instrument:run:flowcell:lane:tile:x:y, or the older
+#            instrument:lane:tile:x:y#index
+#   ont      a read UUID, or MinKNOW's runid= tag
+HEADER_PATTERNS <- c(
+  pacbio   = "(^@| )m[0-9]+[eU]?_[0-9]{6}_[0-9]+[^/ ]*/[0-9]+(/| |$)",
+  dnbseq   = "(^@| )[A-Z]{1,2}[0-9]{8,}L[0-9]C[0-9]{3}R[0-9]{3}[0-9]+",
+  element  = "(^@| )AV[0-9]{6}:",
+  illumina = "(^@| )[A-Za-z0-9_-]+:[0-9]+:[A-Za-z0-9_-]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+|(^@| )[A-Za-z0-9_-]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+(#[A-Za-z0-9+]*)?(/[12])?( |$)",
+  ont      = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|runid="
+)
+
+# WHAT IT DOES  Which platform the read names point to: one of
+#               names(HEADER_PATTERNS), or "neutral" (unrecognised or mixed).
+#               The first pattern that matches HEADER_FRAC of reads wins.
 # NOTE          A trailing /1 or /2 is deliberately ignored: SRA adds it to
 #               nanopore reads too (found in the survey), so it is no
 #               evidence of Illumina mates.
 header_evidence <- function(headers) {
   if (!length(headers)) return("neutral")
-  illumina_new <- grepl("(^@| )[A-Za-z0-9_-]+:[0-9]+:[A-Za-z0-9_-]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+", headers)
-  illumina_old <- grepl("(^@| )[A-Za-z0-9_-]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+(#[A-Za-z0-9+]*)?(/[12])?( |$)", headers)
-  ont_uuid     <- grepl("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", headers) |
-                  grepl("runid=", headers, fixed = TRUE)
-  if (mean(illumina_new | illumina_old) >= HEADER_FRAC) return("illumina")
-  if (mean(ont_uuid) >= HEADER_FRAC) return("ont")
+  for (p in names(HEADER_PATTERNS)) {
+    if (mean(grepl(HEADER_PATTERNS[[p]], headers)) >= HEADER_FRAC) return(p)
+  }
   "neutral"
 }
+
+# Library adapters: synthetic sequences each platform's kits attach to the
+# DNA (D40). They survive in reads when the DNA fragment is shorter than the
+# read, or when nobody trimmed them. 20 bases, searched on both strands; an
+# exact chance match is about 1 in 10^12 per position.
+# CAUTION  Illumina adapters identify the LIBRARY, not the instrument:
+#          Element (Adept) and MGI (App-A) can sequence converted Illumina
+#          libraries. So Illumina adapters are reported but never raise
+#          confidence in an Illumina call (conservative rule, D1).
+# Sources: Illumina Adapter Sequences document (TruSeq, Nextera); fastp
+# documentation (MGI); Porechop adapter list (ONT); PacBio SMRTbell.
+ADAPTERS <- list(
+  illumina_library = c(truseq_r1 = "AGATCGGAAGAGCACACGTC", truseq_r2 = "AGATCGGAAGAGCGTCGTGT",
+                       nextera = "CTGTCTCTTATACACATCTC"),
+  dnbseq           = c(mgi_r1 = "AAGTCGGAGGCCAAGCGGTC", mgi_r2 = "AAGTCGGATCGTAGCCATGT"),
+  ont              = c(ligation = "AATGTACTTCGTTCAGTTAC", rapid = "GTTTTCGCATTTATCGTGAA"),
+  pacbio           = c(smrtbell = "ATCTCTCTCAACAACAACAA")
+)
+ADAPTER_MIN_FRAC  <- 0.005   # share of probed reads that must carry the adapter...
+ADAPTER_MIN_READS <- 10      # ...and at least this many reads
+ADAPTER_END_BP    <- 300     # long reads: adapters sit at the ends, so search only there
+
+revcomp <- function(s) intToUtf8(rev(utf8ToInt(chartr("ACGT", "TGCA", s))))
+
+# WHAT IT DOES  For each adapter group, the share of reads carrying it.
+#               Returns a named numeric vector (fraction of probed reads).
+adapter_scan <- function(seq) {
+  if (!length(seq)) return(setNames(numeric(length(ADAPTERS)), names(ADAPTERS)))
+  long <- nchar(seq) > 2 * ADAPTER_END_BP
+  seq[long] <- paste0(substr(seq[long], 1, ADAPTER_END_BP), "N",
+                      substring(seq[long], nchar(seq[long]) - ADAPTER_END_BP + 1))
+  vapply(ADAPTERS, function(group) {
+    hit <- Reduce(`|`, lapply(group, function(a) grepl(a, seq, fixed = TRUE) | grepl(revcomp(a), seq, fixed = TRUE)))
+    mean(hit)
+  }, 0)
+}
+adapter_platforms <- function(frac, n_probed) {
+  names(frac)[frac >= ADAPTER_MIN_FRAC & frac * n_probed >= ADAPTER_MIN_READS]
+}
+
+# Platforms seq-triage can name but does not run QC on, and the read type
+# each produces (used to check a marker agrees with the read lengths).
+NOT_HANDLED <- c(pacbio = "long", dnbseq = "short", element = "short")
+DISPLAY <- c(illumina = "Illumina", ont = "ONT", pacbio = "PacBio", dnbseq = "MGI/DNBSEQ", element = "Element AVITI")
 
 # WHAT IT DOES  What the set of quality values says: "illumina" (binned, as
 #               NovaSeq/NextSeq write), "excluded" (one value only: a
@@ -155,6 +222,7 @@ write_result <- function(platform, layout, confidence, evidence = list()) {
     header_evidence   = paste(evidence$header,  collapse = ";"),
     quality_values    = paste(evidence$n_q,     collapse = ";"),
     u_bases           = paste(evidence$u,       collapse = ";"),
+    adapters          = paste(evidence$adapters, collapse = ";"),
     stringsAsFactors  = FALSE
   )
   write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -169,7 +237,7 @@ if (any(n_reads == 0)) {
 }
 
 
-# 1. Core call per file ----------------------------------------------------------
+# 1. Evidence per file -----------------------------------------------------------
 
 core   <- lapply(seq_len(n_files), function(i) core_call(stats[i, ]))
 calls  <- vapply(core, `[[`, "", "call")
@@ -182,13 +250,18 @@ q_ev    <- lapply(probes, function(p) quality_evidence(p$qual))
 q_evid  <- vapply(q_ev, `[[`, "", "evidence")
 q_n     <- vapply(q_ev, `[[`, 0L, "n_distinct")
 u_bases <- vapply(probes, function(p) written_as_rna(p$seq), FALSE)
-evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases)
+ad_frac <- lapply(probes, function(p) adapter_scan(p$seq))
+ad_ev   <- unique(unlist(lapply(seq_len(n_files), function(i) adapter_platforms(ad_frac[[i]], length(probes[[i]]$seq)))))
+evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases,
+                 adapters = vapply(ad_frac, function(f) paste(sprintf("%s=%.3f", names(f), f), collapse = ","), ""))
 if (any(u_bases)) {
   flags <- c(flags, "U_BASES")
   why   <- c(why, "Reads are written with U instead of T, as direct-RNA basecalls are.")
 }
 
 describe <- function(i) sprintf("longest read %s bp, length spread %.2f", format(max_ln[i], big.mark = ","), spread[i])
+pct <- function(group) sprintf("%.1f%%", 100 * max(vapply(ad_frac, `[[`, 0, group)))
+read_kind <- if (all(max_ln >= LONG_MIN)) "long" else if (all(max_ln <= SHORT_MAX)) "short" else "mixed"
 
 if (length(unique(calls)) > 1) {
   flags <- c(flags, "FILES_DISAGREE")
@@ -197,48 +270,87 @@ if (length(unique(calls)) > 1) {
   write_result("uncertain", "uncertain", "uncertain", evidence)
 }
 
-call <- calls[1]
-if (call == "long_narrow") {
-  flags <- c(flags, "LONG_READS_NARROW_SPREAD")
-  why   <- sprintf("Reads are long but unusually uniform in length (%s). Nanopore lengths vary widely; this pattern fits PacBio HiFi or size-selected data, which seq-triage does not handle.",
-                   describe(1))
-  write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
-}
-if (call == "uncertain") {
-  why <- sprintf("Read lengths fit neither platform clearly (%s). Illumina needs longest read <= %d bp and spread <= %.2f; ONT needs longest read >= %d bp and spread >= %.2f.",
-                 describe(1), SHORT_MAX, NARROW_MAX, LONG_MIN, WIDE_MIN)
-  write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
-}
 
-why <- c(sprintf("Read lengths indicate %s (%s).", if (call == "illumina") "Illumina" else "ONT", describe(1)), why)
+# 2. A platform seq-triage does not handle? (D40) --------------------------------
+# Instrument markers (read names, or MGI/PacBio adapters) name the platform
+# when they agree with the read lengths. Illumina adapters are not markers
+# here: they identify the library kit, not the instrument.
 
-
-# 2. Supporting evidence -------------------------------------------------------
-
-other <- if (call == "illumina") "ont" else "illumina"
-platform_name <- function(p) if (p == "illumina") "Illumina" else "ONT"
-
-support <- character(0)
-against <- character(0)
-if (any(hdr_ev == call))  support <- c(support, sprintf("%s-format read headers", platform_name(call)))
-if (any(hdr_ev == other)) against <- c(against, sprintf("%s-format read headers", platform_name(other)))
-if (any(q_evid == call))  support <- c(support, sprintf("binned quality values (%d distinct), as NovaSeq/NextSeq write", max(q_n)))
-if (any(q_evid == other)) against <- c(against, sprintf("binned quality values (%d distinct), typical of Illumina", max(q_n)))
-if (any(q_evid == "excluded")) {
-  flags <- c(flags, "QUALITY_UNINFORMATIVE")
-  why   <- c(why, "Every base has the same quality score, so quality is a placeholder and was ignored.")
-}
-
-if (length(against)) {
-  confidence <- "low"
+markers <- unique(c(intersect(hdr_ev, names(NOT_HANDLED)), intersect(ad_ev, names(NOT_HANDLED))))
+platform <- NULL
+if (length(markers) > 1) {
   flags <- c(flags, "SIGNALS_DISAGREE")
-  why   <- c(why, sprintf("But %s point the other way.", paste(against, collapse = " and ")))
-} else if (length(support)) {
+  why   <- c(sprintf("Markers of more than one platform were found (%s), so the platform cannot be named (%s).",
+                     paste(DISPLAY[markers], collapse = ", "), describe(1)), why)
+  write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
+} else if (length(markers) == 1) {
+  how <- c(if (markers %in% hdr_ev) "read names" else NULL,
+           if (markers %in% ad_ev) sprintf("%s adapters in %s of reads", DISPLAY[[markers]], pct(markers)) else NULL)
+  if (NOT_HANDLED[[markers]] != read_kind) {
+    flags <- c(flags, "SIGNALS_DISAGREE")
+    why   <- c(sprintf("%s identify %s, but %s reads do not fit it (%s).", paste(how, collapse = " and "),
+                       DISPLAY[[markers]], if (read_kind == "long") "long" else "short or mixed-length", describe(1)), why)
+    write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
+  }
+  platform   <- markers
   confidence <- "high"
-  why   <- c(why, sprintf("Confirmed by %s.", paste(support, collapse = " and ")))
-} else {
-  confidence <- "medium"
-  why   <- c(why, "No header or quality evidence confirms it, so confidence is medium.")
+  flags <- c(flags, "PLATFORM_NOT_HANDLED")
+  why   <- c(sprintf("%s identify %s, and the read lengths fit (%s). seq-triage v0.1 does not run QC on %s data.",
+                     paste(how, collapse = " and "), DISPLAY[[markers]], describe(1), DISPLAY[[markers]]), why)
+}
+
+
+# 3. Core call: Illumina or ONT ---------------------------------------------------
+
+if (is.null(platform)) {
+  call <- calls[1]
+  if (call == "long_narrow") {
+    flags <- c(flags, "LONG_READS_NARROW_SPREAD")
+    why   <- c(sprintf("Reads are long but unusually uniform in length (%s). Nanopore lengths vary widely; this pattern fits PacBio HiFi or size-selected data, which seq-triage does not handle.",
+                       describe(1)), why)
+    write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
+  }
+  if (call == "uncertain") {
+    why <- c(sprintf("Read lengths fit neither platform clearly (%s). Illumina needs longest read <= %d bp and spread <= %.2f; ONT needs longest read >= %d bp and spread >= %.2f.",
+                     describe(1), SHORT_MAX, NARROW_MAX, LONG_MIN, WIDE_MIN), why)
+    write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
+  }
+  platform <- call
+  why <- c(sprintf("Read lengths indicate %s (%s).", DISPLAY[[call]], describe(1)), why)
+
+  # Supporting evidence: raises or lowers confidence, never makes the call.
+  other <- if (call == "illumina") "ont" else "illumina"
+  support <- character(0)
+  against <- character(0)
+  if (any(hdr_ev == call))  support <- c(support, sprintf("%s-format read names", DISPLAY[[call]]))
+  if (any(hdr_ev == other)) against <- c(against, sprintf("%s-format read names", DISPLAY[[other]]))
+  if (any(q_evid == call))  support <- c(support, sprintf("binned quality values (%d distinct), as NovaSeq/NextSeq write", max(q_n)))
+  if (any(q_evid == other)) against <- c(against, sprintf("binned quality values (%d distinct), typical of Illumina", max(q_n)))
+  if (call == "ont" && "ont" %in% ad_ev)       support <- c(support, sprintf("ONT adapters in %s of reads", pct("ont")))
+  if (call == "illumina" && "ont" %in% ad_ev)  against <- c(against, sprintf("ONT adapters in %s of reads", pct("ont")))
+  if (call == "ont" && "illumina_library" %in% ad_ev) against <- c(against, sprintf("Illumina library adapters in %s of reads", pct("illumina_library")))
+  if (call == "illumina" && "illumina_library" %in% ad_ev) {
+    why <- c(why, sprintf("Illumina library adapters are in %s of reads. They fit, but do not confirm the instrument: Element and MGI instruments can sequence converted Illumina libraries.",
+                          pct("illumina_library")))
+  }
+  if (any(q_evid == "excluded")) {
+    flags <- c(flags, "QUALITY_UNINFORMATIVE")
+    why   <- c(why, "Every base has the same quality score, so quality is a placeholder and was ignored.")
+  }
+
+  if (length(against)) {
+    confidence <- "low"
+    flags <- c(flags, "SIGNALS_DISAGREE")
+    why   <- c(why, sprintf("But %s point the other way.", paste(against, collapse = " and ")))
+  } else if (length(support)) {
+    confidence <- "high"
+    why   <- c(why, sprintf("Confirmed by %s.", paste(support, collapse = " and ")))
+  } else {
+    confidence <- "medium"
+    why   <- c(why, "No read-name, adapter or quality evidence confirms it, so confidence is medium.")
+  }
+} else if (any(q_evid == "excluded")) {
+  flags <- c(flags, "QUALITY_UNINFORMATIVE")
 }
 
 if (any(n_reads < MIN_READS)) {
@@ -249,14 +361,14 @@ if (any(n_reads < MIN_READS)) {
 }
 
 
-# 3. Layout --------------------------------------------------------------------
+# 4. Layout --------------------------------------------------------------------
 
 if (n_files == 1) {
   layout <- "single"
-} else if (call == "ont") {
+} else if (read_kind == "long") {
   layout <- "uncertain"
   flags  <- c(flags, "TWO_FILES_LONG_READS")
-  why    <- c(why, "Two files were given, but nanopore reads are not paired. Check the samplesheet; no QC is run on this sample.")
+  why    <- c(why, "Two files were given, but long reads are not paired. Check the samplesheet; no QC is run on this sample.")
 } else if (n_reads[1] != n_reads[2]) {
   layout     <- "uncertain"
   confidence <- cap_conf(confidence, "low")
@@ -279,4 +391,4 @@ if (n_files == 1) {
   }
 }
 
-write_result(call, layout, confidence, evidence)
+write_result(platform, layout, confidence, evidence)

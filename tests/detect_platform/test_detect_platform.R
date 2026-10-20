@@ -26,6 +26,12 @@ HEADERS <- list(
   ont       = function(n, mate) sprintf("@%s runid=811ac9822692f2545ea99b1a0b2f9336ecf68626", uuid(n)),
   ont_sra   = function(n, mate) sprintf("@SRR1.%d %s/1", seq_len(n), uuid(n)),   # SRA adds /1 to nanopore reads
   plain     = function(n, mate) sprintf("@read%d/%d", seq_len(n), mate),
+  pacbio    = function(n, mate) sprintf("@m84093_240509_111803_s2/%d/ccs", seq_len(n)),
+  pacbio_clr = function(n, mate) sprintf("@ERR1.%d m161120_144858_42197_c101056272550000001823253401061744_s1_p0/%d", seq_len(n), seq_len(n)),
+  dnbseq    = function(n, mate) sprintf("@V350125880L1C002R038%08d/%d", seq_len(n), mate),
+  # Element with a NUMERIC run name: matches the Illumina pattern too, so
+  # this checks Element is recognised first.
+  element   = function(n, mate) sprintf("@AV224102:1234:2404432094:1:10102:%d:0011 %d:N:0:ACGT", seq_len(n), mate),
   renamed   = function(n, mate) sprintf("@other%d/%d", seq_len(n), mate)
 )
 # Quality alphabets: binned (NovaSeq, 4 values), full range, placeholder (1 value)
@@ -38,11 +44,19 @@ LENGTHS <- list(
 )
 
 # WHAT IT DOES  Writes one FASTQ and returns its seqkit-style stats row.
-make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna") {
+ADAPTER_SEQ <- c(ont = "AATGTACTTCGTTCAGTTACGTATTGCT", illumina = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+                 dnbseq = "AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA", pacbio = "ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT")
+make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna", adapter = NULL) {
   len <- LENGTHS[[lengths]](n)
   hdr <- HEADERS[[header]](n, mate)
   bases <- if (alphabet == "rna") c("A", "C", "G", "U") else c("A", "C", "G", "T")
   seq <- vapply(len, function(l) paste(sample(bases, l, TRUE), collapse = ""), "")
+  # adapter = "group@fraction": put that adapter at the start of a share of reads
+  if (!is.null(adapter) && n) {
+    a <- strsplit(adapter, "@")[[1]]
+    hit <- which(runif(n) < as.numeric(a[2]))
+    seq[hit] <- substr(paste0(ADAPTER_SEQ[[a[1]]], seq[hit]), 1, nchar(seq[hit]))
+  }
   q   <- vapply(len, function(l) paste(sample(QUAL[[qual]], l, TRUE), collapse = ""), "")
   con <- gzfile(path, "w")
   if (n) writeLines(c(rbind(hdr, seq, "+", q)), con)
@@ -52,7 +66,7 @@ make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna
              Q1 = qs[1], Q2 = qs[2], Q3 = qs[3])
 }
 
-# Each case: files as "n:lengths:header:qual[:rna]", and the expected result
+# Each case: files as "n:lengths:header:qual[:alphabet[:adapter@fraction]]", and the expected result
 cases <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, text = "
 id                   | file1                         | file2                          | platform  | layout    | confidence | flags
 ILLUMINA_PAIRED      | 500:illumina:casava:binned    | 500:illumina:casava:binned     | illumina  | paired    | high       |
@@ -72,6 +86,17 @@ ONT_TWO_FILES        | 500:ont:ont:full              | 500:ont:ont:full         
 FILES_DISAGREE       | 500:illumina:casava:binned    | 500:ont:ont:full               | uncertain | uncertain | uncertain  | FILES_DISAGREE
 EMPTY                | 0:illumina:casava:binned      |                                | uncertain | uncertain | uncertain  |
 ONT_DIRECT_RNA       | 500:ont:ont:full:rna          |                                | ont       | single    | high       | U_BASES
+PACBIO_HIFI_NAMES    | 200:ont:pacbio:full           |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
+PACBIO_CLR_NAMES     | 200:ont:pacbio_clr:full       |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
+PACBIO_NAMES_SHORT   | 500:illumina:pacbio:full      |                                | uncertain | single    | uncertain  | SIGNALS_DISAGREE
+DNBSEQ_NAMES         | 500:illumina:dnbseq:full      | 500:illumina:dnbseq:full       | dnbseq    | paired    | high       | PLATFORM_NOT_HANDLED
+ELEMENT_NAMES        | 500:illumina:element:binned   | 500:illumina:element:binned    | element   | paired    | high       | PLATFORM_NOT_HANDLED
+DNBSEQ_ADAPTER_ONLY  | 500:illumina:plain:full:dna:dnbseq@0.05 |                      | dnbseq    | single    | high       | PLATFORM_NOT_HANDLED
+PACBIO_ADAPTER_ONLY  | 200:ont:plain:full:dna:pacbio@0.2 |                            | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
+ONT_ADAPTER_ONLY     | 500:ont:plain:full:dna:ont@0.05 |                              | ont       | single    | high       |
+ONT_ADAPTER_IN_SHORT | 500:illumina:plain:full:dna:ont@0.05 |                         | illumina  | single    | low        | SIGNALS_DISAGREE
+ILM_ADAPTER_ONLY     | 500:illumina:plain:full:dna:illumina@0.2 |                     | illumina  | single    | medium     |
+ADAPTER_TOO_RARE     | 500:ont:plain:full:dna:ont@0.004 |                             | ont       | single    | medium     |
 ")
 
 run_case <- function(i) {
@@ -82,7 +107,8 @@ run_case <- function(i) {
     p <- strsplit(specs[m], ":")[[1]]
     path  <- file.path(tmp, sprintf("%s_R%d.fastq.gz", cs$id, m))
     rows[[m]] <- make_fastq(path, as.integer(p[1]), p[2], p[3], p[4], mate = m,
-                            alphabet = if (length(p) > 4) p[5] else "dna")
+                            alphabet = if (length(p) > 4) p[5] else "dna",
+                            adapter  = if (length(p) > 5) p[6] else NULL)
     paths <- c(paths, path)
   }
   stats <- file.path(tmp, paste0(cs$id, ".stats.tsv"))

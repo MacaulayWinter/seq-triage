@@ -1,0 +1,2 @@
+run	ena_truth	adjudicated_truth	reviewed	evidence
+SRR24724636	illumina	dnbseq	2026-10-20	ENA instrument_model says "Illumina NovaSeq 6000" (all 15 runs of PRJNA975880), but the submitter's own design description (experiment SRX20502638) says "Pair-end sequencing was run using DNBSEQ-G400RS High-Throughput Sequencing Set (App-A FCL PE100) on DNBSEQ-G400RS (MGI, China)", and every read name is an MGI flowcell name (V350004723L1C001R003...). Library: NEBNext (Illumina-compatible) converted with MGI App-A.

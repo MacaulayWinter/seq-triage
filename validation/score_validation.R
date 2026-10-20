@@ -3,7 +3,10 @@
 # score_validation.R: score layers A, B and C against their pass marks
 #                     (CLAUDE.md D37). Pass marks were fixed before any run.
 #
-# A  Platform calls vs ENA's instrument platform. Pass mark: ZERO wrong calls
+# A  Platform calls vs ENA's instrument platform, corrected only where a
+#    review by hand found ENA wrong (validation/adjudications.tsv: every
+#    correction lists its evidence, and both truths are kept in the output).
+#    Pass mark: ZERO wrong calls
 #    at high confidence. "uncertain" is never wrong; for platforms seq-triage
 #    does not handle (PacBio, DNBSEQ, Element, Ion Torrent) it is the right answer.
 # B  Independent recalculation (independent_metrics.R output). Pass mark:
@@ -33,6 +36,12 @@ p <- panel[panel$role %in% c("panel", "backup"), ]
 a <- merge(pres[, c("sample", "stratum", "run", "detected_platform", "confidence", "detected_layout", "detection_flags")],
            p[, c("run_accession", "truth", "library_layout", "instrument_model", "scientific_name")],
            by.x = "run", by.y = "run_accession")
+adj_file <- file.path(dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))), "adjudications.tsv")
+adj <- if (file.exists(adj_file)) rt(adj_file) else data.frame(run = character(0), adjudicated_truth = character(0), evidence = character(0))
+a$ena_truth <- a$truth
+hit <- match(a$run, adj$run)
+a$truth[!is.na(hit)] <- adj$adjudicated_truth[hit[!is.na(hit)]]
+a$adjudicated <- !is.na(hit)
 handled <- c("illumina", "ont")
 a$outcome <- ifelse(a$detected_platform == "uncertain",
                     ifelse(a$truth %in% handled, "uncertain (missed)", "uncertain (correct: not handled)"),
@@ -41,7 +50,7 @@ a$outcome <- ifelse(a$detected_platform == "uncertain",
 a$wrong_high <- grepl("^WRONG", a$outcome) & a$confidence == "high"
 a$layout_ok  <- ifelse(a$detected_platform %in% handled & a$truth %in% handled,
                        (a$library_layout == "PAIRED") == (a$detected_layout == "paired"), NA)
-a <- a[order(a$stratum, a$run), c("stratum", "run", "instrument_model", "scientific_name", "truth", "detected_platform",
+a <- a[order(a$stratum, a$run), c("stratum", "run", "instrument_model", "scientific_name", "ena_truth", "adjudicated", "truth", "detected_platform",
                                   "confidence", "outcome", "wrong_high", "library_layout", "detected_layout",
                                   "layout_ok", "detection_flags")]
 write.table(a, file.path(out, "layer_A.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -74,6 +83,7 @@ line("LAYER A  %d runs. Wrong at high confidence: %d (pass mark 0) -> %s", nrow(
      if (sum(a$wrong_high) == 0) "PASS" else "FAIL")
 print(table(a$stratum, a$outcome))
 line("         Layout correct for %d of %d called runs", sum(a$layout_ok, na.rm = TRUE), sum(!is.na(a$layout_ok)))
+if (any(a$adjudicated)) line("         Truth corrected by review for: %s (see adjudications.tsv)", paste(a$run[a$adjudicated], collapse = ", "))
 line("LAYER B  %d checks: %d PASS, %d FAIL, %d MISSING -> %s", nrow(layerB), sum(layerB$result == "PASS"),
      sum(layerB$result == "FAIL"), sum(layerB$result == "MISSING"),
      if (all(layerB$result == "PASS")) "PASS" else "FAIL")

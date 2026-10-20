@@ -92,8 +92,10 @@ def seqkitRows(String sample, tsv) {
  * Then one safety rule (D33): a sample headed for ONT QC with two files is
  * stopped ('unrouted', routed_by 'blocked'). Nanopore reads are never
  * paired, and NanoPlot fails on two files, which would stop the whole run.
+ * A sample confidently identified as a platform with no QC here (PacBio,
+ * MGI/DNBSEQ, Element) is also 'unrouted' (routed_by 'unsupported', D40).
  * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unrouted') and
- * routed_by ('detected' | 'declared' | 'blocked' | 'none').
+ * routed_by ('detected' | 'declared' | 'blocked' | 'unsupported' | 'none').
  */
 def routeSample(Map meta) {
     def r
@@ -108,6 +110,11 @@ def routeSample(Map meta) {
     }
     if (r.route == 'ont' && meta.n_files > 1) {
         r = [ route: 'unrouted', routed_by: 'blocked' ]
+    }
+    // A named platform seq-triage has no QC for (PacBio, MGI/DNBSEQ,
+    // Element; D40): reported by name, no QC.
+    if (r.routed_by == 'detected' && !(r.route in [ 'illumina', 'ont' ])) {
+        r = [ route: 'unrouted', routed_by: 'unsupported' ]
     }
     return meta + r
 }

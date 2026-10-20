@@ -40,9 +40,27 @@ samplesheet ─► validate (nf-schema) ─┬─► read statistics (seqkit) �
 | high confidence | contradicts | detected | WARN (metadata contradicts reads) |
 | low or medium | present | declared | WARN (not confirmed by reads) |
 | uncertain | missing | not routed | UNCERTAIN |
+| PacBio, MGI/DNBSEQ or Element (named) | any | not routed | UNCERTAIN (platform not handled in v0.1) |
 | empty file | any | not routed | FAIL |
 
-QC metrics can lower a verdict but never raise it. Every metric in the report
+**How the platform is detected.** Read lengths make the call: Illumina reads
+are short and nearly all the same length; nanopore reads are long and vary
+widely. Independent evidence then sets the confidence:
+
+- **read names**, which each instrument writes in its own fixed format;
+- **library adapters**, synthetic sequences each platform's kits attach to
+  the DNA, often still present in some reads;
+- **quality values**: NovaSeq and NextSeq use only a handful of distinct scores.
+
+PacBio, MGI/DNBSEQ and Element are recognised by their read names (and
+PacBio and MGI by their adapters) and reported by name, without QC.
+Illumina adapters never raise confidence, because Element and MGI
+instruments can sequence converted Illumina libraries. The rules and their
+calibration are in CLAUDE.md (D33, D40); how well they work on data they
+were not tuned on is in [docs/validation.md](docs/validation.md).
+
+QC metrics can lower a verdict but never raise it. If quality cannot be
+assessed (every base has the same score), a sample cannot PASS. Every metric in the report
 comes with an explanation of what it measures and how to read it, from
 [`assets/metric_guide.tsv`](assets/metric_guide.tsv). The thresholds there
 are provisional defaults and are labelled as such.
