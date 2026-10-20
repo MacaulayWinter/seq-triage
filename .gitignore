@@ -1,0 +1,53 @@
+# .gitignore for seq-triage
+# Lists files git must never track. Each block says why.
+
+# --- Nextflow runtime -------------------------------------------------------
+# work/ holds every task's intermediate files and grows to gigabytes.
+# .nextflow/ is Nextflow's run cache (used by -resume). Both are disposable
+# and rebuilt on every run, so neither belongs in history.
+work/
+.nextflow/
+.nextflow.log*
+# Default output directory, plus "null/", which appears if --outdir is unset.
+results/
+null/
+# nf-test scratch space, in case tests are added later.
+.nf-test/
+.nf-test.log
+
+# --- Sequencing data: never commit, anywhere in the tree --------------------
+# Hard rule: no real research data in this repo. Test data is referenced by
+# public URL in assets/samplesheet_test.csv, never stored here. Blocking the
+# extensions as well is a second line of defence: a stray `git add .` cannot
+# pick up a FASTQ even if one is copied into the folder by mistake.
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.cram
+*.crai
+*.sam
+*.pod5
+*.fast5
+*.sra
+
+# --- Local scratch -----------------------------------------------------------
+# A place for ad hoc test runs and samplesheets pointing at local files.
+testing/
+scratch/
+
+# --- R -----------------------------------------------------------------------
+.Rhistory
+.RData
+.Rproj.user/
+
+# --- macOS and editors -------------------------------------------------------
+.DS_Store
+.vscode/
+.idea/
+
+# --- Secrets -----------------------------------------------------------------
+# Nothing in this pipeline needs credentials; this is a guard, not a hint.
+.env
