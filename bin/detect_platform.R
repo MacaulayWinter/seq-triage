@@ -122,9 +122,18 @@ core_call <- function(row) {
 
 # seqkit stats --tabular --all: one row per file. Match rows to the read
 # files by name rather than trusting row order.
-stats <- read.delim(stats_tsv, check.names = FALSE, stringsAsFactors = FALSE)
+# seqkit can fail SILENTLY: on a truncated gzip it prints "unexpected EOF"
+# but exits 0 and writes a table with no row for that file (found in
+# validation round 1). So a missing row means seqkit could not read the file.
+stats <- read.delim(stats_tsv, check.names = FALSE, stringsAsFactors = FALSE, colClasses = c(file = "character"))
+unread <- reads[!basename(reads) %in% basename(stats$file)]
+if (length(unread)) {
+  stop(sprintf(paste("Sample %s: seqkit could not read %s.",
+                     "The file is probably truncated or corrupt (for example, an interrupted download).",
+                     "Check it with: gzip -t <file>"),
+               sample_id, paste(basename(unread), collapse = " and ")), call. = FALSE)
+}
 stats <- stats[match(basename(reads), basename(stats$file)), , drop = FALSE]
-if (anyNA(stats$file)) stop("seqkit stats has no row for: ", paste(reads[is.na(stats$file)], collapse = ", "))
 
 n_files <- length(reads)
 n_reads <- as.numeric(stats$num_seqs)
