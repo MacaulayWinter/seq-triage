@@ -106,7 +106,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D28 | **Walking skeleton first; nothing reaches `main` untested.** Each feature is built on its own branch. CI (`.github/workflows/ci.yml`) runs the R unit tests, installs from `environment.yml`, runs `-profile test` end to end, and checks the results with `tests/e2e/check_test_profile.R` (every row has a verdict, verdicts match `tests/e2e/expected_verdicts.tsv`, no FASTQ published, every tool versioned). Merge only when green. | User requirement (2026-10-20): test code end to end at the earliest version, not just publish it. The first end-to-end run immediately caught a bug the unit tests missed (false `MATES_POSSIBLY_SWAPPED` on single-file `test_2.fastq.gz`), now fixed with regression tests. |
 | D29 | **`meta` carries only what downstream tasks need.** Screen flag counts and raw values stay in the screen TSV, which the report reads directly. | `meta` is part of every task's cache key. Tested: with the flag count in `meta`, a screen wording change re-ran NanoPlot. Without it, only SCREEN_METADATA and TRIAGE_REPORT re-run (20/22 cached). |
 | D31 | **Own test data lives in a separate public repo, `MacaulayWinter/seq-triage-test-data`**, pinned by commit (`b18e39da`). It holds subsamples of public ENA runs only, with accession, cutting command and checksums in its README. First contents: *E. coli* ECE107 (PRJNA1287288), NovaSeq SRR36800568 (first 120,000 pairs, 19 MB) and R10.4.1 SRR34410547 (first 12,000 reads, 89 MB). Added to the test samplesheet as `ECE107_NOVASEQ` and `ECE107_R10`. | User chose option A (2026-10-20): CI must show a PASS under the real thresholds, not test-only ones. Hosted data is needed for `-profile test` to stay one command; a separate repo is the nf-core test-datasets model and keeps the "no data in this repo" rule. ECE107 was chosen over the bacass *Klebsiella* (no documented source) for traceable provenance, a current instrument, and the same isolate on both platforms. |
-| D32 | **Keep the Illumina 100,000-read floor for now.** | User decision, 2026-10-20. The survey shows three real runs clear it and one (97,729 pairs) falls just under. Depth of coverage is the better measure, but it needs a genome size (v0.2). |
+| D32 | **Keep the Illumina 100,000-read floor for now, counted as fastp counts it: reads, both mates included** (so 50,000 pairs for paired data). | User decisions, 2026-10-20. Matches the tool's own number, so the report quotes exactly what fastp says. Every real paired run in the survey clears it, including Portiera at 97,729 pairs (195,458 reads); only the 100-pair SARS-CoV-2 file fails. Depth of coverage is the better measure, but it needs a genome size (v0.2). |
 | D30 | **Pin everything external by immutable reference:** test data by nf-core/test-datasets commit (`76179c1c`), R image by digest (`rocker/r-ver:4.5.2@sha256:fd4ccdd3...`), GitHub Actions by commit SHA (tag in a comment), Miniforge installer `26.7.2-0`, Nextflow via `NXF_VER`. Avoid releases younger than about two weeks (upload-artifact v7.0.1 chosen over v7.0.2, which was 13 days old). | Tags and branches can move; commits and digests cannot. SHA-pinned actions also close a known supply-chain risk. |
 
 ## Test data findings (2026-10-20, inspected with seqkit 2.13.0)
@@ -137,7 +137,7 @@ Implications:
 | A1403KPN (bacass) | Illumina NextSeq 500 | 643,986 pairs | 150 | 96 / 95 | 30.3 | **PASS** |
 | ERR044595 (bacass) | Illumina HiSeq 2000, 75 bp, old `#idx/1` headers | 1,000,000 pairs | 75 | 96 / 95 | 28.3 | **PASS** |
 | ERR5766176 (taxprofiler) | Illumina MiSeq | 632,060 pairs | 151 | 91 / 85 | 24.6 | **PASS** |
-| SRR2838702 Portiera (modules) | Illumina HiSeq 2500 via SRA | 97,729 pairs | 101 | 93 / 89 | 21.8 | WARN (reads) |
+| SRR2838702 Portiera (modules) | Illumina HiSeq 2500 via SRA | 97,729 pairs | 101 | 93 / 89 | 21.8 | **PASS** (195,458 reads; first written as WARN by counting pairs, corrected under D32) |
 | sarscov2 test (modules) | Illumina NextSeq | 100 pairs | 150 | 88 | 24.9 | FAIL (reads) |
 | ECE107 R10 (ENA SRR34410547, first 12k) | ONT R10.4.1 MinION | 12,000 | 15,463 | 72 | 16.7 | **PASS** |
 | A1403KPN ONT (bacass) | ONT, older chemistry | 28,803 | 4,886 | 5 | 10.3 | WARN (N50) |
@@ -157,13 +157,12 @@ Findings:
 - **Screen on real file names:** 11 flags on 11 rows, all correct. No false `MATES_POSSIBLY_SWAPPED` on accession `_1`/`_2` names. One debatable flag: sample `A1403KPN_ont` with file `A1403KPN.fq.gz` gets `BASENAME_MISMATCH` (the ID has a suffix the file lacks). Decide whether that is noise.
 
 **First end-to-end run with ECE107 (2026-10-20, local, emulate_amd64):** 29/29 tasks in 3 min, e2e checks 4/4. Tool output checked against `metric_guide.tsv`:
-- **fastp: all 9 `source_field` paths exist** (ECE107_NOVASEQ: 236,248 reads after filtering, Q30 0.88, duplication 0.013, insert peak 209). But `total_reads` **counts both mates**: 120,000 pairs = 240,000 reads. The 100,000 floor therefore means 50,000 pairs. Decide which is intended before the report applies it.
+- **fastp: all 9 `source_field` paths exist** (ECE107_NOVASEQ: 236,248 reads after filtering, Q30 0.88, duplication 0.013, insert peak 209). But `total_reads` **counts both mates**: 120,000 pairs = 240,000 reads. The 100,000 floor therefore means 50,000 pairs, which the user confirmed is intended (D32).
 - fastp single-end JSON has **no `adapter_cutting` or `insert_size` section**. The report must treat these as "not available", not as zero or an error.
 - **NanoPlot: the guide's field names (`mean_qual`, `n50`, `number_of_reads` ...) do not appear in `NanoStats.txt`**, which uses labels ("Mean read quality:"). They are the keys of NanoPlot's `--tsv_stats` output. Fix when the report reads metrics: add `--tsv_stats` to `NANOPLOT` `ext.args`. ECE107_R10: mean read quality 16.6 (seqkit said 16.7), N50 15,463, 12,000 reads, so it clears every ONT floor.
 
 ## Open questions
 
-- **Illumina read-count floor: reads or pairs?** fastp counts both mates. Survey table above counts pairs. See ECE107 run note.
 - **BASENAME_MISMATCH when the sample ID is the file name plus a suffix** (`A1403KPN_ont` vs `A1403KPN.fq.gz`): warn (current) or accept? Found in the survey.
 - **Do screen flags affect the verdict ceiling?** Currently they are listed as notes only. LAYOUT_CONFLICT, MATES_POSSIBLY_SWAPPED and ID_COLLISION arguably should cap at WARN.
 - **Known gap:** an ONT-routed sample with two FASTQs makes NanoPlot fail, which stops the run under D18. Route it to `unrouted` (or join files) when detection lands.
