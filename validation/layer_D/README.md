@@ -86,7 +86,7 @@ the background and the *Enterobacter* under-detection comes from the cap.
 **1. Copy the updated code to the HPC** (on your Mac):
 
 ```bash
-rsync -av --exclude work --exclude .nextflow --exclude 'results' --exclude '.nextflow.log*' ~/Documents/Bioinformatics_pipelines/seq-triage isca:~/
+rsync -av --exclude work --exclude .nextflow --exclude .nf-test --exclude 'results' --exclude '.nextflow.log*' ~/Documents/Bioinformatics_pipelines/seq-triage isca:~/
 ```
 
 `settings.config` lives only on the HPC, and rsync leaves it alone.

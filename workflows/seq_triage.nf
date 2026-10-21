@@ -18,6 +18,7 @@ include { MULTIQC         } from '../modules/nf-core/multiqc/main'
 include { UNTAR           } from '../modules/nf-core/untar/main'
 include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../modules/nf-core/kraken2/kraken2/main'
 include { BRACKEN_BRACKEN as BRACKEN } from '../modules/nf-core/bracken/bracken/main'
+include { KRAKEN2_BATCH   } from '../modules/local/kraken2_batch/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
 // "not present" throughout the pipeline (CLAUDE.md D22).
@@ -262,9 +263,30 @@ workflow SEQ_TRIAGE {
         } else {
             ch_db = channel.value(file(params.kraken2_db, checkIfExists: true))
         }
-        KRAKEN2(ch_routed.illumina.mix(ch_routed.ont), ch_db, false, false)
-        ch_kraken_reports = KRAKEN2.out.report
-        BRACKEN(KRAKEN2.out.report.filter { meta, report -> meta.route == 'illumina' && maxSpeciesReads(report) >= 10 }, ch_db)
+        ch_to_classify = ch_routed.illumina.mix(ch_routed.ont)
+        if (params.kraken2_batch) {
+            // One task for every sample: the database is read once (D50).
+            // Files are staged as in1/, in2/, ... (several samples may share
+            // a file), and the manifest maps each sample to its files.
+            ch_batch = ch_to_classify.toList()
+                .filter { items -> items.size() > 0 }
+                .map { items ->
+                    def files = []
+                    def lines = items.collect { meta, reads ->
+                        def staged = [ reads ].flatten().collect { r -> files << r; "in${files.size()}/${r.name}" }
+                        [ meta.id, meta.single_end ? 'true' : 'false', staged.join(',') ].join('\t')
+                    }
+                    [ items.collect { item -> item[0] }, lines.join('\n'), files ]
+                }
+            KRAKEN2_BATCH(ch_batch, ch_db)
+            ch_kraken_reports = KRAKEN2_BATCH.out.reports.flatMap { metas, reports ->
+                [ reports ].flatten().collect { r -> [ metas.find { m -> r.name == "${m.id}.kraken2.report.txt" }, r ] }
+            }
+        } else {
+            KRAKEN2(ch_to_classify, ch_db, false, false)
+            ch_kraken_reports = KRAKEN2.out.report
+        }
+        BRACKEN(ch_kraken_reports.filter { meta, report -> meta.route == 'illumina' && maxSpeciesReads(report) >= 10 }, ch_db)
         ch_bracken_tables = BRACKEN.out.reports
     }
 
