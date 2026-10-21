@@ -1,0 +1,4 @@
+kraken2_db_name	kraken2_db
+hash_k2d_bytes	8000000032
+libraries	archaea:1289 bacteria:141909 human:729 plasmid:114949 UniVec_Core:3155 viral:18678 
+files_dated	2025-10-15

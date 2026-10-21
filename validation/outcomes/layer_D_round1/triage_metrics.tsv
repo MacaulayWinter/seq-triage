@@ -1,0 +1,365 @@
+sample	metric	value	unit	warn	fail	result	note
+D_CTRL_ECOLI_ILM	total_reads	196,928	reads	100,000	1,000	PASS	
+D_CTRL_ECOLI_ILM	q30_rate	88.0%	fraction	75.0%	70.0%	PASS	
+D_CTRL_ECOLI_ILM	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+D_CTRL_ECOLI_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_CTRL_ECOLI_ILM	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+D_CTRL_ECOLI_ILM	gc_content	50.6%	fraction			info	
+D_CTRL_ECOLI_ILM	insert_size_peak	199	bp			info	
+D_CTRL_ECOLI_ILM	mean_read_length	143	bp			info	
+D_CTRL_ECOLI_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_CTRL_ECOLI_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_CTRL_ECOLI_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_CTRL_ECOLI_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_CTRL_ECOLI_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_CTRL_ECOLI_ILM	off_target_fraction	0.94%	fraction	5.0%	20.0%	PASS	
+D_CTRL_ECOLI_ILM	unclassified_fraction	9.1%	fraction			info	
+D_CTRL_ECOLI_ILM	dominant_species	Escherichia coli / Shigella (99.1% of species-level reads, Bracken)	label			info	
+D_CTRL_ECOLI_ILM	top_species	Escherichia coli / Shigella 99.1%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_CTRL_ECOLI_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_CTRL_ECOLI_ONT	total_bases	98,127,894	bp			info	
+D_CTRL_ECOLI_ONT	read_n50	15,463	bp	5,000	1,000	PASS	
+D_CTRL_ECOLI_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_CTRL_ECOLI_ONT	median_read_length	4,692	bp			info	
+D_CTRL_ECOLI_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_CTRL_ECOLI_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_CTRL_ECOLI_ONT	off_target_fraction	2.6%	fraction	5.0%	20.0%	PASS	
+D_CTRL_ECOLI_ONT	unclassified_fraction	2.3%	fraction			info	
+D_CTRL_ECOLI_ONT	dominant_species	Escherichia coli / Shigella (97.4% of species-level reads, Kraken2)	label			info	
+D_CTRL_ECOLI_ONT	top_species	Escherichia coli / Shigella 97.4%; Klebsiella pneumoniae 0.5%; Klebsiella michiganensis 0.4%	label			info	
+D_HUMAN_0.5_ILM	total_reads	196,928	reads	100,000	1,000	PASS	
+D_HUMAN_0.5_ILM	q30_rate	88.1%	fraction	75.0%	70.0%	PASS	
+D_HUMAN_0.5_ILM	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+D_HUMAN_0.5_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_HUMAN_0.5_ILM	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+D_HUMAN_0.5_ILM	gc_content	50.6%	fraction			info	
+D_HUMAN_0.5_ILM	insert_size_peak	209	bp			info	
+D_HUMAN_0.5_ILM	mean_read_length	143	bp			info	
+D_HUMAN_0.5_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_0.5_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_HUMAN_0.5_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_HUMAN_0.5_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_HUMAN_0.5_ILM	host_fraction	0.49%	fraction	1.0%	10.0%	PASS	
+D_HUMAN_0.5_ILM	off_target_fraction	0.95%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_0.5_ILM	unclassified_fraction	9.1%	fraction			info	
+D_HUMAN_0.5_ILM	dominant_species	Escherichia coli / Shigella (99.1% of species-level reads, Bracken)	label			info	
+D_HUMAN_0.5_ILM	top_species	Escherichia coli / Shigella 99.1%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_HUMAN_0.5_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_HUMAN_0.5_ONT	total_bases	97,784,433	bp			info	
+D_HUMAN_0.5_ONT	read_n50	15,492	bp	5,000	1,000	PASS	
+D_HUMAN_0.5_ONT	mean_read_quality	Q16.7	Phred	Q10.0	Q7.0	PASS	
+D_HUMAN_0.5_ONT	median_read_length	4,664	bp			info	
+D_HUMAN_0.5_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_0.5_ONT	host_fraction	0.48%	fraction	1.0%	10.0%	PASS	
+D_HUMAN_0.5_ONT	off_target_fraction	2.6%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_0.5_ONT	unclassified_fraction	2.3%	fraction			info	
+D_HUMAN_0.5_ONT	dominant_species	Escherichia coli / Shigella (97.4% of species-level reads, Kraken2)	label			info	
+D_HUMAN_0.5_ONT	top_species	Escherichia coli / Shigella 97.4%; Klebsiella pneumoniae 0.5%; Klebsiella michiganensis 0.4%	label			info	
+D_HUMAN_2_ILM	total_reads	196,874	reads	100,000	1,000	PASS	
+D_HUMAN_2_ILM	q30_rate	88.2%	fraction	75.0%	70.0%	PASS	
+D_HUMAN_2_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_HUMAN_2_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_HUMAN_2_ILM	adapter_trimmed_pct	0.23%	fraction	30.0%		PASS	
+D_HUMAN_2_ILM	gc_content	50.4%	fraction			info	
+D_HUMAN_2_ILM	insert_size_peak	209	bp			info	
+D_HUMAN_2_ILM	mean_read_length	143	bp			info	
+D_HUMAN_2_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_2_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_HUMAN_2_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_HUMAN_2_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_HUMAN_2_ILM	host_fraction	1.9%	fraction	1.0%	10.0%	WARN	
+D_HUMAN_2_ILM	off_target_fraction	0.95%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_2_ILM	unclassified_fraction	9.0%	fraction			info	
+D_HUMAN_2_ILM	dominant_species	Escherichia coli / Shigella (99.0% of species-level reads, Bracken)	label			info	
+D_HUMAN_2_ILM	top_species	Escherichia coli / Shigella 99.0%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_HUMAN_2_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_HUMAN_2_ONT	total_bases	98,015,132	bp			info	
+D_HUMAN_2_ONT	read_n50	15,658	bp	5,000	1,000	PASS	
+D_HUMAN_2_ONT	mean_read_quality	Q16.7	Phred	Q10.0	Q7.0	PASS	
+D_HUMAN_2_ONT	median_read_length	4,633	bp			info	
+D_HUMAN_2_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_2_ONT	host_fraction	1.9%	fraction	1.0%	10.0%	WARN	
+D_HUMAN_2_ONT	off_target_fraction	2.7%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_2_ONT	unclassified_fraction	2.3%	fraction			info	
+D_HUMAN_2_ONT	dominant_species	Escherichia coli / Shigella (97.3% of species-level reads, Kraken2)	label			info	
+D_HUMAN_2_ONT	top_species	Escherichia coli / Shigella 97.3%; Klebsiella pneumoniae 0.5%; Klebsiella michiganensis 0.4%	label			info	
+D_HUMAN_10_ILM	total_reads	196,946	reads	100,000	1,000	PASS	
+D_HUMAN_10_ILM	q30_rate	88.8%	fraction	75.0%	70.0%	PASS	
+D_HUMAN_10_ILM	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+D_HUMAN_10_ILM	duplication_rate	1.7%	fraction	30.0%		PASS	
+D_HUMAN_10_ILM	adapter_trimmed_pct	0.27%	fraction	30.0%		PASS	
+D_HUMAN_10_ILM	gc_content	49.6%	fraction			info	
+D_HUMAN_10_ILM	insert_size_peak	209	bp			info	
+D_HUMAN_10_ILM	mean_read_length	144	bp			info	
+D_HUMAN_10_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_10_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_HUMAN_10_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_HUMAN_10_ILM	fastqc_per_sequence_gc_content	FAIL	status			info	
+D_HUMAN_10_ILM	host_fraction	9.7%	fraction	1.0%	10.0%	WARN	
+D_HUMAN_10_ILM	off_target_fraction	1.00%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_10_ILM	unclassified_fraction	8.5%	fraction			info	
+D_HUMAN_10_ILM	dominant_species	Escherichia coli / Shigella (99.0% of species-level reads, Bracken)	label			info	
+D_HUMAN_10_ILM	top_species	Escherichia coli / Shigella 99.0%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_HUMAN_10_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_HUMAN_10_ONT	total_bases	98,692,351	bp			info	
+D_HUMAN_10_ONT	read_n50	16,816	bp	5,000	1,000	PASS	
+D_HUMAN_10_ONT	mean_read_quality	Q16.9	Phred	Q10.0	Q7.0	PASS	
+D_HUMAN_10_ONT	median_read_length	4,474	bp			info	
+D_HUMAN_10_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_10_ONT	host_fraction	9.4%	fraction	1.0%	10.0%	WARN	
+D_HUMAN_10_ONT	off_target_fraction	3.3%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_10_ONT	unclassified_fraction	2.1%	fraction			info	
+D_HUMAN_10_ONT	dominant_species	Escherichia coli / Shigella (96.7% of species-level reads, Kraken2)	label			info	
+D_HUMAN_10_ONT	top_species	Escherichia coli / Shigella 96.7%; Lymphocryptovirus humangamma4 0.8%; Klebsiella pneumoniae 0.5%	label			info	
+D_HUMAN_30_ILM	total_reads	197,188	reads	100,000	1,000	PASS	
+D_HUMAN_30_ILM	q30_rate	90.3%	fraction	75.0%	70.0%	PASS	
+D_HUMAN_30_ILM	passed_filter_pct	98.6%	fraction	90.0%	70.0%	PASS	
+D_HUMAN_30_ILM	duplication_rate	2.6%	fraction	30.0%		PASS	
+D_HUMAN_30_ILM	adapter_trimmed_pct	0.37%	fraction	30.0%		PASS	
+D_HUMAN_30_ILM	gc_content	47.6%	fraction			info	
+D_HUMAN_30_ILM	insert_size_peak	226	bp			info	
+D_HUMAN_30_ILM	mean_read_length	145	bp			info	
+D_HUMAN_30_ILM	n_base_rate	0.04%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_30_ILM	fastqc_per_base_sequence_content	WARN	status			info	
+D_HUMAN_30_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_HUMAN_30_ILM	fastqc_per_sequence_gc_content	FAIL	status			info	
+D_HUMAN_30_ILM	host_fraction	29.3%	fraction	1.0%	10.0%	FAIL	
+D_HUMAN_30_ILM	off_target_fraction	0.28%	fraction	5.0%	20.0%	PASS	
+D_HUMAN_30_ILM	unclassified_fraction	7.1%	fraction			info	
+D_HUMAN_30_ILM	dominant_species	Escherichia coli / Shigella (99.7% of species-level reads, Bracken)	label			info	
+D_HUMAN_30_ILM	top_species	Escherichia coli / Shigella 99.7%; Klebsiella pneumoniae 0.1%; Escherichia albertii 0.1%	label			info	
+D_HUMAN_30_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_HUMAN_30_ONT	total_bases	98,773,991	bp			info	
+D_HUMAN_30_ONT	read_n50	19,824	bp	5,000	1,000	PASS	
+D_HUMAN_30_ONT	mean_read_quality	Q17.5	Phred	Q10.0	Q7.0	PASS	
+D_HUMAN_30_ONT	median_read_length	4,000	bp			info	
+D_HUMAN_30_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_30_ONT	host_fraction	28.4%	fraction	1.0%	10.0%	FAIL	
+D_HUMAN_30_ONT	off_target_fraction	5.2%	fraction	5.0%	20.0%	WARN	
+D_HUMAN_30_ONT	unclassified_fraction	1.7%	fraction			info	
+D_HUMAN_30_ONT	dominant_species	Escherichia coli / Shigella (94.8% of species-level reads, Kraken2)	label			info	
+D_HUMAN_30_ONT	top_species	Escherichia coli / Shigella 94.8%; Lymphocryptovirus humangamma4 2.6%; Klebsiella pneumoniae 0.5%	label			info	
+D_HUMAN_10_META_ILM	total_reads	196,946	reads	100,000	1,000	PASS	
+D_HUMAN_10_META_ILM	q30_rate	88.8%	fraction	75.0%	70.0%	PASS	
+D_HUMAN_10_META_ILM	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+D_HUMAN_10_META_ILM	duplication_rate	1.7%	fraction	30.0%		PASS	
+D_HUMAN_10_META_ILM	adapter_trimmed_pct	0.27%	fraction	30.0%		PASS	
+D_HUMAN_10_META_ILM	gc_content	49.6%	fraction			info	
+D_HUMAN_10_META_ILM	insert_size_peak	199	bp			info	
+D_HUMAN_10_META_ILM	mean_read_length	144	bp			info	
+D_HUMAN_10_META_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_10_META_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_HUMAN_10_META_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_HUMAN_10_META_ILM	fastqc_per_sequence_gc_content	FAIL	status			info	known false alarm for metagenome libraries
+D_HUMAN_10_META_ILM	host_fraction	9.7%	fraction	1.0%	10.0%	exempt	not judged: metagenome library
+D_HUMAN_10_META_ILM	off_target_fraction	1.00%	fraction	5.0%	20.0%	exempt	not judged: metagenome library
+D_HUMAN_10_META_ILM	unclassified_fraction	8.5%	fraction			info	
+D_HUMAN_10_META_ILM	dominant_species	Escherichia coli / Shigella (99.0% of species-level reads, Bracken)	label			info	
+D_HUMAN_10_META_ILM	top_species	Escherichia coli / Shigella 99.0%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_HUMAN_10_META_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_HUMAN_10_META_ONT	total_bases	98,692,351	bp			info	
+D_HUMAN_10_META_ONT	read_n50	16,816	bp	5,000	1,000	PASS	
+D_HUMAN_10_META_ONT	mean_read_quality	Q16.9	Phred	Q10.0	Q7.0	PASS	
+D_HUMAN_10_META_ONT	median_read_length	4,474	bp			info	
+D_HUMAN_10_META_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_HUMAN_10_META_ONT	host_fraction	9.4%	fraction	1.0%	10.0%	exempt	not judged: metagenome library
+D_HUMAN_10_META_ONT	off_target_fraction	3.3%	fraction	5.0%	20.0%	exempt	not judged: metagenome library
+D_HUMAN_10_META_ONT	unclassified_fraction	2.1%	fraction			info	
+D_HUMAN_10_META_ONT	dominant_species	Escherichia coli / Shigella (96.7% of species-level reads, Kraken2)	label			info	
+D_HUMAN_10_META_ONT	top_species	Escherichia coli / Shigella 96.7%; Lymphocryptovirus humangamma4 0.8%; Klebsiella pneumoniae 0.5%	label			info	
+D_KPN_2_ILM	total_reads	196,896	reads	100,000	1,000	PASS	
+D_KPN_2_ILM	q30_rate	88.0%	fraction	75.0%	70.0%	PASS	
+D_KPN_2_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_KPN_2_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_KPN_2_ILM	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+D_KPN_2_ILM	gc_content	50.8%	fraction			info	
+D_KPN_2_ILM	insert_size_peak	209	bp			info	
+D_KPN_2_ILM	mean_read_length	143	bp			info	
+D_KPN_2_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_KPN_2_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_KPN_2_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_KPN_2_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_KPN_2_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KPN_2_ILM	off_target_fraction	2.8%	fraction	5.0%	20.0%	PASS	
+D_KPN_2_ILM	unclassified_fraction	9.1%	fraction			info	
+D_KPN_2_ILM	dominant_species	Escherichia coli / Shigella (97.2% of species-level reads, Bracken)	label			info	
+D_KPN_2_ILM	top_species	Escherichia coli / Shigella 97.2%; Klebsiella pneumoniae 2.0%; Salmonella enterica 0.7%	label			info	
+D_KPN_2_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_KPN_2_ONT	total_bases	98,303,151	bp			info	
+D_KPN_2_ONT	read_n50	15,525	bp	5,000	1,000	PASS	
+D_KPN_2_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_KPN_2_ONT	median_read_length	4,682	bp			info	
+D_KPN_2_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_KPN_2_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KPN_2_ONT	off_target_fraction	4.0%	fraction	5.0%	20.0%	PASS	
+D_KPN_2_ONT	unclassified_fraction	2.3%	fraction			info	
+D_KPN_2_ONT	dominant_species	Escherichia coli / Shigella (96.0% of species-level reads, Kraken2)	label			info	
+D_KPN_2_ONT	top_species	Escherichia coli / Shigella 96.0%; Klebsiella pneumoniae 1.8%; Klebsiella michiganensis 0.4%	label			info	
+D_KPN_10_ILM	total_reads	196,888	reads	100,000	1,000	PASS	
+D_KPN_10_ILM	q30_rate	88.0%	fraction	75.0%	70.0%	PASS	
+D_KPN_10_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_KPN_10_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_KPN_10_ILM	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+D_KPN_10_ILM	gc_content	51.3%	fraction			info	
+D_KPN_10_ILM	insert_size_peak	199	bp			info	
+D_KPN_10_ILM	mean_read_length	143	bp			info	
+D_KPN_10_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_KPN_10_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_KPN_10_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_KPN_10_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_KPN_10_ILM	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+D_KPN_10_ILM	off_target_fraction	10.5%	fraction	5.0%	20.0%	WARN	
+D_KPN_10_ILM	unclassified_fraction	9.1%	fraction			info	
+D_KPN_10_ILM	dominant_species	Escherichia coli / Shigella (89.5% of species-level reads, Bracken)	label			info	
+D_KPN_10_ILM	top_species	Escherichia coli / Shigella 89.5%; Klebsiella pneumoniae 9.6%; Salmonella enterica 0.7%	label			info	
+D_KPN_10_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_KPN_10_ONT	total_bases	102,043,028	bp			info	
+D_KPN_10_ONT	read_n50	16,470	bp	5,000	1,000	PASS	
+D_KPN_10_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_KPN_10_ONT	median_read_length	4,833	bp			info	
+D_KPN_10_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_KPN_10_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KPN_10_ONT	off_target_fraction	11.1%	fraction	5.0%	20.0%	WARN	
+D_KPN_10_ONT	unclassified_fraction	2.2%	fraction			info	
+D_KPN_10_ONT	dominant_species	Escherichia coli / Shigella (88.9% of species-level reads, Kraken2)	label			info	
+D_KPN_10_ONT	top_species	Escherichia coli / Shigella 88.9%; Klebsiella pneumoniae 8.6%; Klebsiella michiganensis 0.5%	label			info	
+D_KPN_30_ILM	total_reads	196,804	reads	100,000	1,000	PASS	
+D_KPN_30_ILM	q30_rate	88.0%	fraction	75.0%	70.0%	PASS	
+D_KPN_30_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_KPN_30_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_KPN_30_ILM	adapter_trimmed_pct	0.23%	fraction	30.0%		PASS	
+D_KPN_30_ILM	gc_content	52.6%	fraction			info	
+D_KPN_30_ILM	insert_size_peak	238	bp			info	
+D_KPN_30_ILM	mean_read_length	143	bp			info	
+D_KPN_30_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_KPN_30_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_KPN_30_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_KPN_30_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_KPN_30_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KPN_30_ILM	off_target_fraction	29.9%	fraction	5.0%	20.0%	FAIL	
+D_KPN_30_ILM	unclassified_fraction	9.1%	fraction			info	
+D_KPN_30_ILM	dominant_species	Escherichia coli / Shigella (70.1% of species-level reads, Bracken)	label			info	
+D_KPN_30_ILM	top_species	Escherichia coli / Shigella 70.1%; Klebsiella pneumoniae 28.6%; Salmonella enterica 0.7%	label			info	
+D_KPN_30_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_KPN_30_ONT	total_bases	108,086,162	bp			info	
+D_KPN_30_ONT	read_n50	17,335	bp	5,000	1,000	PASS	
+D_KPN_30_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_KPN_30_ONT	median_read_length	5,159	bp			info	
+D_KPN_30_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_KPN_30_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KPN_30_ONT	off_target_fraction	29.5%	fraction	5.0%	20.0%	FAIL	
+D_KPN_30_ONT	unclassified_fraction	2.1%	fraction			info	
+D_KPN_30_ONT	dominant_species	Escherichia coli / Shigella (70.5% of species-level reads, Kraken2)	label			info	
+D_KPN_30_ONT	top_species	Escherichia coli / Shigella 70.5%; Klebsiella pneumoniae 26.3%; Klebsiella variicola 0.6%	label			info	
+D_ENT_10_ILM	total_reads	196,852	reads	100,000	1,000	PASS	
+D_ENT_10_ILM	q30_rate	88.0%	fraction	75.0%	70.0%	PASS	
+D_ENT_10_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_ENT_10_ILM	duplication_rate	1.4%	fraction	30.0%		PASS	
+D_ENT_10_ILM	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+D_ENT_10_ILM	gc_content	51.1%	fraction			info	
+D_ENT_10_ILM	insert_size_peak	209	bp			info	
+D_ENT_10_ILM	mean_read_length	143	bp			info	
+D_ENT_10_ILM	n_base_rate	0.07%	fraction	1.0%	5.0%	PASS	
+D_ENT_10_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_ENT_10_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_ENT_10_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_ENT_10_ILM	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+D_ENT_10_ILM	off_target_fraction	9.3%	fraction	5.0%	20.0%	WARN	
+D_ENT_10_ILM	unclassified_fraction	9.3%	fraction			info	
+D_ENT_10_ILM	dominant_species	Escherichia coli / Shigella (90.7% of species-level reads, Bracken)	label			info	
+D_ENT_10_ILM	top_species	Escherichia coli / Shigella 90.7%; Enterobacter hormaechei 8.4%; Salmonella enterica 0.7%	label			info	
+D_ENT_10_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_ENT_10_ONT	total_bases	93,765,645	bp			info	
+D_ENT_10_ONT	read_n50	15,179	bp	5,000	1,000	PASS	
+D_ENT_10_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_ENT_10_ONT	median_read_length	4,418	bp			info	
+D_ENT_10_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_ENT_10_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_ENT_10_ONT	off_target_fraction	7.9%	fraction	5.0%	20.0%	WARN	
+D_ENT_10_ONT	unclassified_fraction	2.3%	fraction			info	
+D_ENT_10_ONT	dominant_species	Escherichia coli / Shigella (92.1% of species-level reads, Kraken2)	label			info	
+D_ENT_10_ONT	top_species	Escherichia coli / Shigella 92.1%; Enterobacter hormaechei 4.9%; Klebsiella pneumoniae 0.5%	label			info	
+D_CTRL_KPN_ILM	total_reads	196,704	reads	100,000	1,000	PASS	
+D_CTRL_KPN_ILM	q30_rate	88.4%	fraction	75.0%	70.0%	PASS	
+D_CTRL_KPN_ILM	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+D_CTRL_KPN_ILM	duplication_rate	1.7%	fraction	30.0%		PASS	
+D_CTRL_KPN_ILM	adapter_trimmed_pct	0.27%	fraction	30.0%		PASS	
+D_CTRL_KPN_ILM	gc_content	57.0%	fraction			info	
+D_CTRL_KPN_ILM	insert_size_peak	200	bp			info	
+D_CTRL_KPN_ILM	mean_read_length	143	bp			info	
+D_CTRL_KPN_ILM	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+D_CTRL_KPN_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_CTRL_KPN_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_CTRL_KPN_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_CTRL_KPN_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_CTRL_KPN_ILM	off_target_fraction	4.5%	fraction	5.0%	20.0%	PASS	
+D_CTRL_KPN_ILM	unclassified_fraction	8.7%	fraction			info	
+D_CTRL_KPN_ILM	dominant_species	Klebsiella pneumoniae (95.5% of species-level reads, Bracken)	label			info	
+D_CTRL_KPN_ILM	top_species	Klebsiella pneumoniae 95.5%; Escherichia coli / Shigella 2.1%; Klebsiella variicola 1.0%	label			info	
+D_CTRL_KPN_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_CTRL_KPN_ONT	total_bases	128,490,145	bp			info	
+D_CTRL_KPN_ONT	read_n50	19,921	bp	5,000	1,000	PASS	
+D_CTRL_KPN_ONT	mean_read_quality	Q16.6	Phred	Q10.0	Q7.0	PASS	
+D_CTRL_KPN_ONT	median_read_length	6,172	bp			info	
+D_CTRL_KPN_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_CTRL_KPN_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_CTRL_KPN_ONT	off_target_fraction	9.4%	fraction	5.0%	20.0%	WARN	
+D_CTRL_KPN_ONT	unclassified_fraction	1.5%	fraction			info	
+D_CTRL_KPN_ONT	dominant_species	Klebsiella pneumoniae (90.6% of species-level reads, Kraken2)	label			info	
+D_CTRL_KPN_ONT	top_species	Klebsiella pneumoniae 90.6%; Escherichia coli / Shigella 3.4%; Klebsiella variicola 1.5%	label			info	
+D_KVAR_10_ILM	total_reads	196,696	reads	100,000	1,000	PASS	
+D_KVAR_10_ILM	q30_rate	88.3%	fraction	75.0%	70.0%	PASS	
+D_KVAR_10_ILM	passed_filter_pct	98.3%	fraction	90.0%	70.0%	PASS	
+D_KVAR_10_ILM	duplication_rate	1.7%	fraction	30.0%		PASS	
+D_KVAR_10_ILM	adapter_trimmed_pct	0.28%	fraction	30.0%		PASS	
+D_KVAR_10_ILM	gc_content	56.9%	fraction			info	
+D_KVAR_10_ILM	insert_size_peak	200	bp			info	
+D_KVAR_10_ILM	mean_read_length	143	bp			info	
+D_KVAR_10_ILM	n_base_rate	0.07%	fraction	1.0%	5.0%	PASS	
+D_KVAR_10_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_KVAR_10_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_KVAR_10_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_KVAR_10_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KVAR_10_ILM	off_target_fraction	9.7%	fraction	5.0%	20.0%	WARN	
+D_KVAR_10_ILM	unclassified_fraction	8.9%	fraction			info	
+D_KVAR_10_ILM	dominant_species	Klebsiella pneumoniae (90.3% of species-level reads, Bracken)	label			info	
+D_KVAR_10_ILM	top_species	Klebsiella pneumoniae 90.3%; Klebsiella variicola 6.1%; Escherichia coli / Shigella 2.2%	label			info	
+D_KVAR_10_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_KVAR_10_ONT	total_bases	122,429,281	bp			info	
+D_KVAR_10_ONT	read_n50	19,588	bp	5,000	1,000	PASS	
+D_KVAR_10_ONT	mean_read_quality	Q16.5	Phred	Q10.0	Q7.0	PASS	
+D_KVAR_10_ONT	median_read_length	5,834	bp			info	
+D_KVAR_10_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_KVAR_10_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_KVAR_10_ONT	off_target_fraction	14.7%	fraction	5.0%	20.0%	WARN	
+D_KVAR_10_ONT	unclassified_fraction	2.1%	fraction			info	
+D_KVAR_10_ONT	dominant_species	Klebsiella pneumoniae (85.3% of species-level reads, Kraken2)	label			info	
+D_KVAR_10_ONT	top_species	Klebsiella pneumoniae 85.3%; Klebsiella variicola 6.3%; Escherichia coli / Shigella 3.9%	label			info	
+D_STRAIN_30_ILM	total_reads	196,674	reads	100,000	1,000	PASS	
+D_STRAIN_30_ILM	q30_rate	87.7%	fraction	75.0%	70.0%	PASS	
+D_STRAIN_30_ILM	passed_filter_pct	98.3%	fraction	90.0%	70.0%	PASS	
+D_STRAIN_30_ILM	duplication_rate	1.3%	fraction	30.0%		PASS	
+D_STRAIN_30_ILM	adapter_trimmed_pct	0.26%	fraction	30.0%		PASS	
+D_STRAIN_30_ILM	gc_content	50.6%	fraction			info	
+D_STRAIN_30_ILM	insert_size_peak	209	bp			info	
+D_STRAIN_30_ILM	mean_read_length	143	bp			info	
+D_STRAIN_30_ILM	n_base_rate	0.07%	fraction	1.0%	5.0%	PASS	
+D_STRAIN_30_ILM	fastqc_per_base_sequence_content	FAIL	status			info	
+D_STRAIN_30_ILM	fastqc_overrepresented_sequences	WARN	status			info	
+D_STRAIN_30_ILM	fastqc_per_sequence_gc_content	WARN	status			info	
+D_STRAIN_30_ILM	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_STRAIN_30_ILM	off_target_fraction	1.0%	fraction	5.0%	20.0%	PASS	
+D_STRAIN_30_ILM	unclassified_fraction	9.4%	fraction			info	
+D_STRAIN_30_ILM	dominant_species	Escherichia coli / Shigella (99.0% of species-level reads, Bracken)	label			info	
+D_STRAIN_30_ILM	top_species	Escherichia coli / Shigella 99.0%; Salmonella enterica 0.7%; Klebsiella pneumoniae 0.1%	label			info	
+D_STRAIN_30_ONT	number_of_reads	12,000	reads	10,000	1,000	PASS	
+D_STRAIN_30_ONT	total_bases	104,055,085	bp			info	
+D_STRAIN_30_ONT	read_n50	17,509	bp	5,000	1,000	PASS	
+D_STRAIN_30_ONT	mean_read_quality	Q16.7	Phred	Q10.0	Q7.0	PASS	
+D_STRAIN_30_ONT	median_read_length	4,829	bp			info	
+D_STRAIN_30_ONT	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+D_STRAIN_30_ONT	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+D_STRAIN_30_ONT	off_target_fraction	2.7%	fraction	5.0%	20.0%	PASS	
+D_STRAIN_30_ONT	unclassified_fraction	2.1%	fraction			info	
+D_STRAIN_30_ONT	dominant_species	Escherichia coli / Shigella (97.3% of species-level reads, Kraken2)	label			info	
+D_STRAIN_30_ONT	top_species	Escherichia coli / Shigella 97.3%; Klebsiella pneumoniae 0.5%; Klebsiella michiganensis 0.5%	label			info	

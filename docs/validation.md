@@ -205,7 +205,7 @@ This changes the reading of round 1 in two ways:
    adapters counted as evidence, data like this with stripped read names
    could be called Illumina at high confidence.
 
-## Layer D: contamination screen accuracy (method; results pending)
+## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
 run guide and scripts: [`validation/layer_D/`](../validation/layer_D/).
@@ -233,9 +233,86 @@ run guide and scripts: [`validation/layer_D/`](../validation/layer_D/).
   1. a script bug that stopped the run silently after the pipeline step;
   2. a flaw in the first tolerance. Its 2-point floor would have let a
      complete miss at 0.5% count as a success.
-- **To be run by the user on ISCA** with their Kraken2 database (prebuilt
-  Standard-8, October 2025). Results will be reported here, naming the
-  database.
+- **Run by the user on ISCA (2026-10-21)** with the prebuilt Kraken2
+  **Standard-8** database (Oct 2025, 8 GB cap: archaea, bacteria, plasmid,
+  viral, human, UniVec_Core), pipeline commit `0f5e2ff`, conda + SLURM. The
+  source reads downloaded on ISCA had checksums identical to the local
+  rehearsal's. Tables: [`validation/outcomes/layer_D_round1/`](../validation/outcomes/layer_D_round1/).
+
+### Results, round 1 (pre-registered pass marks)
+
+**19 of 24 scored samples passed, so the pass mark was not met.** The
+second-strain cases behaved as expected: 30% of another *E. coli* strain read
+as 1.0% (Illumina) and 2.7% (nanopore), confirming that species-level
+screening cannot see it.
+
+| | Illumina | Nanopore |
+|---|---|---|
+| **Human (host fraction)**, true 0.5 / 2 / 10 / 30% | 0.5 / 1.9 / 9.7 / 29.3% | 0.5 / 1.9 / 9.4 / 28.4% |
+| Human scored | **6 / 6** | **6 / 6** |
+| Second organism (off-target) scored | 4 / 6 | 3 / 6 |
+
+All five failures were off-target estimates. Pure-culture controls show why:
+a pure culture is never 0% off-target with this database.
+
+| Pure culture | Illumina | Nanopore |
+|---|---|---|
+| *E. coli* ECE107 | 0.9% | 2.6% |
+| *K. pneumoniae* KPE111 | 4.5% | **9.4% (falsely WARNed)** |
+
+The background has three parts:
+1. **A long tail of trace species:** 8 to 53 species, each under 1%, 2.4 to
+   3.1% in total.
+2. **Close relatives:** *K. variicola* and *K. quasipneumoniae* in the
+   *K. pneumoniae* species complex, 1 to 3%.
+3. **"*E. coli*" in pure *Klebsiella*:** 3.4% (nanopore) and 2.1% (Illumina).
+
+### What the "*E. coli*" in pure *Klebsiella* is
+
+Each read's true origin was found by aligning KPE111's reads (minimap2
+2.30) to its own complete genome (GCF_051620725.1: 1 chromosome, 4
+plasmids). That was compared with Kraken2's per-read call, from a separate
+run on ISCA by the user.
+
+| | Nanopore | Illumina |
+|---|---|---|
+| Reads Kraken2 itself called *E. coli* | 205 | 15 |
+| from KPE111's chromosome | **160 (78%)** | 5 |
+| from its plasmids | 45 (22%) | 10 |
+
+- **The plasmid hypothesis is mostly wrong.** Plasmid reads are about four
+  times more likely to be miscalled *E. coli* (5.7% vs 1.5% of reads), but
+  most "*E. coli*" reads are ordinary *Klebsiella* chromosome reads. It is
+  misclassification between related genera, worse with nanopore's higher
+  error rate.
+- **In Illumina, the 2.1% comes from Bracken, not Kraken2.** Kraken2 leaves
+  85% of reads at genus or family level, and Bracken's species re-estimate
+  then assigns some of them to *E. coli*.
+- **So the background is a property of the classifier and database,** not
+  of the sample.
+
+### Change made: trace species no longer count (D47), and what it revealed
+
+Off-target now counts only species at 1% or more of species-level reads.
+The trace tail is reported but not counted. The rule was chosen after seeing
+these controls, so **this round cannot test it**. Applied to the same tables
+only as a preview:
+
+- **Fixed:** `KPN_2` on both platforms and `KVAR_10` nanopore. The *E. coli*
+  controls drop to 0%.
+- **Still over:** pure *K. pneumoniae* nanopore, 9.4 → 6.4%. This is the
+  *E. coli* background above, which a 1% floor cannot remove.
+- **Revealed:** `ENT_10` nanopore reads **4.9%** for a true 10%. Only about
+  half the *Enterobacter* reads get a species call with nanopore and this
+  database; the old estimate was inflated by background. **The screen
+  under-estimates *Enterobacter* contamination in nanopore data with
+  Standard-8.**
+
+**Next:** a second, pre-registered layer D run with **different isolates**
+from the same study, scored against the same pass marks, is what will test
+the D47 rule. Comparing Standard-8 with the full Standard database on the
+same mixtures would separate the effect of the 8 GB cap from the
+classifier itself.
 
 ### Not covered by round 1
 

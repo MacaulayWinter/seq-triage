@@ -89,6 +89,16 @@ cases <- list(
        verdict = "FAIL", check = c(off_target_fraction = "FAIL"), hint = TRUE),
   list(id = "SCREEN_NO_SPECIES",  route = "ont", screen = TRUE, kraken = c("U|0|unclassified" = 999995, "R|1|root" = 5, "S|562|Escherichia coli" = 5, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0),
        verdict = "PASS", check = c(off_target_fraction = "not_available", unclassified_fraction = "info")),
+  # D47: trace species (< 1% each) do not count as off-target, however many;
+  # a real contaminant above 1% still does. 40 trace species of 1,000 reads
+  # each (~0.1% each, ~4% in total) on a clean culture:
+  list(id = "SCREEN_TRACE_TAIL",   route = "ont", screen = TRUE, type = "isolate",
+       kraken = setNames(rep(1000, 40), sprintf("S|%d|Trace species %d", 900001:900040, 1:40)),
+       verdict = "PASS", check = c(off_target_fraction = "PASS")),
+  list(id = "SCREEN_TAIL_PLUS_REAL", route = "ont", screen = TRUE, type = "isolate",
+       kraken = c(setNames(rep(1000, 40), sprintf("S|%d|Trace species %d", 900001:900040, 1:40)),
+                  "S|573|Klebsiella pneumoniae" = 60000),
+       verdict = "WARN", check = c(off_target_fraction = "WARN")),
   # D40: a platform seq-triage names but has no QC for.
   list(id = "UNSUPPORTED_PACBIO", route = "unrouted", routed_by = "unsupported", detected = "pacbio",
        declared = NA, flags = "PLATFORM_NOT_HANDLED", verdict = "UNCERTAIN")
