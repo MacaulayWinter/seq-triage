@@ -308,11 +308,11 @@ only as a preview:
   under-estimates *Enterobacter* contamination in nanopore data with
   Standard-8.**
 
-**Next:** a second, pre-registered layer D run with **different isolates**
-from the same study, scored against the same pass marks, is what will test
-the D47 rule. Comparing Standard-8 with the full Standard database on the
-same mixtures would separate the effect of the 8 GB cap from the
-classifier itself.
+**Next: round 2, pre-registered (D49).** The same 13 mixtures and pass marks
+with different isolates ([`validation/layer_D/round2/`](../validation/layer_D/round2/)),
+run against both Standard-8 and the full Standard database. Round 2 is what
+tests the D47 rule, and the comparison between the two databases separates
+the effect of the 8 GB cap from the classifier itself.
 
 ### Not covered by round 1
 
