@@ -52,8 +52,11 @@ scratch/
 # Nothing in this pipeline needs credentials; this is a guard, not a hint.
 .env
 
-# Layer D: per-site settings (account, partition, database path) stay local
-validation/layer_D/settings.config
-
-# nf-test working folder
-.nf-test/
+# Layer D: per-site settings (account, partition, database path) stay local.
+# Any settings*.config (settings.config, settings_full.config, ...) is ignored;
+# only the template with placeholders is tracked. The run logs written next to
+# them name the account and paths too: a pattern without a folder matches
+# at any depth, so layer_D_*.log is ignored wherever sbatch writes it.
+validation/layer_D/settings*.config
+!validation/layer_D/settings.example.config
+layer_D_*.log

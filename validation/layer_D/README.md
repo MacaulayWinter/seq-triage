@@ -39,7 +39,9 @@ nano validation/layer_D/settings.config
 ```
 
 Fill in your Kraken2 database folder, your partition and your account.
-`settings.config` is ignored by git, so it can never be committed.
+Every `settings*.config` except the example is ignored by git, so your
+settings files can never be committed. Neither can the `layer_D_*.log` run
+logs, which also name your account and paths.
 
 **3. Submit the run:**
 
@@ -89,7 +91,7 @@ the background and the *Enterobacter* under-detection comes from the cap.
 rsync -av --exclude work --exclude .nextflow --exclude .nf-test --exclude 'results' --exclude '.nextflow.log*' ~/Documents/Bioinformatics_pipelines/seq-triage isca:~/
 ```
 
-`settings.config` lives only on the HPC, and rsync leaves it alone.
+Your settings files live only on the HPC, and rsync leaves them alone.
 
 **2. Make a second settings file for the full database** (on the HPC). It
 uses batch mode (D50): one Kraken2 task reads the ~94 GB database once and
