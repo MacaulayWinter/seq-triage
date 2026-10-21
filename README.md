@@ -1,5 +1,8 @@
 # seq-triage
 
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A526.10.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![CI](https://github.com/MacaulayWinter/seq-triage/actions/workflows/ci.yml/badge.svg)](https://github.com/MacaulayWinter/seq-triage/actions/workflows/ci.yml)
+
 A Nextflow DSL2 pipeline that inspects incoming sequencing data before any
 analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
@@ -101,6 +104,9 @@ pinned.
 ```bash
 nextflow run main.nf -profile docker --input samplesheet.csv --outdir results
 ```
+
+`--help` lists every parameter with its description and default;
+`--help <name>` explains one in full.
 
 **On Apple Silicon Macs**, add `arm64`:
 
@@ -224,7 +230,7 @@ single-end.
 | `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
 | `integrity/` | Whether each file was readable and well-formed FASTQ. A damaged file gets a FAIL row saying exactly what is wrong, and the other samples still finish |
 | `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
-| `pipeline_info/` | Software versions actually used, run timeline, resource report |
+| `pipeline_info/` | Software versions actually used, run timeline, resource report, workflow diagram (`pipeline_dag.html`) |
 
 Verdicts:
 
@@ -343,29 +349,8 @@ formats anywhere in the tree as a second safeguard.
 
 ## Citations
 
-If you use seq-triage, please cite the tools it is built on:
-
-- **Nextflow**: Di Tommaso P, et al. (2017) Nextflow enables reproducible
-  computational workflows. *Nature Biotechnology*.
-  [doi:10.1038/nbt.3820](https://doi.org/10.1038/nbt.3820)
-- **nf-core**: Ewels PA, et al. (2020) The nf-core framework for
-  community-curated bioinformatics pipelines. *Nature Biotechnology*.
-  [doi:10.1038/s41587-020-0439-x](https://doi.org/10.1038/s41587-020-0439-x)
-- **SeqKit**: Shen W, et al. (2016) SeqKit: a cross-platform and ultrafast
-  toolkit for FASTA/Q file manipulation. *PLOS ONE*.
-  [doi:10.1371/journal.pone.0163962](https://doi.org/10.1371/journal.pone.0163962)
-- **fastp**: Chen S, et al. (2018) fastp: an ultra-fast all-in-one FASTQ
-  preprocessor. *Bioinformatics*.
-  [doi:10.1093/bioinformatics/bty560](https://doi.org/10.1093/bioinformatics/bty560)
-- **FastQC**: Andrews S. (2010) FastQC: a quality control tool for high
-  throughput sequence data.
-  [bioinformatics.babraham.ac.uk](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-- **NanoPlot**: De Coster W, Rademakers R. (2023) NanoPack2:
-  population-scale evaluation of long-read sequencing data. *Bioinformatics*.
-  [doi:10.1093/bioinformatics/btad311](https://doi.org/10.1093/bioinformatics/btad311)
-- **MultiQC**: Ewels P, et al. (2016) MultiQC: summarize analysis results for
-  multiple tools and samples in a single report. *Bioinformatics*.
-  [doi:10.1093/bioinformatics/btw354](https://doi.org/10.1093/bioinformatics/btw354)
+If you use seq-triage, please cite the tools it is built on, listed in
+[CITATIONS.md](CITATIONS.md).
 
 ## Author
 

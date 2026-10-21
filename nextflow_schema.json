@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/MacaulayWinter/seq-triage/main/nextflow_schema.json",
-    "title": "seq-triage pipeline parameters",
+    "title": "MacaulayWinter/seq-triage pipeline parameters",
     "description": "Detect sequencing platform, validate metadata, route QC, summarise",
     "type": "object",
     "$defs": {
@@ -21,7 +21,7 @@
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
                     "schema": "assets/schema_input.json",
-                    "description": "Samplesheet CSV: one row per sample, columns sample, fastq_1, fastq_2, platform, sample_type.",
+                    "description": "Samplesheet CSV: one row per sample, columns sample, fastq_1, fastq_2, platform, sample_type, molecule.",
                     "help_text": "fastq_2, platform and sample_type are optional. Leave platform blank to have it detected from the reads."
                 },
                 "outdir": {

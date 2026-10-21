@@ -104,7 +104,7 @@ jobs:
   # The Linux lockfile must rebuild an environment that works (D48), so a
   # stale or broken lockfile cannot go unnoticed.
   lockfile:
-    name: Lockfile rebuild (linux-64)
+    name: Lockfile rebuild (linux-64), lint, --help
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     defaults:
@@ -127,6 +127,22 @@ jobs:
           nextflow -version
           nf-core --version
           nf-test version
+
+      # nf-core's standards checker, with the nf-core-organisation checks
+      # switched off in .nf-core.yml, each with its reason (CLAUDE.md D53).
+      # Uses the environment just rebuilt from the lockfile.
+      - name: nf-core pipelines lint
+        run: |
+          conda activate fromlock
+          nf-core pipelines lint --dir . --fail-warned
+
+      # --help is generated from nextflow_schema.json: check it runs, exits 0
+      # and lists a parameter, so a schema or config error cannot hide here.
+      - name: --help lists the parameters
+        run: |
+          conda activate fromlock
+          nextflow run . --help > help.txt
+          grep -q -- '--kraken2_batch' help.txt
 
   # nf-test (CLAUDE.md D46): module tests for our own processes and a
   # whole-pipeline snapshot test. --ci makes a missing snapshot an error, so
