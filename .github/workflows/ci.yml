@@ -101,6 +101,33 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  # The Linux lockfile must rebuild an environment that works (D48), so a
+  # stale or broken lockfile cannot go unnoticed.
+  lockfile:
+    name: Lockfile rebuild (linux-64)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Miniforge only
+        uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb # v4.1.0
+        with:
+          miniforge-version: 26.7.2-0
+          conda-remove-defaults: true
+
+      - name: Rebuild the environment from the lockfile and run its tools
+        run: |
+          conda create -q -y -n fromlock --file envs/seq-triage-dev.linux-64.lock.txt
+          conda activate fromlock
+          java -version
+          nextflow -version
+          nf-core --version
+          nf-test version
+
   # nf-test (CLAUDE.md D46): module tests for our own processes and a
   # whole-pipeline snapshot test. --ci makes a missing snapshot an error, so
   # CI can never quietly accept new results.
