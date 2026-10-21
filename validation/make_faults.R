@@ -3,8 +3,9 @@
 # make_faults.R: build deliberately damaged samples with known answers
 #                (CLAUDE.md D37, layer C)
 #
-# WHAT IT DOES  Starts from two known-good samples (E. coli ECE107: NovaSeq
-#               120k pairs and R10.4.1 12k reads, both PASS today), damages
+# WHAT IT DOES  Starts from two known-good samples (round 1: E. coli ECE107,
+#               NovaSeq 120k pairs and R10.4.1 12k reads; round 2, D51:
+#               K. pneumoniae KPE111, 100k pairs and 12k reads), damages
 #               them in one controlled way each, and writes the files, the
 #               samplesheets and expected.tsv: the verdict and flags each
 #               sample MUST get. Expected answers are written HERE, before the
@@ -13,24 +14,36 @@
 #               by design (D18), so each runs on its own.
 # SEED          Fixed, so the same files are built every time.
 #
-# Usage:  Rscript validation/make_faults.R <test_data_dir> <other_illumina_R2.fastq.gz> <out_dir>
-#         test_data_dir = a checkout of MacaulayWinter/seq-triage-test-data
+# Usage:  round 1 (ECE107 from a checkout of MacaulayWinter/seq-triage-test-data):
+#           Rscript validation/make_faults.R <test_data_dir> <other_illumina_R2.fastq.gz> <out_dir>
+#         round 2 and later (any base pair of samples):
+#           Rscript validation/make_faults.R <label> <ilm_R1> <ilm_R2> <ont> <other_illumina_R2.fastq.gz> <out_dir> [round]
+#         Round 2 adds two cases (D51): ILM_MALFORMED and ONT_READS_10K_EXACT.
+#         ILM_TRUNCATED_GZ has been in the main batch since D45.
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 3) stop("Usage: make_faults.R <test_data_dir> <other_illumina_R2.fastq.gz> <out_dir>")
+if (!length(args) %in% c(3, 6, 7))
+  stop("Usage: make_faults.R <test_data_dir> <other_R2> <out_dir>  |  make_faults.R <label> <ilm_R1> <ilm_R2> <ont> <other_R2> <out_dir> [round]")
 script_dir <- dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)))
 source(file.path(script_dir, "lib_fastq.R"))
-td    <- args[1]
-other <- args[2]
-out   <- normalizePath(args[3], mustWork = FALSE)
+if (length(args) == 3) {
+  label <- "ECE107"; round <- 1L
+  base_files <- file.path(args[1], c("illumina/SRR36800568_120k_R1.fastq.gz", "illumina/SRR36800568_120k_R2.fastq.gz",
+                                     "nanopore/SRR34410547_12k.fastq.gz"))
+  other <- args[2]; out <- args[3]
+} else {
+  label <- args[1]; base_files <- args[2:4]; other <- args[5]; out <- args[6]
+  round <- if (length(args) == 7) as.integer(args[7]) else 2L
+}
+out <- normalizePath(out, mustWork = FALSE)
 dir.create(file.path(out, "fastq"), recursive = TRUE, showWarnings = FALSE)
 set.seed(20261020)
 
-message("Reading base samples ...")
-ilm1 <- read_fq(file.path(td, "illumina/SRR36800568_120k_R1.fastq.gz"))
-ilm2 <- read_fq(file.path(td, "illumina/SRR36800568_120k_R2.fastq.gz"))
-ont  <- read_fq(file.path(td, "nanopore/SRR34410547_12k.fastq.gz"))
+message(sprintf("Reading base samples (%s, round %d) ...", label, round))
+ilm1 <- read_fq(base_files[1])
+ilm2 <- read_fq(base_files[2])
+ont  <- read_fq(base_files[3])
 n_ilm <- length(ilm1$h)
 n_ont <- length(ont$h)
 
@@ -87,9 +100,9 @@ revcomp <- function(s) intToUtf8(rev(utf8ToInt(chartr("ACGTN", "TGCAN", s))))
 
 # Controls: the unmodified base samples -----------------------------------------
 add("CTRL_ILM", ilm1, ilm2, platform = "illumina", verdict = "PASS",
-    note = "unmodified ECE107 NovaSeq: the reference every Illumina case is compared with")
+    note = sprintf("unmodified %s Illumina: the reference every Illumina case is compared with", label))
 add("CTRL_ONT", ont, platform = "ont", verdict = "PASS",
-    note = "unmodified ECE107 R10.4.1: the reference every ONT case is compared with")
+    note = sprintf("unmodified %s nanopore: the reference every ONT case is compared with", label))
 
 # Read counts --------------------------------------------------------------------
 add("ILM_READS_40K", subset_fq(ilm1, 1:20000), subset_fq(ilm2, 1:20000), platform = "illumina",
@@ -103,12 +116,19 @@ add("ONT_READS_500", subset_fq(ont, 1:500), platform = "ont",
 
 # Read length --------------------------------------------------------------------
 # Scaling every read keeps the length SPREAD, so detection stays confident and
-# only N50 changes. Base N50 15,463: x0.30 -> ~4,600 (warn), x0.045 -> ~700 (fail).
-s30 <- shorten(ont, 0.30); s045 <- shorten(ont, 0.045)
+# only N50 changes. Round 1 (base N50 15,463) used fixed factors x0.30 -> ~4,600
+# (warn) and x0.045 -> ~700 (fail); later rounds aim at the same two N50s from
+# whatever the base N50 is, so the cases land on the same side of each limit.
+base_n50 <- n50(nchar(ont$s))
+f_warn <- if (round == 1) 0.30 else 4600 / base_n50
+f_fail <- if (round == 1) 0.045 else 700 / base_n50
+s30 <- shorten(ont, f_warn); s045 <- shorten(ont, f_fail)
+if (n50(nchar(s30$s)) >= 5000 || n50(nchar(s30$s)) < 1000 || n50(nchar(s045$s)) >= 1000)
+  stop(sprintf("ONT N50 cases missed their targets: %d and %d", n50(nchar(s30$s)), n50(nchar(s045$s))))
 add("ONT_N50_WARN", s30, platform = "ont", verdict = "WARN",
-    note = sprintf("every read cut to 30%%: read N50 %d, under 5,000", n50(nchar(s30$s))))
+    note = sprintf("every read cut to %.1f%%: read N50 %d, under 5,000", 100 * f_warn, n50(nchar(s30$s))))
 add("ONT_N50_FAIL", s045, platform = "ont", verdict = "FAIL",
-    note = sprintf("every read cut to 4.5%%: read N50 %d, under 1,000", n50(nchar(s045$s))))
+    note = sprintf("every read cut to %.1f%%: read N50 %d, under 1,000", 100 * f_fail, n50(nchar(s045$s))))
 add("ONT_N50_AMPLICON", s045, platform = "ont", sample_type = "amplicon", verdict = "PASS",
     note = "same reads as ONT_N50_FAIL, declared amplicon: N50 not judged")
 
@@ -188,7 +208,7 @@ add("ILM_UNDECLARED", files = ctrl_ilm, platform = "", verdict = "WARN", flags =
     note = "control Illumina reads, no platform declared: platform inferred, so at most WARN")
 o2 <- read_fq(other, n_ilm)
 add("ILM_MIXED_MATES", ilm1, o2, platform = "illumina", verdict = "WARN", flags = "MATE_NAMES_DIFFER",
-    note = "R1 from ECE107, R2 from a different isolate (bacass A1403KPN): read names do not match")
+    note = sprintf("R1 from %s, R2 from a different isolate (%s): read names do not match", label, basename(other)))
 add("ILM_SWAPPED_FILES", files = c(path("ILM_SWAP", 2), path("ILM_SWAP", 1)), platform = "illumina",
     verdict = "PASS", flags = "MATES_POSSIBLY_SWAPPED",
     note = "R2 file given as fastq_1: flagged by the screen; metadata flags do not lower the verdict today (open question)")
@@ -203,10 +223,12 @@ add("ONT_U_RNA", files = path("ONT_U_DNA"), platform = "ont", molecule = "rna", 
     flags = "U_BASES,FASTQ_SHARED", note = "same reads, declared rna: consistent")
 
 # Isolated cases: each may stop a run, so each runs alone ------------------------
-r2s <- subset_fq(ilm2, 1:100000)
+n_short <- round(n_ilm * 5 / 6)
+r2s <- subset_fq(ilm2, seq_len(n_short))
 add("ILM_R2_SHORT", ilm1, r2s, platform = "illumina", verdict = "WARN", flags = "MATE_COUNT_MISMATCH",
     batch = "isolated_r2_short",
-    note = "R2 has 100,000 reads, R1 120,000. Desired: WARN with MATE_COUNT_MISMATCH. If fastp stops the run instead, that is a finding")
+    note = sprintf("R2 has %s reads, R1 %s. Desired: WARN with MATE_COUNT_MISMATCH. If fastp stops the run instead, that is a finding",
+                   format(n_short, big.mark = ","), format(n_ilm, big.mark = ",")))
 trunc_src <- path("CTRL_ILM", 1)
 trunc_dst <- path("ILM_TRUNCATED_GZ")
 bytes <- readBin(trunc_src, "raw", file.size(trunc_src))
@@ -214,6 +236,19 @@ writeBin(bytes[seq_len(length(bytes) %/% 2)], trunc_dst)
 add("ILM_TRUNCATED_GZ", files = trunc_dst, platform = "illumina", verdict = "FAIL", flags = "FILE_UNREADABLE",
     note = paste("gzip cut in half. Since D45 the integrity check catches it: a FAIL row, and the rest of the batch",
                  "carries on (rounds 1 and 1-re-run ran it alone, when it still stopped the run: 'RUN_STOPS')."))
+
+# Round 2 additions (D51), written before any round 2 run ----------------------
+if (round >= 2) {
+  # Valid gzip, broken FASTQ: record 501's quality is one character short.
+  # gzip -t passes it; seqkit used to skip it silently (D45).
+  m1 <- subset_fq(ilm1, 1:5000); m1$q[501] <- substr(m1$q[501], 1, nchar(m1$q[501]) - 1)
+  add("ILM_MALFORMED", m1, platform = "illumina", verdict = "FAIL", flags = "FILE_UNREADABLE",
+      note = "valid gzip, but record 501's quality is one character shorter than its sequence: FAIL row, batch carries on (D45)")
+  # Exactly on a limit: 10,000 reads is the ONT warn limit, and a value exactly
+  # at a limit passes (D34). Everything else about these reads is the control's.
+  add("ONT_READS_10K_EXACT", subset_fq(ont, 1:10000), platform = "ont", verdict = "PASS",
+      note = "exactly 10,000 reads, ON the 10,000 warn limit: a value at a limit passes (D34)")
+}
 
 # Write --------------------------------------------------------------------------
 exp <- do.call(rbind, rows)

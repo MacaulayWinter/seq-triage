@@ -205,6 +205,59 @@ This changes the reading of round 1 in two ways:
    adapters counted as evidence, data like this with stripped read names
    could be called Illumina at high confidence.
 
+## Round 2 of layers A-C: design (pre-registered 2026-10-21)
+
+Fixed before any round 2 data was fetched or run (CLAUDE.md D51). Round 2
+repeats round 1 on new data, so the pass marks are unchanged.
+
+**What stays the same:** the three layers and their pass marks, the 18
+strata, the subsample sizes (50,000 short reads, 5,000 long reads per file),
+and the rule that the samplesheet never declares the platform. The round 2
+run counts (115 in total) were set in `select_panel.R` before round 1 ran.
+The contamination screen is off: these runs have no known contamination to
+score against.
+
+**What changes, and why:**
+
+1. **Every round 1 study is excluded.** The D40 read-name markers were
+   designed after looking at round 1 runs (the MGI flowcell name came from
+   SRR24724636), so testing them on the same studies would be circular.
+2. **Whole-pool draw.** Round 1 drew from the first 500 runs ENA returned
+   per stratum. Keeping one run per study then left pools as small as 4
+   runs, and 19 of 40 picks were DDBJ runs, which often lose their read
+   names. Round 2 fetches every matching run's accession and study, shuffles
+   the studies with a fixed seed, and checks one random run per study until
+   the stratum is full. A stratum that cannot fill is reported as short.
+3. **New pass mark for layer A:** no run of a platform seq-triage does not
+   handle (PacBio, DNBSEQ, Element, Ion Torrent) may get a PASS or WARN
+   verdict. This is the safety property behind the D40 markers. (Ion Torrent
+   called Illumina at high confidence is already a wrong high-confidence
+   call.)
+4. **Layer C from a different base:** *K. pneumoniae* KPE111 (100,000
+   NovaSeq pairs, 12,000 R10 reads) instead of *E. coli* ECE107. The N50
+   cases aim at the same N50s from the new base. Two new cases:
+   `ILM_MALFORMED` (valid gzip, one quality line a character short; expected
+   FAIL with `FILE_UNREADABLE`) and `ONT_READS_10K_EXACT` (exactly on the
+   10,000-read warn limit; expected PASS, because a value at a limit
+   passes). `ILM_TRUNCATED_GZ` runs in the main batch, where since D45 it
+   must be a FAIL row while every other sample finishes.
+
+**Reported, not judged:** the share of correct high-confidence calls per
+stratum (how often the pipeline is useful, not only safe), and confidence by
+archive (the effect of DDBJ's stripped read names, open question A1).
+
+**How to reproduce:**
+
+```bash
+Rscript validation/select_panel.R 2 panel_round2.tsv
+bash validation/fetch_panel.sh panel_round2.tsv round2
+Rscript validation/make_faults.R KPE111 KPE111_ILM_R1.fastq.gz KPE111_ILM_R2.fastq.gz KPE111_ONT.fastq.gz ECE107_ILM_R2.fastq.gz round2_faults 2
+```
+
+The KPE111 and ECE107 files are the layer D sources
+(`validation/layer_D/fetch_sources.sh`). The pipeline and scoring commands
+are the same as for round 1.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
