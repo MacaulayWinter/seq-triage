@@ -125,6 +125,11 @@ SCREEN_ON   <- any(qc$tool == "Kraken2")
 SCREEN_TOOL <- "Kraken2"
 HOST_TAXID  <- "9606"           # Homo sapiens
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
+# A species counts towards off-target only at >= 1% of species-level reads
+# (D47). Validation layer D showed pure cultures carry a long tail of trace
+# misclassifications (8-53 species, each < 1%, 2.4-3.1% in total) that no
+# real contaminant resembles. The tail is reported, not hidden.
+MIN_SPECIES_SHARE <- 0.01
 
 # WHAT IT DOES  Contamination numbers for one sample from its Kraken2 report
 #               (host, unclassified) and species-level counts (Bracken for
@@ -160,10 +165,16 @@ contamination <- function(rows, route) {
   sp$unit <- ifelse(sp$taxid %in% groups$taxid, groups$group[match(sp$taxid, groups$taxid)], sp$name)
   by_unit <- sort(tapply(sp$n, sp$unit, sum), decreasing = TRUE)
   share <- by_unit / sum(by_unit)
-  out$off_target_fraction <- 1 - share[[1]]
+  others <- share[-1]
+  counted <- others[others >= MIN_SPECIES_SHARE]
+  trace   <- others[others <  MIN_SPECIES_SHARE]
+  out$off_target_fraction <- sum(counted)
   out$dominant_species <- sprintf("%s (%.1f%% of species-level reads, %s)", names(share)[1], 100 * share[[1]], source)
   top <- head(share, 3)
-  out$top_species <- paste(sprintf("%s %.1f%%", names(top), 100 * top), collapse = "; ")
+  out$top_species <- paste(c(sprintf("%s %.1f%%", names(top), 100 * top),
+                             if (length(trace)) sprintf("%d trace species under 1%% each, %.1f%% in total (not counted as off-target)",
+                                                        length(trace), 100 * sum(trace))),
+                           collapse = "; ")
   out
 }
 
