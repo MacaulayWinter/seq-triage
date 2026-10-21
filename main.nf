@@ -11,6 +11,13 @@ include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin
 include { SEQ_TRIAGE } from './workflows/seq_triage'
 
 workflow {
+    // --help / --helpFull: nf-schema has already printed the help (generated
+    // from nextflow_schema.json, D53). Stop here, so a help request is not
+    // also reported as a run with no --input.
+    if (params.containsKey('help') || params.containsKey('helpFull')) {
+        exit(0)
+    }
+
     // Stop before any work if a parameter is missing, mistyped or points at
     // a file that does not exist. Rules come from nextflow_schema.json, which
     // also validates the samplesheet against assets/schema_input.json.

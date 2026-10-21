@@ -14,6 +14,7 @@ CLAUDE.md D43.
 | `build_mixtures.R` | Builds the mixtures and `truth.tsv` |
 | `run_layer_D.sh` | Runs everything, start to finish |
 | `score_layer_D.R` | Scores the results against the known answers |
+| `compare_layer_D.R` | Lines up two runs of the same mixtures against different databases |
 | `settings.example.config` | Template for your own settings (account, partition, database) |
 
 ## Running it on an HPC (SLURM, conda)
@@ -115,4 +116,17 @@ above:
 
 ```bash
 mkdir -p ~/seqtriage-scratch/validation/r2 && scp isca:~/seqtriage_layer_D_r2_std8/layer_D_results.tgz ~/seqtriage-scratch/validation/r2/std8.tgz && scp isca:~/seqtriage_layer_D_r2_full/layer_D_results.tgz ~/seqtriage-scratch/validation/r2/full.tgz
+```
+
+**5. Score and compare** (on your Mac). Each run is scored with the same
+pass marks; `compare_layer_D.R` then lines them up sample by sample and lists
+every sample whose result or verdict changes with the database. It stops if
+the two runs do not hold the same mixtures.
+
+```bash
+cd ~/seqtriage-scratch/validation/r2 && mkdir -p std8 full && tar -xzf std8.tgz -C std8 && tar -xzf full.tgz -C full
+```
+
+```bash
+Rscript validation/layer_D/compare_layer_D.R std8=$HOME/seqtriage-scratch/validation/r2/std8 full=$HOME/seqtriage-scratch/validation/r2/full layer_D_r2_compare.tsv
 ```

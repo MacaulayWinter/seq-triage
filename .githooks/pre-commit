@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Git pre-commit hook for seq-triage: runs the repository guard on the files
+# being committed. Turn it on once per clone:
+#     git config core.hooksPath .githooks
+# See .githooks/check_repo.sh for what it checks (CLAUDE.md D52).
+exec bash "$(git rev-parse --show-toplevel)/.githooks/check_repo.sh" --staged
