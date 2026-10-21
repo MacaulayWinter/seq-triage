@@ -1,6 +1,78 @@
 # Tells nf-core tools this repository is a pipeline (not a modules repo), so
 # `nf-core modules install` knows where to put modules and records them in
-# modules.json. seq-triage is not an nf-core pipeline; this file only enables
-# the module tooling.
+# modules.json. seq-triage is not an nf-core pipeline: it uses nf-core
+# modules and conventions, so `nf-core pipelines lint` is run against it
+# (CI, lockfile job), with the checks below switched off. Each one only
+# applies to pipelines in the nf-core organisation, or is covered another
+# way; the reason is given next to it (CLAUDE.md D53).
 repository_type: pipeline
 nf_core_version: 4.1.0
+lint:
+  files_exist:
+    # nf-core organisation files: community templates, logos, Dockstore,
+    # AWS megatests, email notifications, nf-core's PR-comment and branch
+    # rules, and the template's sharded nf-test actions.
+    - CODE_OF_CONDUCT.md
+    - .github/.dockstore.yml
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/workflows/branch.yml
+    - .github/workflows/nf-test.yml
+    - .github/actions/get-shards/action.yml
+    - .github/actions/nf-test/action.yml
+    - .github/workflows/pr-comment.yml
+    - .github/workflows/linting.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - assets/email_template.html
+    - assets/email_template.txt
+    - assets/sendmail_template.txt
+    - assets/nf-core-seq-triage_logo_light.png
+    - docs/images/nf-core-seq-triage_logo_light.png
+    - docs/images/nf-core-seq-triage_logo_dark.png
+    - ro-crate-metadata.json
+    # Covered elsewhere: README.md holds usage and outputs (one page to keep
+    # current); prettier is not used (no JS/YAML formatting rules here).
+    - docs/README.md
+    - docs/usage.md
+    - docs/output.md
+    - docs/CONTRIBUTING.md
+    - .prettierignore
+    - .prettierrc.yml
+    # Not applicable: no reference genomes (iGenomes); no full-size test,
+    # because the validation rounds (docs/validation.md) are the large test;
+    # CI uses MultiQC's defaults, so there is no multiqc_config.yml; the
+    # pipeline test is tests/main.nf.test, not tests/default.nf.test.
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - conf/test_full.config
+    - assets/multiqc_config.yml
+    - tests/default.nf.test
+  nextflow_config:
+    # The name and home page are this repository's, not nf-core's.
+    - manifest.name
+    - manifest.homePage
+    # nf-core/configs institutional profiles: site settings stay out of this
+    # repository (CLAUDE.md D42) and are passed with -c instead.
+    - custom_config
+    - params.custom_config_version
+    - params.custom_config_base
+  files_unchanged:
+    # These differ from the template on purpose: .gitignore also blocks
+    # sequencing data and local settings; LICENSE names the author; the PR
+    # template is this repository's checklist; .gitattributes is shorter.
+    - .gitignore
+    - LICENSE
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .gitattributes
+  # Test data is pinned by commit in conf/test.config and tests/nextflow.config
+  # (D30), and the pipeline test snapshots each tool's version from
+  # software_versions.tsv rather than a versions.yml file (D46).
+  nf_test_content: false
+  multiqc_config: false
+  # The hyphen in seq-triage is the repository's name.
+  pipeline_name_conventions: false
+  readme:
+    - nfcore_template_badge
+    - zenodo_doi
