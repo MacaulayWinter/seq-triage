@@ -101,6 +101,31 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  # nf-test (CLAUDE.md D46): module tests for our own processes and a
+  # whole-pipeline snapshot test. --ci makes a missing snapshot an error, so
+  # CI can never quietly accept new results.
+  nf-test:
+    name: nf-test (modules + pipeline)
+    needs: unit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install launch environment from environment.yml
+        uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb # v4.1.0
+        with:
+          miniforge-version: 26.7.2-0
+          environment-file: environment.yml
+          activate-environment: seq-triage-dev
+          conda-remove-defaults: true
+
+      - name: Run nf-test
+        run: nf-test test --profile docker --ci
+
   # Same test profile with conda instead of containers: the set-up used on
   # HPCs without Apptainer/Singularity (CLAUDE.md D42). Same checks, same
   # expected verdicts: results must not depend on how the tools are installed.

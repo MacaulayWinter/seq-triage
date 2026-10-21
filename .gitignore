@@ -54,3 +54,6 @@ scratch/
 
 # Layer D: per-site settings (account, partition, database path) stay local
 validation/layer_D/settings.config
+
+# nf-test working folder
+.nf-test/

@@ -1,0 +1,23 @@
+nextflow_process {
+
+    name "Test Process SCREEN_METADATA"
+    script "../main.nf"
+    process "SCREEN_METADATA"
+    tag "screen_metadata"
+
+    // The 17-row synthetic sheet from tests/screen_metadata (no real files):
+    // every row is built to raise specific flags, so the output is fixed.
+    test("synthetic samplesheet: output matches the saved snapshot") {
+        when {
+            process {
+                """
+                input[0] = file("${projectDir}/tests/screen_metadata/samplesheet.csv", checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.tsv).match()
+        }
+    }
+}

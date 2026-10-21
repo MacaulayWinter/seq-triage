@@ -1,0 +1,37 @@
+{
+    "every sample gets its expected verdict": {
+        "content": [
+            [
+                "BF_ILLUMINA_PE\tWARN",
+                "BROKEN_FASTQ\tFAIL",
+                "CONTRADICTION\tWARN",
+                "ECE107_NOVASEQ\tPASS",
+                "ECE107_R10\tPASS",
+                "ILLUMINA_SE\tWARN",
+                "NO_METADATA\tFAIL",
+                "PACBIO_HIFI\tUNCERTAIN",
+                "SC2_ILLUMINA\tFAIL",
+                "SC2_ONT\tWARN",
+                "SIM_ONT_Q40\tWARN"
+            ],
+            [
+                "NanoPlot\t1.47.0",
+                "R\t4.5.2",
+                "bracken\t3.0.1",
+                "fastp\t1.4.0",
+                "fastqc\t0.13.0",
+                "gzip\t1.12",
+                "kraken2\t2.1.6",
+                "multiqc\t1.35",
+                "pigz\t2.8",
+                "seqkit\t2.13.0",
+                "untar\t1.34"
+            ]
+        ],
+        "timestamp": "2026-10-21T10:21:18.12011",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.2"
+        }
+    }
+}

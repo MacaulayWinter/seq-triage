@@ -237,6 +237,24 @@ Rscript tests/detect_platform/test_detect_platform.R   # platform detection rule
 Rscript tests/triage_report/test_triage_report.R       # QC limits and verdicts
 ```
 
+**nf-test**, Nextflow's own testing framework (as used by nf-core), tests
+the pipeline's processes and the whole workflow:
+
+```bash
+nf-test test --profile docker          # Apple Silicon: --profile docker,arm64
+```
+
+| Test | Checks |
+|---|---|
+| `CHECK_FASTQ` | a good pair passes; malformed FASTQ inside valid gzip, and a truncated gzip, are caught with the right message |
+| `DETECT_PLATFORM` | real Illumina and nanopore reads, through the real seqkit step, are called correctly at high confidence |
+| `SCREEN_METADATA` | the synthetic samplesheet gives exactly the saved output |
+| whole pipeline | `-profile test` succeeds, and every sample's verdict and every tool's version match the saved snapshot |
+
+A change that alters any verdict or version fails the pipeline test until
+the snapshot is deliberately updated (`nf-test test --update-snapshot`), so
+such changes are always visible in review.
+
 GitHub Actions runs all of these on every pull request, and changes reach
 `main` only after they pass. `tests/survey/check_survey.R` checks detection
 against 12 real public samples; it runs locally, because the data stays

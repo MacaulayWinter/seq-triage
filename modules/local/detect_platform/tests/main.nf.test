@@ -1,0 +1,72 @@
+nextflow_process {
+
+    name "Test Process DETECT_PLATFORM"
+    script "../main.nf"
+    process "DETECT_PLATFORM"
+    tag "detect_platform"
+
+    // Real reads, through the real seqkit step first (as in the pipeline).
+    test("real Illumina pair: illumina, paired, high confidence") {
+        setup {
+            run("SEQKIT_STATS") {
+                script "../../../nf-core/seqkit/stats/main.nf"
+                process {
+                    """
+                    input[0] = [ [ id: 'ILM' ], [
+                        file(params.test_data + 'sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                        file(params.test_data + 'sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true) ] ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = SEQKIT_STATS.out.stats.map { meta, stats -> [ meta, stats, [
+                    file(params.test_data + 'sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                    file(params.test_data + 'sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true) ] ] }
+                """
+            }
+        }
+        then {
+            assert process.success
+            def lines = path(process.out.tsv[0][1]).readLines()
+            def head  = lines[0].split('\t') as List
+            def row   = lines[1].split('\t', -1) as List
+            def get   = { col -> row[head.indexOf(col)] }
+            assert get('detected_platform') == 'illumina'
+            assert get('detected_layout')   == 'paired'
+            assert get('confidence')        == 'high'
+        }
+    }
+
+    test("real nanopore reads: ont, single, high confidence") {
+        setup {
+            run("SEQKIT_STATS") {
+                script "../../../nf-core/seqkit/stats/main.nf"
+                process {
+                    """
+                    input[0] = [ [ id: 'ONT' ], file(params.test_data + 'sarscov2/nanopore/fastq/test_2.fastq.gz', checkIfExists: true) ]
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = SEQKIT_STATS.out.stats.map { meta, stats -> [ meta, stats,
+                    file(params.test_data + 'sarscov2/nanopore/fastq/test_2.fastq.gz', checkIfExists: true) ] }
+                """
+            }
+        }
+        then {
+            assert process.success
+            def lines = path(process.out.tsv[0][1]).readLines()
+            def head  = lines[0].split('\t') as List
+            def row   = lines[1].split('\t', -1) as List
+            assert row[head.indexOf('detected_platform')] == 'ont'
+            assert row[head.indexOf('detected_layout')]   == 'single'
+            assert row[head.indexOf('confidence')]        == 'high'
+        }
+    }
+}
