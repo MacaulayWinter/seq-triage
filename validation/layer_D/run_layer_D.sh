@@ -54,8 +54,12 @@ echo "== 2. Build mixtures"
 "$RSCRIPT" "$repo/validation/layer_D/build_mixtures.R" "$work/sources" "$DESIGN/mixtures.tsv" "$work/mixtures"
 
 echo "== 3. Run seq-triage"
-nextflow run "$repo/main.nf" -profile "$PROFILE" -c "$settings" \
-    --input "$work/mixtures/samplesheet.csv" --outdir "$work/results" -w "$work/nf-work" -resume
+# Launch from the run's own folder: Nextflow keeps its run history and cache
+# (.nextflow/) in the launch folder, and -resume resumes the LAST run there.
+# Launched from a shared folder, two runs at once resumed the same earlier
+# run and locked each other out (round 2, 2026-10-21).
+( cd "$work" && nextflow run "$repo/main.nf" -profile "$PROFILE" -c "$settings" \
+    --input "$work/mixtures/samplesheet.csv" --outdir "$work/results" -w "$work/nf-work" -resume )
 
 echo "== 4. Record the database"
 # Read the path straight from the settings file (its format is ours). Not

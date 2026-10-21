@@ -83,6 +83,12 @@
                     "pattern": "^\\S+\\.tsv$",
                     "description": "TSV of species judged as one group by the contamination screen (e.g. E. coli and Shigella), with the reason for each.",
                     "help_text": "Defaults to assets/species_groups.tsv."
+                },
+                "kraken2_batch": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Classify every sample in one Kraken2 task, reading the database once (it stays in the node's file cache and each sample uses it with --memory-mapping).",
+                    "help_text": "Use with big databases (the full Standard database is ~94 GB), where loading it once per sample dominates the run. Samples then run one after another, and -resume reruns the whole batch if any sample changes. Results are identical to the default per-sample mode."
                 }
             }
         }

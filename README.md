@@ -182,7 +182,10 @@ species. Illumina samples get Bracken's species-level re-estimate. Results
 depend on the database, and the screen **cannot detect contamination by
 another strain of the same species**. Without a database the report says
 "not screened". On a laptop, add `--kraken2_memory_mapping` to read the
-database from disk instead of loading it into memory.
+database from disk instead of loading it into memory. With a big database
+on an HPC (the full Standard database is ~94 GB), add `--kraken2_batch`:
+every sample is classified in one task, so the database is read once
+instead of once per sample. Results are identical either way.
 
 ### Samplesheet
 

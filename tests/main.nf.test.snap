@@ -1,4 +1,26 @@
 {
+    "batch Kraken2 mode gives the same verdicts": {
+        "content": [
+            [
+                "BF_ILLUMINA_PE\tWARN",
+                "BROKEN_FASTQ\tFAIL",
+                "CONTRADICTION\tWARN",
+                "ECE107_NOVASEQ\tPASS",
+                "ECE107_R10\tPASS",
+                "ILLUMINA_SE\tWARN",
+                "NO_METADATA\tFAIL",
+                "PACBIO_HIFI\tUNCERTAIN",
+                "SC2_ILLUMINA\tFAIL",
+                "SC2_ONT\tWARN",
+                "SIM_ONT_Q40\tWARN"
+            ]
+        ],
+        "timestamp": "2026-10-21T16:28:08.726557",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.2"
+        }
+    },
     "every sample gets its expected verdict": {
         "content": [
             [

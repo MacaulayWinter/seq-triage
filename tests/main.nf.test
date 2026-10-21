@@ -25,4 +25,22 @@ nextflow_pipeline {
             assert snapshot(verdicts, versions).match()
         }
     }
+
+    // D50: batch mode (one Kraken2 task, one database load) must give
+    // exactly the same verdicts as the default per-sample mode.
+    test("batch Kraken2 mode gives the same verdicts") {
+        when {
+            params {
+                outdir        = "$outputDir"
+                kraken2_batch = true
+            }
+        }
+        then {
+            assert workflow.success
+            def summary  = path("$outputDir/triage_summary.tsv").readLines()
+            def head     = summary[0].split('\t') as List
+            def verdicts = summary.drop(1).collect { l -> def f = l.split('\t', -1); "${f[head.indexOf('sample')]}\t${f[head.indexOf('verdict')]}" }.sort()
+            assert snapshot(verdicts).match()
+        }
+    }
 }
