@@ -74,3 +74,40 @@ Rscript validation/layer_D/score_layer_D.R ~/seqtriage-scratch/validation/layer_
 The run log `layer_D_<jobid>.log` and Nextflow's `.nextflow.log` say where
 it stopped. Re-submitting the same command resumes from the last finished
 step (`-resume`), and already-downloaded source reads are reused.
+
+## Round 2: new isolates, two databases
+
+Round 2 (CLAUDE.md D49) repeats the same 13 mixtures and pass marks with
+**different isolates** ([`round2/`](round2/)). It is the real test of the
+1% trace-species rule (D47), which was chosen after seeing round 1. Running
+it against both the 8 GB-capped database and the full one shows how much of
+the background and the *Enterobacter* under-detection comes from the cap.
+
+**1. Copy the updated code to the HPC** (on your Mac):
+
+```bash
+rsync -av --exclude work --exclude .nextflow --exclude 'results' --exclude '.nextflow.log*' ~/Documents/Bioinformatics_pipelines/seq-triage isca:~/
+```
+
+`settings.config` lives only on the HPC, and rsync leaves it alone.
+
+**2. Make a second settings file for the full database** (on the HPC). Kraken2
+loads the whole database into memory, so it needs about 100 GB:
+
+```bash
+cd ~/seq-triage && sed -e "s#^params.kraken2_db .*#params.kraken2_db = '$HOME/kraken2_db_full'   // Standard (full), Oct 2025#" -e 's/memory = 16.GB/memory = 100.GB/' validation/layer_D/settings.config > validation/layer_D/settings_full.config && cat validation/layer_D/settings_full.config
+```
+
+**3. Submit both runs:**
+
+```bash
+DESIGN=validation/layer_D/round2 sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_D/run_layer_D.sh validation/layer_D/settings.config ~/seqtriage_layer_D_r2_std8
+DESIGN=validation/layer_D/round2 sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_D/run_layer_D.sh validation/layer_D/settings_full.config ~/seqtriage_layer_D_r2_full
+```
+
+**4. Bring both results back** (on your Mac), then score them as in step 5
+above:
+
+```bash
+mkdir -p ~/seqtriage-scratch/validation/r2 && scp isca:~/seqtriage_layer_D_r2_std8/layer_D_results.tgz ~/seqtriage-scratch/validation/r2/std8.tgz && scp isca:~/seqtriage_layer_D_r2_full/layer_D_results.tgz ~/seqtriage-scratch/validation/r2/full.tgz
+```

@@ -26,9 +26,12 @@ set -euo pipefail
 settings=$(realpath "$1")
 work=$(mkdir -p "$2" && realpath "$2")
 PROFILE=${PROFILE:-conda,slurm}
+# Which design to run: a folder holding sources.tsv and mixtures.tsv.
+# Round 1 (default): validation/layer_D; round 2: validation/layer_D/round2.
 repo=$(pwd)
+DESIGN=$(realpath "${DESIGN:-$repo/validation/layer_D}")
 [ -f "$repo/main.nf" ] || { echo "Run this from the seq-triage repository root." >&2; exit 1; }
-echo "seq-triage layer D | profile: $PROFILE | work: $work | commit: $(git -C "$repo" rev-parse --short HEAD)"
+echo "seq-triage layer D | design: $DESIGN | profile: $PROFILE | work: $work | commit: $(git -C "$repo" rev-parse --short HEAD)"
 
 # Conda environments: the launch environment (Nextflow, Java) and a tiny
 # R environment for the mixture builder. Created on first use.
@@ -45,10 +48,10 @@ else
 fi
 
 echo "== 1. Fetch source reads"
-bash "$repo/validation/layer_D/fetch_sources.sh" "$repo/validation/layer_D/sources.tsv" "$work/sources"
+bash "$repo/validation/layer_D/fetch_sources.sh" "$DESIGN/sources.tsv" "$work/sources"
 
 echo "== 2. Build mixtures"
-"$RSCRIPT" "$repo/validation/layer_D/build_mixtures.R" "$work/sources" "$repo/validation/layer_D/mixtures.tsv" "$work/mixtures"
+"$RSCRIPT" "$repo/validation/layer_D/build_mixtures.R" "$work/sources" "$DESIGN/mixtures.tsv" "$work/mixtures"
 
 echo "== 3. Run seq-triage"
 nextflow run "$repo/main.nf" -profile "$PROFILE" -c "$settings" \
