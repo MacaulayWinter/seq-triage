@@ -18,8 +18,10 @@ reproducible.
 conda env create -f environment.yml
 conda activate seq-triage-dev
 
-# Byte-identical rebuild on Apple Silicon (every dependency, with md5 checksums)
-conda create -n seq-triage-dev --file envs/seq-triage-dev.osx-arm64.lock.txt
+# Byte-identical rebuild (every dependency, with md5 checksums), per system:
+conda create -n seq-triage-dev --file envs/seq-triage-dev.osx-arm64.lock.txt       # Apple Silicon
+conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-64.lock.txt        # Linux, WSL2
+conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-aarch64.lock.txt   # Linux on ARM
 ```
 
 `environment.yml` pins the four packages we depend on directly. Their own
@@ -27,7 +29,12 @@ dependencies (Python libraries and so on) are chosen by the solver, so a
 rebuild months later can differ in those. The lockfile closes that gap: it
 lists every one of the 166 packages by exact URL and checksum, so conda
 installs exactly those files and does no solving at all. Lockfiles are
-platform-specific, which is why both files exist.
+platform-specific, so there is one per system. The Linux ones were built in
+the pinned `condaforge/miniforge3:26.7.2-0` container (digest
+`sha256:569afc65b5338d35e276adf9a860025cd37a677659d19dcb71fc1d4c2063a94e`; the same Miniforge as
+CI), and each was verified by building a fresh environment from it and
+running Java, Nextflow, nf-core and nf-test. CI rebuilds from the linux-64
+lockfile on every change. Windows users run the Linux lockfile inside WSL2.
 
 `environment.yml` was confirmed to solve on linux-64, linux-aarch64, osx-64
 and osx-arm64 with identical versions of the pinned packages (2026-10-20).

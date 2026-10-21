@@ -84,7 +84,14 @@ conda activate seq-triage-dev
 ```
 
 This installs Java 17, Nextflow 26.10.2 and nf-core tools 4.1.0, with every
-version pinned. The analysis tools themselves run in version-pinned
+version pinned. For a byte-identical environment (every dependency, with
+checksums), use the lockfile for your system instead:
+
+```bash
+conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-64.lock.txt        # Linux and WSL2 (Intel/AMD)
+conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-aarch64.lock.txt   # Linux on ARM
+conda create -n seq-triage-dev --file envs/seq-triage-dev.osx-arm64.lock.txt       # Apple Silicon Mac
+``` The analysis tools themselves run in version-pinned
 containers and need no installation. See
 [docs/reproducibility.md](docs/reproducibility.md) for how each layer is
 pinned.
@@ -119,6 +126,26 @@ hand, then rerun with `-resume`:
 ```bash
 docker pull --platform linux/arm64 docker.io/rocker/r-ver:4.5.2@sha256:fd4ccdd3a4a6f7ef805e2daeee2a0fe3bf126bc231f36351223baecf5a595a4c
 ```
+
+**On Windows**, use WSL2 (Windows Subsystem for Linux). Nextflow and most
+bioinformatics tools do not run on Windows itself, but WSL2 is a full Linux
+built into Windows 10 (version 2004 or later) and 11, and inside it
+seq-triage runs exactly as on any Linux machine:
+
+1. In PowerShell as administrator, install WSL2 with Ubuntu, then restart:
+   `wsl --install -d Ubuntu-24.04`
+2. Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+   with the WSL 2 backend, and switch on *Settings → Resources → WSL
+   integration* for Ubuntu.
+3. Open Ubuntu, install [Miniforge](https://conda-forge.org/download/), and
+   continue with [Installation](#installation) and the Linux commands above,
+   **inside Ubuntu**.
+
+Keep the repository and your data in the Linux file system (`~/...`), not
+under `/mnt/c/...`: Windows drives seen from WSL2 are much slower and do not
+handle Linux file permissions. These steps follow the official Microsoft,
+Docker and Nextflow instructions; they have not been tried on a Windows
+machine by this project, so please report any step that needs changing.
 
 **On an HPC or any machine without Docker** (no Apptainer/Singularity
 either), use conda for the tools and SLURM for the jobs:
