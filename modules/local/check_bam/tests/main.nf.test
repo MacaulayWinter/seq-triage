@@ -1,0 +1,72 @@
+nextflow_process {
+
+    name "Test Process CHECK_BAM"
+    script "../main.nf"
+    process "CHECK_BAM"
+    tag "check_bam"
+
+    test("intact unaligned BAM passes") {
+        when {
+            process {
+                """
+                input[0] = [ [ id: 'UBAM' ],
+                    file(params.test_data + 'sarscov2/illumina/bam/test.unaligned.bam', checkIfExists: true) ]
+                """
+            }
+        }
+        then {
+            assert process.success
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[1] == 'ok'
+        }
+    }
+
+    test("truncated BAM is caught") {
+        when {
+            process {
+                """
+                // The first 5,000 bytes of a real BAM: header intact, no
+                // end-of-file marker (this block runs inside Nextflow).
+                def src = file(params.test_data + 'sarscov2/illumina/bam/test.paired_end.sorted.bam', checkIfExists: true)
+                def cut = file("\${workflow.workDir}/truncated.bam")
+                cut.bytes = java.util.Arrays.copyOf(src.bytes, 5000)
+                input[0] = [ [ id: 'TRUNC' ], cut ]
+                """
+            }
+        }
+        then {
+            assert process.success            // a bad file is a result, not a crash
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[1] == 'unreadable'
+            assert row[2].startsWith('not a complete BAM file')
+        }
+    }
+
+    test("BAM damaged near the end is caught (quickcheck alone passes it)") {
+        when {
+            process {
+                """
+                // Zero 64 bytes in the last data block, 200 bytes from the end:
+                // the header block and the 28-byte end-of-file marker stay
+                // intact, so quickcheck passes it (checked by hand) and only
+                // a full read finds the damage. A multi-block BAM is needed:
+                // the 20 KB Illumina test BAM is one block, header included.
+                // (Arrays.fill, because strict syntax allows no (byte) cast.)
+                def src   = file(params.test_data + 'sarscov2/nanopore/bam/test.sorted.bam', checkIfExists: true)
+                def bytes = src.bytes
+                def at    = bytes.length - 200
+                java.util.Arrays.fill(bytes, at, at + 64, Byte.valueOf('0'))
+                def bad = file("\${workflow.workDir}/midcorrupt.bam")
+                bad.bytes = bytes
+                input[0] = [ [ id: 'MID' ], bad ]
+                """
+            }
+        }
+        then {
+            assert process.success
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[1] == 'unreadable'
+            assert row[2].startsWith('BAM is damaged part-way through')
+        }
+    }
+}

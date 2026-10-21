@@ -49,7 +49,7 @@ normalise_identifier <- function(x) {
 
 # Sequencing-file noise: Illumina's _S<n>, _L<lane>, _R<mate>, _001 and the
 # FASTQ extension. PROVENANCE: R_Bible 1.10 diagnose_id_mismatch().
-FILE_NOISE <- "(_S[0-9]+)?(_L[0-9]{3})?(_R[12])?(_001)?(\\.(fastq|fq)(\\.gz)?)?$"
+FILE_NOISE <- "(_S[0-9]+)?(_L[0-9]{3})?(_R[12])?(_001)?(\\.(fastq|fq)(\\.gz)?|\\.bam)?$"
 
 # WHAT IT DOES  File name without directory, extension or Illumina suffixes,
 #               e.g. ".../ISO_01_S3_L001_R1_001.fastq.gz" -> "ISO_01".
@@ -93,7 +93,7 @@ MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_2", "platform", "sample_type", "molecule")) {
+for (col in c("fastq_1", "fastq_2", "bam", "platform", "sample_type", "molecule")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -127,7 +127,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "platform", "sample_type", "molecule")) {
+for (col in c("sample", "fastq_1", "fastq_2", "bam", "platform", "sample_type", "molecule")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))
@@ -153,7 +153,7 @@ add_flag(r, "ID_LOOKS_LIKE_FILENAME",
 
 # File names that don't contain their sample ID. A warning, not an error:
 # public and facility data often use accession numbers as file names.
-for (col in c("fastq_1", "fastq_2")) {
+for (col in c("fastq_1", "fastq_2", "bam")) {
   v   <- sheet[[col]]
   has <- !is.na(v)
   # Strip file noise from BOTH sides, so an ID like "X_R1_001" (already
@@ -181,8 +181,8 @@ r <- which(!paired & m1 %in% "R2" & explicit)
 add_flag(r, "SINGLE_FILE_NAMED_R2", rep("only one file given and it is named like a second mate (_R2); check R1 is not missing", length(r)))
 
 # The same file used by more than one sample.
-files  <- data.frame(row = c(seq_len(n), seq_len(n)),
-                     path = c(sheet$fastq_1, sheet$fastq_2), stringsAsFactors = FALSE)
+files  <- data.frame(row = c(seq_len(n), seq_len(n), seq_len(n)),
+                     path = c(sheet$fastq_1, sheet$fastq_2, sheet$bam), stringsAsFactors = FALSE)
 files  <- files[!is.na(files$path), ]
 shared <- unique(files$path[duplicated(files$path)])
 for (p in shared) {

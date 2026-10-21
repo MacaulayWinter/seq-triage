@@ -7,15 +7,17 @@
                 "CONTRADICTION\tWARN",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
                 "PACBIO_HIFI\tUNCERTAIN",
+                "PACBIO_UBAM\tUNCERTAIN",
                 "SC2_ILLUMINA\tFAIL",
                 "SC2_ONT\tWARN",
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-21T16:28:08.726557",
+        "timestamp": "2026-10-21T23:58:59.341325",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -29,9 +31,11 @@
                 "CONTRADICTION\tWARN",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
                 "PACBIO_HIFI\tUNCERTAIN",
+                "PACBIO_UBAM\tUNCERTAIN",
                 "SC2_ILLUMINA\tFAIL",
                 "SC2_ONT\tWARN",
                 "SIM_ONT_Q40\tWARN"
@@ -46,11 +50,12 @@
                 "kraken2\t2.1.6",
                 "multiqc\t1.35",
                 "pigz\t2.8",
+                "samtools\t1.24",
                 "seqkit\t2.13.0",
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-21T10:21:18.12011",
+        "timestamp": "2026-10-21T23:57:26.84026",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

@@ -27,23 +27,26 @@ workflow {
     // records exactly how the pipeline was invoked.
     log.info paramsSummaryLog(workflow)
 
-    // One [meta, fastq_1, fastq_2] list per row. Schema fields marked "meta"
-    // become keys of the meta map: id, declared_platform, declared_type.
+    // One [meta, fastq_1, fastq_2, bam] list per row. Schema fields marked
+    // "meta" become keys of the meta map: id, declared_platform, declared_type.
+    // A row gives FASTQ files or one BAM, never both (the schema checks it).
     def rows = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
 
     // R1 and R2 the same file: JSON Schema cannot compare two fields, so this
     // is checked here. It must be a hard error: seqkit would see identical
     // read counts and call the sample "paired" with high confidence.
-    def same_mates = rows.findAll { _meta, r1, r2 -> r2 && r1 == r2 }
+    def same_mates = rows.findAll { _meta, r1, r2, _bam -> r2 && r1 == r2 }
     if (same_mates) {
         error("fastq_1 and fastq_2 are the same file for sample(s): " +
-              same_mates.collect { meta, _r1, _r2 -> meta.id }.join(', '))
+              same_mates.collect { meta, _r1, _r2, _bam -> meta.id }.join(', '))
     }
 
     ch_samples = channel.fromList(rows)
-        .map { meta, r1, r2 ->
+        .map { meta, r1, r2, bam ->
             // single_end comes from the samplesheet LAYOUT only. Whether the
-            // reads agree with it is for the detection step to judge.
+            // reads agree with it is for the detection step to judge. A BAM
+            // row is marked input_format 'bam': its layout is decided after
+            // conversion, from the reads' own READ1/READ2 flags (D55).
             def single_end = !r2
             // nf-schema returns a blank cell as [] (empty list). Convert to
             // null here, once, so downstream code has a single meaning of
@@ -51,6 +54,9 @@ workflow {
             // normalising "Nanopore" or "N/A" is the R screen's job, and it
             // reports that it did so (CLAUDE.md D7).
             def clean = meta.collectEntries { k, v -> [ k, v == [] ? null : v ] }
+            if (bam) {
+                return [ clean + [ single_end: false, input_format: 'bam' ], [ bam ] ]
+            }
             [ clean + [ single_end: single_end ], single_end ? [ r1 ] : [ r1, r2 ] ]
         }
 

@@ -198,18 +198,20 @@ instead of once per sample. Results are identical either way.
 A CSV with one row per sample:
 
 ```csv
-sample,fastq_1,fastq_2,platform,sample_type,molecule
-ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,illumina,isolate,dna
-MTX_01,MTX_01_R1.fastq.gz,MTX_01_R2.fastq.gz,illumina,metagenome,rna
-ONT_01,ONT_01.fastq.gz,,ont,,
-UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,
+sample,fastq_1,fastq_2,bam,platform,sample_type,molecule
+ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,,illumina,isolate,dna
+MTX_01,MTX_01_R1.fastq.gz,MTX_01_R2.fastq.gz,,illumina,metagenome,rna
+ONT_01,ONT_01.fastq.gz,,,ont,,
+ONT_02,,,ONT_02.bam,ont,,
+UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,,
 ```
 
 | Column | Required | Notes |
 |---|---|---|
 | `sample` | yes | Unique ID. |
-| `fastq_1` | yes | Gzipped FASTQ. |
+| `fastq_1` | yes, unless `bam` | Gzipped FASTQ. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
+| `bam` | instead of FASTQ | A BAM file, aligned or unaligned: dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. CRAM is not accepted yet. |
 | `platform` | no | `illumina` or `ont`. Leave blank to have it detected. |
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
@@ -283,6 +285,7 @@ nf-test test --profile docker          # Apple Silicon: --profile docker,arm64
 | Test | Checks |
 |---|---|
 | `CHECK_FASTQ` | a good pair passes; malformed FASTQ inside valid gzip, and a truncated gzip, are caught with the right message |
+| `CHECK_BAM` | an intact unaligned BAM passes; a truncated BAM, and a BAM damaged part-way through (which samtools quickcheck alone passes), are caught |
 | `DETECT_PLATFORM` | real Illumina and nanopore reads, through the real seqkit step, are called correctly at high confidence |
 | `SCREEN_METADATA` | the synthetic samplesheet gives exactly the saved output |
 | whole pipeline | `-profile test` succeeds, and every sample's verdict and every tool's version match the saved snapshot |
@@ -332,7 +335,7 @@ recorded with its evidence.
 
 **v0.2** (planned)
 
-- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM)
+- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); CRAM to follow
 - QC for PacBio (already recognised by name, but not yet QC'd)
 - rRNA fraction for metatranscriptomes
 - Isolate vs metagenome vs amplicon classification

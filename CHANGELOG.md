@@ -4,6 +4,14 @@ All notable changes to seq-triage. Versions follow
 [semantic versioning](https://semver.org/); each entry names the decisions
 (`D` numbers) recorded in [CLAUDE.md](CLAUDE.md).
 
+## v0.2.0 (unreleased)
+
+### Added
+
+- BAM input (`bam` column), aligned or unaligned: checked from header to end
+  (`CHECK_BAM`), converted with nf-core `samtools/collatefastq`; layout from
+  the reads' READ1/READ2 flags; a damaged BAM becomes a FAIL row (D55).
+
 ## v0.1.0 (unreleased)
 
 Released once validation round 2 of layers A-C (D51) has run.

@@ -36,6 +36,11 @@
             "installed_by": ["modules"],
             "patch": "modules/nf-core/nanoplot/nanoplot.diff"
           },
+          "samtools/collatefastq": {
+            "branch": "master",
+            "git_sha": "5f344f0e41fdfaf2506f89400e42a2689d6ab323",
+            "installed_by": ["modules"]
+          },
           "seqkit/stats": {
             "branch": "master",
             "git_sha": "8fff8cfa10626a5acb7652f2212dec0cbc18b47e",
