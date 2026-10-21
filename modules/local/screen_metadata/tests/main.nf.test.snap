@@ -1,0 +1,14 @@
+{
+    "synthetic samplesheet: output matches the saved snapshot": {
+        "content": [
+            [
+                "metadata_screen.tsv:md5,8fa7aeffdad7551344f1862717668088"
+            ]
+        ],
+        "timestamp": "2026-10-21T10:18:02.815247",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.2"
+        }
+    }
+}

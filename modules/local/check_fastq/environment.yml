@@ -1,8 +1,10 @@
 # Used by -profile conda. Pinned so the check behaves the same on every
-# machine (D45); gzip matches nf-core's untar module.
+# machine (D45). gzip 1.12 is the version inside the pinned R container, so
+# Docker and conda runs record the same version (the pipeline nf-test
+# snapshot checks this).
 channels:
   - conda-forge
 dependencies:
   - conda-forge::bash=5.2
-  - conda-forge::gzip=1.13
+  - conda-forge::gzip=1.12
   - conda-forge::gawk=5.3.1

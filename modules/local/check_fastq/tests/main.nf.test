@@ -1,0 +1,64 @@
+nextflow_process {
+
+    name "Test Process CHECK_FASTQ"
+    script "../main.nf"
+    process "CHECK_FASTQ"
+    tag "check_fastq"
+
+    test("well-formed paired files pass") {
+        when {
+            process {
+                """
+                input[0] = [ [ id: 'GOOD' ], [
+                    file(params.test_data + 'sarscov2/illumina/fastq/test_1.fastq.gz', checkIfExists: true),
+                    file(params.test_data + 'sarscov2/illumina/fastq/test_2.fastq.gz', checkIfExists: true) ] ]
+                """
+            }
+        }
+        then {
+            assert process.success
+            def rows = path(process.out.tsv[0][1]).readLines()
+            assert rows.size() == 3
+            assert rows.drop(1).every { it.split('\t')[2] == 'ok' }
+        }
+    }
+
+    test("malformed FASTQ inside valid gzip is caught") {
+        when {
+            process {
+                """
+                input[0] = [ [ id: 'BROKEN' ],
+                    file(params.test_data + 'sarscov2/illumina/fastq/test_1_broken.fastq.gz', checkIfExists: true) ]
+                """
+            }
+        }
+        then {
+            assert process.success            // a bad file is a result, not a crash
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[2] == 'unreadable'
+            assert row[3] == 'record 2: quality has 68 characters but the sequence has 77'
+        }
+    }
+
+    test("truncated gzip is caught") {
+        when {
+            process {
+                """
+                // Cut a real file in half (this block runs inside Nextflow,
+                // which nf-test's setup block does not).
+                def src   = file(params.test_data + 'sarscov2/nanopore/fastq/test_2.fastq.gz', checkIfExists: true)
+                def bytes = src.bytes
+                def cut   = file("\${workflow.workDir}/truncated.fastq.gz")
+                cut.bytes = java.util.Arrays.copyOf(bytes, bytes.length.intdiv(2))   // no array casts in strict syntax
+                input[0] = [ [ id: 'TRUNC' ], cut ]
+                """
+            }
+        }
+        then {
+            assert process.success
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[2] == 'unreadable'
+            assert row[3].startsWith('gzip data is truncated or corrupt')
+        }
+    }
+}

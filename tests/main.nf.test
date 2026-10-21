@@ -1,0 +1,28 @@
+nextflow_pipeline {
+
+    name "seq-triage: whole pipeline on the test profile"
+    script "../main.nf"
+    config "../conf/test.config"
+    tag "pipeline"
+
+    test("every sample gets its expected verdict") {
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            assert workflow.success
+            // One "sample<TAB>verdict" line per sample, and every tool's
+            // version. Any change to a verdict or a version fails this test
+            // until the snapshot is deliberately updated (nf-test --update-snapshot),
+            // so such changes are always visible in review.
+            def summary  = path("$outputDir/triage_summary.tsv").readLines()
+            def head     = summary[0].split('\t') as List
+            def verdicts = summary.drop(1).collect { l -> def f = l.split('\t', -1); "${f[head.indexOf('sample')]}\t${f[head.indexOf('verdict')]}" }.sort()
+            def versions = path("$outputDir/pipeline_info/software_versions.tsv").readLines().drop(1)
+                .collect { l -> def f = l.split('\t'); "${f[1]}\t${f[2]}" }.unique().sort()
+            assert snapshot(verdicts, versions).match()
+        }
+    }
+}
