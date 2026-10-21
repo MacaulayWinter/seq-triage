@@ -136,13 +136,21 @@ jobs:
           conda activate fromlock
           nf-core pipelines lint --dir . --fail-warned
 
-      # --help is generated from nextflow_schema.json: check it runs, exits 0
-      # and lists a parameter, so a schema or config error cannot hide here.
+      # --help is generated from nextflow_schema.json: check it prints the
+      # parameters, so a schema or config error cannot hide here. The exit
+      # code is NOT checked: nf-schema cancels the run after printing help,
+      # and the code that leaves is 0 on a Mac but 1 on this runner (CI fix
+      # #2). The text is what matters: the usage line, a parameter from each
+      # group, and the closing note must all be there.
       - name: --help lists the parameters
         run: |
           conda activate fromlock
-          nextflow run . --help > help.txt
+          nextflow run . --help > help.txt 2>&1 || true
+          cat help.txt
+          grep -q -- 'Typical pipeline command' help.txt
+          grep -q -- '--input' help.txt
           grep -q -- '--kraken2_batch' help.txt
+          grep -q -- 'Samplesheet columns' help.txt
 
   # nf-test (CLAUDE.md D46): module tests for our own processes and a
   # whole-pipeline snapshot test. --ci makes a missing snapshot an error, so
