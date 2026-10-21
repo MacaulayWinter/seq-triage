@@ -95,17 +95,30 @@ pinned.
 nextflow run main.nf -profile docker --input samplesheet.csv --outdir results
 ```
 
-**On Apple Silicon Macs**, add `emulate_amd64`. Most bioinformatics
-containers are built for Intel/AMD (amd64) processors only, and this runs
-them under Rosetta emulation:
+**On Apple Silicon Macs**, add `arm64`:
 
 ```bash
-nextflow run main.nf -profile docker,emulate_amd64 --input samplesheet.csv --outdir results
+nextflow run main.nf -profile docker,arm64 --input samplesheet.csv --outdir results
 ```
 
-Enable Rosetta first: Docker Desktop → Settings → General → *Use Rosetta for
-x86_64/amd64 emulation on Apple Silicon*. Profile order matters: put
-`emulate_amd64` after `docker`.
+seqkit, fastp, FastQC, MultiQC and the R steps then run natively. NanoPlot,
+Kraken2, Bracken and untar have no Apple Silicon images yet, so they still
+run under Rosetta emulation. Enable it first: Docker Desktop → Settings →
+General → *Use Rosetta for x86_64/amd64 emulation on Apple Silicon*. Put
+`arm64` after `docker`.
+
+On the test profile this is 32% faster than emulating everything (99 s
+against 145 s), and the results are **identical**: verdicts, metrics and
+every raw QC number. `-profile docker,emulate_amd64` (everything emulated)
+still works.
+
+If the first run stops with Docker's `failed to extract layer … not found`,
+two tasks tried to download the same new image at once. Pull it once by
+hand, then rerun with `-resume`:
+
+```bash
+docker pull --platform linux/arm64 docker.io/rocker/r-ver:4.5.2@sha256:fd4ccdd3a4a6f7ef805e2daeee2a0fe3bf126bc231f36351223baecf5a595a4c
+```
 
 **On an HPC or any machine without Docker** (no Apptainer/Singularity
 either), use conda for the tools and SLURM for the jobs:
