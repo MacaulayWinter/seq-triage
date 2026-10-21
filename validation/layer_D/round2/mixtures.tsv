@@ -1,0 +1,14 @@
+mixture	base	contaminant	fraction	sample_type	metric	expected_verdict	score_verdict	note
+CTRL_ECOLI	ECE228		0	isolate	off_target_fraction	PASS	yes	pure base: no false contamination (tests the E. coli / Shigella split)
+HUMAN_0.5	ECE228	HG002	0.005	isolate	host_fraction	PASS	yes	under the 1% warn limit
+HUMAN_2	ECE228	HG002	0.02	isolate	host_fraction	WARN	yes	over 1%, under 10%
+HUMAN_10	ECE228	HG002	0.10	isolate	host_fraction	WARN_OR_FAIL	no	at the 10% fail limit: estimate scored, verdict not
+HUMAN_30	ECE228	HG002	0.30	isolate	host_fraction	FAIL	yes	over the 10% fail limit
+HUMAN_10_META	ECE228	HG002	0.10	metagenome	host_fraction	PASS	yes	host DNA expected in a metagenome: reported, not judged
+KPN_2	ECE228	ALF22C020	0.02	isolate	off_target_fraction	PASS	yes	different genus, under the 5% warn limit
+KPN_10	ECE228	ALF22C020	0.10	isolate	off_target_fraction	WARN	yes	different genus, over 5%, under 20%
+KPN_30	ECE228	ALF22C020	0.30	isolate	off_target_fraction	FAIL	yes	different genus, over the 20% fail limit
+ENT_10	ECE228	CPO413	0.10	isolate	off_target_fraction	WARN	yes	same family, different genus
+CTRL_KPN	ALF22C020		0	isolate	off_target_fraction	PASS	yes	pure second base
+KVAR_10	ALF22C020	KPE040	0.10	isolate	off_target_fraction	WARN	yes	same genus, different species: the hard case
+STRAIN_30	ECE228	AH21H052	0.30	isolate	off_target_fraction	PASS	limit	another E. coli strain: species-level screening cannot see it; PASS here DOCUMENTS the limit

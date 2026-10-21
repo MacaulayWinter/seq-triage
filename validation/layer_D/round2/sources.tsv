@@ -1,0 +1,7 @@
+source	organism	isolate	study	illumina_run	ont_run	role	ilm_skip	ont_skip
+ECE228	Escherichia coli	ECE228	PRJNA1287288	SRR34410440	SRR34410439	base (round 1: ECE107)	0	0
+ALF22C020	Klebsiella pneumoniae	ALF22C020	PRJNA1287288	SRR34410464	SRR34410463	different genus; base for the same-genus test (round 1: KPE111)	0	0
+AH21H052	Escherichia coli	AH21H052	PRJNA1287288	SRR34410468	SRR34410467	second strain of the base species, expected to be MISSED (round 1: ECE170)	0	0
+KPE040	Klebsiella variicola	KPE040	PRJNA1287288	SRR34410544	SRR34410543	same genus as ALF22C020, different species (round 1: KPE072)	0	0
+CPO413	Enterobacter hormaechei	CPO413	PRJNA1287288	SRR34410453	SRR34410452	same family, different genus (round 1: CPO025)	0	0
+HG002	Homo sapiens	HG002 (NA24385, Genome in a Bottle; openly consented)	PRJNA1427896 / PRJEB86853	SRR37356339	ERR14767824	host: the NEXT 100,000 Illumina pairs and a different nanopore run (round 1: first 100,000 pairs; ERR14767823)	100000	0
