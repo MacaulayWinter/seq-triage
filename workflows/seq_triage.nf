@@ -7,6 +7,7 @@
  */
 
 include { SCREEN_METADATA } from '../modules/local/screen_metadata/main'
+include { CHECK_FASTQ     } from '../modules/local/check_fastq/main'
 include { DETECT_PLATFORM } from '../modules/local/detect_platform/main'
 include { TRIAGE_REPORT   } from '../modules/local/triage_report/main'
 include { SEQKIT_STATS    } from '../modules/nf-core/seqkit/stats/main'
@@ -116,6 +117,7 @@ def seqkitRows(String sample, tsv) {
 
 /*
  * routeSample: decide which QC a sample gets, and on what basis (CLAUDE.md D2).
+ *   damaged file              -> route 'unreadable' (FAIL; nothing else runs, D45)
  *   no reads                  -> route 'empty'    (FAIL; no QC can run)
  *   high-confidence detection -> route by DETECTED platform
  *   otherwise, if declared    -> route by DECLARED platform (verdict capped at WARN)
@@ -125,11 +127,14 @@ def seqkitRows(String sample, tsv) {
  * paired, and NanoPlot fails on two files, which would stop the whole run.
  * A sample confidently identified as a platform with no QC here (PacBio,
  * MGI/DNBSEQ, Element) is also 'unrouted' (routed_by 'unsupported', D40).
- * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unrouted') and
+ * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unreadable' | 'unrouted') and
  * routed_by ('detected' | 'declared' | 'blocked' | 'unsupported' | 'none').
  */
 def routeSample(Map meta) {
     def r
+    if (meta.detection_flags == 'FILE_UNREADABLE') {
+        return meta + [ route: 'unreadable', routed_by: 'none' ]
+    }
     if (meta.n_reads == 0) {
         r = [ route: 'empty', routed_by: 'none' ]
     } else if (meta.confidence == 'high') {
@@ -167,17 +172,41 @@ workflow SEQ_TRIAGE {
         .splitCsv(header: true, sep: '\t')
         .map { row -> [ row.sample, row ] }
 
-    // 2. Read statistics and platform detection, per sample. Detection
-    //    needs the stats AND the reads (headers, quality values), so the
-    //    stats are joined back onto the reads by meta.
-    SEQKIT_STATS(ch_samples)
+    // 2. Integrity check (D45): is every file readable and well-formed
+    //    FASTQ? A damaged sample skips every later step and becomes a FAIL
+    //    row; the rest of the batch carries on. Readable samples keep their
+    //    meta unchanged, so cached results stay valid.
+    CHECK_FASTQ(ch_samples)
+    ch_integrity = ch_samples
+        .join(CHECK_FASTQ.out.tsv, failOnMismatch: true, failOnDuplicate: true)
+        .branch { meta, reads, check ->
+            def rows = check.splitCsv(header: true, sep: '\t')
+            ok: rows.every { r -> r.status == 'ok' }
+                return [ meta, reads ]
+            unreadable: true
+                return [ meta, rows.findAll { r -> r.status != 'ok' }.collect { r -> "${r.file}: ${r.problem}" }.join('; '),
+                         [ reads ].flatten().size() ]
+        }
+    ch_readable = ch_integrity.ok
+
+    // 3. Read statistics and platform detection, per readable sample.
+    //    Detection needs the stats AND the reads (headers, quality values),
+    //    so the stats are joined back onto the reads by meta.
+    SEQKIT_STATS(ch_readable)
     DETECT_PLATFORM(
-        SEQKIT_STATS.out.stats.join(ch_samples, failOnMismatch: true, failOnDuplicate: true)
+        SEQKIT_STATS.out.stats.join(ch_readable, failOnMismatch: true, failOnDuplicate: true)
     )
+    // Unreadable samples get a detection row saying so, so every sample
+    // still reaches the joins below (and the report) exactly once.
     ch_detect = DETECT_PLATFORM.out.tsv
         .map { meta, tsv -> [ meta.id, tsv.splitCsv(header: true, sep: '\t')[0] ] }
+        .mix(ch_integrity.unreadable.map { meta, problem, n_files ->
+            [ meta.id, [ n_files: "${n_files}", n_reads: '0', detected_platform: 'uncertain',
+                         detected_layout: 'uncertain', confidence: 'uncertain',
+                         detection_flags: 'FILE_UNREADABLE', reasons: problem ] ]
+        })
 
-    // 3. Join everything onto the sample by ID. failOnMismatch: a sample
+    // 4. Join everything onto the sample by ID. failOnMismatch: a sample
     //    missing from either side stops the run instead of silently
     //    dropping out. The screen's NORMALISED declared_platform replaces
     //    the raw value from nf-schema (the report reads the raw value and the
@@ -205,7 +234,7 @@ workflow SEQ_TRIAGE {
             [ routeSample(merged), reads ]
         }
 
-    // 4. Route. Only samples with a platform get QC; 'empty' and
+    // 5. Route. Only samples with a platform get QC; 'empty' and
     //    'unrouted' go straight to the report.
     ch_routed = ch_triaged.branch { meta, _reads ->
         illumina: meta.route == 'illumina'
@@ -213,13 +242,13 @@ workflow SEQ_TRIAGE {
         no_qc:    true
     }
 
-    // 5. QC. fastp's three flags: don't discard trimmed reads, don't save
+    // 6. QC. fastp's three flags: don't discard trimmed reads, don't save
     //    failed reads, don't merge pairs. This is triage, not preprocessing.
     FASTP(ch_routed.illumina.map { meta, reads -> [ meta, reads, [] ] }, false, false, false)
     FASTQC(ch_routed.illumina)
     NANOPLOT(ch_routed.ont)
 
-    // 5b. Contamination screen (CLAUDE.md D41), only when a Kraken2 database
+    // 6b. Contamination screen (CLAUDE.md D41), only when a Kraken2 database
     //     is given. Every sample sent to QC is classified by Kraken2 (host
     //     and unclassified fractions, species for ONT). Illumina samples
     //     also get Bracken's species-level re-estimate; it is calibrated for
@@ -247,7 +276,7 @@ workflow SEQ_TRIAGE {
         .collect()
     MULTIQC(ch_multiqc_files.map { files -> [ [ id: 'seq-triage' ], files, [], [], [], [] ] })
 
-    // 6. Report over ALL samples, routed or not. samples.tsv is built from
+    // 7. Report over ALL samples, routed or not. samples.tsv is built from
     //    meta, one line per sample, sorted so the file is reproducible.
     def cols = [ 'id', 'single_end', 'n_files', 'n_reads', 'detected_platform', 'detected_layout',
                  'confidence', 'detection_flags', 'reasons', 'route', 'routed_by' ]
@@ -269,7 +298,7 @@ workflow SEQ_TRIAGE {
 
     TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups)
 
-    // 7. Software versions actually used (reproducibility layer 4): every
+    // 8. Software versions actually used (reproducibility layer 4): every
     //    module reports [process, tool, version] to the 'versions' topic.
     //    MultiQC reports separately: it consumes outputs, so publishing to the
     //    topic itself could make the pipeline wait forever.

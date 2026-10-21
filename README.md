@@ -192,6 +192,7 @@ single-end.
 | `qc_values.tsv` | Every raw number the report judged, traced to the tool and file it came from |
 | `multiqc/` | MultiQC report over all QC tools |
 | `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
+| `integrity/` | Whether each file was readable and well-formed FASTQ. A damaged file gets a FAIL row saying exactly what is wrong, and the other samples still finish |
 | `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
 | `pipeline_info/` | Software versions actually used, run timeline, resource report |
 
