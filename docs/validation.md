@@ -242,6 +242,18 @@ score against.
    passes). `ILM_TRUNCATED_GZ` runs in the main batch, where since D45 it
    must be a FAIL row while every other sample finishes.
 
+**The panel** ([`validation/outcomes/round2/panel.tsv`](../validation/outcomes/round2/panel.tsv)),
+drawn 2026-10-21 and committed before any reads were fetched: 115 runs and
+36 backups, each from a different study. Pools after exclusions held 182
+(DNBSEQ) to 17,874 (Illumina amplicon) studies per stratum, against 4 to 121
+eligible runs in round 1. DDBJ runs are 4 of 115 (round 1: 19 of 40). Each
+pool's size and checksum is in
+[`pools.tsv`](../validation/outcomes/round2/pools.tsv). The pools themselves
+(69 MB of accessions) are not stored; re-running `select_panel.R` fetches
+them again, and ENA's contents change over time, so a later draw can differ.
+Two strata needed many runs checked to fill (Illumina RNA-seq 184, PacBio
+CLR 314), because most of their runs have no FASTQ in ENA.
+
 **Reported, not judged:** the share of correct high-confidence calls per
 stratum (how often the pipeline is useful, not only safe), and confidence by
 archive (the effect of DDBJ's stripped read names, open question A1).

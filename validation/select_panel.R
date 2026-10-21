@@ -31,6 +31,7 @@ if (length(args) != 2) stop("Usage: select_panel.R <round> <out_panel.tsv>")
 round   <- as.integer(args[1])
 out_tsv <- args[2]
 
+options(timeout = 900)   # whole-pool queries return up to ~360,000 rows; R's default is 60 s
 SEED       <- 20261020
 CANDIDATES <- 500     # runs fetched per stratum before the random pick
 BACKUPS    <- 2       # extra runs per stratum, used only if a download fails
@@ -106,8 +107,10 @@ ena_search <- function(query, n, fields = FIELDS) {
 # a third file of unpaired reads is allowed and dropped later).
 eligible <- function(cand) {
   n_files <- lengths(strsplit(ifelse(is.na(cand$fastq_ftp), "", cand$fastq_ftp), ";"))
-  !is.na(cand$fastq_ftp) & cand$tax_id != "9606" &
-    ((cand$library_layout == "SINGLE" & n_files == 1) | (cand$library_layout == "PAIRED" & n_files %in% 2:3))
+  # %in% rather than ==, so a blank field in ENA's record (NA) means "not
+  # eligible" instead of an NA that stops the script.
+  !is.na(cand$fastq_ftp) & !(cand$tax_id %in% "9606") &
+    ((cand$library_layout %in% "SINGLE" & n_files == 1) | (cand$library_layout %in% "PAIRED" & n_files %in% 2:3))
 }
 
 # Round 2 exclusions: every study in the round 1 panel file, picked or backup.
@@ -136,10 +139,30 @@ for (k in seq_len(nrow(strata))) {
     pick <- cand[sample(nrow(cand), min(want, nrow(cand))), ]
     pool_text <- sprintf("first %d candidates; %d eligible after exclusions", CANDIDATES, nrow(cand))
   } else {
-    # Whole pool, two columns only (a few MB even for 360,000 runs).
-    all_runs <- ena_search(q, 0, c("run_accession", "study_accession"))
+    # Whole pool, two columns only, fetched one calendar year at a time
+    # (smaller requests, which ENA's API answers more reliably; together they
+    # are the same pool). Each pool is saved next to the panel, so a re-run
+    # reuses it and the panel records exactly what it was drawn from.
+    pool_dir <- paste0(out_tsv, ".pools")
+    dir.create(pool_dir, showWarnings = FALSE)
+    pool_file <- file.path(pool_dir, paste0(s$stratum, ".tsv"))
+    if (file.exists(pool_file)) {
+      all_runs <- read.delim(pool_file, colClasses = "character")
+    } else {
+      years <- as.integer(substr(s$from, 1, 4)):as.integer(substr(s$to, 1, 4))
+      all_runs <- do.call(rbind, lapply(years, function(y) {
+        lo <- max(s$from, sprintf("%d-01-01", y)); hi <- min(s$to, sprintf("%d-12-31", y))
+        qy <- sprintf("%s AND %s AND first_public>=%s AND first_public<=%s",
+                      gsub("BACTERIA", BACTERIA, s$query, fixed = TRUE), NOT_HUMAN, lo, hi)
+        ena_search(qy, 0, c("run_accession", "study_accession"))
+      }))
+      write.table(all_runs, pool_file, sep = "\t", quote = FALSE, row.names = FALSE)
+    }
     all_runs <- all_runs[!all_runs$study_accession %in% CALIBRATION_STUDIES, ]
-    studies  <- unique(all_runs$study_accession)
+    # Sorted first, so the seeded shuffle depends only on the pool's contents,
+    # not on the order ENA happened to return it in.
+    all_runs <- all_runs[order(all_runs$study_accession, all_runs$run_accession), ]
+    studies  <- sort(unique(all_runs$study_accession))
     set.seed(SEED + 1000 * round + k)
     studies  <- studies[sample(length(studies))]
     pick <- list(); tried <- 0L
