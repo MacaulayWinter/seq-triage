@@ -9,3 +9,4 @@ ECE107_NOVASEQ,https://raw.githubusercontent.com/MacaulayWinter/seq-triage-test-
 ECE107_R10,https://raw.githubusercontent.com/MacaulayWinter/seq-triage-test-data/b18e39daf3c7df87a92d2ef29d4c32640f052cc1/nanopore/SRR34410547_12k.fastq.gz,,ont,isolate
 PACBIO_HIFI,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/pacbio/fastq/test_hifi.fastq.gz,,,
 SC2_ILLUMINA,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/sarscov2/illumina/fastq/test_1.fastq.gz,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/sarscov2/illumina/fastq/test_2.fastq.gz,illumina,amplicon
+BROKEN_FASTQ,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/sarscov2/illumina/fastq/test_1_broken.fastq.gz,,illumina,

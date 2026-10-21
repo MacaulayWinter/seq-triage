@@ -52,7 +52,8 @@ if (!"declared_molecule" %in% names(d)) d$declared_molecule <- NA_character_
 # WHAT IT DOES  The best verdict a sample can reach, given how well its reads
 #               confirm its metadata. QC metrics may only lower it.
 # RULE          No PASS unless the reads independently confirm the metadata.
-ceiling_for <- function(route, routed_by, confidence, declared, detected) {
+ceiling_for <- function(route, routed_by, confidence, declared, detected, reasons) {
+  if (route == "unreadable") return(c("FAIL", sprintf("File could not be read, so nothing else was run: %s. Re-download or re-copy the file.", reasons)))
   if (route == "empty")      return(c("FAIL",      "No reads in the file."))
   if (routed_by == "blocked")
     return(c("UNCERTAIN", "Long (nanopore-type) reads were given as two files. Nanopore reads are never paired, so the samplesheet is probably wrong. No QC was run."))
@@ -73,7 +74,7 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected) {
   if (declared == detected) return(c("PASS", sprintf("Reads confirm the declared platform (%s).", declared)))
   c("WARN", sprintf("Metadata says %s but the reads indicate %s. Review this sample.", declared, detected))
 }
-v <- t(mapply(ceiling_for, d$route, d$routed_by, d$confidence, d$declared_platform, d$detected_platform))
+v <- t(mapply(ceiling_for, d$route, d$routed_by, d$confidence, d$declared_platform, d$detected_platform, d$reasons))
 d$ceiling        <- v[, 1]
 d$verdict_reason <- v[, 2]
 

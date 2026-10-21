@@ -211,9 +211,9 @@ trunc_src <- path("CTRL_ILM", 1)
 trunc_dst <- path("ILM_TRUNCATED_GZ")
 bytes <- readBin(trunc_src, "raw", file.size(trunc_src))
 writeBin(bytes[seq_len(length(bytes) %/% 2)], trunc_dst)
-add("ILM_TRUNCATED_GZ", files = trunc_dst, platform = "illumina", verdict = "RUN_STOPS",
-    batch = "isolated_truncated_gz",
-    note = "gzip cut in half. Current behaviour (D18): seqkit fails and the run stops with an error naming the sample")
+add("ILM_TRUNCATED_GZ", files = trunc_dst, platform = "illumina", verdict = "FAIL", flags = "FILE_UNREADABLE",
+    note = paste("gzip cut in half. Since D45 the integrity check catches it: a FAIL row, and the rest of the batch",
+                 "carries on (rounds 1 and 1-re-run ran it alone, when it still stopped the run: 'RUN_STOPS')."))
 
 # Write --------------------------------------------------------------------------
 exp <- do.call(rbind, rows)

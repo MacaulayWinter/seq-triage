@@ -65,6 +65,9 @@ cases <- list(
   list(id = "ONT_U_DECLARED_DNA", route = "ont", flags = "U_BASES", molecule = "dna", verdict = "WARN"),
   list(id = "UNROUTED",          route = "unrouted", routed_by = "none", confidence = "uncertain",
        declared = NA, verdict = "UNCERTAIN"),
+  # D45: a damaged file is a FAIL row, not a stopped run.
+  list(id = "UNREADABLE",        route = "unreadable", routed_by = "none", confidence = "uncertain",
+       flags = "FILE_UNREADABLE", verdict = "FAIL"),
   # Decision C1 (validation round 1): headers confirm ONT, but quality is a
   # placeholder, so it cannot be assessed: WARN, never PASS.
   list(id = "ONT_PLACEHOLDER_HIGH", route = "ont", nano = c(mean_qual = 40), flags = "QUALITY_UNINFORMATIVE",

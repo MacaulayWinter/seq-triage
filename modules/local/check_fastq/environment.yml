@@ -1,0 +1,8 @@
+# Used by -profile conda. Pinned so the check behaves the same on every
+# machine (D45); gzip matches nf-core's untar module.
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::bash=5.2
+  - conda-forge::gzip=1.13
+  - conda-forge::gawk=5.3.1
