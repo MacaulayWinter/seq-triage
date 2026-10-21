@@ -34,6 +34,20 @@ env:
   NXF_ANSI_LOG: false       # plain log lines, readable in CI
 
 jobs:
+  guard:
+    name: Repository guard (no data, no HPC details)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The same check as the local pre-commit hook, over every tracked file:
+      # a hook can be skipped (git commit --no-verify) or never switched on,
+      # so CI checks again (CLAUDE.md D52). Your private strings are not
+      # here: they live only in your git-ignored private_patterns.txt.
+      - name: Check every tracked file
+        run: bash .githooks/check_repo.sh --all
+
   unit:
     name: R unit tests
     runs-on: ubuntu-24.04
