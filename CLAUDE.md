@@ -307,3 +307,19 @@ Every automatic CI fix is recorded here in plain language: what failed, why, wha
   closing samplesheet note. The help output is also printed into the CI log.
 - *How verified:* the same job passed on the next push, and lint still
   reports 153 passed, 0 failed.
+
+**3. 2026-10-22, PR #25, job "nf-test (modules + pipeline)".**
+- *What failed:* the metadata screen's nf-test, "synthetic samplesheet: output
+  matches the saved snapshot".
+- *Why:* the BAM change added four rows to the synthetic samplesheet
+  (`tests/screen_metadata/`), so the screen's output changed. I re-ran the R
+  test for that sheet (21/21) but not this nf-test, which stores a checksum of
+  the same output, so its snapshot was stale. The code was right; the check
+  had not been updated.
+- *What changed:* the snapshot was updated
+  (`modules/local/screen_metadata/tests/main.nf.test.snap`). Because a
+  checksum shows nothing, the output was compared directly first: the 17
+  original rows are byte-identical before and after, and the only difference
+  is the 4 new BAM rows (flags as expected); the new output's md5 matches the
+  new snapshot.
+- *How verified:* the nf-test passes locally; CI result recorded with the PR.
