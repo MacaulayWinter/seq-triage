@@ -182,7 +182,7 @@ Findings:
 ## Open questions
 
 - **A1 (validation): DDBJ-hosted runs lose headers.** Partly addressed by the adapter checker (D40): ONT adapters can confirm ONT. Illumina runs with stripped headers and no binned quality stay at medium by design, because Illumina adapters cannot confirm the instrument.
-- **Contamination validation** needs the v0.2 screen; plan: GIAB HG002 reads spiked into bacterial reads at 1/5/20%.
+- **Bracken version label:** the 3.1 container and conda package both report `3.0.1`; recorded as reported (`docs/reproducibility.md`).
 - **BASENAME_MISMATCH when the sample ID is the file name plus a suffix** (`A1403KPN_ont` vs `A1403KPN.fq.gz`): warn (current) or accept? Found in the survey.
 - **Do screen flags affect the verdict ceiling?** Currently they are listed as notes only. LAYOUT_CONFLICT, MATES_POSSIBLY_SWAPPED and ID_COLLISION arguably should cap at WARN.
 - Final allowed values for `sample_type` (proposed:
@@ -208,26 +208,30 @@ Findings:
 
 ## Status
 
-**Current state (end of session 1, 2026-10-20):** `main` at `a19dd41` (PR #10). 10 PRs, each
-merged only after CI passed (CI: unit tests, e2e with Docker, e2e with conda).
+**Current state (session 2, 2026-10-21):** `main` at `e25edb0` (PR #19). 19 PRs, each
+merged only after CI passed. CI has five jobs: R unit tests, e2e with Docker, e2e with conda,
+lockfile rebuild (linux-64), nf-test.
 - v0.1: validated (round 1 re-run: A 0 wrong-high, B 542/542, C 29/29; D39, D40).
-- v0.2 contamination screen (D41): built, tested in CI with Docker and conda.
-- HPC support: `conda` + `slurm` profiles (D42); ISCA has no Apptainer/Singularity.
-- Validation layer D (D43): kit merged and rehearsed locally end to end; **results pending
-  the user's ISCA run** (`validation/layer_D/README.md`; their Kraken2 DB is Standard-8,
-  Oct 2025). Claude never acts on the HPC.
+- Added today: integrity check, a damaged file is a FAIL row (D45); nf-test (D46); native
+  `arm64` profile (D44); Linux lockfiles + WSL2 route for Windows (D48); `--kraken2_batch` (D50).
+- v0.2 contamination screen (D41) with the 1% trace-species floor (D47).
+- Layer D round 1 (Standard-8): 19/24, **pass mark not met** (D47; `docs/validation.md`).
+- Layer D round 2 (D49, pre-registered): **running on ISCA**, submitted by the user
+  2026-10-21: Standard-8 per-sample (`~/seqtriage_layer_D_r2_std8`) and full Standard DB in
+  batch mode (`~/seqtriage_layer_D_r2_full`, `settings_full.config`). The full DB (Oct 2025,
+  95 GB, md5-verified 17/17) is at `~/kraken2_db_full` on ISCA. Claude never acts on the HPC.
 
 **Next:**
-1. User runs layer D on ISCA and copies back `layer_D_results.tgz`; score with
-   `validation/layer_D/score_layer_D.R`, then write the results into `docs/validation.md`
-   (naming the database) and decide on any limit changes.
-2. Repo stays private until fully developed (user decision). To share with one reviewer,
-   add them as a read-only collaborator.
-3. Validation round 2 (~150 runs, wider candidate pools).
-4. Remaining v0.2: BAM/uBAM input, PacBio QC, rRNA fraction, isolate/metagenome
-   classification, downstream pipeline recommendation; strain-level contamination
-   (ConFindr-style) as its own item.
-5. Open questions above.
+1. User copies back `std8.tgz` and `full.tgz` (`validation/layer_D/README.md`, round 2 step 4);
+   score each with `score_layer_D.R`, compare the databases, write up in `docs/validation.md`.
+   Do not rsync to ISCA while those runs are going.
+2. Validation round 2 of layers A-C (~150 runs; user: "can wait but it's important").
+3. Weekend: one-page interview walkthrough (user item 7).
+4. Next week: v0.2 features (user item 6): BAM/uBAM input, PacBio QC, rRNA fraction,
+   isolate/metagenome classification, downstream pipeline recommendation; strain-level
+   contamination (ConFindr-style) as its own item.
+5. Repo stays private until fully developed (user decision).
+6. Open questions above.
 
 **How to run things (notes for future sessions):**
 - User's shell: `conda activate seq-triage-dev` before `nextflow`/`nf-core`.
@@ -239,20 +243,9 @@ merged only after CI passed (CI: unit tests, e2e with Docker, e2e with conda).
   (caps memory at Docker's 11.7 GB).
 - `~/Documents` is synced to iCloud ("Desktop & Documents"); the pipelines
   folder is set to "Keep Downloaded". Bulky data and Nextflow work dirs go in
-  `~/seqtriage-scratch/` (not synced). The Mac's disk is nearly full (~7 GB
-  free on 2026-10-20): delete work dirs after each run.
+  `~/seqtriage-scratch/` (not synced). The Mac's disk is nearly full (~7-10 GB
+  free, 2026-10-20/21): delete work dirs after each run.
 - Deadline for the portfolio piece: Thursday 2026-10-22; careful steps over speed.
-
-**Layer D kit (merged as PR #10):** sources fetched (checksums in kit output; the ECE107 ONT
-file matches the test-data repo's md5); full local rehearsal passes end to end (Docker + tiny DB: 120
-tasks, 374 KB results file, no reads inside); scorer verified to FAIL on meaningless estimates. Next:
-the user runs `validation/layer_D/README.md` on ISCA and brings back `layer_D_results.tgz`.
-
-**Earlier in progress (branch `contamination-screen`, merged as PR #8):** D41 built and tested: report 29/29 (9 new
-contamination cases, 2 gates), detection 29/29, screen 17/17, e2e 6/6 with the screen on
-(test DB). `SC2_ILLUMINA` added so CI exercises Bracken. Next: the ISCA run kit + validation
-layer D (user runs it on ISCA; Claude never acts on the HPC). Open: Bracken container tag 3.1
-vs reported 3.0.1 (docs/reproducibility.md).
 
 **History (session 1, 2026-10-20):**
 - Environment, git identity, repo, reproducible launch env, skeleton config,
@@ -269,6 +262,17 @@ vs reported 3.0.1 (docs/reproducibility.md).
 - Contamination screen, species level (D41) -> PR #8 (`83efa08`).
 - conda + slurm profiles; NanoPlot conda fix (CI fix #1) (D42) -> PR #9 (`376bf5f`).
 - Validation layer D kit, rehearsed; two pre-run fixes (D43) -> PR #10 (`a19dd41`).
+
+**History (session 2, 2026-10-21):**
+- Session-end status -> PR #11 (`0f5e2ff`).
+- Native `arm64` profile (D44) -> PR #12 (`8f914b6`).
+- Integrity check, damaged file -> FAIL row (D45) -> PR #13 (`a67816c`).
+- nf-test (D46) -> PR #14 (`065e84f`).
+- Layer D round 1 results; 1% trace-species floor; E. coli-in-Klebsiella investigation (D47) -> PR #15 (`e90e05d`).
+- Linux lockfiles, WSL2 route (D48) -> PR #16 (`8bc1c71`).
+- Layer D round 2 design, pre-registered (D49) -> PR #17 (`d8f64ec`).
+- `--kraken2_batch`; per-run launch folders for layer D (D50) -> PR #18 (`e2075de`).
+- `.gitignore` covers every layer D settings file and run log -> PR #19 (`e25edb0`).
 
 ## CI fix log
 
