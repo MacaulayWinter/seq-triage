@@ -91,11 +91,14 @@ rsync -av --exclude work --exclude .nextflow --exclude .nf-test --exclude 'resul
 
 `settings.config` lives only on the HPC, and rsync leaves it alone.
 
-**2. Make a second settings file for the full database** (on the HPC). Kraken2
-loads the whole database into memory, so it needs about 100 GB:
+**2. Make a second settings file for the full database** (on the HPC). It
+uses batch mode (D50): one Kraken2 task reads the ~94 GB database once and
+classifies every sample, instead of one load per sample. Per-sample loads of
+the full database from shared storage did not finish within 4 hours in the
+first round 2 attempt (exit 140, SLURM's time limit):
 
 ```bash
-cd ~/seq-triage && sed -e "s#^params.kraken2_db .*#params.kraken2_db = '$HOME/kraken2_db_full'   // Standard (full), Oct 2025#" -e 's/memory = 16.GB/memory = 100.GB/' validation/layer_D/settings.config > validation/layer_D/settings_full.config && cat validation/layer_D/settings_full.config
+cd ~/seq-triage && { echo "// Full Standard database (Oct 2025), batch mode. Git-ignored: never committed."; echo "params.kraken2_db    = '$HOME/kraken2_db_full'"; echo "params.kraken2_batch = true"; grep -E '^process\.(queue|clusterOptions)' validation/layer_D/settings.config; echo "process { withName: 'KRAKEN2_BATCH' { memory = 100.GB; cpus = 8; time = 12.h } }"; } > validation/layer_D/settings_full.config && cat validation/layer_D/settings_full.config
 ```
 
 **3. Submit both runs:**
