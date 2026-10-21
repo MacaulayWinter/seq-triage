@@ -341,6 +341,26 @@ No real research data is stored in this repository. Test data comes from
 public sources and is referenced by URL. `.gitignore` blocks sequencing file
 formats anywhere in the tree as a second safeguard.
 
+### Repository guard
+
+A pre-commit hook refuses any commit that holds sequencing data (by file
+type or by content), a file over 1 MB, an HPC account or cluster path, or a
+non-noreply author email. Turn it on once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Add your own private strings (account names, usernames), one per line, to
+`.githooks/private_patterns.txt`; that file is git-ignored. CI runs the same
+check on every tracked file, in case the hook was skipped.
+
+To merge a pull request only once CI passes (GitHub's branch protection is
+not available for private repositories on the free plan):
+
+```bash
+bash .githooks/merge_when_green.sh <PR number>
+```
 ## Citations
 
 If you use seq-triage, please cite the tools it is built on:

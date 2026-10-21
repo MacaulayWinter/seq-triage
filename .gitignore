@@ -60,3 +60,6 @@ scratch/
 validation/layer_D/settings*.config
 !validation/layer_D/settings.example.config
 layer_D_*.log
+
+# Your own private strings for the repo guard (one per line); never committed
+.githooks/private_patterns.txt
