@@ -600,6 +600,73 @@ earlier round used (rounds 1-3 and layer E excluded).
 - **Reported:** correct high-confidence calls per stratum (the cost of D67:
   phage isolates are expected at medium by design), and wrong medium calls.
 
+## Results: layer E round 2 (2026-10-22)
+
+49 runs on the HPC with Standard-8, commit `41febc1` (D70's fix included;
+the job log records the commit). Tables:
+[`validation/outcomes/layer_E_round2/`](../validation/outcomes/layer_E_round2/).
+
+**Pass mark NOT met: 7 wrong at high confidence (mark: 0).** Recorded as
+failed.
+
+| Stratum | Correct, high | Uncertain | Wrong, medium | **Wrong, high** |
+|---|---|---|---|---|
+| Viral amplicons (12) | 6 | 2 | 4 | 0 |
+| Environmental metagenomes (10) | 8 | 2 | 0 | 0 |
+| Gut metagenomes (6) | 6 | 0 | 0 | 0 |
+| Bacterial isolates (10) | 7 | 0 | 0 | **3** |
+| Phage isolates (5) | 0 | 1 | 0 | **4** |
+| 16S amplicons (6) | 6 | 0 | 0 | 0 |
+
+**What D67 was meant to stop, it stopped.** No sample was wrongly called
+an isolate at high confidence (layer E's whole failure). The virus rule,
+working since D70, held 4 viral amplicons that would have been "isolate,
+high" at medium. Viral amplicons from the real Kraken2 rows: 85-100% viral.
+
+**A new failure, in the other direction: isolates called metagenome (6) or
+amplicon (1).**
+
+- **4 phages and 2 poorly-known bacteria** (a phytoplasma, a
+  *Paraburkholderia* species) were called "metagenome, high". The database
+  knows them only through relatives, so Kraken2 spreads their reads over
+  sister species: 4-34 species at 1% or more. At genus level, one genus
+  holds 72-100% of genus-level reads; every true metagenome in the round
+  is at 37% or less. (The pre-registration expected phages at "isolate,
+  medium"; they were not called isolates at all.)
+- **SRR10176048** ("Proteobacteria bacterium 005FR1") was called metagenome:
+  species across *Pseudoalteromonas*, *Burkholderia* and *Staphylococcus*,
+  85% unclassified, top genus 11%. A novel proteobacterium would not look
+  like *Staphylococcus*; this may be a mixed sample. **Unexplained**, not
+  adjudicated.
+- **SRR23446558** (a *Mycobacterium* phage) was called amplicon: 28% of
+  reads start with one of 10 sequences; the other phages show 1-3%.
+  **Unexplained.**
+
+### Decision after layer E round 2 (D73)
+
+**A metagenome call is high only if the most common genus holds under 50%
+of genus-level reads** (Kraken2 rank G, genus *Homo* excluded); otherwise
+medium. Without genus counts, medium. Chosen after seeing this round, so a
+later round must test it.
+
+Re-scored on the real Kraken2 tables
+([`rescore_D73.R`](../validation/layer_E/rescore_D73.R)):
+
+| | Wrong at high | Correct at high |
+|---|---|---|
+| Layer E round 2, as run | 7 | 33 / 49 |
+| Layer E round 2, with D73 | **2** (the two unexplained runs) | 33 / 49 |
+| Layer E round 1, with D73 | no new wrong call | one fewer: a *Microcystis* bloom (98% one genus) drops to correct, medium |
+
+(The round 1 re-score file also lists the 3 SARS-CoV-2 amplicons as wrong
+at high. That file was scored with the code from before D70; D70 showed
+those 3 drop to medium.)
+
+**Found while scoring:** `fetch_panel.sh` deleted each file's checksum after
+logging it, and a re-run rewrites the log, so this re-run's log lost the
+checksums of 96 of 98 reused files (the reads themselves were reused, not
+re-fetched). Fixed: the checksum file is kept with the reads.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

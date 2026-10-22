@@ -41,7 +41,9 @@ fetch_one() {
     local lines; lines=$(wc -l < "$3.tmp" | tr -d ' ')
     if [ "$lines" -eq 0 ] || [ $(( lines % 4 )) -ne 0 ]; then rm -f "$3.tmp"; echo 0; return; fi
     # md5 of the uncompressed reads goes to a side file: this function runs
-    # in a subshell, so a variable set here would be lost.
+    # in a subshell, so a variable set here would be lost. The side file is
+    # kept, so a re-run (files reused) still logs the checksum: deleting it
+    # lost them from layer E round 2's re-run log (D73).
     if command -v md5sum >/dev/null; then md5sum "$3.tmp" | cut -d' ' -f1; else md5 -q "$3.tmp"; fi > "$3.md5"
     gzip -n -c "$3.tmp" > "$3" && rm -f "$3.tmp"
     echo $(( lines / 4 )) | tee "$3.done"
@@ -67,7 +69,6 @@ for stratum in $(col stratum | awk '!seen[$0]++'); do
             counts+=("$c")
             printf '%s\t%s\t%s\t%s\t%s\t%s\t\n' "$stratum" "$run" "$([ "$c" -gt 0 ] && echo ok || echo failed)" \
                 "$(basename "$f")" "$c" "$(cat "$f.md5" 2>/dev/null)" >> "$log"
-            [ -s "$f.md5" ] && rm -f "$f.md5"
             [ "$c" -gt 0 ] || ok=0
         done
         if [ "$ok" -eq 1 ] && [ "${#counts[@]}" -eq 2 ] && [ "${counts[0]}" -ne "${counts[1]}" ]; then

@@ -44,7 +44,20 @@ MOSTLY_UNKNOWN <- c("U|0|unclassified" = 940000, "S|562|Escherichia coli" = 5500
 # Six species, none above 25%: a community (D65).
 META <- c("S|562|Escherichia coli" = 200000, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 180000,
           "S|1280|Staphylococcus aureus" = 170000, "S|287|Pseudomonas aeruginosa" = 160000,
-          "S|1352|Enterococcus faecium" = 150000, "S|1313|Streptococcus pneumoniae" = 120000)
+          "S|1352|Enterococcus faecium" = 150000, "S|1313|Streptococcus pneumoniae" = 120000,
+          "G|561|Escherichia" = 200000, "G|570|Klebsiella" = 180000, "G|1279|Staphylococcus" = 170000,
+          "G|286|Pseudomonas" = 160000, "G|1350|Enterococcus" = 150000, "G|1301|Streptococcus" = 120000)
+# D73: one new phage split over three sister species of one genus (layer E
+# round 2): species say "many organisms", the genus says one. Human reads in
+# genus Homo must not count.
+PHAGE_SPLIT <- c("U|0|unclassified" = 100000, "R1|10239|Viruses" = 900000,
+                 "G|2732974|Drulisvirus" = 900000, "G|9605|Homo" = 5000000,
+                 "S|2560502|Drulisvirus KpS2" = 300000, "S|2560503|Drulisvirus F19" = 250000,
+                 "S|2560504|Drulisvirus KpV71" = 200000, "S|2560505|Drulisvirus KpV41" = 150000,
+                 "S|562|Escherichia coli" = 0, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0,
+                 "S|9606|Homo sapiens" = 0)
+# Community species without any genus rows: D73 cannot run, so not high.
+META_NO_GENUS <- META[!startsWith(names(META), "G|")]
 
 # Cases: platform route, metadata, detection, QC overrides (NA removes a
 # field), and what to expect.
@@ -171,6 +184,11 @@ cases <- list(
        verdict = "PASS", expect_type = "isolate medium"),
   list(id = "TYPE_MOSTLY_UNCLASSIFIED", route = "illumina", start = 0.02, screen = TRUE, kraken = MOSTLY_UNKNOWN,
        verdict = "PASS", expect_type = "isolate medium"),
+  # D73 (after layer E round 2): metagenome HIGH needs the top genus under 50%.
+  list(id = "TYPE_PHAGE_SPLIT",    route = "illumina", start = 0.02, screen = TRUE, kraken = PHAGE_SPLIT,
+       verdict = "FAIL", hint = TRUE, expect_type = "metagenome medium"),
+  list(id = "TYPE_META_NO_GENUS",  route = "illumina", start = 0.01, screen = TRUE, kraken = META_NO_GENUS,
+       verdict = "FAIL", hint = TRUE, expect_type = "metagenome medium"),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
