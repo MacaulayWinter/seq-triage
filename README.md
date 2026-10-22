@@ -8,12 +8,14 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: v0.1, working; validation round 2 under review.** Every step runs
+> **Status: v0.1, working; validation round 2 failed one pass mark.** Every step runs
 > end to end and is tested in CI on every change. Round 1 (40 public runs,
 > 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
 > runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
-> 115 runs, now under review ([results](docs/validation.md)). The v0.2
-> features are planned; see [Roadmap](#roadmap).
+> 115 runs. One was an ENA labelling error; the other led to a stricter rule
+> (D58), chosen after the fact and so still to be tested by a later round
+> ([results](docs/validation.md)). BAM input (v0.2) is built; see
+> [Roadmap](#roadmap).
 
 ## Why
 
@@ -324,7 +326,11 @@ registered**, with 2 wrong calls at high confidence out of 115. One is very
 likely another ENA labelling error; the other exposes a real limit: when the
 archive has stripped the read names, binned quality alone can raise an MGI
 run to "Illumina, high". Both are set out with their evidence in
-[docs/validation.md](docs/validation.md), with the decision still open.
+[docs/validation.md](docs/validation.md). Decided afterwards (D58): the
+first is recorded as an ENA error; binned quality alone now gives at most
+medium confidence. Re-scored that way, no call is wrong at high confidence,
+at the cost of 7 correct calls dropping to medium. A rule chosen after
+seeing the data cannot be tested by the same data, so round 2 stays a fail.
 
 ## Roadmap
 
