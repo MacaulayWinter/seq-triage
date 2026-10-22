@@ -406,6 +406,76 @@ ont but the reads suggest illumina (detection confidence: medium) ... Review
 this sample." No round 2 panel sample declares a platform, so the re-score
 above is unchanged.
 
+## Round 3, layer A: testing D58 and D60 (pre-registered 2026-10-22)
+
+Fixed before any round 3 run was selected or fetched (CLAUDE.md D61). D58
+(binned quality alone gives at most medium confidence) and D60 (a medium or
+low call that contradicts the declared platform is not routed) were chosen
+after seeing round 2, so round 2 cannot test them. Round 3 does, on studies
+neither rule has seen.
+
+- **Exclusions:** every study in the round 1 and round 2 panel files, plus
+  the calibration studies.
+- **Draw:** the round 2 method (whole pool, studies in seeded random order,
+  one random run per study), from round 2's saved pool snapshot
+  (2026-10-21; checksums in `round2/pools.tsv`), seed offset for round 3.
+- **54 runs**, weighted to where the rules act: Illumina strata whose runs
+  often lose their read names (NovaSeq 6000 6, NovaSeq X 4, metagenome 4,
+  metatranscriptome 4, RNA-seq 4), other Illumina (NextSeq, MiSeq, HiSeq,
+  3 each), DNBSEQ 8, Element 4, Ion Torrent 3, PacBio HiFi 2 and CLR 2,
+  nanopore 4 (2 older, 2 R10-era). Amplicon and nanopore RNA/metagenome
+  strata are left out: the rules do not act there.
+- **Declared platforms (new):** each run declares ENA's platform where it is
+  illumina or ont (`DECLARE=ena`), as a user would; other platforms are left
+  blank. A mislabelled run becomes a real contradiction, which D60 governs.
+- **Same subsampling** (50,000 short reads, 5,000 long reads per file),
+  contamination screen off, no layer C.
+
+**Pass marks:**
+
+| Mark | Rule |
+|---|---|
+| **A1** | Zero wrong calls at high confidence (truth: ENA, corrected only by a documented hand review). |
+| **A2** | No run of a platform seq-triage does not handle (PacBio, DNBSEQ, Element, Ion Torrent) is routed to QC: no PASS, WARN or FAIL from QC. |
+| **B** | Every independently recalculated number within its tolerance, as before. |
+
+**Reported, not judged:** correct high-confidence calls per stratum (the
+cost of D58), every contradiction and how D60 settled it, confidence by
+archive.
+
+## Results: round 3, layer A (2026-10-22)
+
+54 runs, scored against the pre-registered marks above. Tables:
+[`validation/outcomes/round3/`](../validation/outcomes/round3/). Pipeline at
+`main` `4bacd96` (D58 and D60 included), `-profile docker,arm64`, two batches.
+
+| Mark | Result |
+|---|---|
+| **A1** Wrong at high confidence | **0** ✓ |
+| **A2** Unhandled platform routed to QC | **0 of 19** ✓ |
+| **B** Independent checks | **411 / 411** ✓ |
+| Layout | 34 / 34 |
+
+**D58 prevented a wrong call on unseen data.** SRR21311932 (ENA:
+BGISEQ-500; read names stripped by the archive; NovaSeq-style binned
+quality, `F` and `:`) had binned quality as its only confirming signal.
+Run through the old detection code, it is called **Illumina at high
+confidence**, which would fail A1. Under D58 it is medium; it declares no
+platform (ENA says BGISEQ), so it is not routed and ends UNCERTAIN. It is
+the same pattern as round 2's SRR14318705, now seen twice in independent
+studies. Of the 8 calls D58 held at medium, 7 were Illumina and 1 this
+DNBSEQ run.
+
+**D60 was not exercised.** No run's reads contradicted its declared
+platform, so round 3 says nothing about D60 on real data; it rests on the
+test-profile case `CONTRADICTION` and the report unit test.
+
+**Cost and coverage:** 25 of 34 runs on handled platforms were called
+correctly at high confidence; 8 medium (routed by their declared platform,
+WARN, as designed); 1 uncertain. Unhandled platforms: 11 named at high
+confidence (5 DNBSEQ, 4 Element, 2 PacBio HiFi), the rest medium or low
+and not routed. Every unhandled run ended UNCERTAIN.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

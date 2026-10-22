@@ -8,12 +8,13 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: v0.1, working; validation round 2 failed one pass mark.** Every step runs
+> **Status: v0.1, working and validated (round 3 met every mark).** Every step runs
 > end to end and is tested in CI on every change. Round 1 (40 public runs,
 > 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
 > runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
 > 115 runs. One was an ENA labelling error; the other led to a stricter rule
-> (D58), chosen after the fact and so still to be tested by a later round
+> (D58), chosen after the fact. Round 3 (54 runs from unseen studies,
+> pre-registered) then tested it and met every pass mark
 > ([results](docs/validation.md)). BAM input (v0.2) is built; see
 > [Roadmap](#roadmap).
 
@@ -333,6 +334,13 @@ medium confidence. Re-scored that way, no call is wrong at high confidence,
 at the cost of 7 correct calls dropping to medium. A rule chosen after
 seeing the data cannot be tested by the same data, so round 2 stays a fail.
 
+**Round 3** (2026-10-22, 54 runs from studies neither earlier round used,
+pre-registered to test that rule): **every mark met**, with 0 wrong calls at
+high confidence and 0 unhandled runs sent to QC; 411 / 411 recalculations
+agree. The new rule stopped one wrong call it had not been designed on: an
+archived MGI run that the old rule would have called Illumina with high
+confidence.
+
 ## Roadmap
 
 **v0.1**
@@ -347,7 +355,7 @@ seeing the data cannot be tested by the same data, so round 2 stays a fail.
 - [x] `-profile test` on small public data, run in GitHub Actions
 - [x] Validation round 1: 40 public runs + 29 damaged samples, all pass marks met
 - [x] PacBio, MGI/DNBSEQ and Element recognised and named (no QC yet)
-- [ ] Validation round 2: ~150 runs, wider candidate pools
+- [x] Validation round 2 (115 runs, whole-ENA draw) and round 3 (54 runs, testing the rule round 2 led to)
 
 **v0.2** (planned)
 
