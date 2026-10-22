@@ -239,6 +239,7 @@ single-end.
 | `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
 | `integrity/` | Whether each file was readable and well-formed FASTQ. A damaged file gets a FAIL row saying exactly what is wrong, and the other samples still finish |
 | `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
+| `recommendations/` | The next nf-core pipeline for each ready sample (`recommendations.tsv`: a pipeline and pinned version, or the reason there is none), and one folder per rule (e.g. `bacass_short/`) with a `samplesheet.csv` in that pipeline's own format, a `params.yaml` and a `README.md` with the command. Values only you know (primers, databases, reference) are never guessed: the pipeline will not run until you add them |
 | `pipeline_info/` | Software versions actually used, run timeline, resource report, workflow diagram (`pipeline_dag.html`) |
 
 Verdicts:
@@ -359,16 +360,16 @@ confidence.
 - [x] PacBio, MGI/DNBSEQ and Element recognised and named (no QC yet)
 - [x] Validation round 2 (115 runs, whole-ENA draw) and round 3 (54 runs, testing the rule round 2 led to)
 
-**v0.2** (planned)
+**v0.2** (in progress)
 
 - BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); CRAM to follow
 - QC for PacBio HiFi: **built** (D64); PacBio CLR stays recognised, not QC'd
 - rRNA fraction for metatranscriptomes
-- Isolate vs metagenome vs amplicon classification
-- Host and contaminant screen, validated with human reads spiked into
-  bacterial reads at known fractions
+- Isolate vs metagenome vs amplicon classification: **built** (D65); layer E
+  validation running
+- Host and contaminant screen: **built** (D41), validated as layer D
 - Recommendation of the right downstream nf-core pipeline, with a
-  ready-to-run parameters file
+  ready-to-run samplesheet and parameters file: **built** (D66)
 
 ## Data policy
 
