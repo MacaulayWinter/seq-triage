@@ -68,6 +68,14 @@
                     "pattern": "^\\S+\\.f(ast)?a(\\.gz)?$|^\\S+\\.fna(\\.gz)?$",
                     "description": "Reference FASTA for CRAM input: the genome the CRAM files were written against. Without it, samtools fetches the reference from EBI's registry.",
                     "fa_icon": "fas fa-dna"
+                },
+                "genome_sizes": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.tsv$",
+                    "description": "TSV of expected genome sizes per NCBI species taxid, for the depth-of-coverage estimate.",
+                    "help_text": "Defaults to assets/species_genome_size.tsv, NCBI's species_genome_size.txt (genomes/ASSEMBLY_REPORTS, downloaded 2026-10-23). Columns: species_taxid, min/max/expected_ungapped_length, number_of_genomes."
                 }
             }
         },

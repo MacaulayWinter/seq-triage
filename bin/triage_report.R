@@ -20,8 +20,8 @@
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 6) {
-  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix>")
+if (!length(args) %in% 6:7) {
+  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix> [species_genome_size.tsv]")
 }
 read_tsv <- function(f) read.delim(f, colClasses = "character", na.strings = "", check.names = FALSE, quote = "")
 screen  <- read_tsv(args[1])
@@ -30,6 +30,8 @@ guide   <- read_tsv(args[3])
 qc      <- read_tsv(args[4])
 groups  <- read_tsv(args[5])
 prefix  <- args[6]
+# D80: NCBI expected genome sizes per species taxid (optional 7th argument).
+gsizes  <- if (length(args) >= 7 && file.exists(args[7])) read_tsv(args[7]) else data.frame(species_taxid = character(0), expected_ungapped_length = character(0))
 options(scipen = 999)
 
 
@@ -47,6 +49,7 @@ d <- merge(screen, samples, by = "sample", all = TRUE, sort = FALSE,
 d <- d[match(screen$sample, d$sample), ]   # keep samplesheet order
 if (!"declared_molecule" %in% names(d)) d$declared_molecule <- NA_character_
 if (!"declared_target" %in% names(d))   d$declared_target   <- NA_character_
+if (!"declared_genome_size" %in% names(d)) d$declared_genome_size <- NA_character_
 # BAM input (D55): with no platform in the samplesheet, the workflow may take
 # one from the BAM header (@RG PL); it is then the declared platform here too.
 if (all(c("declared_from", "declared_platform.pipeline") %in% names(d))) {
@@ -255,6 +258,9 @@ contamination <- function(rows, route, target = NA_character_) {
   # For the sample-type call (D65): the top unit's share, and how many units
   # (the top one included) reach the 1% floor.
   out$dominant_share <- share[[1]]
+  # D80: the top unit's taxid (the most-read species in a look-alike group).
+  top_rows <- sp[sp$unit == names(share)[1], ]
+  out$dominant_taxid <- top_rows$taxid[which.max(top_rows$n)]
   out$n_species_1pct <- 1 + length(counted)
   out$dominant_species <- sprintf("%s (%.1f%% of species-level reads, %s)", names(share)[1], 100 * share[[1]], source)
   top <- head(share, 3)
@@ -289,7 +295,7 @@ judge_sample <- function(s) {
   human_target <- s$declared_target %in% c(HOST_TAXID, HOST_GENUS_TAXID)
 
   applies <- which(vapply(strsplit(guide$applies_to, ","), function(a) tag %in% a, TRUE) &
-                   (SCREEN_ON | guide$source_tool != SCREEN_TOOL))
+                   (SCREEN_ON | guide$source_tool != SCREEN_TOOL) & guide$source_tool != "computed")
   out <- lapply(applies, function(j) {
     g      <- guide[j, ]
     trows  <- rows[rows$tool == g$source_tool, ]
@@ -361,6 +367,7 @@ format_value <- function(x, unit) {
   switch(unit,
     fraction = sprintf("%s%%", formatC(100 * x, format = "f", digits = if (100 * x < 1) 2 else 1)),
     Phred    = sprintf("Q%.1f", x),
+    depth    = if (x < 1) sprintf("%.2fx", x) else sprintf("%.1fx", x),
     reads    = ,
     bp       = formatC(x, format = "f", digits = 0, big.mark = ","),
     format(x))
@@ -488,6 +495,54 @@ d$ceiling[lift] <- "WARN"
 d$verdict_reason[type_conflict] <- paste(d$verdict_reason[type_conflict],
   sprintf("The samplesheet says %s, but the reads look like %s (%s) Review this sample.",
           declared_t[type_conflict], d$detected_type[type_conflict], d$type_reason[type_conflict]))
+
+
+# 3b'. Genome size and depth of coverage (D80) -------------------------------------
+# WHAT IT DOES  For a single organism's DNA (isolate declared or detected, or a
+#               target declared): genome size from the samplesheet
+#               (genome_size), else NCBI's expected size for the declared
+#               target_taxid, else for the most common species; depth =
+#               all sequenced bases (every file) / genome size. Information
+#               only: thin data is not bad data (it feeds the advice, D82).
+#               Not computed for communities, amplicons, RNA or single-cell
+#               libraries, where one genome's depth means nothing.
+gsize_of <- function(taxid) {
+  v <- suppressWarnings(as.numeric(gsizes$expected_ungapped_length[match(taxid, gsizes$species_taxid)]))
+  if (length(v) && !is.na(v)) v else NA_real_
+}
+depth_rows <- list()
+gi_size  <- match("genome_size", guide$metric); gi_depth <- match("depth_of_coverage", guide$metric)
+if (!is.na(gi_size) && !is.na(gi_depth)) for (i in seq_len(nrow(d))) {
+  s <- d[i, ]
+  if (!s$route %in% QC_ROUTES) next
+  lf <- if (is.na(s$detection_flags)) character(0) else strsplit(s$detection_flags, ",")[[1]]
+  one_organism <- s$declared_type %in% "isolate" || !is.na(s$declared_target) || s$detected_type == "isolate"
+  why_not <- if (s$declared_molecule %in% "rna") "not computed: RNA (expression, not genome coverage)"
+             else if ("BARCODE_READ" %in% lf) "not computed: single-cell library"
+             else if (s$declared_type %in% c("metagenome", "amplicon") || s$detected_type %in% c("metagenome", "amplicon")) "not computed: not a single genome"
+             else if (!one_organism) "not computed: not known to be one organism"
+             else ""
+  size <- NA_real_; src <- ""
+  if (!nzchar(why_not)) {
+    if (!is.na(s$declared_genome_size)) { size <- as.numeric(s$declared_genome_size); src <- "declared genome_size" }
+    if (is.na(size) && !is.na(s$declared_target)) { size <- gsize_of(s$declared_target); src <- sprintf("NCBI expected size for the declared target (taxid %s)", s$declared_target) }
+    if (is.na(size) && SCREEN_ON) {
+      co <- contamination(qc[qc$sample == s$sample, ], s$route, s$declared_target)
+      if (!is.null(co$dominant_taxid)) { size <- gsize_of(co$dominant_taxid); src <- sprintf("NCBI expected size for %s", sub(" \\(.*$", "", co$dominant_species)) }
+    }
+    if (is.na(size)) why_not <- if (SCREEN_ON) "no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)"
+                                else "no genome size: declare genome_size or target_taxid (or run the contamination screen)"
+  }
+  bases <- sum(suppressWarnings(as.numeric(qc$value[qc$sample == s$sample & qc$tool == "seqkit" & qc$field == "sum_len"])), na.rm = TRUE)
+  depth_rows[[length(depth_rows) + 1]] <- data.frame(
+    sample = s$sample, metric = c("genome_size", "depth_of_coverage"),
+    value = if (nzchar(why_not)) c("", "") else c(format_value(size, "bp"), format_value(bases / size, "depth")),
+    unit = c("bp", "depth"), warn = "", fail = "",
+    result = if (nzchar(why_not)) "not_available" else "info",
+    note = if (nzchar(why_not)) why_not else c(src, sprintf("%s bases / %s", format_value(bases, "bp"), format_value(size, "bp"))),
+    gi = c(gi_size, gi_depth))
+}
+if (length(depth_rows)) metrics <- rbind(metrics, do.call(rbind, depth_rows))
 
 
 # 3c. Target organism (D76) --------------------------------------------------------

@@ -43,6 +43,14 @@ is_empty_token <- function(x) !is.na(x) & tolower(trimws(x)) %in% EMPTY_TOKENS
 # PROVENANCE    R_Bible 23 normalise_identifier(), without prefix stripping.
 # CAUTION       A key, never a display value. Lossy by design, which is
 #               exactly what makes collisions detectable.
+# D80: "5200000", "5.2m", "5.2 Mb", "3g" -> bases (a character, blank -> NA).
+parse_size <- function(x) {
+  x <- tolower(gsub("[[:space:]]", "", ifelse(is.na(x) | is_empty_token(x), "", x)))
+  num <- suppressWarnings(as.numeric(sub("[kmg]?(b|bp)?$", "", x)))
+  mult <- ifelse(grepl("k", x), 1e3, ifelse(grepl("m", x), 1e6, ifelse(grepl("g", x), 1e9, 1)))
+  ifelse(is.na(num), NA_character_, format(round(num * mult), scientific = FALSE, trim = TRUE))
+}
+
 normalise_identifier <- function(x) {
   gsub("[[:space:]_().-]+", "", toupper(as.character(x)))
 }
@@ -94,7 +102,7 @@ MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid")) {
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -128,7 +136,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid")) {
+for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))
@@ -234,6 +242,8 @@ out <- data.frame(
   # schema already checked it is a whole number or an empty token).
   declared_target        = ifelse(is.na(sheet$target_taxid) | is_empty_token(sheet$target_taxid), NA_character_,
                                   trimws(sheet$target_taxid))[first],
+  # D80: the declared genome size in bases (5.2m -> 5200000).
+  declared_genome_size   = parse_size(sheet$genome_size)[first],
   n_rows                 = as.vector(table(id_trim)[id_trim[first]]),
   n_flags                = lengths(pooled),
   flags                  = vapply(pooled, function(f) paste(f, collapse = " | "), character(1)),

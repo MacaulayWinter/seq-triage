@@ -64,7 +64,9 @@ mets <- rbind(data.frame(sample = cases$sample[has_dom], metric = "dominant_spec
               data.frame(sample = cases$sample[has_dom], metric = "viral_fraction",
                          value = ifelse(viral[has_dom], "100.0%", "0.10%")),
               # D76: a yeast-like isolate: few classified reads are bacterial.
-              data.frame(sample = "YEAST_ISOLATE", metric = "bacterial_fraction", value = "2.0%"))
+              data.frame(sample = "YEAST_ISOLATE", metric = "bacterial_fraction", value = "2.0%"),
+              # D80: depth of coverage for two isolates.
+              data.frame(sample = c("ILM_ISOLATE", "DNB_ISOLATE"), metric = "depth_of_coverage", value = c("8.2x", "64.0x")))
 paired <- cases$platform %in% c("illumina", "dnbseq", "element")
 sheet <- data.frame(sample = cases$sample,
                     fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
@@ -126,6 +128,8 @@ for (k in list(c("scrnaseq", "fasta"), c("scrnaseq", "gtf"), c("methylseq", "fas
   res <- rbind(res, data.frame(case = sprintf("FILL_IN_%s_%s", k[1], k[2]), got = if (fill(k[1], k[2])) "FILL_IN" else "set", expected = "FILL_IN"))
 res <- rbind(res, data.frame(case = "SC_10X_ASSUMES_RNA", got = as.character(grepl("RNA assumed", rec$reason[rec$sample == "SC_10X"])), expected = "TRUE"))
 res <- rbind(res, data.frame(case = "FILL_IN_sarek_tools", got = if (fill("sarek", "tools")) "FILL_IN" else "set", expected = "FILL_IN"))
+res <- rbind(res, data.frame(case = "DEPTH_THIN_NOTE", got = as.character(grepl("about 8x: below 30x", rec$reason[rec$sample == "ILM_ISOLATE"])), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "DEPTH_OK_NOTE", got = as.character(grepl("depth about 64x", rec$reason[rec$sample == "DNB_ISOLATE"]) && !grepl("below", rec$reason[rec$sample == "DNB_ISOLATE"])), expected = "TRUE"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")
