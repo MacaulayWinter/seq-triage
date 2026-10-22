@@ -50,3 +50,14 @@ cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round2/panel.tsv sbatch -p 
 
 Score on your Mac with `validation/outcomes/layer_E_round2/panel.tsv` and
 `~/seqtriage_layer_E_r2/layer_E_results.tgz`.
+
+## Round 3 (D74)
+
+Tests D73. Same steps, with the round 3 panel. On the HPC:
+
+```bash
+cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round3/panel.tsv sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_E/run_layer_E.sh validation/layer_D/settings.config ~/seqtriage_layer_E_r3
+```
+
+Score on your Mac with `validation/outcomes/layer_E_round3/panel.tsv` and
+`~/seqtriage_layer_E_r3/layer_E_results.tgz`.
