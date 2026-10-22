@@ -177,7 +177,11 @@ contamination <- function(rows, route) {
               # D67: share of CLASSIFIED reads under the Viruses domain (taxid
               # 10239), from Kraken2 for every platform. Recognises viruses by
               # taxonomy, not by species name (names change between versions).
-              viral_fraction = if (classified > 0) sum(k$n[k$rank == "D" & k$taxid == VIRUS_TAXID]) / classified else NA_real_,
+              # By taxid ONLY, whatever the rank code: NCBI moved Viruses to an
+              # "acellular root" in 2024, so the Oct 2025 Kraken2 databases
+              # report it as R1, not D. Matching rank D gave 0% viral on real
+              # SARS-CoV-2 runs (layer E re-run, 2026-10-22).
+              viral_fraction = if (classified > 0) sum(k$n[k$taxid == VIRUS_TAXID]) / classified else NA_real_,
               off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
 
   b <- rows[rows$tool == "Bracken", ]

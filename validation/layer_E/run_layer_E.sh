@@ -36,7 +36,11 @@ if [[ "$PROFILE" == *conda* ]]; then
 fi
 
 echo "== 1. Fetch panel reads"
-DECLARE=ena bash "$repo/validation/fetch_panel.sh" "$repo/validation/outcomes/layer_E/panel.tsv" "$work/panel"
+# PANEL: which round's panel (default layer E; round 2, D68:
+# PANEL=validation/outcomes/layer_E_round2/panel.tsv).
+PANEL=$(realpath "${PANEL:-$repo/validation/outcomes/layer_E/panel.tsv}")
+echo "panel: $PANEL"
+DECLARE=ena bash "$repo/validation/fetch_panel.sh" "$PANEL" "$work/panel"
 
 echo "== 2. Run seq-triage"
 # Own launch folder, so -resume cannot pick up another run (layer D, D50).

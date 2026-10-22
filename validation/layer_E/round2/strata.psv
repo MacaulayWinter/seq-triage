@@ -1,0 +1,7 @@
+stratum|truth|type_truth|query|from|to|n|sample_type|molecule
+E2_ILM_AMPLICON_VIRAL|illumina|amplicon|instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="VIRAL RNA"|2021-01-01|2024-12-31|12||
+E2_ILM_METAGENOME_ENV|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND (tax_eq(410658) OR tax_eq(408172) OR tax_eq(449393))|2022-01-01|2024-12-31|10||dna
+E2_ILM_METAGENOME_GUT|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(408170)|2023-01-01|2024-12-31|6||dna
+E2_ILM_ISOLATE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND BACTERIA|2023-01-01|2024-12-31|10||dna
+E2_ILM_ISOLATE_PHAGE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND tax_tree(2731619)|2020-01-01|2024-12-31|5||dna
+E2_ILM_AMPLICON_16S|illumina|amplicon|instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"|2023-01-01|2024-12-31|6||dna

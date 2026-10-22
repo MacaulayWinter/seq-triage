@@ -33,6 +33,11 @@ KRAKEN_OK <- c("U|0|unclassified" = 20000, "R|1|root" = 980000, "S|562|Escherich
 # are mostly unclassified with one recognised species.
 VIRUS <- c("D|10239|Viruses" = 950000, "S|694009|Betacoronavirus pandemicum" = 950000, "S|562|Escherichia coli" = 0,
            "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0)
+# The same virus as the Oct 2025 databases report it: Viruses at rank R1
+# (an "acellular root" since NCBI's 2024 change), the virus at rank S1.
+VIRUS_R1 <- c("R1|10239|Viruses" = 950000, "S|694009|Betacoronavirus pandemicum" = 950000,
+              "S1|2697049|Severe acute respiratory syndrome coronavirus 2" = 940000, "S|562|Escherichia coli" = 0,
+              "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0)
 MOSTLY_UNKNOWN <- c("U|0|unclassified" = 940000, "S|562|Escherichia coli" = 55000, "S|623|Shigella flexneri" = 0,
                     "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0)
 
@@ -162,6 +167,8 @@ cases <- list(
   # and an isolate call resting on few classified reads is medium.
   list(id = "TYPE_VIRUS_FRAGMENTED", route = "illumina", start = 0.03, screen = TRUE, kraken = VIRUS,
        verdict = "PASS", expect_type = "isolate medium", check = c(viral_fraction = "info")),
+  list(id = "TYPE_VIRUS_RANK_R1", route = "illumina", start = 0.03, screen = TRUE, kraken = VIRUS_R1,
+       verdict = "PASS", expect_type = "isolate medium"),
   list(id = "TYPE_MOSTLY_UNCLASSIFIED", route = "illumina", start = 0.02, screen = TRUE, kraken = MOSTLY_UNKNOWN,
        verdict = "PASS", expect_type = "isolate medium"),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).

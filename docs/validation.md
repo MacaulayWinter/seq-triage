@@ -563,7 +563,14 @@ recorded as failed**; a later round must:
    under the Viruses domain, a new information metric), not by species name.
 
 Re-scored with both: **0 wrong at high**; exactly the four wrong calls drop to
-medium, nothing else changes. (Viruses were identified by hand for the
+medium, nothing else changes.
+
+**Re-run on the HPC with the D67 code (2026-10-22):** the soil metagenome
+dropped to medium as intended, but the three SARS-CoV-2 amplicons stayed
+"isolate, high": `viral_fraction` read 0%, because the code looked for Viruses
+at rank `D` and the Oct 2025 databases report it at `R1` (NCBI's 2024
+"acellular root"). Fixed to match taxid 10239 at any rank (D70); from the
+re-run's own Kraken2 rows the viral amplicons are 93.5-100% viral. (Viruses were identified by hand for the
 re-score, because this run's results file did not include the Kraken2 rows;
 `run_layer_E.sh` now packs `qc_values.tsv`.)
 
@@ -571,6 +578,27 @@ re-score, because this run's results file did not include the Kraken2 rows;
 database names SARS-CoV-2 "Betacoronavirus pandemicum", which the viralrecon
 rule did not recognise, and a mumps amplicon would have gone to ampliseq.
 Both fixed before D66 was merged.
+
+## Layer E round 2: testing D67 (pre-registered 2026-10-22)
+
+Fixed before the panel was drawn (CLAUDE.md D68). D67 was chosen after
+seeing layer E, so layer E cannot test it; this round does, on studies no
+earlier round used (rounds 1-3 and layer E excluded).
+
+- **Strata (49 runs, all Illumina; nanopore cannot give high-confidence
+  type calls):** viral amplicons 12 (SARS-CoV-2 and others, fragmented or
+  primer-anchored), environmental metagenomes 10 (soil, marine, freshwater:
+  mostly unclassified), gut metagenomes 6 (better classified), bacterial
+  isolates 10 (control: must stay high), phage isolates 5 (*Caudoviricetes*,
+  WGS: measures the cost of D67's virus rule, which caps them at medium),
+  16S amplicons 6 (control)
+  ([`strata.psv`](../validation/layer_E/round2/strata.psv)).
+- **Draw, run and truth** as layer E: whole-pool, platforms declared from
+  ENA, `sample_type` not declared, Standard-8 on the HPC, truth from ENA's
+  library records.
+- **Pass mark:** **zero wrong sample-type calls at high confidence.**
+- **Reported:** correct high-confidence calls per stratum (the cost of D67:
+  phage isolates are expected at medium by design), and wrong medium calls.
 
 ## Layer D: contamination screen accuracy
 
