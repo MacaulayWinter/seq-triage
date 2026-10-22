@@ -7,8 +7,10 @@
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
                 "CRAM_PE\tWARN",
+                "DNBSEQ_ISOLATE\tPASS",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "ELEMENT_ISOLATE\tWARN",
                 "HIFI_PLAIN_FASTQ\tFAIL",
                 "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
@@ -21,7 +23,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-22T22:23:11.114056",
+        "timestamp": "2026-10-22T22:45:47.362134",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -35,8 +37,10 @@
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
                 "CRAM_PE\tWARN",
+                "DNBSEQ_ISOLATE\tPASS",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "ELEMENT_ISOLATE\tWARN",
                 "HIFI_PLAIN_FASTQ\tFAIL",
                 "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
@@ -65,7 +69,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-22T22:21:16.589965",
+        "timestamp": "2026-10-22T22:42:48.262491",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

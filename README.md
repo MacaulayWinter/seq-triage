@@ -391,7 +391,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D76), including every rule that validation overturned and every CI
+(D1-D77), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
