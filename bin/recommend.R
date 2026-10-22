@@ -110,7 +110,13 @@ decide <- function(s, row) {
   if ("INDEX_READ_AS_MATE" %in% flags)
     return(none("fastq_2 looks like an index read, not R2: fix the samplesheet first."))
   if (length(fits)) {
-    note <- c(if (!has(s$declared_molecule)) sprintf("molecule not declared, so %s assumed", toupper(molecule)) else NULL,
+    # D80: depth of coverage, where the next step depends on it.
+    dep <- suppressWarnings(as.numeric(sub("x$", "", mets$value[mets$sample == s$sample & mets$metric == "depth_of_coverage"])))
+    dep_note <- if (!length(dep) || is.na(dep) || !rules$pipeline[fits[1]] %in% c("bacass", "sarek")) NULL
+                else if (rules$pipeline[fits[1]] == "bacass" && dep < 30) sprintf("depth about %.0fx: below 30x, so the assembly will be fragmented; more data would help", dep)
+                else if (rules$pipeline[fits[1]] == "sarek" && dep < 20) sprintf("depth about %.0fx: below 20x, thin for variant calling", dep)
+                else sprintf("depth about %.0fx", dep)
+    note <- c(dep_note, if (!has(s$declared_molecule)) sprintf("molecule not declared, so %s assumed", toupper(molecule)) else NULL,
               if (!has(s$declared_type)) sprintf("%s detected from the reads", c(single_cell = "single-cell library", methylation = "methylation library")[type] %|% sprintf("sample type %s", type)) else NULL)
     return(list(rule = rules[fits[1], ], reason = paste(c(rules$note[fits[1]], if (length(note)) sprintf("(%s)", paste(note, collapse = "; "))), collapse = " ")))
   }

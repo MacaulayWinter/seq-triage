@@ -16,6 +16,7 @@ process TRIAGE_REPORT {
     path metric_guide
     path qc_values    // qc_values.tsv: every QC number, one row per sample/tool/field
     path species_groups
+    path genome_sizes   // NCBI expected genome sizes (D80)
 
     output:
     path 'triage_summary.tsv', emit: tsv
@@ -28,6 +29,6 @@ process TRIAGE_REPORT {
 
     script:
     """
-    triage_report.R ${screen} ${samples} ${metric_guide} ${qc_values} ${species_groups} triage
+    triage_report.R ${screen} ${samples} ${metric_guide} ${qc_values} ${species_groups} triage ${genome_sizes}
     """
 }

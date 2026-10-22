@@ -78,6 +78,16 @@
                 "pattern": "(?i)^(na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "target_taxid must be the NCBI taxonomy ID (a whole number) of the organism the sample is meant to be, e.g. 9606 for human, 4932 for Saccharomyces cerevisiae, 562 for Escherichia coli; or left blank.",
                 "minimum": 1
+            },
+            "genome_size": {
+                "type": [
+                    "integer",
+                    "number",
+                    "string"
+                ],
+                "minimum": 1000,
+                "pattern": "^((?i)[0-9]+(\\.[0-9]+)?\\s*[kmg]?(b|bp)?|(?i)(na|n/a|nan|null|none|missing|\\.|-|--))$",
+                "errorMessage": "genome_size must be the expected genome size in bases, as a number (5200000) or with k, m or g (5.2m, 3g), or left blank. Used only for the depth-of-coverage estimate."
             }
         },
         "oneOf": [

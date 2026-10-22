@@ -264,6 +264,7 @@ workflow SEQ_TRIAGE {
     samplesheet     // the raw samplesheet file, for the metadata screen
     metric_guide    // assets/metric_guide.tsv or the user's own
     species_groups  // assets/species_groups.tsv or the user's own
+    genome_sizes    // assets/species_genome_size.tsv (NCBI), for depth of coverage (D80)
 
     main:
 
@@ -564,7 +565,7 @@ workflow SEQ_TRIAGE {
         .mix(ch_bracken_tables.flatMap      { meta, f -> brackenRows(meta.id, f) })
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 
-    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups)
+    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups, genome_sizes)
 
     // 7b. Next pipeline for each ready sample (D66), with a ready-to-run
     //     samplesheet and params file in that pipeline's own format.

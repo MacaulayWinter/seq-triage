@@ -217,6 +217,19 @@ cases <- list(
   # A single-cell R2 can start at few places; it is still not an "amplicon".
   list(id = "SINGLE_CELL_LIB",     route = "illumina", start = 0.30, flags = "BARCODE_READ", verdict = "PASS",
        expect_type = "uncertain uncertain"),
+  # D80: depth of coverage = all bases (75,000,000 in SEQKIT_OK) / genome size.
+  list(id = "DEPTH_FROM_SPECIES",  route = "illumina", start = 0.01, type = "isolate", screen = TRUE,
+       verdict = "PASS", expect_depth = "14.6x"),                       # E. coli: NCBI 5,150,000 bp
+  list(id = "DEPTH_DECLARED",      route = "illumina", type = "isolate", gsize = "2000000",
+       verdict = "PASS", expect_depth = "37.5x"),
+  list(id = "DEPTH_EUKARYOTE",     route = "illumina", start = 0.01, type = "isolate", target = "4932", screen = TRUE, kraken = MOSTLY_UNKNOWN,
+       verdict = "WARN", expect_depth = "6.8x"),                        # yeast: NCBI 11,000,000 bp; the database cannot see it
+  list(id = "DEPTH_METAGENOME",    route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META,
+       verdict = "PASS", expect_depth = "not computed: not a single genome"),
+  list(id = "DEPTH_RNA",           route = "illumina", type = "isolate", molecule = "rna",
+       verdict = "PASS", expect_depth = "not computed: RNA (expression, not genome coverage)"),
+  list(id = "DEPTH_NO_SIZE",       route = "illumina", type = "isolate",
+       verdict = "PASS", expect_depth = "no genome size: declare genome_size or target_taxid (or run the contamination screen)"),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
@@ -236,7 +249,8 @@ build <- function(cases, dir) {
     screen[[cs$id]] <- data.frame(sample = cs$id, declared_platform_raw = declared, declared_platform = declared,
       declared_type = if (is.null(cs$type)) NA else cs$type,
       declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA,
-      declared_target = if (is.null(cs$target)) NA else cs$target)
+      declared_target = if (is.null(cs$target)) NA else cs$target,
+      declared_genome_size = if (is.null(cs$gsize)) NA else cs$gsize)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",
       detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,
@@ -279,7 +293,8 @@ build <- function(cases, dir) {
 
 run_report <- function(dir) {
   system2("Rscript", c("--vanilla", "bin/triage_report.R", file.path(dir, "screen.tsv"), file.path(dir, "samples.tsv"),
-                       "assets/metric_guide.tsv", file.path(dir, "qc.tsv"), "assets/species_groups.tsv", file.path(dir, "out")),
+                       "assets/metric_guide.tsv", file.path(dir, "qc.tsv"), "assets/species_groups.tsv", file.path(dir, "out"),
+                       "assets/species_genome_size.tsv"),
           stdout = FALSE, stderr = FALSE)
 }
 
@@ -306,6 +321,12 @@ res <- do.call(rbind, lapply(cases, function(cs) {
   got_t <- if (is.null(cs$expect_type)) "" else paste(r$detected_type, r$type_confidence)
   got_f <- if (is.null(cs$expect_flag)) "" else if (grepl(cs$expect_flag, ifelse(is.na(r$detection_flags), "", r$detection_flags))
 ) cs$expect_flag else "no flag"
+  # D80: expect_depth = the depth_of_coverage value, or its note when not computed.
+  got_d <- if (is.null(cs$expect_depth)) "" else {
+    m <- mets[mets$sample == cs$id & mets$metric == "depth_of_coverage", ]
+    if (!nrow(m)) "no depth row" else if (m$result == "info") m$value else m$note }
+  got_c <- paste(got_c, got_d)
+  exp_c <- paste(exp_c, if (is.null(cs$expect_depth)) "" else cs$expect_depth)
   ok <- identical(got_v, cs$verdict) && got_c == exp_c && got_h == isTRUE(cs$hint) &&
         got_t == (if (is.null(cs$expect_type)) "" else cs$expect_type) && got_f == (if (is.null(cs$expect_flag)) "" else cs$expect_flag)
   data.frame(case = cs$id, got = paste(got_v, got_c, if (got_h) "+hint" else "", got_t, got_f),

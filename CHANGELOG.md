@@ -66,6 +66,13 @@ All notable changes to seq-triage. Versions follow
   sample cannot PASS; raw nanopore signal, BCL run folders and SRA files
   stop the run with the conversion to do first.
 
+- Depth of coverage (D80): new information metrics `genome_size` (from the
+  new optional `genome_size` column, else NCBI's expected size for the
+  target or most common species, bundled as `assets/species_genome_size.tsv`,
+  `--genome_sizes`) and `depth_of_coverage` (all bases / genome size), for one
+  organism's DNA only; never judged. bacass and sarek advice states the depth
+  and warns when it is thin.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short
