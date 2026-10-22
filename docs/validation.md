@@ -508,6 +508,61 @@ Fixed before the panel was drawn (CLAUDE.md D65). Tests the sample-type call
 - **Reported:** correct calls per stratum at high and medium confidence,
   and wrong medium calls (allowed, counted).
 
+## Results: layer E, sample type (2026-10-22)
+
+57 runs on ISCA with Standard-8 (Oct 2025), `sample_type` not declared, so
+every call came from the reads. Tables:
+[`validation/outcomes/layer_E/`](../validation/outcomes/layer_E/).
+
+**Pass mark (zero wrong calls at high confidence): FAILED as registered, 4
+wrong at high.**
+
+| Stratum | Correct, high | Correct, medium | Uncertain | Wrong, medium | **Wrong, high** |
+|---|---|---|---|---|---|
+| Illumina isolate (10) | 10 | 0 | 0 | 0 | 0 |
+| Illumina metagenome (10) | 8 | 0 | 1 | 0 | **1** |
+| Illumina 16S amplicon (10) | 10 | 0 | 0 | 0 | 0 |
+| Illumina viral amplicon (5) | 2 | 0 | 0 | 0 | **3** |
+| Nanopore isolate (8) | 0 | 4 | 0 | 4 | 0 |
+| Nanopore metagenome (8) | 0 | 5 | 1 | 2 | 0 |
+| Nanopore amplicon (6) | 1 | 0 | 0 | 5 | 0 |
+
+The four wrong calls, each called "isolate, high":
+
+- **Three SARS-CoV-2 amplicons** (DRR274677, ERR7334094 with the Illumina
+  COVIDSeq kit, SRR19050596): only 3-5% of reads start at a common
+  sequence, because the amplicons were fragmented before sequencing, so the
+  read starts look like fragmented DNA. One organism, so "isolate".
+- **A soil metagenome** (SRR26872063): 94.6% of reads unclassified; the call
+  rested on the 5% the database recognised (90.8% Campylobacter coli).
+
+As designed: no nanopore call reached high confidence; 16S amplicons were
+all recognised from their read starts. The 33 FAIL verdicts are QC findings
+of undeclared libraries (off-target in 16S communities, read floors), not
+type errors: an inferred type never relaxes a verdict (D27).
+
+### Decisions after layer E (D67)
+
+Chosen after seeing the data, so layer E cannot test them and **stays
+recorded as failed**; a later round must:
+
+1. **Isolate at high confidence also needs at most 25% of reads
+   unclassified.** Illumina isolates here: at most 11.3%; Illumina
+   metagenomes: median 93.7%.
+2. **A virus-dominated single-organism sample is isolate at most at medium
+   confidence**, recognised by taxonomy (`viral_fraction`: classified reads
+   under the Viruses domain, a new information metric), not by species name.
+
+Re-scored with both: **0 wrong at high**; exactly the four wrong calls drop to
+medium, nothing else changes. (Viruses were identified by hand for the
+re-score, because this run's results file did not include the Kraken2 rows;
+`run_layer_E.sh` now packs `qc_values.tsv`.)
+
+**Found in the downstream recommendation (D66, before release):** the
+database names SARS-CoV-2 "Betacoronavirus pandemicum", which the viralrecon
+rule did not recognise, and a mumps amplicon would have gone to ampliseq.
+Both fixed before D66 was merged.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

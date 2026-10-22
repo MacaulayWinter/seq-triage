@@ -35,7 +35,13 @@ for (col in c("fastq_1", "fastq_2", "bam")) if (!col %in% names(sheet)) sheet[[c
 sheet$sample <- trimws(sheet$sample)
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 
-SARSCOV2 <- "Severe acute respiratory syndrome coronavirus 2"
+# SARS-CoV-2 under every name it has in NCBI taxonomy versions: the virus,
+# its old species ("SARS-related coronavirus") and the 2023 ICTV binomial,
+# "Betacoronavirus pandemicum", which the Oct 2025 Kraken2 databases use. The
+# first version matched only the virus name, so validation layer E's real
+# SARS-CoV-2 amplicons would have been sent to ampliseq (found 2026-10-22).
+SARSCOV2 <- c("Severe acute respiratory syndrome coronavirus 2", "Severe acute respiratory syndrome-related coronavirus",
+              "Betacoronavirus pandemicum")
 has <- function(x) !is.na(x) & nzchar(x)
 in_list <- function(value, list) value %in% strsplit(list, ",")[[1]]
 
@@ -58,7 +64,15 @@ decide <- function(s, row) {
   if (!has(type)) return(none("Sample type not declared and not detected with high confidence: declare sample_type."))
   molecule <- if (has(s$declared_molecule)) s$declared_molecule else "dna"
   dom <- mets$value[mets$sample == s$sample & mets$metric == "dominant_species"]
-  target <- if (!length(dom) || !has(dom)) NA else if (startsWith(dom, SARSCOV2)) "sarscov2" else "other"
+  vir <- suppressWarnings(as.numeric(sub("%", "", mets$value[mets$sample == s$sample & mets$metric == "viral_fraction"]))) / 100
+  # target: SARS-CoV-2 (by name, every taxonomy version); another virus (by
+  # taxonomy: most classified reads under Viruses, D67); or a cellular
+  # organism/community. A mumps amplicon must not go to ampliseq, which is
+  # for marker genes (layer E, 2026-10-22).
+  target <- if (!length(dom) || !has(dom)) NA
+            else if (any(startsWith(dom, SARSCOV2))) "sarscov2"
+            else if (length(vir) && !is.na(vir) && vir >= 0.5) "virus"
+            else if (length(vir) && !is.na(vir)) "other" else NA
   fits <- which(vapply(seq_len(nrow(rules)), function(i) {
     r <- rules[i, ]
     in_list(platform, r$platform) && r$sample_type == type && in_list(molecule, r$molecule) &&
@@ -75,6 +89,8 @@ decide <- function(s, row) {
     return(none("Long-read amplicons: no pipeline set up here (nf-core/viralrecon expects the sequencer's barcode folders)."))
   if (type == "amplicon" && is.na(target))
     return(none("Amplicon target unknown without the contamination screen (--kraken2_db): marker gene or virus?"))
+  if (type == "amplicon" && target == "virus")
+    return(none(sprintf("Viral amplicon other than SARS-CoV-2 (%s): no pipeline set up here.", sub(" \\(.*$", "", dom))))
   if (type == "isolate" && platform == "pacbio")
     return(none("PacBio HiFi isolates: no pipeline set up here yet."))
   if (molecule == "rna" && type != "isolate")

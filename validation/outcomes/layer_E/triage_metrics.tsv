@@ -1,0 +1,844 @@
+sample	metric	value	unit	warn	fail	result	note
+E_ILM_ISOLATE_SRR31736503	total_reads	97,838	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_SRR31736503	q30_rate	83.4%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR31736503	passed_filter_pct	97.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR31736503	duplication_rate	0.17%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR31736503	adapter_trimmed_pct	1.2%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR31736503	gc_content	46.1%	fraction			info	
+E_ILM_ISOLATE_SRR31736503	insert_size_peak	352	bp			info	
+E_ILM_ISOLATE_SRR31736503	mean_read_length	220	bp			info	
+E_ILM_ISOLATE_SRR31736503	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR31736503	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_ISOLATE_SRR31736503	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_ISOLATE_SRR31736503	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_SRR31736503	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR31736503	off_target_fraction	6.1%	fraction	5.0%	20.0%	WARN	
+E_ILM_ISOLATE_SRR31736503	unclassified_fraction	11.1%	fraction			info	
+E_ILM_ISOLATE_SRR31736503	dominant_species	Acinetobacter indicus (90.7% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR31736503	top_species	Acinetobacter indicus 90.7%; Acinetobacter baumannii 6.1%; Acinetobacter sp. A2 0.4%; 19 trace species under 1% each, 3.2% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_SRR25033715	total_reads	99,230	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_SRR25033715	q30_rate	92.3%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR25033715	passed_filter_pct	99.2%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR25033715	duplication_rate	0.15%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR25033715	adapter_trimmed_pct	0.24%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR25033715	gc_content	54.4%	fraction			info	
+E_ILM_ISOLATE_SRR25033715	insert_size_peak	267	bp			info	
+E_ILM_ISOLATE_SRR25033715	mean_read_length	144	bp			info	
+E_ILM_ISOLATE_SRR25033715	n_base_rate	0.04%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR25033715	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_ISOLATE_SRR25033715	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_ISOLATE_SRR25033715	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_SRR25033715	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR25033715	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_SRR25033715	unclassified_fraction	5.6%	fraction			info	
+E_ILM_ISOLATE_SRR25033715	dominant_species	Corynebacterium glutamicum (99.9% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR25033715	top_species	Corynebacterium glutamicum 99.9%; Stenotrophomonas maltophilia 0.1%; 1 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_SRR27010549	total_reads	100,000	reads	100,000	1,000	PASS	
+E_ILM_ISOLATE_SRR27010549	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR27010549	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR27010549	duplication_rate	0.01%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR27010549	adapter_trimmed_pct	0.04%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR27010549	gc_content	35.1%	fraction			info	
+E_ILM_ISOLATE_SRR27010549	insert_size_peak	378	bp			info	
+E_ILM_ISOLATE_SRR27010549	mean_read_length	218	bp			info	
+E_ILM_ISOLATE_SRR27010549	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR27010549	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_ISOLATE_SRR27010549	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_ISOLATE_SRR27010549	fastqc_per_sequence_gc_content	PASS	status			info	
+E_ILM_ISOLATE_SRR27010549	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR27010549	off_target_fraction	6.6%	fraction	5.0%	20.0%	WARN	
+E_ILM_ISOLATE_SRR27010549	unclassified_fraction	7.6%	fraction			info	
+E_ILM_ISOLATE_SRR27010549	dominant_species	Bacillus thuringiensis (92.3% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR27010549	top_species	Bacillus thuringiensis 92.3%; Bacillus cereus 4.6%; Bacillus anthracis 2.0%; 12 trace species under 1% each, 1.1% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_SRR30950111	total_reads	95,544	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_SRR30950111	q30_rate	94.4%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR30950111	passed_filter_pct	95.5%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR30950111	duplication_rate	15.7%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR30950111	adapter_trimmed_pct	6.0%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR30950111	gc_content	65.3%	fraction			info	
+E_ILM_ISOLATE_SRR30950111	insert_size_peak	258	bp			info	
+E_ILM_ISOLATE_SRR30950111	mean_read_length	147	bp			info	
+E_ILM_ISOLATE_SRR30950111	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR30950111	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_ISOLATE_SRR30950111	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_ISOLATE_SRR30950111	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_SRR30950111	host_fraction	0.37%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR30950111	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_SRR30950111	unclassified_fraction	5.6%	fraction			info	
+E_ILM_ISOLATE_SRR30950111	dominant_species	Mycobacterium tuberculosis (99.1% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR30950111	top_species	Mycobacterium tuberculosis 99.1%; Mycobacterium canetti 0.9%; 1 trace species under 1% each, 0.9% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_ERR11889979	total_reads	99,758	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_ERR11889979	q30_rate	96.3%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR11889979	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR11889979	duplication_rate	0.26%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR11889979	adapter_trimmed_pct	0.12%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR11889979	gc_content	37.7%	fraction			info	
+E_ILM_ISOLATE_ERR11889979	insert_size_peak	208	bp			info	
+E_ILM_ISOLATE_ERR11889979	mean_read_length	141	bp			info	
+E_ILM_ISOLATE_ERR11889979	n_base_rate	0.05%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_ERR11889979	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_ISOLATE_ERR11889979	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_ISOLATE_ERR11889979	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_ERR11889979	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_ERR11889979	off_target_fraction	1.5%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_ERR11889979	unclassified_fraction	8.4%	fraction			info	
+E_ILM_ISOLATE_ERR11889979	dominant_species	Enterococcus faecium (97.6% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_ERR11889979	top_species	Enterococcus faecium 97.6%; Enterococcus lactis 1.5%; Enterococcus sp. DA9 0.6%; 3 trace species under 1% each, 0.9% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_ERR12019144	total_reads	100,000	reads	100,000	1,000	PASS	
+E_ILM_ISOLATE_ERR12019144	q30_rate	98.7%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR12019144	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR12019144	duplication_rate	2.0%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR12019144	adapter_trimmed_pct	0.68%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR12019144	gc_content	51.9%	fraction			info	
+E_ILM_ISOLATE_ERR12019144	insert_size_peak	267	bp			info	
+E_ILM_ISOLATE_ERR12019144	mean_read_length	149	bp			info	
+E_ILM_ISOLATE_ERR12019144	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_ERR12019144	fastqc_per_base_sequence_content	PASS	status			info	
+E_ILM_ISOLATE_ERR12019144	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_ISOLATE_ERR12019144	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_ERR12019144	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_ERR12019144	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_ERR12019144	unclassified_fraction	1.9%	fraction			info	
+E_ILM_ISOLATE_ERR12019144	dominant_species	Salmonella enterica (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_ERR12019144	top_species	Salmonella enterica 100.0%	label			info	
+E_ILM_ISOLATE_DRR183074	total_reads	70,552	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_DRR183074	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_DRR183074	passed_filter_pct	70.6%	fraction	90.0%	70.0%	WARN	
+E_ILM_ISOLATE_DRR183074	duplication_rate	0.00%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_DRR183074	adapter_trimmed_pct	0.29%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_DRR183074	gc_content	45.4%	fraction			info	
+E_ILM_ISOLATE_DRR183074	insert_size_peak	509	bp			info	
+E_ILM_ISOLATE_DRR183074	mean_read_length	300	bp			info	
+E_ILM_ISOLATE_DRR183074	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_DRR183074	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_ISOLATE_DRR183074	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_ISOLATE_DRR183074	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_DRR183074	host_fraction	0.06%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_DRR183074	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_DRR183074	unclassified_fraction	4.8%	fraction			info	
+E_ILM_ISOLATE_DRR183074	dominant_species	Vibrio coralliilyticus (97.6% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_DRR183074	top_species	Vibrio coralliilyticus 97.6%; Vibrio sp. 0.6%; Vibrio neptunius 0.5%; 20 trace species under 1% each, 2.4% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_SRR24304152	total_reads	99,352	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_SRR24304152	q30_rate	93.8%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR24304152	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR24304152	duplication_rate	14.8%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR24304152	adapter_trimmed_pct	0.05%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR24304152	gc_content	44.9%	fraction			info	
+E_ILM_ISOLATE_SRR24304152	insert_size_peak	269	bp			info	
+E_ILM_ISOLATE_SRR24304152	mean_read_length	149	bp			info	
+E_ILM_ISOLATE_SRR24304152	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR24304152	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_ISOLATE_SRR24304152	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_ISOLATE_SRR24304152	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_SRR24304152	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR24304152	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_SRR24304152	unclassified_fraction	2.9%	fraction			info	
+E_ILM_ISOLATE_SRR24304152	dominant_species	Lactiplantibacillus plantarum (99.9% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR24304152	top_species	Lactiplantibacillus plantarum 99.9%; Lactiplantibacillus argentoratensis 0.1%; 1 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_SRR24988133	total_reads	99,472	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_SRR24988133	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_ISOLATE_SRR24988133	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_SRR24988133	duplication_rate	0.26%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR24988133	adapter_trimmed_pct	0.62%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_SRR24988133	gc_content	56.3%	fraction			info	
+E_ILM_ISOLATE_SRR24988133	insert_size_peak	129	bp			info	
+E_ILM_ISOLATE_SRR24988133	mean_read_length	136	bp			info	
+E_ILM_ISOLATE_SRR24988133	n_base_rate	0.11%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_SRR24988133	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_ISOLATE_SRR24988133	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_ISOLATE_SRR24988133	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_ISOLATE_SRR24988133	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_SRR24988133	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_SRR24988133	unclassified_fraction	10.4%	fraction			info	
+E_ILM_ISOLATE_SRR24988133	dominant_species	Pseudomonas syringae group genomosp. 3 (99.5% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_SRR24988133	top_species	Pseudomonas syringae group genomosp. 3 99.5%; Pseudomonas syringae 0.5%; Cutibacterium acnes 0.0%; 2 trace species under 1% each, 0.5% in total (not counted as off-target)	label			info	
+E_ILM_ISOLATE_ERR13911731	total_reads	93,694	reads	100,000	1,000	WARN	
+E_ILM_ISOLATE_ERR13911731	q30_rate	89.7%	fraction	75.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR13911731	passed_filter_pct	93.7%	fraction	90.0%	70.0%	PASS	
+E_ILM_ISOLATE_ERR13911731	duplication_rate	2.9%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR13911731	adapter_trimmed_pct	1.1%	fraction	30.0%		PASS	
+E_ILM_ISOLATE_ERR13911731	gc_content	73.3%	fraction			info	
+E_ILM_ISOLATE_ERR13911731	insert_size_peak	258	bp			info	
+E_ILM_ISOLATE_ERR13911731	mean_read_length	144	bp			info	
+E_ILM_ISOLATE_ERR13911731	n_base_rate	0.07%	fraction	1.0%	5.0%	PASS	
+E_ILM_ISOLATE_ERR13911731	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_ISOLATE_ERR13911731	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_ISOLATE_ERR13911731	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_ISOLATE_ERR13911731	host_fraction	0.38%	fraction	1.0%	10.0%	PASS	
+E_ILM_ISOLATE_ERR13911731	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_ISOLATE_ERR13911731	unclassified_fraction	11.3%	fraction			info	
+E_ILM_ISOLATE_ERR13911731	dominant_species	Streptomyces venezuelae (99.6% of species-level reads, Bracken)	label			info	
+E_ILM_ISOLATE_ERR13911731	top_species	Streptomyces venezuelae 99.6%; Streptomyces sp. YH02 0.1%; Streptomyces sp. NBC_00691 0.1%; 6 trace species under 1% each, 0.4% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR26872063	total_reads	98,710	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR26872063	q30_rate	93.9%	fraction	75.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26872063	passed_filter_pct	98.7%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26872063	duplication_rate	19.2%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26872063	adapter_trimmed_pct	3.7%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26872063	gc_content	62.3%	fraction			info	
+E_ILM_METAGENOME_SRR26872063	insert_size_peak	255	bp			info	
+E_ILM_METAGENOME_SRR26872063	mean_read_length	149	bp			info	
+E_ILM_METAGENOME_SRR26872063	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR26872063	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR26872063	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR26872063	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR26872063	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR26872063	off_target_fraction	9.2%	fraction	5.0%	20.0%	WARN	
+E_ILM_METAGENOME_SRR26872063	unclassified_fraction	94.6%	fraction			info	
+E_ILM_METAGENOME_SRR26872063	dominant_species	Campylobacter coli (90.8% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR26872063	top_species	Campylobacter coli 90.8%; Luteitalea sp. TBR-22 9.2%	label			info	
+E_ILM_METAGENOME_SRR22424575	total_reads	100,000	reads	100,000	1,000	PASS	
+E_ILM_METAGENOME_SRR22424575	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR22424575	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR22424575	duplication_rate	36.5%	fraction	30.0%		WARN	
+E_ILM_METAGENOME_SRR22424575	adapter_trimmed_pct	0.13%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR22424575	gc_content	53.2%	fraction			info	
+E_ILM_METAGENOME_SRR22424575	insert_size_peak	253	bp			info	
+E_ILM_METAGENOME_SRR22424575	mean_read_length	149	bp			info	
+E_ILM_METAGENOME_SRR22424575	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR22424575	fastqc_per_base_sequence_content	PASS	status			info	
+E_ILM_METAGENOME_SRR22424575	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR22424575	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR22424575	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR22424575	off_target_fraction	63.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR22424575	unclassified_fraction	59.7%	fraction			info	
+E_ILM_METAGENOME_SRR22424575	dominant_species	Bacteroides fragilis (16.1% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR22424575	top_species	Bacteroides fragilis 16.1%; Alistipes shahii 8.2%; Ruthenibacterium lactatiformans 7.3%; 73 trace species under 1% each, 20.9% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR26888833	total_reads	99,952	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR26888833	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR26888833	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26888833	duplication_rate	17.0%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26888833	adapter_trimmed_pct	0.77%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26888833	gc_content	49.1%	fraction			info	
+E_ILM_METAGENOME_SRR26888833	insert_size_peak	258	bp			info	
+E_ILM_METAGENOME_SRR26888833	mean_read_length	150	bp			info	
+E_ILM_METAGENOME_SRR26888833	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR26888833	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_METAGENOME_SRR26888833	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_METAGENOME_SRR26888833	fastqc_per_sequence_gc_content	PASS	status			info	
+E_ILM_METAGENOME_SRR26888833	host_fraction	0.16%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR26888833	off_target_fraction	77.5%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR26888833	unclassified_fraction	94.3%	fraction			info	
+E_ILM_METAGENOME_SRR26888833	dominant_species	Candidatus Methylopumilus rimovensis (22.5% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR26888833	top_species	Candidatus Methylopumilus rimovensis 22.5%; Polynucleobacter difficilis 15.3%; Polynucleobacter sp. UK-FUSCHL-C3 9.3%	label			info	
+E_ILM_METAGENOME_SRR27422208	total_reads	99,802	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR27422208	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR27422208	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR27422208	duplication_rate	6.9%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR27422208	adapter_trimmed_pct	1.3%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR27422208	gc_content	50.5%	fraction			info	
+E_ILM_METAGENOME_SRR27422208	insert_size_peak	267	bp			info	
+E_ILM_METAGENOME_SRR27422208	mean_read_length	150	bp			info	
+E_ILM_METAGENOME_SRR27422208	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR27422208	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_METAGENOME_SRR27422208	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_METAGENOME_SRR27422208	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_METAGENOME_SRR27422208	host_fraction	0.19%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR27422208	off_target_fraction	80.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR27422208	unclassified_fraction	93.7%	fraction			info	
+E_ILM_METAGENOME_SRR27422208	dominant_species	Sphingorhabdus sp. (19.3% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR27422208	top_species	Sphingorhabdus sp. 19.3%; Microcystis aeruginosa 15.4%; Phenylobacterium parvum 5.1%; 1 trace species under 1% each, 0.7% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR25844767	total_reads	99,996	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR25844767	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR25844767	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR25844767	duplication_rate	9.1%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR25844767	adapter_trimmed_pct	2.8%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR25844767	gc_content	40.8%	fraction			info	
+E_ILM_METAGENOME_SRR25844767	insert_size_peak	260	bp			info	
+E_ILM_METAGENOME_SRR25844767	mean_read_length	149	bp			info	
+E_ILM_METAGENOME_SRR25844767	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR25844767	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_METAGENOME_SRR25844767	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR25844767	fastqc_per_sequence_gc_content	PASS	status			info	
+E_ILM_METAGENOME_SRR25844767	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR25844767	off_target_fraction	58.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR25844767	unclassified_fraction	97.2%	fraction			info	
+E_ILM_METAGENOME_SRR25844767	dominant_species	Petrimonas mucosa (42.0% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR25844767	top_species	Petrimonas mucosa 42.0%; Xanthomonas euvesicatoria 14.3%; Thermoclostridium stercorarium 11.4%	label			info	
+E_ILM_METAGENOME_SRR20936179	total_reads	99,530	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR20936179	q30_rate	94.0%	fraction	75.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR20936179	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR20936179	duplication_rate	10.2%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR20936179	adapter_trimmed_pct	1.2%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR20936179	gc_content	44.3%	fraction			info	
+E_ILM_METAGENOME_SRR20936179	insert_size_peak	217	bp			info	
+E_ILM_METAGENOME_SRR20936179	mean_read_length	149	bp			info	
+E_ILM_METAGENOME_SRR20936179	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR20936179	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR20936179	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR20936179	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_METAGENOME_SRR20936179	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR20936179	off_target_fraction	68.3%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR20936179	unclassified_fraction	31.9%	fraction			info	
+E_ILM_METAGENOME_SRR20936179	dominant_species	Anaerostipes hadrus (13.7% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR20936179	top_species	Anaerostipes hadrus 13.7%; Blautia wexlerae 12.9%; Faecalibacterium prausnitzii 8.9%; 76 trace species under 1% each, 18.0% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR26076602	total_reads	100,000	reads	100,000	1,000	PASS	
+E_ILM_METAGENOME_SRR26076602	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR26076602	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26076602	duplication_rate	7.2%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26076602	adapter_trimmed_pct	0.61%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26076602	gc_content	62.4%	fraction			info	
+E_ILM_METAGENOME_SRR26076602	insert_size_peak	270	bp			info	
+E_ILM_METAGENOME_SRR26076602	mean_read_length	150	bp			info	
+E_ILM_METAGENOME_SRR26076602	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR26076602	fastqc_per_base_sequence_content	PASS	status			info	
+E_ILM_METAGENOME_SRR26076602	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR26076602	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR26076602	host_fraction	0.04%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR26076602	off_target_fraction	74.5%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR26076602	unclassified_fraction	81.1%	fraction			info	
+E_ILM_METAGENOME_SRR26076602	dominant_species	Massilia sp. WG5 (5.8% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR26076602	top_species	Massilia sp. WG5 5.8%; Pseudomonas sp. RU47 4.2%; Rhizobium rhizogenes 3.8%; 36 trace species under 1% each, 19.7% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR25339258	total_reads	99,998	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR25339258	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR25339258	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR25339258	duplication_rate	6.7%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR25339258	adapter_trimmed_pct	8.4%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR25339258	gc_content	45.1%	fraction			info	
+E_ILM_METAGENOME_SRR25339258	insert_size_peak	231	bp			info	
+E_ILM_METAGENOME_SRR25339258	mean_read_length	147	bp			info	
+E_ILM_METAGENOME_SRR25339258	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR25339258	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR25339258	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR25339258	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR25339258	host_fraction	0.23%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR25339258	off_target_fraction	28.7%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR25339258	unclassified_fraction	21.6%	fraction			info	
+E_ILM_METAGENOME_SRR25339258	dominant_species	Microcystis aeruginosa (70.3% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR25339258	top_species	Microcystis aeruginosa 70.3%; Microcystis sp. BLCC-F210 14.8%; Microcystis panniformis 5.4%; 7 trace species under 1% each, 1.1% in total (not counted as off-target)	label			info	
+E_ILM_METAGENOME_SRR26188125	total_reads	41,354	reads	100,000	1,000	WARN	
+E_ILM_METAGENOME_SRR26188125	q30_rate	80.1%	fraction	75.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26188125	passed_filter_pct	82.7%	fraction	90.0%	70.0%	WARN	
+E_ILM_METAGENOME_SRR26188125	duplication_rate	2.9%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26188125	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E_ILM_METAGENOME_SRR26188125	gc_content	43.2%	fraction			info	
+E_ILM_METAGENOME_SRR26188125	insert_size_peak		bp			not_available	not reported by fastp
+E_ILM_METAGENOME_SRR26188125	mean_read_length	50	bp			info	
+E_ILM_METAGENOME_SRR26188125	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR26188125	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_METAGENOME_SRR26188125	fastqc_overrepresented_sequences	PASS	status			info	
+E_ILM_METAGENOME_SRR26188125	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_METAGENOME_SRR26188125	host_fraction	1.8%	fraction	1.0%	10.0%	WARN	
+E_ILM_METAGENOME_SRR26188125	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E_ILM_METAGENOME_SRR26188125	unclassified_fraction	98.0%	fraction			info	
+E_ILM_METAGENOME_SRR26188125	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E_ILM_METAGENOME_SRR26188125	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E_ILM_METAGENOME_SRR26075027	total_reads	100,000	reads	100,000	1,000	PASS	
+E_ILM_METAGENOME_SRR26075027	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_METAGENOME_SRR26075027	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_METAGENOME_SRR26075027	duplication_rate	4.9%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26075027	adapter_trimmed_pct	0.53%	fraction	30.0%		PASS	
+E_ILM_METAGENOME_SRR26075027	gc_content	64.3%	fraction			info	
+E_ILM_METAGENOME_SRR26075027	insert_size_peak	271	bp			info	
+E_ILM_METAGENOME_SRR26075027	mean_read_length	150	bp			info	
+E_ILM_METAGENOME_SRR26075027	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_METAGENOME_SRR26075027	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_METAGENOME_SRR26075027	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_METAGENOME_SRR26075027	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_METAGENOME_SRR26075027	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E_ILM_METAGENOME_SRR26075027	off_target_fraction	72.9%	fraction	5.0%	20.0%	FAIL	
+E_ILM_METAGENOME_SRR26075027	unclassified_fraction	93.7%	fraction			info	
+E_ILM_METAGENOME_SRR26075027	dominant_species	Bradyrhizobium lablabi (27.1% of species-level reads, Bracken)	label			info	
+E_ILM_METAGENOME_SRR26075027	top_species	Bradyrhizobium lablabi 27.1%; Bradyrhizobium erythrophlei 22.9%; Reyranella sp. 17.3%	label			info	
+E_ILM_AMPLICON_16S_SRR18339764	total_reads	99,682	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR18339764	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_16S_SRR18339764	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR18339764	duplication_rate	24.4%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR18339764	adapter_trimmed_pct	0.65%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR18339764	gc_content	56.2%	fraction			info	
+E_ILM_AMPLICON_16S_SRR18339764	insert_size_peak	446	bp			info	
+E_ILM_AMPLICON_16S_SRR18339764	mean_read_length	240	bp			info	
+E_ILM_AMPLICON_16S_SRR18339764	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR18339764	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR18339764	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR18339764	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_AMPLICON_16S_SRR18339764	host_fraction	0.53%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR18339764	off_target_fraction	44.4%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR18339764	unclassified_fraction	6.1%	fraction			info	
+E_ILM_AMPLICON_16S_SRR18339764	dominant_species	Klebsiella pneumoniae (14.7% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR18339764	top_species	Klebsiella pneumoniae 14.7%; Conexibacter sp. S30A1 4.3%; Candidatus Korobacter versatilis 3.9%; 163 trace species under 1% each, 40.9% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR22027097	total_reads	4,776	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR22027097	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR22027097	passed_filter_pct	96.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR22027097	duplication_rate	3.5%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR22027097	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E_ILM_AMPLICON_16S_SRR22027097	gc_content	57.9%	fraction			info	
+E_ILM_AMPLICON_16S_SRR22027097	insert_size_peak		bp			not_available	not reported by fastp
+E_ILM_AMPLICON_16S_SRR22027097	mean_read_length	276	bp			info	
+E_ILM_AMPLICON_16S_SRR22027097	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR22027097	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR22027097	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR22027097	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_AMPLICON_16S_SRR22027097	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR22027097	off_target_fraction	84.5%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR22027097	unclassified_fraction	22.1%	fraction			info	
+E_ILM_AMPLICON_16S_SRR22027097	dominant_species	Capillimicrobium parvum (15.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR22027097	top_species	Capillimicrobium parvum 15.0%; Singulisphaera sp. PoT 11.0%; Owariibacterium komagatae 10.6%; 1 trace species under 1% each, 0.6% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR26440619	total_reads	92,150	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR26440619	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_16S_SRR26440619	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26440619	duplication_rate	5.6%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR26440619	adapter_trimmed_pct	0.02%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR26440619	gc_content	57.5%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26440619	insert_size_peak	445	bp			info	
+E_ILM_AMPLICON_16S_SRR26440619	mean_read_length	275	bp			info	
+E_ILM_AMPLICON_16S_SRR26440619	n_base_rate	0.03%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26440619	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26440619	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26440619	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26440619	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26440619	off_target_fraction	46.5%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR26440619	unclassified_fraction	4.0%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26440619	dominant_species	Salmonella enterica (20.2% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR26440619	top_species	Salmonella enterica 20.2%; Nocardia testacea 13.5%; Ornithinimicrobium cryptoxanthini 6.3%; 113 trace species under 1% each, 33.4% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR26834637	total_reads	99,858	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR26834637	q30_rate	91.4%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26834637	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26834637	duplication_rate	41.5%	fraction	30.0%		WARN	
+E_ILM_AMPLICON_16S_SRR26834637	adapter_trimmed_pct	0.81%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR26834637	gc_content	53.6%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26834637	insert_size_peak	358	bp			info	
+E_ILM_AMPLICON_16S_SRR26834637	mean_read_length	242	bp			info	
+E_ILM_AMPLICON_16S_SRR26834637	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26834637	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26834637	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26834637	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26834637	host_fraction	0.30%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26834637	off_target_fraction	53.5%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR26834637	unclassified_fraction	75.5%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26834637	dominant_species	Pseudomonas sp. CIP-10 (46.1% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR26834637	top_species	Pseudomonas sp. CIP-10 46.1%; Bacillus cereus 37.8%; Stenotrophomonas maltophilia 15.7%; 2 trace species under 1% each, 0.4% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR28074194	total_reads	99,376	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR28074194	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_16S_SRR28074194	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28074194	duplication_rate	0.75%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR28074194	adapter_trimmed_pct	0.05%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR28074194	gc_content	53.8%	fraction			info	
+E_ILM_AMPLICON_16S_SRR28074194	insert_size_peak	440	bp			info	
+E_ILM_AMPLICON_16S_SRR28074194	mean_read_length	300	bp			info	
+E_ILM_AMPLICON_16S_SRR28074194	n_base_rate	0.05%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28074194	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28074194	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28074194	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28074194	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28074194	off_target_fraction	61.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR28074194	unclassified_fraction	0.56%	fraction			info	
+E_ILM_AMPLICON_16S_SRR28074194	dominant_species	Sellimonas catena (26.8% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR28074194	top_species	Sellimonas catena 26.8%; Streptococcus thermophilus 20.3%; Limosilactobacillus reuteri 10.7%; 53 trace species under 1% each, 12.2% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR26177413	total_reads	66,350	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR26177413	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_16S_SRR26177413	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26177413	duplication_rate	0.00%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR26177413	adapter_trimmed_pct	1.3%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR26177413	gc_content	53.9%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26177413	insert_size_peak	472	bp			info	
+E_ILM_AMPLICON_16S_SRR26177413	mean_read_length	299	bp			info	
+E_ILM_AMPLICON_16S_SRR26177413	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26177413	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26177413	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_AMPLICON_16S_SRR26177413	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR26177413	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR26177413	off_target_fraction	69.2%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR26177413	unclassified_fraction	2.4%	fraction			info	
+E_ILM_AMPLICON_16S_SRR26177413	dominant_species	Ligilactobacillus animalis (27.4% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR26177413	top_species	Ligilactobacillus animalis 27.4%; Salmonella enterica 20.2%; Akkermansia muciniphila 14.1%; 21 trace species under 1% each, 3.4% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR19600369	total_reads	88,976	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR19600369	q30_rate	80.2%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR19600369	passed_filter_pct	93.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR19600369	duplication_rate	2.9%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR19600369	adapter_trimmed_pct	0.10%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR19600369	gc_content	53.7%	fraction			info	
+E_ILM_AMPLICON_16S_SRR19600369	insert_size_peak	412	bp			info	
+E_ILM_AMPLICON_16S_SRR19600369	mean_read_length	250	bp			info	
+E_ILM_AMPLICON_16S_SRR19600369	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR19600369	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR19600369	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR19600369	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR19600369	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR19600369	off_target_fraction	62.9%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR19600369	unclassified_fraction	0.93%	fraction			info	
+E_ILM_AMPLICON_16S_SRR19600369	dominant_species	Streptococcus thermophilus (33.3% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR19600369	top_species	Streptococcus thermophilus 33.3%; Megamonas funiformis 26.6%; Clostridium sp. M62/1 9.1%; 16 trace species under 1% each, 3.8% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR28526988	total_reads	99,996	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR28526988	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_16S_SRR28526988	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28526988	duplication_rate	3.5%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR28526988	adapter_trimmed_pct	0.77%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR28526988	gc_content	54.6%	fraction			info	
+E_ILM_AMPLICON_16S_SRR28526988	insert_size_peak	481	bp			info	
+E_ILM_AMPLICON_16S_SRR28526988	mean_read_length	300	bp			info	
+E_ILM_AMPLICON_16S_SRR28526988	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28526988	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28526988	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28526988	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR28526988	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR28526988	off_target_fraction	59.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR28526988	unclassified_fraction	4.0%	fraction			info	
+E_ILM_AMPLICON_16S_SRR28526988	dominant_species	Salmonella enterica (29.2% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR28526988	top_species	Salmonella enterica 29.2%; Segniliparus rotundus 10.2%; Ectopseudomonas guguanensis 9.1%; 58 trace species under 1% each, 11.8% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR29356841	total_reads	99,716	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR29356841	q30_rate	95.3%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR29356841	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR29356841	duplication_rate	50.3%	fraction	30.0%		WARN	
+E_ILM_AMPLICON_16S_SRR29356841	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR29356841	gc_content	54.9%	fraction			info	
+E_ILM_AMPLICON_16S_SRR29356841	insert_size_peak	306	bp			info	
+E_ILM_AMPLICON_16S_SRR29356841	mean_read_length	251	bp			info	
+E_ILM_AMPLICON_16S_SRR29356841	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR29356841	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR29356841	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR29356841	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR29356841	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR29356841	off_target_fraction	49.7%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR29356841	unclassified_fraction	0.68%	fraction			info	
+E_ILM_AMPLICON_16S_SRR29356841	dominant_species	Enterococcus faecium (43.3% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR29356841	top_species	Enterococcus faecium 43.3%; Jeotgalicoccus sp. ATCC 8456 19.7%; Salmonella enterica 10.9%; 39 trace species under 1% each, 7.0% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_16S_SRR30562759	total_reads	99,562	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_16S_SRR30562759	q30_rate	88.9%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR30562759	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_16S_SRR30562759	duplication_rate	29.9%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR30562759	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_16S_SRR30562759	gc_content	55.6%	fraction			info	
+E_ILM_AMPLICON_16S_SRR30562759	insert_size_peak	291	bp			info	
+E_ILM_AMPLICON_16S_SRR30562759	mean_read_length	251	bp			info	
+E_ILM_AMPLICON_16S_SRR30562759	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_16S_SRR30562759	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR30562759	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR30562759	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_16S_SRR30562759	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_16S_SRR30562759	off_target_fraction	52.0%	fraction	5.0%	20.0%	FAIL	
+E_ILM_AMPLICON_16S_SRR30562759	unclassified_fraction	19.2%	fraction			info	
+E_ILM_AMPLICON_16S_SRR30562759	dominant_species	Duncaniella dubosii (42.7% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_16S_SRR30562759	top_species	Duncaniella dubosii 42.7%; Muribaculum gordoncarteri 31.7%; Paramuribaculum intestinale 12.2%; 20 trace species under 1% each, 5.3% in total (not counted as off-target)	label			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	total_reads	88,592	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_VIRAL_ERR7334094	q30_rate	80.6%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	passed_filter_pct	88.6%	fraction	90.0%	70.0%	WARN	
+E_ILM_AMPLICON_VIRAL_ERR7334094	duplication_rate	4.8%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	adapter_trimmed_pct	4.4%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	gc_content	39.3%	fraction			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	insert_size_peak	206	bp			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	mean_read_length	134	bp			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	host_fraction	0.70%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_AMPLICON_VIRAL_ERR7334094	unclassified_fraction	20.0%	fraction			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	dominant_species	Betacoronavirus pandemicum (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_VIRAL_ERR7334094	top_species	Betacoronavirus pandemicum 100.0%	label			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	total_reads	98,756	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_VIRAL_DRR274677	q30_rate	96.7%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	passed_filter_pct	98.8%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	duplication_rate	13.5%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	adapter_trimmed_pct	0.21%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	gc_content	38.3%	fraction			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	insert_size_peak	114	bp			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	mean_read_length	134	bp			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	host_fraction	0.12%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_AMPLICON_VIRAL_DRR274677	unclassified_fraction	11.2%	fraction			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	dominant_species	Betacoronavirus pandemicum (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_VIRAL_DRR274677	top_species	Betacoronavirus pandemicum 100.0%	label			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	total_reads	98,188	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_VIRAL_SRR16230074	q30_rate	99.0%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	passed_filter_pct	98.2%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	duplication_rate	6.9%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	adapter_trimmed_pct	2.0%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	gc_content	46.8%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	insert_size_peak	86	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	mean_read_length	114	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	fastqc_per_base_sequence_content	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	fastqc_per_sequence_gc_content	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR16230074	unclassified_fraction	43.1%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	dominant_species	Orthorubulavirus parotitidis (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_VIRAL_SRR16230074	top_species	Orthorubulavirus parotitidis 100.0%	label			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	total_reads	65,188	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_VIRAL_SRR27446193	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ILM_AMPLICON_VIRAL_SRR27446193	passed_filter_pct	65.2%	fraction	90.0%	70.0%	FAIL	
+E_ILM_AMPLICON_VIRAL_SRR27446193	duplication_rate	88.4%	fraction	30.0%		WARN	
+E_ILM_AMPLICON_VIRAL_SRR27446193	adapter_trimmed_pct	17.5%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_SRR27446193	gc_content	39.5%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	insert_size_peak	256	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	mean_read_length	149	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR27446193	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR27446193	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR27446193	unclassified_fraction	0.43%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	dominant_species	Betacoronavirus pandemicum (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_VIRAL_SRR27446193	top_species	Betacoronavirus pandemicum 100.0%	label			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	total_reads	99,292	reads	100,000	1,000	WARN	
+E_ILM_AMPLICON_VIRAL_SRR19050596	q30_rate	88.7%	fraction	75.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	duplication_rate	4.6%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	adapter_trimmed_pct	2.0%	fraction	30.0%		PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	gc_content	39.2%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	insert_size_peak	105	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	mean_read_length	145	bp			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	n_base_rate	0.09%	fraction	1.0%	5.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	fastqc_overrepresented_sequences	WARN	status			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	host_fraction	5.2%	fraction	1.0%	10.0%	WARN	
+E_ILM_AMPLICON_VIRAL_SRR19050596	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ILM_AMPLICON_VIRAL_SRR19050596	unclassified_fraction	18.7%	fraction			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	dominant_species	Betacoronavirus pandemicum (100.0% of species-level reads, Bracken)	label			info	
+E_ILM_AMPLICON_VIRAL_SRR19050596	top_species	Betacoronavirus pandemicum 100.0%	label			info	
+E_ONT_ISOLATE_SRR32486206	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR32486206	total_bases	51,258,187	bp			info	
+E_ONT_ISOLATE_SRR32486206	read_n50	18,085	bp	5,000	1,000	PASS	
+E_ONT_ISOLATE_SRR32486206	mean_read_quality	Q17.7	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR32486206	median_read_length	6,140	bp			info	
+E_ONT_ISOLATE_SRR32486206	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR32486206	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR32486206	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ONT_ISOLATE_SRR32486206	unclassified_fraction	2.5%	fraction			info	
+E_ONT_ISOLATE_SRR32486206	dominant_species	Klebsiella aerogenes (98.0% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR32486206	top_species	Klebsiella aerogenes 98.0%; Klebsiella pneumoniae 1.0%; Escherichia coli / Shigella 0.2%; 18 trace species under 1% each, 2.0% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR33322969	number_of_reads	4,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR33322969	total_bases	14,263,749	bp			info	
+E_ONT_ISOLATE_SRR33322969	read_n50	7,696	bp	5,000	1,000	PASS	
+E_ONT_ISOLATE_SRR33322969	mean_read_quality	Q9.6	Phred	Q10.0	Q7.0	WARN	
+E_ONT_ISOLATE_SRR33322969	median_read_length	1,740	bp			info	
+E_ONT_ISOLATE_SRR33322969	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR33322969	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR33322969	off_target_fraction	11.6%	fraction	5.0%	20.0%	WARN	
+E_ONT_ISOLATE_SRR33322969	unclassified_fraction	19.8%	fraction			info	
+E_ONT_ISOLATE_SRR33322969	dominant_species	Enterobacter hormaechei (76.3% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR33322969	top_species	Enterobacter hormaechei 76.3%; Klebsiella pneumoniae 3.2%; Escherichia coli / Shigella 2.9%; 70 trace species under 1% each, 12.1% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR31776419	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR31776419	total_bases	4,922,805	bp			info	
+E_ONT_ISOLATE_SRR31776419	read_n50	1,351	bp	5,000	1,000	WARN	
+E_ONT_ISOLATE_SRR31776419	mean_read_quality	Q17.8	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR31776419	median_read_length	713	bp			info	
+E_ONT_ISOLATE_SRR31776419	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR31776419	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR31776419	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ONT_ISOLATE_SRR31776419	unclassified_fraction	3.7%	fraction			info	
+E_ONT_ISOLATE_SRR31776419	dominant_species	Streptomyces antibioticus (96.0% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR31776419	top_species	Streptomyces antibioticus 96.0%; Streptomyces sp. NBC_01255 0.3%; Streptomyces griseoaurantiacus 0.2%; 107 trace species under 1% each, 4.0% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR29779041	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR29779041	total_bases	9,174,494	bp			info	
+E_ONT_ISOLATE_SRR29779041	read_n50	3,368	bp	5,000	1,000	WARN	
+E_ONT_ISOLATE_SRR29779041	mean_read_quality	Q13.9	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR29779041	median_read_length	908	bp			info	
+E_ONT_ISOLATE_SRR29779041	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR29779041	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR29779041	off_target_fraction	2.1%	fraction	5.0%	20.0%	PASS	
+E_ONT_ISOLATE_SRR29779041	unclassified_fraction	1.2%	fraction			info	
+E_ONT_ISOLATE_SRR29779041	dominant_species	Streptococcus dysgalactiae (95.0% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR29779041	top_species	Streptococcus dysgalactiae 95.0%; Streptococcus pyogenes 2.1%; Streptococcus canis 0.6%; 28 trace species under 1% each, 2.9% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR36496803	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR36496803	total_bases	37,402,717	bp			info	
+E_ONT_ISOLATE_SRR36496803	read_n50	12,220	bp	5,000	1,000	PASS	
+E_ONT_ISOLATE_SRR36496803	mean_read_quality	Q12.9	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR36496803	median_read_length	5,251	bp			info	
+E_ONT_ISOLATE_SRR36496803	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR36496803	host_fraction	0.40%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR36496803	off_target_fraction	46.3%	fraction	5.0%	20.0%	FAIL	
+E_ONT_ISOLATE_SRR36496803	unclassified_fraction	18.2%	fraction			info	
+E_ONT_ISOLATE_SRR36496803	dominant_species	Winogradskyella helgolandensis (32.2% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR36496803	top_species	Winogradskyella helgolandensis 32.2%; Bifidobacterium sp. ESL0825 14.0%; Winogradskyella sediminis 12.2%; 206 trace species under 1% each, 21.5% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR29856240	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR29856240	total_bases	8,990,284	bp			info	
+E_ONT_ISOLATE_SRR29856240	read_n50	3,171	bp	5,000	1,000	WARN	
+E_ONT_ISOLATE_SRR29856240	mean_read_quality	Q10.4	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR29856240	median_read_length	973	bp			info	
+E_ONT_ISOLATE_SRR29856240	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR29856240	host_fraction	0.08%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR29856240	off_target_fraction	36.0%	fraction	5.0%	20.0%	FAIL	
+E_ONT_ISOLATE_SRR29856240	unclassified_fraction	94.3%	fraction			info	
+E_ONT_ISOLATE_SRR29856240	dominant_species	Rhodococcus erythropolis (31.5% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR29856240	top_species	Rhodococcus erythropolis 31.5%; Candidatus Ponderosibacter sp. Uisw_141_02 18.9%; Lactiplantibacillus carotarum 14.9%; 70 trace species under 1% each, 32.4% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR35171289	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR35171289	total_bases	27,103,273	bp			info	
+E_ONT_ISOLATE_SRR35171289	read_n50	8,315	bp	5,000	1,000	PASS	
+E_ONT_ISOLATE_SRR35171289	mean_read_quality	Q19.9	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR35171289	median_read_length	3,440	bp			info	
+E_ONT_ISOLATE_SRR35171289	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR35171289	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR35171289	off_target_fraction	30.3%	fraction	5.0%	20.0%	FAIL	
+E_ONT_ISOLATE_SRR35171289	unclassified_fraction	1.5%	fraction			info	
+E_ONT_ISOLATE_SRR35171289	dominant_species	Pseudomonas sp. R76 (40.4% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR35171289	top_species	Pseudomonas sp. R76 40.4%; Pseudomonas poae 16.1%; Pseudomonas antarctica 3.6%; 213 trace species under 1% each, 29.2% in total (not counted as off-target)	label			info	
+E_ONT_ISOLATE_SRR29530095	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_ISOLATE_SRR29530095	total_bases	21,248,451	bp			info	
+E_ONT_ISOLATE_SRR29530095	read_n50	8,210	bp	5,000	1,000	PASS	
+E_ONT_ISOLATE_SRR29530095	mean_read_quality	Q13.7	Phred	Q10.0	Q7.0	PASS	
+E_ONT_ISOLATE_SRR29530095	median_read_length	2,479	bp			info	
+E_ONT_ISOLATE_SRR29530095	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_ISOLATE_SRR29530095	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E_ONT_ISOLATE_SRR29530095	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ONT_ISOLATE_SRR29530095	unclassified_fraction	3.9%	fraction			info	
+E_ONT_ISOLATE_SRR29530095	dominant_species	Salmonella enterica (98.7% of species-level reads, Kraken2)	label			info	
+E_ONT_ISOLATE_SRR29530095	top_species	Salmonella enterica 98.7%; Escherichia coli / Shigella 0.5%; Salmonella bongori 0.4%; 13 trace species under 1% each, 1.3% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR30208885	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR30208885	total_bases	20,110,753	bp			info	
+E_ONT_METAGENOME_SRR30208885	read_n50	6,389	bp	5,000	1,000	PASS	
+E_ONT_METAGENOME_SRR30208885	mean_read_quality	Q10.6	Phred	Q10.0	Q7.0	PASS	
+E_ONT_METAGENOME_SRR30208885	median_read_length	3,242	bp			info	
+E_ONT_METAGENOME_SRR30208885	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR30208885	host_fraction	2.0%	fraction	1.0%	10.0%	WARN	
+E_ONT_METAGENOME_SRR30208885	off_target_fraction	9.9%	fraction	5.0%	20.0%	WARN	
+E_ONT_METAGENOME_SRR30208885	unclassified_fraction	85.6%	fraction			info	
+E_ONT_METAGENOME_SRR30208885	dominant_species	Escherichia coli / Shigella (3.3% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR30208885	top_species	Escherichia coli / Shigella 3.3%; Sulfuricurvum kujiense 2.7%; Candidatus Velamenicoccus archaeovorus 1.5%; 274 trace species under 1% each, 86.8% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_ERR12670106	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_ERR12670106	total_bases	7,322,695	bp			info	
+E_ONT_METAGENOME_ERR12670106	read_n50	2,377	bp	5,000	1,000	WARN	
+E_ONT_METAGENOME_ERR12670106	mean_read_quality	Q16.0	Phred	Q10.0	Q7.0	PASS	
+E_ONT_METAGENOME_ERR12670106	median_read_length	1,227	bp			info	
+E_ONT_METAGENOME_ERR12670106	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_ERR12670106	host_fraction	0.10%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_ERR12670106	off_target_fraction	1.8%	fraction	5.0%	20.0%	PASS	
+E_ONT_METAGENOME_ERR12670106	unclassified_fraction	2.6%	fraction			info	
+E_ONT_METAGENOME_ERR12670106	dominant_species	Orthopoxvirus monkeypox (95.9% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_ERR12670106	top_species	Orthopoxvirus monkeypox 95.9%; Ralstonia pickettii 1.8%; Orthopoxvirus taterapox 0.6%; 22 trace species under 1% each, 2.3% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR32139624	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR32139624	total_bases	8,668,992	bp			info	
+E_ONT_METAGENOME_SRR32139624	read_n50	2,645	bp	5,000	1,000	WARN	
+E_ONT_METAGENOME_SRR32139624	mean_read_quality	Q9.5	Phred	Q10.0	Q7.0	WARN	
+E_ONT_METAGENOME_SRR32139624	median_read_length	1,256	bp			info	
+E_ONT_METAGENOME_SRR32139624	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR32139624	host_fraction	0.66%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_SRR32139624	off_target_fraction	34.8%	fraction	5.0%	20.0%	FAIL	
+E_ONT_METAGENOME_SRR32139624	unclassified_fraction	46.7%	fraction			info	
+E_ONT_METAGENOME_SRR32139624	dominant_species	Bacteroides thetaiotaomicron (58.1% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR32139624	top_species	Bacteroides thetaiotaomicron 58.1%; Lactobacillus johnsonii 14.2%; Akkermansia muciniphila 13.5%; 83 trace species under 1% each, 7.1% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR18308523	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR18308523	total_bases	1,401,859	bp			info	
+E_ONT_METAGENOME_SRR18308523	read_n50	294	bp	5,000	1,000	FAIL	
+E_ONT_METAGENOME_SRR18308523	mean_read_quality	Q9.3	Phred	Q10.0	Q7.0	WARN	
+E_ONT_METAGENOME_SRR18308523	median_read_length	278	bp			info	
+E_ONT_METAGENOME_SRR18308523	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR18308523	host_fraction	10.6%	fraction	1.0%	10.0%	FAIL	
+E_ONT_METAGENOME_SRR18308523	off_target_fraction	25.3%	fraction	5.0%	20.0%	FAIL	
+E_ONT_METAGENOME_SRR18308523	unclassified_fraction	87.2%	fraction			info	
+E_ONT_METAGENOME_SRR18308523	dominant_species	Escherichia coli / Shigella (74.7% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR18308523	top_species	Escherichia coli / Shigella 74.7%; Cutibacterium acnes 8.0%; Arthrobacter sp. G.S.26 1.3%	label			info	
+E_ONT_METAGENOME_SRR28985927	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR28985927	total_bases	10,533,177	bp			info	
+E_ONT_METAGENOME_SRR28985927	read_n50	3,054	bp	5,000	1,000	WARN	
+E_ONT_METAGENOME_SRR28985927	mean_read_quality	Q12.1	Phred	Q10.0	Q7.0	PASS	
+E_ONT_METAGENOME_SRR28985927	median_read_length	1,727	bp			info	
+E_ONT_METAGENOME_SRR28985927	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR28985927	host_fraction	0.64%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_SRR28985927	off_target_fraction	46.0%	fraction	5.0%	20.0%	FAIL	
+E_ONT_METAGENOME_SRR28985927	unclassified_fraction	79.3%	fraction			info	
+E_ONT_METAGENOME_SRR28985927	dominant_species	Bifidobacterium subtile (13.2% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR28985927	top_species	Bifidobacterium subtile 13.2%; Lacticaseibacillus paracasei 10.0%; Caproicibacter fermentans 6.3%; 213 trace species under 1% each, 40.8% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR16328416	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR16328416	total_bases	16,296,264	bp			info	
+E_ONT_METAGENOME_SRR16328416	read_n50	6,377	bp	5,000	1,000	PASS	
+E_ONT_METAGENOME_SRR16328416	mean_read_quality	Q12.3	Phred	Q10.0	Q7.0	PASS	
+E_ONT_METAGENOME_SRR16328416	median_read_length	1,652	bp			info	
+E_ONT_METAGENOME_SRR16328416	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR16328416	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_SRR16328416	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E_ONT_METAGENOME_SRR16328416	unclassified_fraction	5.9%	fraction			info	
+E_ONT_METAGENOME_SRR16328416	dominant_species	Francisella tularensis (99.9% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR16328416	top_species	Francisella tularensis 99.9%; Corynebacterium tuberculostearicum 0.1%; Francisella hispaniensis 0.0%; 3 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR28879909	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR28879909	total_bases	7,699,798	bp			info	
+E_ONT_METAGENOME_SRR28879909	read_n50	3,766	bp	5,000	1,000	WARN	
+E_ONT_METAGENOME_SRR28879909	mean_read_quality	Q11.2	Phred	Q10.0	Q7.0	PASS	
+E_ONT_METAGENOME_SRR28879909	median_read_length	570	bp			info	
+E_ONT_METAGENOME_SRR28879909	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR28879909	host_fraction	0.06%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_SRR28879909	off_target_fraction	34.2%	fraction	5.0%	20.0%	FAIL	
+E_ONT_METAGENOME_SRR28879909	unclassified_fraction	45.2%	fraction			info	
+E_ONT_METAGENOME_SRR28879909	dominant_species	Xanthomonas campestris (26.4% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR28879909	top_species	Xanthomonas campestris 26.4%; Shewanella oncorhynchi 8.1%; Pseudomonas psychrophila 4.0%; 333 trace species under 1% each, 39.4% in total (not counted as off-target)	label			info	
+E_ONT_METAGENOME_SRR18210350	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_METAGENOME_SRR18210350	total_bases	14,808,595	bp			info	
+E_ONT_METAGENOME_SRR18210350	read_n50	6,481	bp	5,000	1,000	PASS	
+E_ONT_METAGENOME_SRR18210350	mean_read_quality	Q9.3	Phred	Q10.0	Q7.0	WARN	
+E_ONT_METAGENOME_SRR18210350	median_read_length	1,206	bp			info	
+E_ONT_METAGENOME_SRR18210350	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_METAGENOME_SRR18210350	host_fraction	0.06%	fraction	1.0%	10.0%	PASS	
+E_ONT_METAGENOME_SRR18210350	off_target_fraction	75.0%	fraction	5.0%	20.0%	FAIL	
+E_ONT_METAGENOME_SRR18210350	unclassified_fraction	32.5%	fraction			info	
+E_ONT_METAGENOME_SRR18210350	dominant_species	Salmonella enterica (18.7% of species-level reads, Kraken2)	label			info	
+E_ONT_METAGENOME_SRR18210350	top_species	Salmonella enterica 18.7%; Escherichia coli / Shigella 18.4%; Bacillus spizizenii 16.2%; 73 trace species under 1% each, 6.3% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_SRR31879302	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_AMPLICON_SRR31879302	total_bases	7,137,998	bp			info	
+E_ONT_AMPLICON_SRR31879302	read_n50	1,429	bp	5,000	1,000	WARN	
+E_ONT_AMPLICON_SRR31879302	mean_read_quality	Q13.2	Phred	Q10.0	Q7.0	PASS	
+E_ONT_AMPLICON_SRR31879302	median_read_length	1,428	bp			info	
+E_ONT_AMPLICON_SRR31879302	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_SRR31879302	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_SRR31879302	off_target_fraction	27.4%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_SRR31879302	unclassified_fraction	0.38%	fraction			info	
+E_ONT_AMPLICON_SRR31879302	dominant_species	Candidatus Pelagibacter sp. RS40 (33.1% of species-level reads, Kraken2)	label			info	
+E_ONT_AMPLICON_SRR31879302	top_species	Candidatus Pelagibacter sp. RS40 33.1%; Candidatus Pelagibacter sp. RS39 6.2%; Corynebacterium canis 4.9%; 346 trace species under 1% each, 39.5% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_DRR542845	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_AMPLICON_DRR542845	total_bases	5,897,708	bp			info	
+E_ONT_AMPLICON_DRR542845	read_n50	1,461	bp	5,000	1,000	WARN	
+E_ONT_AMPLICON_DRR542845	mean_read_quality	Q9.7	Phred	Q10.0	Q7.0	WARN	
+E_ONT_AMPLICON_DRR542845	median_read_length	1,444	bp			info	
+E_ONT_AMPLICON_DRR542845	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_DRR542845	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_DRR542845	off_target_fraction	33.2%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_DRR542845	unclassified_fraction	26.2%	fraction			info	
+E_ONT_AMPLICON_DRR542845	dominant_species	Candidatus Cloacimonas acidaminovorans (26.8% of species-level reads, Kraken2)	label			info	
+E_ONT_AMPLICON_DRR542845	top_species	Candidatus Cloacimonas acidaminovorans 26.8%; Candidatus Azobacteroides pseudotrichonymphae 6.1%; Paludibacter propionicigenes 3.1%; 300 trace species under 1% each, 40.0% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_SRR34320107	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_AMPLICON_SRR34320107	total_bases	7,913,586	bp			info	
+E_ONT_AMPLICON_SRR34320107	read_n50	1,653	bp	5,000	1,000	WARN	
+E_ONT_AMPLICON_SRR34320107	mean_read_quality	Q14.7	Phred	Q10.0	Q7.0	PASS	
+E_ONT_AMPLICON_SRR34320107	median_read_length	1,651	bp			info	
+E_ONT_AMPLICON_SRR34320107	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_SRR34320107	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_SRR34320107	off_target_fraction	39.1%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_SRR34320107	unclassified_fraction	0.48%	fraction			info	
+E_ONT_AMPLICON_SRR34320107	dominant_species	Endozoicomonas sp. Mp262 (41.6% of species-level reads, Kraken2)	label			info	
+E_ONT_AMPLICON_SRR34320107	top_species	Endozoicomonas sp. Mp262 41.6%; Oceanicoccus sagamiensis 14.6%; Klebsiella pneumoniae 5.4%; 179 trace species under 1% each, 19.3% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_SRR24994349	total_reads	5,000	reads	100,000	1,000	WARN	
+E_ONT_AMPLICON_SRR24994349	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E_ONT_AMPLICON_SRR24994349	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E_ONT_AMPLICON_SRR24994349	duplication_rate	56.7%	fraction	30.0%		WARN	
+E_ONT_AMPLICON_SRR24994349	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E_ONT_AMPLICON_SRR24994349	gc_content	51.2%	fraction			info	
+E_ONT_AMPLICON_SRR24994349	insert_size_peak		bp			not_available	not reported by fastp
+E_ONT_AMPLICON_SRR24994349	mean_read_length	399	bp			info	
+E_ONT_AMPLICON_SRR24994349	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_SRR24994349	fastqc_per_base_sequence_content	FAIL	status			info	
+E_ONT_AMPLICON_SRR24994349	fastqc_overrepresented_sequences	FAIL	status			info	
+E_ONT_AMPLICON_SRR24994349	fastqc_per_sequence_gc_content	FAIL	status			info	
+E_ONT_AMPLICON_SRR24994349	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_SRR24994349	off_target_fraction	77.6%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_SRR24994349	unclassified_fraction	1.2%	fraction			info	
+E_ONT_AMPLICON_SRR24994349	dominant_species	Prevotella melaninogenica (19.4% of species-level reads, Bracken)	label			info	
+E_ONT_AMPLICON_SRR24994349	top_species	Prevotella melaninogenica 19.4%; Veillonella atypica 15.0%; Neisseria subflava 12.2%; 4 trace species under 1% each, 3.0% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_SRR33386916	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_AMPLICON_SRR33386916	total_bases	7,028,443	bp			info	
+E_ONT_AMPLICON_SRR33386916	read_n50	1,407	bp	5,000	1,000	WARN	
+E_ONT_AMPLICON_SRR33386916	mean_read_quality	Q10.9	Phred	Q10.0	Q7.0	PASS	
+E_ONT_AMPLICON_SRR33386916	median_read_length	1,406	bp			info	
+E_ONT_AMPLICON_SRR33386916	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_SRR33386916	host_fraction	0.06%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_SRR33386916	off_target_fraction	22.6%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_SRR33386916	unclassified_fraction	5.2%	fraction			info	
+E_ONT_AMPLICON_SRR33386916	dominant_species	Reyranella sp. (3.1% of species-level reads, Kraken2)	label			info	
+E_ONT_AMPLICON_SRR33386916	top_species	Reyranella sp. 3.1%; Escherichia coli / Shigella 2.2%; Candidatus Korobacter versatilis 2.0%; 531 trace species under 1% each, 74.3% in total (not counted as off-target)	label			info	
+E_ONT_AMPLICON_SRR25944610	number_of_reads	5,000	reads	10,000	1,000	WARN	
+E_ONT_AMPLICON_SRR25944610	total_bases	7,645,596	bp			info	
+E_ONT_AMPLICON_SRR25944610	read_n50	1,565	bp	5,000	1,000	WARN	
+E_ONT_AMPLICON_SRR25944610	mean_read_quality	Q8.9	Phred	Q10.0	Q7.0	WARN	
+E_ONT_AMPLICON_SRR25944610	median_read_length	1,563	bp			info	
+E_ONT_AMPLICON_SRR25944610	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E_ONT_AMPLICON_SRR25944610	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E_ONT_AMPLICON_SRR25944610	off_target_fraction	29.5%	fraction	5.0%	20.0%	FAIL	
+E_ONT_AMPLICON_SRR25944610	unclassified_fraction	3.6%	fraction			info	
+E_ONT_AMPLICON_SRR25944610	dominant_species	Morganella morganii (33.1% of species-level reads, Kraken2)	label			info	
+E_ONT_AMPLICON_SRR25944610	top_species	Morganella morganii 33.1%; Escherichia coli / Shigella 8.7%; Enterococcus faecium 7.7%; 287 trace species under 1% each, 37.3% in total (not counted as off-target)	label			info	

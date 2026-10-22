@@ -24,6 +24,9 @@ All notable changes to seq-triage. Versions follow
   `assets/downstream_pipelines.tsv`), with a samplesheet in that pipeline's
   format and a params file. CI validates every generated samplesheet
   against the pipeline's own schema at the pinned commit.
+- After validation layer E (D67): isolate at high confidence also needs at
+  most 25% of reads unclassified; a virus-dominated sample is isolate at
+  most at medium confidence; new information metric `viral_fraction`.
 
 ### Changed
 

@@ -26,6 +26,8 @@ ONT_META      | WARN      | declared  | ont      | metagenome | metagenome | med
 ILM_16S       | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Escherichia coli / Shigella (30.0%)                    |     | nf-core/ampliseq
 ILM_SC2       | WARN      | detected  | illumina | amplicon   | amplicon   | high      | rna      |                  | Severe acute respiratory syndrome coronavirus 2 (99%)  |     | nf-core/viralrecon
 ILM_RNA       | PASS      | detected  | illumina | isolate    | uncertain  | uncertain | rna      |                  | Pseudomonas aeruginosa (98.0%)                         |     | nf-core/rnaseq
+ILM_SC2_NEWNAME | WARN    | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Betacoronavirus pandemicum (100.0% of species-level reads, Bracken) |     | nf-core/viralrecon
+ILM_MUMPS     | WARN      | detected  | illumina | amplicon   | amplicon   | high      | rna      |                  | Orthorubulavirus parotitidis (100.0% of species-level reads, Bracken) |   | none
 FAILED        | FAIL      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        |     | none
 BAM_INPUT     | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        | yes | none
 CONFLICT      | WARN      | detected  | illumina | isolate    | amplicon   | high      | dna      | TYPE_CONTRADICTS |                                                        |     | none
@@ -39,8 +41,11 @@ summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = c
                    detected_platform = cases$platform, declared_platform = cases$platform,
                    declared_type = cases$decl_type, detected_type = cases$det_type, type_confidence = cases$conf,
                    declared_molecule = cases$molecule, detection_flags = cases$flags)
-mets <- data.frame(sample = cases$sample[!is.na(cases$dominant)], metric = "dominant_species",
-                   value = cases$dominant[!is.na(cases$dominant)])
+has_dom <- !is.na(cases$dominant)
+viral   <- grepl("coronavirus|Betacoronavirus|Orthorubulavirus", cases$dominant)
+mets <- rbind(data.frame(sample = cases$sample[has_dom], metric = "dominant_species", value = cases$dominant[has_dom]),
+              data.frame(sample = cases$sample[has_dom], metric = "viral_fraction",
+                         value = ifelse(viral[has_dom], "100.0%", "0.10%")))
 paired <- cases$platform == "illumina"
 sheet <- data.frame(sample = cases$sample,
                     fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
