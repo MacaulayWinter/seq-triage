@@ -138,6 +138,13 @@ if (round >= 2) {
   }
   CALIBRATION_STUDIES <- unique(CALIBRATION_STUDIES)
 }
+# EXCLUDE_PANELS (D68): further panel files, ':'-separated, whose studies are
+# excluded too (layer E round 2 excludes layer E's).
+for (f in Filter(nzchar, strsplit(Sys.getenv("EXCLUDE_PANELS"), ":")[[1]])) {
+  st <- unique(read.delim(f, colClasses = "character")$study_accession)
+  message(sprintf("Excluding %d studies from %s", length(st), f))
+  CALIBRATION_STUDIES <- unique(c(CALIBRATION_STUDIES, st))
+}
 
 n_col <- if (nzchar(strata_file)) "n" else paste0("r", round)
 panel <- list()
