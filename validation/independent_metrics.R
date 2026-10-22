@@ -55,6 +55,9 @@ for (i in seq_len(nrow(sheet))) {
   files <- na.omit(c(sheet$fastq_1[i], sheet$fastq_2[i]))
   route <- summ$route[summ$sample == s]
   if (!length(route)) next
+  # A file the integrity check rejected (D45) has no QC numbers to recalculate;
+  # that it is rejected, and how, is layer C's test.
+  if (route == "unreadable") next
   fqs   <- lapply(files, read_fq)
   len   <- unlist(lapply(fqs, function(f) nchar(f$s)))
   n_rd  <- length(len)

@@ -1,0 +1,1159 @@
+sample	quantity	independent	pipeline	source	tolerance	difference	result
+ILM_MISEQ_ERR10694625	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_ERR10694625	bases (all files)	19343725	19343725	seqkit sum_len	0	0	PASS
+ILM_MISEQ_ERR10694625	N bases	1258759	1258759	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR23190432	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR23190432	bases (all files)	14647062	14647062	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR23190432	N bases	4865	4865	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR27762772	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR27762772	bases (all files)	14920573	14920573	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR27762772	N bases	161	161	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR27762772	N rate (%)	0.001079047	0	report n_base_rate	0.005	0.001079	PASS
+ILM_MISEQ_SRR27762772	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR27762772	bases before filtering	14920573	14920573	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_SRR27762772	Q30 before filtering	0.68618216	0.686182	fastp before_filtering.q30_rate	1e-04	1.594e-07	PASS
+ILM_MISEQ_SRR27762772	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR27762772	passed = after	89246	89246	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_SRR27762772	reads after filtering (report)	89246	89246	report total_reads	0	0	PASS
+ILM_MISEQ_SRR27304795	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR27304795	bases (all files)	24167222	24167222	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR27304795	N bases	3066	3066	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR27304795	N rate (%)	0.012686605	0.01	report n_base_rate	0.005	0.002687	PASS
+ILM_MISEQ_SRR27304795	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR27304795	bases before filtering	24167222	24167222	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_SRR27304795	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_MISEQ_SRR27304795	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR27304795	passed = after	99914	99914	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_SRR27304795	reads after filtering (report)	99914	99914	report total_reads	0	0	PASS
+ILM_MISEQ_SRR26980297	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR26980297	bases (all files)	14839294	14839294	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR26980297	N bases	4266	4266	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR26980297	N rate (%)	0.028747998	0.03	report n_base_rate	0.005	0.001252	PASS
+ILM_MISEQ_SRR26980297	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR26980297	bases before filtering	14839294	14839294	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_SRR26980297	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_MISEQ_SRR26980297	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR26980297	passed = after	99830	99830	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_SRR26980297	reads after filtering (report)	99830	99830	report total_reads	0	0	PASS
+ILM_MISEQ_SRR30007196	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR30007196	bases (all files)	28716545	28716545	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR30007196	N bases	28682	28682	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR30007196	N rate (%)	0.099879703	0.1	report n_base_rate	0.005	0.0001203	PASS
+ILM_MISEQ_SRR30007196	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR30007196	bases before filtering	28716545	28716545	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_SRR30007196	Q30 before filtering	0.88249843	0.882498	fastp before_filtering.q30_rate	1e-04	4.343e-07	PASS
+ILM_MISEQ_SRR30007196	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR30007196	passed = after	97658	97658	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_SRR30007196	reads after filtering (report)	97658	97658	report total_reads	0	0	PASS
+ILM_MISEQ_SRR30887330	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_SRR30887330	bases (all files)	22453457	22453457	seqkit sum_len	0	0	PASS
+ILM_MISEQ_SRR30887330	N bases	14105	14105	seqkit sum_n	0	0	PASS
+ILM_MISEQ_SRR30887330	N rate (%)	0.062818835	0.06	report n_base_rate	0.005	0.002819	PASS
+ILM_MISEQ_SRR30887330	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR30887330	bases before filtering	22453457	22453457	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_SRR30887330	Q30 before filtering	0.95901406	0.959014	fastp before_filtering.q30_rate	1e-04	6.184e-08	PASS
+ILM_MISEQ_SRR30887330	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_SRR30887330	passed = after	99806	99806	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_SRR30887330	reads after filtering (report)	99806	99806	report total_reads	0	0	PASS
+ILM_MISEQ_DRR491189	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_MISEQ_DRR491189	bases (all files)	27638123	27638123	seqkit sum_len	0	0	PASS
+ILM_MISEQ_DRR491189	N bases	3640	3640	seqkit sum_n	0	0	PASS
+ILM_MISEQ_DRR491189	N rate (%)	0.013170214	0.01	report n_base_rate	0.005	0.00317	PASS
+ILM_MISEQ_DRR491189	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MISEQ_DRR491189	bases before filtering	27638123	27638123	fastp before_filtering.total_bases	0	0	PASS
+ILM_MISEQ_DRR491189	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_MISEQ_DRR491189	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MISEQ_DRR491189	passed = after	99894	99894	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MISEQ_DRR491189	reads after filtering (report)	99894	99894	report total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	bases (all files)	26767966	26767966	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	N bases	201	201	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	N rate (%)	0.00075089755	0	report n_base_rate	0.005	0.0007509	PASS
+ILM_NEXTSEQ_SRR28412918	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	bases before filtering	26767966	26767966	fastp before_filtering.total_bases	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_NEXTSEQ_SRR28412918	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	passed = after	99994	99994	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NEXTSEQ_SRR28412918	reads after filtering (report)	99994	99994	report total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR29680707	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR29680707	bases (all files)	23343918	23343918	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR29680707	N bases	344	344	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	bases (all files)	14851341	14851341	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	N bases	323	323	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	N rate (%)	0.0021748878	0	report n_base_rate	0.005	0.002175	PASS
+ILM_NEXTSEQ_SRR31503468	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	bases before filtering	14851341	14851341	fastp before_filtering.total_bases	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	Q30 before filtering	0.86701544	0.867015	fastp before_filtering.q30_rate	1e-04	4.433e-07	PASS
+ILM_NEXTSEQ_SRR31503468	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	passed = after	98970	98970	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31503468	reads after filtering (report)	98970	98970	report total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	bases (all files)	14414946	14414946	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	N bases	496	496	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	N rate (%)	0.0034408731	0	report n_base_rate	0.005	0.003441	PASS
+ILM_NEXTSEQ_SRR25296603	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	bases before filtering	14414946	14414946	fastp before_filtering.total_bases	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	Q30 before filtering	0.93339587	0.933396	fastp before_filtering.q30_rate	1e-04	1.343e-07	PASS
+ILM_NEXTSEQ_SRR25296603	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	passed = after	99646	99646	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NEXTSEQ_SRR25296603	reads after filtering (report)	99646	99646	report total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR24736332	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR24736332	bases (all files)	14950000	14950000	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR24736332	N bases	17494	17494	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR22777638	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR22777638	bases (all files)	14792521	14792521	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR22777638	N bases	563	563	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	bases (all files)	14924634	14924634	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ILM_NEXTSEQ_SRR31508161	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	bases before filtering	14924634	14924634	fastp before_filtering.total_bases	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	Q30 before filtering	0.87692341	0.876923	fastp before_filtering.q30_rate	1e-04	4.14e-07	PASS
+ILM_NEXTSEQ_SRR31508161	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	passed = after	1e+05	1e+05	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NEXTSEQ_SRR31508161	reads after filtering (report)	1e+05	1e+05	report total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ILM_NEXTSEQ_SRR27396066	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_NEXTSEQ_SRR27396066	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	passed = after	99836	99836	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NEXTSEQ_SRR27396066	reads after filtering (report)	99836	99836	report total_reads	0	0	PASS
+ILM_HISEQ_SRR4139939	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR4139939	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR4139939	N bases	38664	38664	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR4136552	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR4136552	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR4136552	N bases	25865	25865	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR4139922	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR4139922	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR4139922	N bases	9415	9415	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR2584911	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR2584911	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR2584911	N bases	29851	29851	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR2584911	N rate (%)	0.19900667	0.2	report n_base_rate	0.005	0.0009933	PASS
+ILM_HISEQ_SRR2584911	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_HISEQ_SRR2584911	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_HISEQ_SRR2584911	Q30 before filtering	0.82720993	0.82721	fastp before_filtering.q30_rate	1e-04	6.667e-08	PASS
+ILM_HISEQ_SRR2584911	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_HISEQ_SRR2584911	passed = after	88958	88958	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_HISEQ_SRR2584911	reads after filtering (report)	88958	88958	report total_reads	0	0	PASS
+ILM_HISEQ_SRR4235474	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR4235474	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR4235474	N bases	1015	1015	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR10058609	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR10058609	bases (all files)	2.5e+07	2.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR10058609	N bases	1485	1485	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR10058609	N rate (%)	0.00594	0.01	report n_base_rate	0.005	0.00406	PASS
+ILM_HISEQ_SRR10058609	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_HISEQ_SRR10058609	bases before filtering	2.5e+07	2.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_HISEQ_SRR10058609	Q30 before filtering	0.92457556	0.924576	fastp before_filtering.q30_rate	1e-04	4.4e-07	PASS
+ILM_HISEQ_SRR10058609	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_HISEQ_SRR10058609	passed = after	97396	97396	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_HISEQ_SRR10058609	reads after filtering (report)	97396	97396	report total_reads	0	0	PASS
+ILM_HISEQ_SRR7812053	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR7812053	bases (all files)	10100000	10100000	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR7812053	N bases	2264	2264	seqkit sum_n	0	0	PASS
+ILM_HISEQ_SRR4140253	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_HISEQ_SRR4140253	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_HISEQ_SRR4140253	N bases	5755	5755	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	bases (all files)	14915989	14915989	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	N bases	51	51	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	N rate (%)	0.00034191497	0	report n_base_rate	0.005	0.0003419	PASS
+ILM_NOVASEQ6000_ERR11274133	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	bases before filtering	14915989	14915989	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	Q30 before filtering	0.93426792	0.934268	fastp before_filtering.q30_rate	1e-04	8.119e-08	PASS
+ILM_NOVASEQ6000_ERR11274133	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	passed = after	99980	99980	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR11274133	reads after filtering (report)	99980	99980	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	N bases	251	251	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	N rate (%)	0.0016733333	0	report n_base_rate	0.005	0.001673	PASS
+ILM_NOVASEQ6000_SRR27669181	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_NOVASEQ6000_SRR27669181	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	passed = after	99994	99994	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR27669181	reads after filtering (report)	99994	99994	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	bases (all files)	14861488	14861488	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	N bases	524	524	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	N rate (%)	0.0035258919	0	report n_base_rate	0.005	0.003526	PASS
+ILM_NOVASEQ6000_SRR20082808	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	bases before filtering	14861488	14861488	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	Q30 before filtering	0.91863399	0.918634	fastp before_filtering.q30_rate	1e-04	1.126e-08	PASS
+ILM_NOVASEQ6000_SRR20082808	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	passed = after	98078	98078	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR20082808	reads after filtering (report)	98078	98078	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	N bases	256	256	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	N rate (%)	0.0016953642	0	report n_base_rate	0.005	0.001695	PASS
+ILM_NOVASEQ6000_SRR29155558	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	Q30 before filtering	0.92294285	0.922943	fastp before_filtering.q30_rate	1e-04	1.523e-07	PASS
+ILM_NOVASEQ6000_SRR29155558	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	passed = after	98880	98880	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR29155558	reads after filtering (report)	98880	98880	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	N bases	93	93	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	N rate (%)	0.00062	0	report n_base_rate	0.005	0.00062	PASS
+ILM_NOVASEQ6000_ERR13909775	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	Q30 before filtering	0.92299453	0.922995	fastp before_filtering.q30_rate	1e-04	4.667e-07	PASS
+ILM_NOVASEQ6000_ERR13909775	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	passed = after	99448	99448	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_ERR13909775	reads after filtering (report)	99448	99448	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	N bases	186	186	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	N rate (%)	0.0012317881	0	report n_base_rate	0.005	0.001232	PASS
+ILM_NOVASEQ6000_SRR26344951	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_NOVASEQ6000_SRR26344951	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	passed = after	99996	99996	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR26344951	reads after filtering (report)	99996	99996	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	N bases	117	117	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	N rate (%)	0.00078	0	report n_base_rate	0.005	0.00078	PASS
+ILM_NOVASEQ6000_SRR28741284	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_NOVASEQ6000_SRR28741284	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	passed = after	99994	99994	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR28741284	reads after filtering (report)	99994	99994	report total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	N bases	284	284	seqkit sum_n	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	N rate (%)	0.0018807947	0	report n_base_rate	0.005	0.001881	PASS
+ILM_NOVASEQ6000_SRR19329822	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	Q30 before filtering	0.91458967	0.91459	fastp before_filtering.q30_rate	1e-04	3.311e-07	PASS
+ILM_NOVASEQ6000_SRR19329822	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	passed = after	97724	97724	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQ6000_SRR19329822	reads after filtering (report)	97724	97724	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR32518059	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR32518059	bases (all files)	14914556	14914556	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR32518059	N bases	228	228	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR32518059	N rate (%)	0.0015287079	0	report n_base_rate	0.005	0.001529	PASS
+ILM_NOVASEQX_SRR32518059	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR32518059	bases before filtering	14914556	14914556	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR32518059	Q30 before filtering	0.98367387	0.983674	fastp before_filtering.q30_rate	1e-04	1.313e-07	PASS
+ILM_NOVASEQX_SRR32518059	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR32518059	passed = after	1e+05	1e+05	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR32518059	reads after filtering (report)	1e+05	1e+05	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33065699	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR33065699	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR33065699	N bases	8	8	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR33065699	N rate (%)	5.3333333e-05	0	report n_base_rate	0.005	5.333e-05	PASS
+ILM_NOVASEQX_SRR33065699	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33065699	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR33065699	Q30 before filtering	0.95817213	0.958172	fastp before_filtering.q30_rate	1e-04	1.333e-07	PASS
+ILM_NOVASEQX_SRR33065699	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33065699	passed = after	98612	98612	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR33065699	reads after filtering (report)	98612	98612	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34516349	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR34516349	bases (all files)	14582044	14582044	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR34516349	N bases	580	580	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR34516349	N rate (%)	0.0039774945	0	report n_base_rate	0.005	0.003977	PASS
+ILM_NOVASEQX_SRR34516349	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34516349	bases before filtering	14582044	14582044	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR34516349	Q30 before filtering	0.9501035	0.950103	fastp before_filtering.q30_rate	1e-04	4.972e-07	PASS
+ILM_NOVASEQX_SRR34516349	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34516349	passed = after	1e+05	1e+05	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR34516349	reads after filtering (report)	1e+05	1e+05	report total_reads	0	0	PASS
+ILM_NOVASEQX_ERR14758848	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_ERR14758848	bases (all files)	14885961	14885961	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_ERR14758848	N bases	500	500	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_ERR14758848	N rate (%)	0.0033588695	0	report n_base_rate	0.005	0.003359	PASS
+ILM_NOVASEQX_ERR14758848	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_ERR14758848	bases before filtering	14885961	14885961	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_ERR14758848	Q30 before filtering	0.95484712	0.954847	fastp before_filtering.q30_rate	1e-04	1.207e-07	PASS
+ILM_NOVASEQX_ERR14758848	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_ERR14758848	passed = after	99310	99310	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_ERR14758848	reads after filtering (report)	99310	99310	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33874979	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR33874979	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR33874979	N bases	433	433	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR33874979	N rate (%)	0.0028675497	0	report n_base_rate	0.005	0.002868	PASS
+ILM_NOVASEQX_SRR33874979	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33874979	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR33874979	Q30 before filtering	0.93534735	0.935347	fastp before_filtering.q30_rate	1e-04	3.51e-07	PASS
+ILM_NOVASEQX_SRR33874979	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR33874979	passed = after	97802	97802	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR33874979	reads after filtering (report)	97802	97802	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34437055	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR34437055	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR34437055	N bases	334	334	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR34437055	N rate (%)	0.0022119205	0	report n_base_rate	0.005	0.002212	PASS
+ILM_NOVASEQX_SRR34437055	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34437055	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR34437055	Q30 before filtering	0.96583702	0.965837	fastp before_filtering.q30_rate	1e-04	1.987e-08	PASS
+ILM_NOVASEQX_SRR34437055	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR34437055	passed = after	98950	98950	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR34437055	reads after filtering (report)	98950	98950	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR31589862	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR31589862	bases (all files)	14732681	14732681	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR31589862	N bases	278	278	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR31589862	N rate (%)	0.0018869614	0	report n_base_rate	0.005	0.001887	PASS
+ILM_NOVASEQX_SRR31589862	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR31589862	bases before filtering	14732681	14732681	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR31589862	Q30 before filtering	0.90520761	0.905208	fastp before_filtering.q30_rate	1e-04	3.871e-07	PASS
+ILM_NOVASEQX_SRR31589862	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR31589862	passed = after	99182	99182	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR31589862	reads after filtering (report)	99182	99182	report total_reads	0	0	PASS
+ILM_NOVASEQX_SRR29848267	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_NOVASEQX_SRR29848267	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_NOVASEQX_SRR29848267	N bases	209	209	seqkit sum_n	0	0	PASS
+ILM_NOVASEQX_SRR29848267	N rate (%)	0.0013933333	0	report n_base_rate	0.005	0.001393	PASS
+ILM_NOVASEQX_SRR29848267	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR29848267	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_NOVASEQX_SRR29848267	Q30 before filtering	0.95307707	0.953077	fastp before_filtering.q30_rate	1e-04	6.667e-08	PASS
+ILM_NOVASEQX_SRR29848267	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_NOVASEQX_SRR29848267	passed = after	98684	98684	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_NOVASEQX_SRR29848267	reads after filtering (report)	98684	98684	report total_reads	0	0	PASS
+ILM_METAGENOME_SRR25706847	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METAGENOME_SRR25706847	bases (all files)	25100000	25100000	seqkit sum_len	0	0	PASS
+ILM_METAGENOME_SRR25706847	N bases	221	221	seqkit sum_n	0	0	PASS
+ILM_METAGENOME_SRR25706847	N rate (%)	0.00088047809	0	report n_base_rate	0.005	0.0008805	PASS
+ILM_METAGENOME_SRR25706847	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR25706847	bases before filtering	25100000	25100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_METAGENOME_SRR25706847	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_METAGENOME_SRR25706847	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR25706847	passed = after	99980	99980	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METAGENOME_SRR25706847	reads after filtering (report)	99980	99980	report total_reads	0	0	PASS
+ILM_METAGENOME_SRR23367660	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ILM_METAGENOME_SRR23367660	bases (all files)	3703908	3703908	seqkit sum_len	0	0	PASS
+ILM_METAGENOME_SRR23367660	N bases	41	41	seqkit sum_n	0	0	PASS
+ILM_METAGENOME_SRR23367660	N rate (%)	0.0011069389	0	report n_base_rate	0.005	0.001107	PASS
+ILM_METAGENOME_SRR23367660	reads before filtering	50000	50000	fastp before_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR23367660	bases before filtering	3703908	3703908	fastp before_filtering.total_bases	0	0	PASS
+ILM_METAGENOME_SRR23367660	Q30 before filtering	0.92153207	0.921532	fastp before_filtering.q30_rate	1e-04	6.829e-08	PASS
+ILM_METAGENOME_SRR23367660	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR23367660	passed = after	50000	50000	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METAGENOME_SRR23367660	reads after filtering (report)	50000	50000	report total_reads	0	0	PASS
+ILM_METAGENOME_SRR27420223	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METAGENOME_SRR27420223	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_METAGENOME_SRR27420223	N bases	145	145	seqkit sum_n	0	0	PASS
+ILM_METAGENOME_SRR27420223	N rate (%)	0.0009602649	0	report n_base_rate	0.005	0.0009603	PASS
+ILM_METAGENOME_SRR27420223	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR27420223	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_METAGENOME_SRR27420223	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_METAGENOME_SRR27420223	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR27420223	passed = after	99954	99954	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METAGENOME_SRR27420223	reads after filtering (report)	99954	99954	report total_reads	0	0	PASS
+ILM_METAGENOME_SRR28362880	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METAGENOME_SRR28362880	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_METAGENOME_SRR28362880	N bases	58	58	seqkit sum_n	0	0	PASS
+ILM_METAGENOME_SRR28362880	N rate (%)	0.00038410596	0	report n_base_rate	0.005	0.0003841	PASS
+ILM_METAGENOME_SRR28362880	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR28362880	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_METAGENOME_SRR28362880	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_METAGENOME_SRR28362880	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR28362880	passed = after	1e+05	1e+05	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METAGENOME_SRR28362880	reads after filtering (report)	1e+05	1e+05	report total_reads	0	0	PASS
+ILM_METAGENOME_SRR26077540	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METAGENOME_SRR26077540	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_METAGENOME_SRR26077540	N bases	57	57	seqkit sum_n	0	0	PASS
+ILM_METAGENOME_SRR26077540	N rate (%)	0.00037748344	0	report n_base_rate	0.005	0.0003775	PASS
+ILM_METAGENOME_SRR26077540	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR26077540	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_METAGENOME_SRR26077540	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_METAGENOME_SRR26077540	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METAGENOME_SRR26077540	passed = after	99964	99964	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METAGENOME_SRR26077540	reads after filtering (report)	99964	99964	report total_reads	0	0	PASS
+ILM_AMPLICON_SRR25982936	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_AMPLICON_SRR25982936	bases (all files)	2.5e+07	2.5e+07	seqkit sum_len	0	0	PASS
+ILM_AMPLICON_SRR25982936	N bases	135	135	seqkit sum_n	0	0	PASS
+ILM_AMPLICON_SRR25982936	N rate (%)	0.00054	0	report n_base_rate	0.005	0.00054	PASS
+ILM_AMPLICON_SRR25982936	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR25982936	bases before filtering	2.5e+07	2.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_AMPLICON_SRR25982936	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_AMPLICON_SRR25982936	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR25982936	passed = after	99994	99994	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_AMPLICON_SRR25982936	reads after filtering (report)	99994	99994	report total_reads	0	0	PASS
+ILM_AMPLICON_SRR24971984	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_AMPLICON_SRR24971984	bases (all files)	2.5e+07	2.5e+07	seqkit sum_len	0	0	PASS
+ILM_AMPLICON_SRR24971984	N bases	213	213	seqkit sum_n	0	0	PASS
+ILM_AMPLICON_SRR24971984	N rate (%)	0.000852	0	report n_base_rate	0.005	0.000852	PASS
+ILM_AMPLICON_SRR24971984	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR24971984	bases before filtering	2.5e+07	2.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_AMPLICON_SRR24971984	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_AMPLICON_SRR24971984	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR24971984	passed = after	99976	99976	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_AMPLICON_SRR24971984	reads after filtering (report)	99976	99976	report total_reads	0	0	PASS
+ILM_AMPLICON_SRR26250598	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ILM_AMPLICON_SRR26250598	bases (all files)	18718873	18718873	seqkit sum_len	0	0	PASS
+ILM_AMPLICON_SRR26250598	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_AMPLICON_SRR26250598	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ILM_AMPLICON_SRR26250598	reads before filtering	50000	50000	fastp before_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR26250598	bases before filtering	18718873	18718873	fastp before_filtering.total_bases	0	0	PASS
+ILM_AMPLICON_SRR26250598	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_AMPLICON_SRR26250598	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR26250598	passed = after	50000	50000	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_AMPLICON_SRR26250598	reads after filtering (report)	50000	50000	report total_reads	0	0	PASS
+ILM_AMPLICON_SRR31181121	reads (all files)	56380	56380	seqkit num_seqs	0	0	PASS
+ILM_AMPLICON_SRR31181121	bases (all files)	14125751	14125751	seqkit sum_len	0	0	PASS
+ILM_AMPLICON_SRR31181121	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_AMPLICON_SRR31181121	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ILM_AMPLICON_SRR31181121	reads before filtering	56380	56380	fastp before_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR31181121	bases before filtering	14125751	14125751	fastp before_filtering.total_bases	0	0	PASS
+ILM_AMPLICON_SRR31181121	Q30 before filtering	0.78744047	0.78744	fastp before_filtering.q30_rate	1e-04	4.695e-07	PASS
+ILM_AMPLICON_SRR31181121	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_SRR31181121	passed = after	56092	56092	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_AMPLICON_SRR31181121	reads after filtering (report)	56092	56092	report total_reads	0	0	PASS
+ILM_AMPLICON_ERR11275563	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_AMPLICON_ERR11275563	bases (all files)	24700000	24700000	seqkit sum_len	0	0	PASS
+ILM_AMPLICON_ERR11275563	N bases	195	195	seqkit sum_n	0	0	PASS
+ILM_AMPLICON_ERR11275563	N rate (%)	0.00078947368	0	report n_base_rate	0.005	0.0007895	PASS
+ILM_AMPLICON_ERR11275563	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_ERR11275563	bases before filtering	24700000	24700000	fastp before_filtering.total_bases	0	0	PASS
+ILM_AMPLICON_ERR11275563	Q30 before filtering	0.92859887	0.928599	fastp before_filtering.q30_rate	1e-04	1.336e-07	PASS
+ILM_AMPLICON_ERR11275563	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_AMPLICON_ERR11275563	passed = after	99254	99254	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_AMPLICON_ERR11275563	reads after filtering (report)	99254	99254	report total_reads	0	0	PASS
+ILM_RNASEQ_SRR16820667	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_RNASEQ_SRR16820667	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_RNASEQ_SRR16820667	N bases	68	68	seqkit sum_n	0	0	PASS
+ILM_RNASEQ_SRR16820667	N rate (%)	0.00045333333	0	report n_base_rate	0.005	0.0004533	PASS
+ILM_RNASEQ_SRR16820667	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR16820667	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_RNASEQ_SRR16820667	Q30 before filtering	0.99979	0.99979	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_RNASEQ_SRR16820667	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR16820667	passed = after	99954	99954	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_RNASEQ_SRR16820667	reads after filtering (report)	99954	99954	report total_reads	0	0	PASS
+ILM_RNASEQ_ERR8958160	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_RNASEQ_ERR8958160	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_RNASEQ_ERR8958160	N bases	208	208	seqkit sum_n	0	0	PASS
+ILM_RNASEQ_ERR8958160	N rate (%)	0.0013866667	0	report n_base_rate	0.005	0.001387	PASS
+ILM_RNASEQ_ERR8958160	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_ERR8958160	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_RNASEQ_ERR8958160	Q30 before filtering	0.93142	0.93142	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_RNASEQ_ERR8958160	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_ERR8958160	passed = after	99526	99526	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_RNASEQ_ERR8958160	reads after filtering (report)	99526	99526	report total_reads	0	0	PASS
+ILM_RNASEQ_SRR20326877	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_RNASEQ_SRR20326877	bases (all files)	13430940	13430940	seqkit sum_len	0	0	PASS
+ILM_RNASEQ_SRR20326877	N bases	5074	5074	seqkit sum_n	0	0	PASS
+ILM_RNASEQ_SRR20326877	N rate (%)	0.037778443	0.04	report n_base_rate	0.005	0.002222	PASS
+ILM_RNASEQ_SRR20326877	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR20326877	bases before filtering	13430940	13430940	fastp before_filtering.total_bases	0	0	PASS
+ILM_RNASEQ_SRR20326877	Q30 before filtering	0.87685814	0.876858	fastp before_filtering.q30_rate	1e-04	1.35e-07	PASS
+ILM_RNASEQ_SRR20326877	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR20326877	passed = after	92832	92832	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_RNASEQ_SRR20326877	reads after filtering (report)	92832	92832	report total_reads	0	0	PASS
+ILM_RNASEQ_SRR26596333	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ILM_RNASEQ_SRR26596333	bases (all files)	3768596	3768596	seqkit sum_len	0	0	PASS
+ILM_RNASEQ_SRR26596333	N bases	370	370	seqkit sum_n	0	0	PASS
+ILM_RNASEQ_SRR26596333	N rate (%)	0.00981798	0.01	report n_base_rate	0.005	0.000182	PASS
+ILM_RNASEQ_SRR26596333	reads before filtering	50000	50000	fastp before_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR26596333	bases before filtering	3768596	3768596	fastp before_filtering.total_bases	0	0	PASS
+ILM_RNASEQ_SRR26596333	Q30 before filtering	0.97087456	0.970875	fastp before_filtering.q30_rate	1e-04	4.356e-07	PASS
+ILM_RNASEQ_SRR26596333	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR26596333	passed = after	49902	49902	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_RNASEQ_SRR26596333	reads after filtering (report)	49902	49902	report total_reads	0	0	PASS
+ILM_RNASEQ_SRR25495536	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_RNASEQ_SRR25495536	bases (all files)	15100000	15100000	seqkit sum_len	0	0	PASS
+ILM_RNASEQ_SRR25495536	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_RNASEQ_SRR25495536	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ILM_RNASEQ_SRR25495536	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR25495536	bases before filtering	15100000	15100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_RNASEQ_SRR25495536	Q30 before filtering	1	1	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_RNASEQ_SRR25495536	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_RNASEQ_SRR25495536	passed = after	99526	99526	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_RNASEQ_SRR25495536	reads after filtering (report)	99526	99526	report total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	N bases	92	92	seqkit sum_n	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	N rate (%)	0.00061333333	0	report n_base_rate	0.005	0.0006133	PASS
+ILM_METATRANSCRIPT_SRR22860055	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	Q30 before filtering	0.99899	0.99899	fastp before_filtering.q30_rate	1e-04	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	passed = after	99230	99230	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR22860055	reads after filtering (report)	99230	99230	report total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	bases (all files)	1e+07	1e+07	seqkit sum_len	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	N bases	4498	4498	seqkit sum_n	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	N rate (%)	0.04498	0.04	report n_base_rate	0.005	0.00498	PASS
+ILM_METATRANSCRIPT_SRR14424465	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	bases before filtering	1e+07	1e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	Q30 before filtering	0.9455311	0.945531	fastp before_filtering.q30_rate	1e-04	1e-07	PASS
+ILM_METATRANSCRIPT_SRR14424465	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	passed = after	97414	97414	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14424465	reads after filtering (report)	97414	97414	report total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	bases (all files)	10100000	10100000	seqkit sum_len	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	N bases	118	118	seqkit sum_n	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	N rate (%)	0.0011683168	0	report n_base_rate	0.005	0.001168	PASS
+ILM_METATRANSCRIPT_SRR18283693	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	bases before filtering	10100000	10100000	fastp before_filtering.total_bases	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	Q30 before filtering	0.95287455	0.952875	fastp before_filtering.q30_rate	1e-04	4.455e-07	PASS
+ILM_METATRANSCRIPT_SRR18283693	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	passed = after	99264	99264	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR18283693	reads after filtering (report)	99264	99264	report total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR28793840	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METATRANSCRIPT_SRR28793840	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_METATRANSCRIPT_SRR28793840	N bases	10	10	seqkit sum_n	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	N bases	345	345	seqkit sum_n	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	N rate (%)	0.0023	0	report n_base_rate	0.005	0.0023	PASS
+ILM_METATRANSCRIPT_SRR14039645	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	Q30 before filtering	0.89759447	0.897594	fastp before_filtering.q30_rate	1e-04	4.667e-07	PASS
+ILM_METATRANSCRIPT_SRR14039645	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	passed = after	99980	99980	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_METATRANSCRIPT_SRR14039645	reads after filtering (report)	99980	99980	report total_reads	0	0	PASS
+ONT_OLD_DRR174575	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_DRR174575	bases (all files)	29679645	29679645	seqkit sum_len	0	0	PASS
+ONT_OLD_DRR174575	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR12506199	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR12506199	bases (all files)	40803511	40803511	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR12506199	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR12506199	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_OLD_SRR12506199	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_OLD_SRR12506199	bases	40803511	40803511	NanoPlot number_of_bases	0	0	PASS
+ONT_OLD_SRR12506199	read N50	10978	10978	NanoPlot n50	0	0	PASS
+ONT_OLD_SRR12506199	median read length	6481	6481	NanoPlot median_read_length	0	0	PASS
+ONT_OLD_SRR12506199	mean read quality	10.163409	10.2	NanoPlot mean_qual	0.1	0.03659	PASS
+ONT_OLD_SRR12506199	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_OLD_SRR12506199	read N50 (report)	10978	10978	report read_n50	0.5	0	PASS
+ONT_OLD_DRR245514	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_DRR245514	bases (all files)	56395517	56395517	seqkit sum_len	0	0	PASS
+ONT_OLD_DRR245514	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_DRR245514	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_OLD_DRR245514	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_OLD_DRR245514	bases	56395517	56395517	NanoPlot number_of_bases	0	0	PASS
+ONT_OLD_DRR245514	read N50	36804	36804	NanoPlot n50	0	0	PASS
+ONT_OLD_DRR245514	median read length	3476	3476	NanoPlot median_read_length	0	0	PASS
+ONT_OLD_DRR245514	mean read quality	9.1886163	9.2	NanoPlot mean_qual	0.1	0.01138	PASS
+ONT_OLD_DRR245514	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_OLD_DRR245514	read N50 (report)	36804	36804	report read_n50	0.5	0	PASS
+ONT_OLD_SRR12020695	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR12020695	bases (all files)	22957469	22957469	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR12020695	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_ERR7416542	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_ERR7416542	bases (all files)	18619336	18619336	seqkit sum_len	0	0	PASS
+ONT_OLD_ERR7416542	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_ERR7416542	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_OLD_ERR7416542	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_OLD_ERR7416542	bases	18619336	18619336	NanoPlot number_of_bases	0	0	PASS
+ONT_OLD_ERR7416542	read N50	4206	4206	NanoPlot n50	0	0	PASS
+ONT_OLD_ERR7416542	median read length	3619	3619	NanoPlot median_read_length	0	0	PASS
+ONT_OLD_ERR7416542	mean read quality	11.693757	11.7	NanoPlot mean_qual	0.1	0.006243	PASS
+ONT_OLD_ERR7416542	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_OLD_ERR7416542	read N50 (report)	4206	4206	report read_n50	0.5	0	PASS
+ONT_OLD_SRR15361523	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR15361523	bases (all files)	25084574	25084574	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR15361523	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR13528757	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR13528757	bases (all files)	32135501	32135501	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR13528757	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR13528757	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_OLD_SRR13528757	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_OLD_SRR13528757	bases	32135501	32135501	NanoPlot number_of_bases	0	0	PASS
+ONT_OLD_SRR13528757	read N50	11886	11886	NanoPlot n50	0	0	PASS
+ONT_OLD_SRR13528757	median read length	3760	3760	NanoPlot median_read_length	0	0	PASS
+ONT_OLD_SRR13528757	mean read quality	9.841075	9.8	NanoPlot mean_qual	0.1	0.04108	PASS
+ONT_OLD_SRR13528757	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_OLD_SRR13528757	read N50 (report)	11886	11886	report read_n50	0.5	0	PASS
+ONT_OLD_SRR11091403	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR11091403	bases (all files)	5039827	5039827	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR11091403	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR13664849	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR13664849	bases (all files)	22851004	22851004	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR13664849	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_OLD_SRR13664849	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_OLD_SRR13664849	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_OLD_SRR13664849	bases	22851004	22851004	NanoPlot number_of_bases	0	0	PASS
+ONT_OLD_SRR13664849	read N50	7690	7690	NanoPlot n50	0	0	PASS
+ONT_OLD_SRR13664849	median read length	3065.5	3065.5	NanoPlot median_read_length	0	0	PASS
+ONT_OLD_SRR13664849	mean read quality	9.6837737	9.7	NanoPlot mean_qual	0.1	0.01623	PASS
+ONT_OLD_SRR13664849	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_OLD_SRR13664849	read N50 (report)	7690	7690	report read_n50	0.5	0	PASS
+ONT_OLD_SRR16069012	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_OLD_SRR16069012	bases (all files)	55943490	55943490	seqkit sum_len	0	0	PASS
+ONT_OLD_SRR16069012	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR30971815	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR30971815	bases (all files)	39064378	39064378	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR30971815	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR30971815	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR30971815	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR30971815	bases	39064378	39064378	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR30971815	read N50	13111	13111	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR30971815	median read length	5361	5361	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR30971815	mean read quality	12.309883	12.3	NanoPlot mean_qual	0.1	0.009883	PASS
+ONT_R10_ERA_SRR30971815	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR30971815	read N50 (report)	13111	13111	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR31244669	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR31244669	bases (all files)	82802073	82802073	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR31244669	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR31244669	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR31244669	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR31244669	bases	82802073	82802073	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR31244669	read N50	19452	19452	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR31244669	median read length	14336	14336	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR31244669	mean read quality	14.38122	14.4	NanoPlot mean_qual	0.1	0.01878	PASS
+ONT_R10_ERA_SRR31244669	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR31244669	read N50 (report)	19452	19452	report read_n50	0.5	0	PASS
+ONT_R10_ERA_ERR13929838	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_ERR13929838	bases (all files)	21749171	21749171	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_ERR13929838	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_ERR13929838	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_ERR13929838	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_ERR13929838	bases	21749171	21749171	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_ERR13929838	read N50	10309	10309	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_ERR13929838	median read length	2078.5	2078.5	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_ERR13929838	mean read quality	14.702492	14.7	NanoPlot mean_qual	0.1	0.002492	PASS
+ONT_R10_ERA_ERR13929838	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_ERR13929838	read N50 (report)	10309	10309	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR32743026	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR32743026	bases (all files)	17252110	17252110	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR32743026	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR32743026	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR32743026	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR32743026	bases	17252110	17252110	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR32743026	read N50	4962	4962	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR32743026	median read length	2389.5	2389.5	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR32743026	mean read quality	13.332009	13.3	NanoPlot mean_qual	0.1	0.03201	PASS
+ONT_R10_ERA_SRR32743026	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR32743026	read N50 (report)	4962	4962	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR27241280	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR27241280	bases (all files)	59406976	59406976	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR27241280	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR27241280	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR27241280	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR27241280	bases	59406976	59406976	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR27241280	read N50	24011	24011	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR27241280	median read length	6881	6881	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR27241280	mean read quality	11.827738	11.8	NanoPlot mean_qual	0.1	0.02774	PASS
+ONT_R10_ERA_SRR27241280	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR27241280	read N50 (report)	24011	24011	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR34019040	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR34019040	bases (all files)	16338900	16338900	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR34019040	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR34019040	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR34019040	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR34019040	bases	16338900	16338900	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR34019040	read N50	7112	7112	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR34019040	median read length	1673	1673	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR34019040	mean read quality	17.618955	17.6	NanoPlot mean_qual	0.1	0.01895	PASS
+ONT_R10_ERA_SRR34019040	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR34019040	read N50 (report)	7112	7112	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR32649472	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR32649472	bases (all files)	23545210	23545210	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR32649472	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR32649472	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR32649472	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR32649472	bases	23545210	23545210	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR32649472	read N50	7629	7629	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR32649472	median read length	2985.5	2985.5	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR32649472	mean read quality	11.825292	11.8	NanoPlot mean_qual	0.1	0.02529	PASS
+ONT_R10_ERA_SRR32649472	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR32649472	read N50 (report)	7629	7629	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR28526000	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR28526000	bases (all files)	8877511	8877511	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR28526000	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR28526000	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR28526000	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR28526000	bases	8877511	8877511	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR28526000	read N50	3406	3406	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR28526000	median read length	918	918	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR28526000	mean read quality	10.540385	10.5	NanoPlot mean_qual	0.1	0.04039	PASS
+ONT_R10_ERA_SRR28526000	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR28526000	read N50 (report)	3406	3406	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR35918736	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR35918736	bases (all files)	12237577	12237577	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR35918736	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR35918736	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR35918736	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR35918736	bases	12237577	12237577	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR35918736	read N50	7394	7394	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR35918736	median read length	654	654	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR35918736	mean read quality	9.6584877	9.7	NanoPlot mean_qual	0.1	0.04151	PASS
+ONT_R10_ERA_SRR35918736	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR35918736	read N50 (report)	7394	7394	report read_n50	0.5	0	PASS
+ONT_R10_ERA_SRR28468065	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_R10_ERA_SRR28468065	bases (all files)	25938743	25938743	seqkit sum_len	0	0	PASS
+ONT_R10_ERA_SRR28468065	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_R10_ERA_SRR28468065	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_R10_ERA_SRR28468065	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR28468065	bases	25938743	25938743	NanoPlot number_of_bases	0	0	PASS
+ONT_R10_ERA_SRR28468065	read N50	9266	9266	NanoPlot n50	0	0	PASS
+ONT_R10_ERA_SRR28468065	median read length	2742.5	2742.5	NanoPlot median_read_length	0	0	PASS
+ONT_R10_ERA_SRR28468065	mean read quality	12.46808	12.5	NanoPlot mean_qual	0.1	0.03192	PASS
+ONT_R10_ERA_SRR28468065	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_R10_ERA_SRR28468065	read N50 (report)	9266	9266	report read_n50	0.5	0	PASS
+ONT_RNA_SRR28897365	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_RNA_SRR28897365	bases (all files)	3426798	3426798	seqkit sum_len	0	0	PASS
+ONT_RNA_SRR28897365	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_RNA_SRR28897365	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_RNA_SRR28897365	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_RNA_SRR28897365	bases	3426798	3426798	NanoPlot number_of_bases	0	0	PASS
+ONT_RNA_SRR28897365	read N50	900	900	NanoPlot n50	0	0	PASS
+ONT_RNA_SRR28897365	median read length	583	583	NanoPlot median_read_length	0	0	PASS
+ONT_RNA_SRR28897365	mean read quality	12.796046	12.8	NanoPlot mean_qual	0.1	0.003954	PASS
+ONT_RNA_SRR28897365	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_RNA_SRR28897365	read N50 (report)	900	900	report read_n50	0.5	0	PASS
+ONT_RNA_SRR26830249	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_RNA_SRR26830249	bases (all files)	4809661	4809661	seqkit sum_len	0	0	PASS
+ONT_RNA_SRR26830249	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_RNA_SRR26830249	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_RNA_SRR26830249	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_RNA_SRR26830249	bases	4809661	4809661	NanoPlot number_of_bases	0	0	PASS
+ONT_RNA_SRR26830249	read N50	1129	1129	NanoPlot n50	0	0	PASS
+ONT_RNA_SRR26830249	median read length	818	818	NanoPlot median_read_length	0	0	PASS
+ONT_RNA_SRR26830249	mean read quality	12.127733	12.1	NanoPlot mean_qual	0.1	0.02773	PASS
+ONT_RNA_SRR26830249	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_RNA_SRR26830249	read N50 (report)	1129	1129	report read_n50	0.5	0	PASS
+ONT_RNA_SRR30175768	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_RNA_SRR30175768	bases (all files)	7153903	7153903	seqkit sum_len	0	0	PASS
+ONT_RNA_SRR30175768	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_RNA_SRR30175768	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_RNA_SRR30175768	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_RNA_SRR30175768	bases	7153903	7153903	NanoPlot number_of_bases	0	0	PASS
+ONT_RNA_SRR30175768	read N50	1804	1804	NanoPlot n50	0	0	PASS
+ONT_RNA_SRR30175768	median read length	1108.5	1108.5	NanoPlot median_read_length	0	0	PASS
+ONT_RNA_SRR30175768	mean read quality	10.032768	10	NanoPlot mean_qual	0.1	0.03277	PASS
+ONT_RNA_SRR30175768	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_RNA_SRR30175768	read N50 (report)	1804	1804	report read_n50	0.5	0	PASS
+ONT_RNA_SRR26067559	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_RNA_SRR26067559	bases (all files)	4331393	4331393	seqkit sum_len	0	0	PASS
+ONT_RNA_SRR26067559	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_RNA_SRR26067559	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_RNA_SRR26067559	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_RNA_SRR26067559	bases	4331393	4331393	NanoPlot number_of_bases	0	0	PASS
+ONT_RNA_SRR26067559	read N50	1055	1055	NanoPlot n50	0	0	PASS
+ONT_RNA_SRR26067559	median read length	711	711	NanoPlot median_read_length	0	0	PASS
+ONT_RNA_SRR26067559	mean read quality	11.634135	11.6	NanoPlot mean_qual	0.1	0.03413	PASS
+ONT_RNA_SRR26067559	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_RNA_SRR26067559	read N50 (report)	1055	1055	report read_n50	0.5	0	PASS
+ONT_RNA_SRR27335061	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_RNA_SRR27335061	bases (all files)	2661710	2661710	seqkit sum_len	0	0	PASS
+ONT_RNA_SRR27335061	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_RNA_SRR27335061	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_RNA_SRR27335061	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_RNA_SRR27335061	bases	2661710	2661710	NanoPlot number_of_bases	0	0	PASS
+ONT_RNA_SRR27335061	read N50	559	559	NanoPlot n50	0	0	PASS
+ONT_RNA_SRR27335061	median read length	404	404	NanoPlot median_read_length	0	0	PASS
+ONT_RNA_SRR27335061	mean read quality	11.967296	12	NanoPlot mean_qual	0.1	0.0327	PASS
+ONT_RNA_SRR27335061	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_RNA_SRR27335061	read N50 (report)	559	559	report read_n50	0.5	0	PASS
+ONT_METAGENOME_ERR15695980	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_METAGENOME_ERR15695980	bases (all files)	14531140	14531140	seqkit sum_len	0	0	PASS
+ONT_METAGENOME_ERR15695980	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_METAGENOME_ERR15695980	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_METAGENOME_ERR15695980	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_METAGENOME_ERR15695980	bases	14531140	14531140	NanoPlot number_of_bases	0	0	PASS
+ONT_METAGENOME_ERR15695980	read N50	3486	3486	NanoPlot n50	0	0	PASS
+ONT_METAGENOME_ERR15695980	median read length	2851.5	2851.5	NanoPlot median_read_length	0	0	PASS
+ONT_METAGENOME_ERR15695980	mean read quality	13.268009	13.3	NanoPlot mean_qual	0.1	0.03199	PASS
+ONT_METAGENOME_ERR15695980	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_METAGENOME_ERR15695980	read N50 (report)	3486	3486	report read_n50	0.5	0	PASS
+ONT_METAGENOME_ERR15093289	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_METAGENOME_ERR15093289	bases (all files)	3633265	3633265	seqkit sum_len	0	0	PASS
+ONT_METAGENOME_ERR15093289	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_METAGENOME_ERR15093289	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_METAGENOME_ERR15093289	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_METAGENOME_ERR15093289	bases	3633265	3633265	NanoPlot number_of_bases	0	0	PASS
+ONT_METAGENOME_ERR15093289	read N50	959	959	NanoPlot n50	0	0	PASS
+ONT_METAGENOME_ERR15093289	median read length	507	507	NanoPlot median_read_length	0	0	PASS
+ONT_METAGENOME_ERR15093289	mean read quality	10.129383	10.1	NanoPlot mean_qual	0.1	0.02938	PASS
+ONT_METAGENOME_ERR15093289	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_METAGENOME_ERR15093289	read N50 (report)	959	959	report read_n50	0.5	0	PASS
+ONT_METAGENOME_SRR29492112	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_METAGENOME_SRR29492112	bases (all files)	14233241	14233241	seqkit sum_len	0	0	PASS
+ONT_METAGENOME_SRR29492112	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_METAGENOME_SRR29492112	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_METAGENOME_SRR29492112	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_METAGENOME_SRR29492112	bases	14233241	14233241	NanoPlot number_of_bases	0	0	PASS
+ONT_METAGENOME_SRR29492112	read N50	3218	3218	NanoPlot n50	0	0	PASS
+ONT_METAGENOME_SRR29492112	median read length	2711	2711	NanoPlot median_read_length	0	0	PASS
+ONT_METAGENOME_SRR29492112	mean read quality	15.404315	15.4	NanoPlot mean_qual	0.1	0.004315	PASS
+ONT_METAGENOME_SRR29492112	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_METAGENOME_SRR29492112	read N50 (report)	3218	3218	report read_n50	0.5	0	PASS
+ONT_METAGENOME_SRR25317562	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_METAGENOME_SRR25317562	bases (all files)	2240477	2240477	seqkit sum_len	0	0	PASS
+ONT_METAGENOME_SRR25317562	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_METAGENOME_SRR28272155	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_METAGENOME_SRR28272155	bases (all files)	5649379	5649379	seqkit sum_len	0	0	PASS
+ONT_METAGENOME_SRR28272155	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_METAGENOME_SRR28272155	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_METAGENOME_SRR28272155	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_METAGENOME_SRR28272155	bases	5649379	5649379	NanoPlot number_of_bases	0	0	PASS
+ONT_METAGENOME_SRR28272155	read N50	2174	2174	NanoPlot n50	0	0	PASS
+ONT_METAGENOME_SRR28272155	median read length	545.5	545.5	NanoPlot median_read_length	0	0	PASS
+ONT_METAGENOME_SRR28272155	mean read quality	10.099827	10.1	NanoPlot mean_qual	0.1	0.0001729	PASS
+ONT_METAGENOME_SRR28272155	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_METAGENOME_SRR28272155	read N50 (report)	2174	2174	report read_n50	0.5	0	PASS
+PB_HIFI_ERR13510360	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_HIFI_ERR13510360	bases (all files)	71789791	71789791	seqkit sum_len	0	0	PASS
+PB_HIFI_ERR13510360	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_HIFI_ERR13757986	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_HIFI_ERR13757986	bases (all files)	8391709	8391709	seqkit sum_len	0	0	PASS
+PB_HIFI_ERR13757986	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_HIFI_ERR13698328	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_HIFI_ERR13698328	bases (all files)	37120692	37120692	seqkit sum_len	0	0	PASS
+PB_HIFI_ERR13698328	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_HIFI_SRR30819523	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_HIFI_SRR30819523	bases (all files)	76821050	76821050	seqkit sum_len	0	0	PASS
+PB_HIFI_SRR30819523	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_HIFI_SRR33571203	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_HIFI_SRR33571203	bases (all files)	82219081	82219081	seqkit sum_len	0	0	PASS
+PB_HIFI_SRR33571203	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_CLR_SRR7516841	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_CLR_SRR7516841	bases (all files)	11234502	11234502	seqkit sum_len	0	0	PASS
+PB_CLR_SRR7516841	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_CLR_SRR6493626	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_CLR_SRR6493626	bases (all files)	14341186	14341186	seqkit sum_len	0	0	PASS
+PB_CLR_SRR6493626	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_CLR_SRR9022279	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_CLR_SRR9022279	bases (all files)	50324093	50324093	seqkit sum_len	0	0	PASS
+PB_CLR_SRR9022279	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_CLR_SRR8466275	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_CLR_SRR8466275	bases (all files)	11505997	11505997	seqkit sum_len	0	0	PASS
+PB_CLR_SRR8466275	N bases	0	0	seqkit sum_n	0	0	PASS
+PB_CLR_SRR3541222	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+PB_CLR_SRR3541222	bases (all files)	17674357	17674357	seqkit sum_len	0	0	PASS
+PB_CLR_SRR3541222	N bases	0	0	seqkit sum_n	0	0	PASS
+DNBSEQ_SRR31630465	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+DNBSEQ_SRR31630465	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+DNBSEQ_SRR31630465	N bases	0	0	seqkit sum_n	0	0	PASS
+DNBSEQ_SRR27240554	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+DNBSEQ_SRR27240554	bases (all files)	2500000	2500000	seqkit sum_len	0	0	PASS
+DNBSEQ_SRR27240554	N bases	14835	14835	seqkit sum_n	0	0	PASS
+DNBSEQ_DRR671599	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+DNBSEQ_DRR671599	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+DNBSEQ_DRR671599	N bases	108	108	seqkit sum_n	0	0	PASS
+DNBSEQ_SRR24683256	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+DNBSEQ_SRR24683256	bases (all files)	9998495	9998495	seqkit sum_len	0	0	PASS
+DNBSEQ_SRR24683256	N bases	227	227	seqkit sum_n	0	0	PASS
+DNBSEQ_SRR14318705	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+DNBSEQ_SRR14318705	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+DNBSEQ_SRR14318705	N bases	213	213	seqkit sum_n	0	0	PASS
+DNBSEQ_SRR14318705	N rate (%)	0.00142	0	report n_base_rate	0.005	0.00142	PASS
+DNBSEQ_SRR14318705	reads before filtering	1e+05	1e+05	fastp before_filtering.total_reads	0	0	PASS
+DNBSEQ_SRR14318705	bases before filtering	1.5e+07	1.5e+07	fastp before_filtering.total_bases	0	0	PASS
+DNBSEQ_SRR14318705	Q30 before filtering	0.9436344	0.943634	fastp before_filtering.q30_rate	1e-04	4e-07	PASS
+DNBSEQ_SRR14318705	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+DNBSEQ_SRR14318705	passed = after	99992	99992	fastp filtering_result.passed_filter_reads	0	0	PASS
+DNBSEQ_SRR14318705	reads after filtering (report)	99992	99992	report total_reads	0	0	PASS
+ELEMENT_SRR29364970	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ELEMENT_SRR29364970	bases (all files)	14981090	14981090	seqkit sum_len	0	0	PASS
+ELEMENT_SRR29364970	N bases	215	215	seqkit sum_n	0	0	PASS
+ELEMENT_SRR36469225	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ELEMENT_SRR36469225	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ELEMENT_SRR36469225	N bases	148	148	seqkit sum_n	0	0	PASS
+ELEMENT_SRR32590479	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ELEMENT_SRR32590479	bases (all files)	1.5e+07	1.5e+07	seqkit sum_len	0	0	PASS
+ELEMENT_SRR32590479	N bases	76	76	seqkit sum_n	0	0	PASS
+ELEMENT_SRR28991946	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ELEMENT_SRR28991946	bases (all files)	14994280	14994280	seqkit sum_len	0	0	PASS
+ELEMENT_SRR28991946	N bases	356	356	seqkit sum_n	0	0	PASS
+ELEMENT_SRR32358442	reads (all files)	1e+05	1e+05	seqkit num_seqs	0	0	PASS
+ELEMENT_SRR32358442	bases (all files)	7600000	7600000	seqkit sum_len	0	0	PASS
+ELEMENT_SRR32358442	N bases	19	19	seqkit sum_n	0	0	PASS
+ION_TORRENT_ERR11895847	reads (all files)	3794	3794	seqkit num_seqs	0	0	PASS
+ION_TORRENT_ERR11895847	bases (all files)	611060	611060	seqkit sum_len	0	0	PASS
+ION_TORRENT_ERR11895847	N bases	0	0	seqkit sum_n	0	0	PASS
+ION_TORRENT_SRR13342264	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ION_TORRENT_SRR13342264	bases (all files)	20643985	20643985	seqkit sum_len	0	0	PASS
+ION_TORRENT_SRR13342264	N bases	0	0	seqkit sum_n	0	0	PASS
+ION_TORRENT_SRR8237513	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ION_TORRENT_SRR8237513	bases (all files)	7547265	7547265	seqkit sum_len	0	0	PASS
+ION_TORRENT_SRR8237513	N bases	0	0	seqkit sum_n	0	0	PASS
+ION_TORRENT_SRR13249454	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ION_TORRENT_SRR13249454	bases (all files)	17202129	17202129	seqkit sum_len	0	0	PASS
+ION_TORRENT_SRR13249454	N bases	0	0	seqkit sum_n	0	0	PASS
+ION_TORRENT_SRR6703077	reads (all files)	50000	50000	seqkit num_seqs	0	0	PASS
+ION_TORRENT_SRR6703077	bases (all files)	3690832	3690832	seqkit sum_len	0	0	PASS
+ION_TORRENT_SRR6703077	N bases	0	0	seqkit sum_n	0	0	PASS
+CTRL_ILM	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+CTRL_ILM	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+CTRL_ILM	N bases	18090	18090	seqkit sum_n	0	0	PASS
+CTRL_ILM	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+CTRL_ILM	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+CTRL_ILM	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+CTRL_ILM	Q30 before filtering	0.87819527	0.878195	fastp before_filtering.q30_rate	1e-04	2.729e-07	PASS
+CTRL_ILM	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+CTRL_ILM	passed = after	196704	196704	fastp filtering_result.passed_filter_reads	0	0	PASS
+CTRL_ILM	reads after filtering (report)	196704	196704	report total_reads	0	0	PASS
+CTRL_ONT	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+CTRL_ONT	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+CTRL_ONT	N bases	0	0	seqkit sum_n	0	0	PASS
+CTRL_ONT	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+CTRL_ONT	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+CTRL_ONT	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+CTRL_ONT	read N50	19921	19921	NanoPlot n50	0	0	PASS
+CTRL_ONT	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+CTRL_ONT	mean read quality	16.5538	16.6	NanoPlot mean_qual	0.1	0.0462	PASS
+CTRL_ONT	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+CTRL_ONT	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ILM_READS_40K	reads (all files)	40000	40000	seqkit num_seqs	0	0	PASS
+ILM_READS_40K	bases (all files)	5732748	5732748	seqkit sum_len	0	0	PASS
+ILM_READS_40K	N bases	3524	3524	seqkit sum_n	0	0	PASS
+ILM_READS_40K	N rate (%)	0.061471392	0.06	report n_base_rate	0.005	0.001471	PASS
+ILM_READS_40K	reads before filtering	40000	40000	fastp before_filtering.total_reads	0	0	PASS
+ILM_READS_40K	bases before filtering	5732748	5732748	fastp before_filtering.total_bases	0	0	PASS
+ILM_READS_40K	Q30 before filtering	0.87368362	0.873684	fastp before_filtering.q30_rate	1e-04	3.844e-07	PASS
+ILM_READS_40K	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_READS_40K	passed = after	39350	39350	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_READS_40K	reads after filtering (report)	39350	39350	report total_reads	0	0	PASS
+ILM_READS_400	reads (all files)	400	400	seqkit num_seqs	0	0	PASS
+ILM_READS_400	bases (all files)	57302	57302	seqkit sum_len	0	0	PASS
+ILM_READS_400	N bases	145	145	seqkit sum_n	0	0	PASS
+ILM_READS_400	N rate (%)	0.25304527	0.25	report n_base_rate	0.005	0.003045	PASS
+ILM_READS_400	reads before filtering	400	400	fastp before_filtering.total_reads	0	0	PASS
+ILM_READS_400	bases before filtering	57302	57302	fastp before_filtering.total_bases	0	0	PASS
+ILM_READS_400	Q30 before filtering	0.87188929	0.871889	fastp before_filtering.q30_rate	1e-04	2.883e-07	PASS
+ILM_READS_400	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_READS_400	passed = after	392	392	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_READS_400	reads after filtering (report)	392	392	report total_reads	0	0	PASS
+ONT_READS_5K	reads (all files)	5000	5000	seqkit num_seqs	0	0	PASS
+ONT_READS_5K	bases (all files)	54185595	54185595	seqkit sum_len	0	0	PASS
+ONT_READS_5K	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_READS_5K	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_READS_5K	reads	5000	5000	NanoPlot number_of_reads	0	0	PASS
+ONT_READS_5K	bases	54185595	54185595	NanoPlot number_of_bases	0	0	PASS
+ONT_READS_5K	read N50	20433	20433	NanoPlot n50	0	0	PASS
+ONT_READS_5K	median read length	6198.5	6198.5	NanoPlot median_read_length	0	0	PASS
+ONT_READS_5K	mean read quality	16.583879	16.6	NanoPlot mean_qual	0.1	0.01612	PASS
+ONT_READS_5K	reads (report)	5000	5000	report number_of_reads	0	0	PASS
+ONT_READS_5K	read N50 (report)	20433	20433	report read_n50	0.5	0	PASS
+ONT_READS_500	reads (all files)	500	500	seqkit num_seqs	0	0	PASS
+ONT_READS_500	bases (all files)	5157840	5157840	seqkit sum_len	0	0	PASS
+ONT_READS_500	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_READS_500	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_READS_500	reads	500	500	NanoPlot number_of_reads	0	0	PASS
+ONT_READS_500	bases	5157840	5157840	NanoPlot number_of_bases	0	0	PASS
+ONT_READS_500	read N50	20932	20932	NanoPlot n50	0	0	PASS
+ONT_READS_500	median read length	5626.5	5626.5	NanoPlot median_read_length	0	0	PASS
+ONT_READS_500	mean read quality	16.621473	16.6	NanoPlot mean_qual	0.1	0.02147	PASS
+ONT_READS_500	reads (report)	500	500	report number_of_reads	0	0	PASS
+ONT_READS_500	read N50 (report)	20932	20932	report read_n50	0.5	0	PASS
+ONT_N50_WARN	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_N50_WARN	bases (all files)	29669921	29669921	seqkit sum_len	0	0	PASS
+ONT_N50_WARN	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_N50_WARN	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_N50_WARN	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_N50_WARN	bases	29669921	29669921	NanoPlot number_of_bases	0	0	PASS
+ONT_N50_WARN	read N50	4600	4600	NanoPlot n50	0	0	PASS
+ONT_N50_WARN	median read length	1425	1425	NanoPlot median_read_length	0	0	PASS
+ONT_N50_WARN	mean read quality	16.687	16.7	NanoPlot mean_qual	0.1	0.013	PASS
+ONT_N50_WARN	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_N50_WARN	read N50 (report)	4600	4600	report read_n50	0.5	0	PASS
+ONT_N50_FAIL	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_N50_FAIL	bases (all files)	4514954	4514954	seqkit sum_len	0	0	PASS
+ONT_N50_FAIL	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_N50_FAIL	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_N50_FAIL	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_N50_FAIL	bases	4514954	4514954	NanoPlot number_of_bases	0	0	PASS
+ONT_N50_FAIL	read N50	700	700	NanoPlot n50	0	0	PASS
+ONT_N50_FAIL	median read length	217	217	NanoPlot median_read_length	0	0	PASS
+ONT_N50_FAIL	mean read quality	16.106612	16.1	NanoPlot mean_qual	0.1	0.006612	PASS
+ONT_N50_FAIL	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_N50_FAIL	read N50 (report)	700	700	report read_n50	0.5	0	PASS
+ONT_N50_AMPLICON	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_N50_AMPLICON	bases (all files)	4514954	4514954	seqkit sum_len	0	0	PASS
+ONT_N50_AMPLICON	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_N50_AMPLICON	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_N50_AMPLICON	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_N50_AMPLICON	bases	4514954	4514954	NanoPlot number_of_bases	0	0	PASS
+ONT_N50_AMPLICON	read N50	700	700	NanoPlot n50	0	0	PASS
+ONT_N50_AMPLICON	median read length	217	217	NanoPlot median_read_length	0	0	PASS
+ONT_N50_AMPLICON	mean read quality	16.106612	16.1	NanoPlot mean_qual	0.1	0.006612	PASS
+ONT_N50_AMPLICON	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_N50_AMPLICON	read N50 (report)	700	700	report read_n50	0.5	0	PASS
+ILM_Q30_72	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_Q30_72	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_Q30_72	N bases	18090	18090	seqkit sum_n	0	0	PASS
+ILM_Q30_72	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+ILM_Q30_72	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_Q30_72	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_Q30_72	Q30 before filtering	0.71997293	0.719973	fastp before_filtering.q30_rate	1e-04	6.868e-08	PASS
+ILM_Q30_72	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_Q30_72	passed = after	196704	196704	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_Q30_72	reads after filtering (report)	196704	196704	report total_reads	0	0	PASS
+ILM_Q30_60	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_Q30_60	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_Q30_60	N bases	18090	18090	seqkit sum_n	0	0	PASS
+ILM_Q30_60	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+ILM_Q30_60	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_Q30_60	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_Q30_60	Q30 before filtering	0.600115	0.600115	fastp before_filtering.q30_rate	1e-04	3.478e-10	PASS
+ILM_Q30_60	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_Q30_60	passed = after	196704	196704	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_Q30_60	reads after filtering (report)	196704	196704	report total_reads	0	0	PASS
+ONT_QUAL_8_5	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_QUAL_8_5	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_QUAL_8_5	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_QUAL_8_5	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_QUAL_8_5	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_QUAL_8_5	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+ONT_QUAL_8_5	read N50	19921	19921	NanoPlot n50	0	0	PASS
+ONT_QUAL_8_5	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+ONT_QUAL_8_5	mean read quality	7.6422947	7.6	NanoPlot mean_qual	0.1	0.04229	PASS
+ONT_QUAL_8_5	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_QUAL_8_5	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ONT_QUAL_5_5	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_QUAL_5_5	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_QUAL_5_5	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_QUAL_5_5	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_QUAL_5_5	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_QUAL_5_5	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+ONT_QUAL_5_5	read N50	19921	19921	NanoPlot n50	0	0	PASS
+ONT_QUAL_5_5	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+ONT_QUAL_5_5	mean read quality	5.0864391	5.1	NanoPlot mean_qual	0.1	0.01356	PASS
+ONT_QUAL_5_5	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_QUAL_5_5	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ONT_PLACEHOLDER_Q	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_PLACEHOLDER_Q	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_PLACEHOLDER_Q	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_PLACEHOLDER_Q	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_PLACEHOLDER_Q	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_PLACEHOLDER_Q	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+ONT_PLACEHOLDER_Q	read N50	19921	19921	NanoPlot n50	0	0	PASS
+ONT_PLACEHOLDER_Q	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+ONT_PLACEHOLDER_Q	mean read quality	20	20	NanoPlot mean_qual	0.1	0	PASS
+ONT_PLACEHOLDER_Q	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_PLACEHOLDER_Q	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ILM_DUP_DNA	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_DUP_DNA	bases (all files)	28641590	28641590	seqkit sum_len	0	0	PASS
+ILM_DUP_DNA	N bases	16978	16978	seqkit sum_n	0	0	PASS
+ILM_DUP_DNA	N rate (%)	0.059277435	0.06	report n_base_rate	0.005	0.0007226	PASS
+ILM_DUP_DNA	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_DUP_DNA	bases before filtering	28641590	28641590	fastp before_filtering.total_bases	0	0	PASS
+ILM_DUP_DNA	Q30 before filtering	0.87534791	0.875348	fastp before_filtering.q30_rate	1e-04	8.81e-08	PASS
+ILM_DUP_DNA	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_DUP_DNA	passed = after	196788	196788	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_DUP_DNA	reads after filtering (report)	196788	196788	report total_reads	0	0	PASS
+ILM_DUP_RNA	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_DUP_RNA	bases (all files)	28641590	28641590	seqkit sum_len	0	0	PASS
+ILM_DUP_RNA	N bases	16978	16978	seqkit sum_n	0	0	PASS
+ILM_DUP_RNA	N rate (%)	0.059277435	0.06	report n_base_rate	0.005	0.0007226	PASS
+ILM_DUP_RNA	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_DUP_RNA	bases before filtering	28641590	28641590	fastp before_filtering.total_bases	0	0	PASS
+ILM_DUP_RNA	Q30 before filtering	0.87534791	0.875348	fastp before_filtering.q30_rate	1e-04	8.81e-08	PASS
+ILM_DUP_RNA	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_DUP_RNA	passed = after	196788	196788	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_DUP_RNA	reads after filtering (report)	196788	196788	report total_reads	0	0	PASS
+ILM_ADAPTER	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_ADAPTER	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_ADAPTER	N bases	18106	18106	seqkit sum_n	0	0	PASS
+ILM_ADAPTER	N rate (%)	0.063200276	0.06	report n_base_rate	0.005	0.0032	PASS
+ILM_ADAPTER	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_ADAPTER	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_ADAPTER	Q30 before filtering	0.87819527	0.878195	fastp before_filtering.q30_rate	1e-04	2.729e-07	PASS
+ILM_ADAPTER	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_ADAPTER	passed = after	196798	196798	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_ADAPTER	reads after filtering (report)	196798	196798	report total_reads	0	0	PASS
+ILM_N_WARN	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_N_WARN	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_N_WARN	N bases	446176	446176	seqkit sum_n	0	0	PASS
+ILM_N_WARN	N rate (%)	1.5574089	1.6	report n_base_rate	0.05	0.04259	PASS
+ILM_N_WARN	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_N_WARN	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_N_WARN	Q30 before filtering	0.86506916	0.865069	fastp before_filtering.q30_rate	1e-04	1.557e-07	PASS
+ILM_N_WARN	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_N_WARN	passed = after	187346	187346	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_N_WARN	reads after filtering (report)	187346	187346	report total_reads	0	0	PASS
+ILM_N_FAIL	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_N_FAIL	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_N_FAIL	N bases	1735347	1735347	seqkit sum_n	0	0	PASS
+ILM_N_FAIL	N rate (%)	6.0573517	6.1	report n_base_rate	0.05	0.04265	PASS
+ILM_N_FAIL	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_N_FAIL	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_N_FAIL	Q30 before filtering	0.82554322	0.825543	fastp before_filtering.q30_rate	1e-04	2.227e-07	PASS
+ILM_N_FAIL	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_N_FAIL	passed = after	9404	9404	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_N_FAIL	reads after filtering (report)	9404	9404	report total_reads	0	0	PASS
+ILM_EMPTY	reads (all files)	0	0	seqkit num_seqs	0	0	PASS
+ILM_EMPTY	bases (all files)	0	0	seqkit sum_len	0	0	PASS
+ILM_EMPTY	N bases	0	0	seqkit sum_n	0	0	PASS
+ILM_DECLARED_ONT	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_DECLARED_ONT	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_DECLARED_ONT	N bases	18090	18090	seqkit sum_n	0	0	PASS
+ILM_DECLARED_ONT	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+ILM_DECLARED_ONT	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_DECLARED_ONT	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_DECLARED_ONT	Q30 before filtering	0.87819527	0.878195	fastp before_filtering.q30_rate	1e-04	2.729e-07	PASS
+ILM_DECLARED_ONT	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_DECLARED_ONT	passed = after	196704	196704	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_DECLARED_ONT	reads after filtering (report)	196704	196704	report total_reads	0	0	PASS
+ILM_UNDECLARED	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_UNDECLARED	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_UNDECLARED	N bases	18090	18090	seqkit sum_n	0	0	PASS
+ILM_UNDECLARED	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+ILM_UNDECLARED	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_UNDECLARED	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_UNDECLARED	Q30 before filtering	0.87819527	0.878195	fastp before_filtering.q30_rate	1e-04	2.729e-07	PASS
+ILM_UNDECLARED	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_UNDECLARED	passed = after	196704	196704	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_UNDECLARED	reads after filtering (report)	196704	196704	report total_reads	0	0	PASS
+ILM_MIXED_MATES	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_MIXED_MATES	bases (all files)	28648519	28648519	seqkit sum_len	0	0	PASS
+ILM_MIXED_MATES	N bases	17526	17526	seqkit sum_n	0	0	PASS
+ILM_MIXED_MATES	N rate (%)	0.061175937	0.06	report n_base_rate	0.005	0.001176	PASS
+ILM_MIXED_MATES	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_MIXED_MATES	bases before filtering	28648519	28648519	fastp before_filtering.total_bases	0	0	PASS
+ILM_MIXED_MATES	Q30 before filtering	0.88183351	0.881834	fastp before_filtering.q30_rate	1e-04	4.923e-07	PASS
+ILM_MIXED_MATES	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_MIXED_MATES	passed = after	196490	196490	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_MIXED_MATES	reads after filtering (report)	196490	196490	report total_reads	0	0	PASS
+ILM_SWAPPED_FILES	reads (all files)	2e+05	2e+05	seqkit num_seqs	0	0	PASS
+ILM_SWAPPED_FILES	bases (all files)	28648609	28648609	seqkit sum_len	0	0	PASS
+ILM_SWAPPED_FILES	N bases	18090	18090	seqkit sum_n	0	0	PASS
+ILM_SWAPPED_FILES	N rate (%)	0.063144427	0.06	report n_base_rate	0.005	0.003144	PASS
+ILM_SWAPPED_FILES	reads before filtering	2e+05	2e+05	fastp before_filtering.total_reads	0	0	PASS
+ILM_SWAPPED_FILES	bases before filtering	28648609	28648609	fastp before_filtering.total_bases	0	0	PASS
+ILM_SWAPPED_FILES	Q30 before filtering	0.87819527	0.878195	fastp before_filtering.q30_rate	1e-04	2.729e-07	PASS
+ILM_SWAPPED_FILES	after <= before (0 = consistent)	0	0	fastp after_filtering.total_reads	0	0	PASS
+ILM_SWAPPED_FILES	passed = after	196720	196720	fastp filtering_result.passed_filter_reads	0	0	PASS
+ILM_SWAPPED_FILES	reads after filtering (report)	196720	196720	report total_reads	0	0	PASS
+ONT_TWO_FILES	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_TWO_FILES	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_TWO_FILES	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_U_DNA	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_U_DNA	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_U_DNA	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_U_DNA	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_U_DNA	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_U_DNA	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+ONT_U_DNA	read N50	19921	19921	NanoPlot n50	0	0	PASS
+ONT_U_DNA	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+ONT_U_DNA	mean read quality	16.5538	16.6	NanoPlot mean_qual	0.1	0.0462	PASS
+ONT_U_DNA	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_U_DNA	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ONT_U_RNA	reads (all files)	12000	12000	seqkit num_seqs	0	0	PASS
+ONT_U_RNA	bases (all files)	128490140	128490140	seqkit sum_len	0	0	PASS
+ONT_U_RNA	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_U_RNA	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_U_RNA	reads	12000	12000	NanoPlot number_of_reads	0	0	PASS
+ONT_U_RNA	bases	128490140	128490140	NanoPlot number_of_bases	0	0	PASS
+ONT_U_RNA	read N50	19921	19921	NanoPlot n50	0	0	PASS
+ONT_U_RNA	median read length	6172	6172	NanoPlot median_read_length	0	0	PASS
+ONT_U_RNA	mean read quality	16.5538	16.6	NanoPlot mean_qual	0.1	0.0462	PASS
+ONT_U_RNA	reads (report)	12000	12000	report number_of_reads	0	0	PASS
+ONT_U_RNA	read N50 (report)	19921	19921	report read_n50	0.5	0	PASS
+ONT_READS_10K_EXACT	reads (all files)	10000	10000	seqkit num_seqs	0	0	PASS
+ONT_READS_10K_EXACT	bases (all files)	107577660	107577660	seqkit sum_len	0	0	PASS
+ONT_READS_10K_EXACT	N bases	0	0	seqkit sum_n	0	0	PASS
+ONT_READS_10K_EXACT	N rate (%)	0	0	report n_base_rate	0.005	0	PASS
+ONT_READS_10K_EXACT	reads	10000	10000	NanoPlot number_of_reads	0	0	PASS
+ONT_READS_10K_EXACT	bases	107577660	107577660	NanoPlot number_of_bases	0	0	PASS
+ONT_READS_10K_EXACT	read N50	20028	20028	NanoPlot n50	0	0	PASS
+ONT_READS_10K_EXACT	median read length	6195.5	6195.5	NanoPlot median_read_length	0	0	PASS
+ONT_READS_10K_EXACT	mean read quality	16.607653	16.6	NanoPlot mean_qual	0.1	0.007653	PASS
+ONT_READS_10K_EXACT	reads (report)	10000	10000	report number_of_reads	0	0	PASS
+ONT_READS_10K_EXACT	read N50 (report)	20028	20028	report read_n50	0.5	0	PASS

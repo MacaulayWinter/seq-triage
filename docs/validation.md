@@ -205,6 +205,163 @@ This changes the reading of round 1 in two ways:
    adapters counted as evidence, data like this with stripped read names
    could be called Illumina at high confidence.
 
+## Round 2 of layers A-C: design (pre-registered 2026-10-21)
+
+Fixed before any round 2 data was fetched or run (CLAUDE.md D51). Round 2
+repeats round 1 on new data, so the pass marks are unchanged.
+
+**What stays the same:** the three layers and their pass marks, the 18
+strata, the subsample sizes (50,000 short reads, 5,000 long reads per file),
+and the rule that the samplesheet never declares the platform. The round 2
+run counts (115 in total) were set in `select_panel.R` before round 1 ran.
+The contamination screen is off: these runs have no known contamination to
+score against.
+
+**What changes, and why:**
+
+1. **Every round 1 study is excluded.** The D40 read-name markers were
+   designed after looking at round 1 runs (the MGI flowcell name came from
+   SRR24724636), so testing them on the same studies would be circular.
+2. **Whole-pool draw.** Round 1 drew from the first 500 runs ENA returned
+   per stratum. Keeping one run per study then left pools as small as 4
+   runs, and 19 of 40 picks were DDBJ runs, which often lose their read
+   names. Round 2 fetches every matching run's accession and study, shuffles
+   the studies with a fixed seed, and checks one random run per study until
+   the stratum is full. A stratum that cannot fill is reported as short.
+3. **New pass mark for layer A:** no run of a platform seq-triage does not
+   handle (PacBio, DNBSEQ, Element, Ion Torrent) may get a PASS or WARN
+   verdict. This is the safety property behind the D40 markers. (Ion Torrent
+   called Illumina at high confidence is already a wrong high-confidence
+   call.)
+4. **Layer C from a different base:** *K. pneumoniae* KPE111 (100,000
+   NovaSeq pairs, 12,000 R10 reads) instead of *E. coli* ECE107. The N50
+   cases aim at the same N50s from the new base. Two new cases:
+   `ILM_MALFORMED` (valid gzip, one quality line a character short; expected
+   FAIL with `FILE_UNREADABLE`) and `ONT_READS_10K_EXACT` (exactly on the
+   10,000-read warn limit; expected PASS, because a value at a limit
+   passes). `ILM_TRUNCATED_GZ` runs in the main batch, where since D45 it
+   must be a FAIL row while every other sample finishes.
+
+**The panel** ([`validation/outcomes/round2/panel.tsv`](../validation/outcomes/round2/panel.tsv)),
+drawn 2026-10-21 and committed before any reads were fetched: 115 runs and
+36 backups, each from a different study. Pools after exclusions held 182
+(DNBSEQ) to 17,874 (Illumina amplicon) studies per stratum, against 4 to 121
+eligible runs in round 1. DDBJ runs are 4 of 115 (round 1: 19 of 40). Each
+pool's size and checksum is in
+[`pools.tsv`](../validation/outcomes/round2/pools.tsv). The pools themselves
+(69 MB of accessions) are not stored; re-running `select_panel.R` fetches
+them again, and ENA's contents change over time, so a later draw can differ.
+Two strata needed many runs checked to fill (Illumina RNA-seq 184, PacBio
+CLR 314), because most of their runs have no FASTQ in ENA.
+
+**Reported, not judged:** the share of correct high-confidence calls per
+stratum (how often the pipeline is useful, not only safe), and confidence by
+archive (the effect of DDBJ's stripped read names, open question A1).
+
+**How to reproduce:**
+
+```bash
+Rscript validation/select_panel.R 2 panel_round2.tsv
+bash validation/fetch_panel.sh panel_round2.tsv round2
+Rscript validation/make_faults.R KPE111 KPE111_ILM_R1.fastq.gz KPE111_ILM_R2.fastq.gz KPE111_ONT.fastq.gz ECE107_ILM_R2.fastq.gz round2_faults 2
+```
+
+The KPE111 and ECE107 files are the layer D sources
+(`validation/layer_D/fetch_sources.sh`). The pipeline and scoring commands
+are the same as for round 1.
+
+## Results: round 2 of layers A-C (2026-10-21)
+
+115 public runs from 18 strata and 31 damaged samples, scored against the
+pre-registered pass marks above. Tables:
+[`validation/outcomes/round2/`](../validation/outcomes/round2/). Run on the
+Mac (`-profile docker,arm64`, three batches), pipeline at `main` `e25edb0`
+plus the round 2 validation scripts.
+
+| Layer | Pass mark | Result |
+|---|---|---|
+| **A** Wrong at high confidence | 0 | **2: FAIL as registered** (both under review, below) |
+| **A** Unhandled platform given PASS or WARN (new) | 0 | **1: FAIL as registered** (the same run as one of the two) |
+| **A** Layout | all | 86 / 86 |
+| **B** Independent checks | all | **1158 / 1158** ✓ |
+| **C** Damaged samples, main batch | all | **30 / 30** ✓ |
+| **C** `ILM_R2_SHORT` (isolated run) | WARN + `MATE_COUNT_MISMATCH` | **WARN + `MATE_COUNT_MISMATCH`** ✓ |
+
+**As registered, round 2 fails layer A.** The two wrong high-confidence
+calls are set out with their evidence below. ENA was wrong once in round 1
+(SRR24724636), so each was reviewed by hand. Neither has been adjudicated:
+correcting a recorded truth is the user's decision, and the evidence differs
+in strength between the two.
+
+### The two wrong high-confidence calls
+
+**SRR28793840: ENA says Illumina HiSeq 2500; the pipeline says MGI/DNBSEQ.**
+
+- Every read name is an MGI flowcell name (`E100056810L1C001R00200000064`),
+  a format no Illumina instrument writes. A sibling run in the same study,
+  also labelled HiSeq 2500 (SRR28793836), carries names from the same MGI
+  flowcell (`E100056810L1C001R002...`).
+- The submitter's description adds nothing ("RNA"). Quality values (34
+  distinct, up to Q40) do not separate the two platforms.
+- The read names are the only evidence, and they are the same signal the
+  pipeline used. Correcting ENA on that alone is partly circular, so it is
+  left to the user. If corrected, this call is right.
+
+**SRR14318705: ENA says BGISEQ-500; the pipeline says Illumina (high).**
+
+- Read names are stripped by the archive (`1/1`), so only lengths and
+  quality are left. The qualities use exactly 7 values, `)-7<AFJ`, Illumina's
+  HiSeq X / 4000 binning. Every MGI run in the panel that kept its names uses
+  35-37 values, or one placeholder value (SRA Lite), never this set.
+- The library is named `ill`, and the study's only other run is PacBio
+  (a hybrid assembly, which is usually Illumina + long reads).
+- **Against:** the submitter's own design description says "BGISEQ
+  sequencing".
+- If ENA is right, this is a **real error with a clear cause**: with read
+  names gone, binned quality was the only confirming signal, and it raised
+  the call to high. Because the run was called Illumina, it was routed to
+  QC and got WARN, which is also the one failure of the new
+  unhandled-platform mark.
+
+**How much rests on binned quality alone:** 8 runs were called Illumina at
+high confidence with binned quality as the only confirming signal (no
+Illumina read names). 7 were right; the 8th is SRR14318705. All 41 calls
+confirmed by Illumina read names were right.
+
+**Scores under each reading (for the user's decision):**
+
+| Truth used | Wrong at high | Unhandled given PASS/WARN | Layer A |
+|---|---|---|---|
+| ENA as recorded | 2 | 1 | FAIL |
+| SRR28793840 corrected to dnbseq | 1 | 1 | FAIL |
+| both corrected | 0 | 0 | pass |
+
+Options if SRR14318705 is BGISEQ (none applied): (a) binned quality alone
+gives at most medium confidence: the 7 correct calls above would become
+medium, so unrouted and UNCERTAIN unless the platform is declared; (b) a
+second confirming signal is required for high when read names are missing;
+(c) no change, documenting the limit.
+
+### Other findings
+
+- **Usefulness:** 72 of 90 runs on handled platforms were called correctly at
+  high confidence (round 1 re-run: 29 of 40, all platforms). Medium: 14.
+  Uncertain: 3 (two 2x301 Illumina runs served already trimmed, so their
+  length spread was 0.36 and 0.45; one nanopore amplicon-like metagenome).
+  Uncertain is never wrong.
+- **Unhandled platforms:** 24 of 25 ended UNCERTAIN. Read-name markers named
+  4 of 5 DNBSEQ, 5 of 5 Element and 3 of 5 PacBio HiFi runs at high
+  confidence. All 5 PacBio CLR runs, 1 HiFi run and 4 of 5 Ion Torrent runs
+  were called ONT or Illumina at medium, so not routed: safe, as designed.
+- **Archive:** DDBJ runs were 4 of 115 (round 1: 19 of 40). Most medium
+  calls are SRA runs (13 of 77) whose read names were replaced by numbers.
+- **Layer B:** every recalculated number matched, across 1,158 checks.
+  Samples the integrity check rejected are skipped in layer B, because they
+  have no QC numbers; their handling is tested in layer C.
+- **Layer C:** all three new cases behaved as registered: the malformed and
+  truncated files became FAIL rows while the batch finished, and exactly
+  10,000 reads, on the limit, passed.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

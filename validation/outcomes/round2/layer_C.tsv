@@ -1,0 +1,31 @@
+sample	expected_verdict	got_verdict	missing_flags	extra_flags	result	qc_findings	note
+CTRL_ILM	PASS	PASS		FASTQ_SHARED	PASS		unmodified KPE111 Illumina: the reference every Illumina case is compared with
+CTRL_ONT	PASS	PASS			PASS		unmodified KPE111 nanopore: the reference every ONT case is compared with
+ILM_READS_40K	WARN	WARN			PASS	total reads is 39,350 (warn limit: below 100,000).	20,000 pairs = 40,000 reads, under the 100,000 warn limit
+ILM_READS_400	FAIL	FAIL			PASS	total reads is 392 (fail limit: below 1,000).	200 pairs = 400 reads, under the 1,000 fail limit
+ONT_READS_5K	WARN	WARN			PASS	number of reads is 5,000 (warn limit: below 10,000).	5,000 reads, under the 10,000 warn limit
+ONT_READS_500	FAIL	FAIL			PASS	number of reads is 500 (fail limit: below 1,000).	500 reads, under the 1,000 fail limit
+ONT_N50_WARN	WARN	WARN			PASS	read n50 is 4,600 (warn limit: below 5,000).	every read cut to 23.1%: read N50 4600, under 5,000
+ONT_N50_FAIL	FAIL	FAIL			PASS	read n50 is 700 (fail limit: below 1,000).	every read cut to 3.5%: read N50 700, under 1,000
+ONT_N50_AMPLICON	PASS	PASS			PASS		same reads as ONT_N50_FAIL, declared amplicon: N50 not judged
+ILM_Q30_72	WARN	WARN			PASS	q30 rate is 72.5% (warn limit: below 75.0%).	Q30 lowered from 87.8% to about 72% (warn below 75%, fail below 70%)
+ILM_Q30_60	FAIL	FAIL			PASS	q30 rate is 60.4% (fail limit: below 70.0%).	Q30 lowered from 87.8% to about 60% (warn below 75%, fail below 70%)
+ONT_QUAL_8_5	WARN	WARN			PASS	mean read quality is Q7.6 (warn limit: below Q10.0).	every base quality lowered by 18: mean read quality 8.4 (warn below 10, fail below 7)
+ONT_QUAL_5_5	FAIL	FAIL			PASS	mean read quality is Q5.1 (fail limit: below Q7.0).	every base quality lowered by 28: mean read quality 5.5 (warn below 10, fail below 7)
+ONT_PLACEHOLDER_Q	WARN	WARN			PASS	Quality could not be assessed: every base has the same score. The sample cannot PASS until real quality values are available.	every base Q20: placeholder quality. Headers still confirm ONT (high confidence). DESIRED answer WARN: quality cannot be assessed, so no PASS (D1). Current rules may give PASS (quality metrics 'not judged', nothing else wrong); if so, that is a design finding for the user.
+ILM_DUP_DNA	WARN	WARN			PASS	duplication rate is 50.8% (warn limit: above 30.0%).	second half of the pairs copies the first half: duplication about 50%, over the 30% warn limit
+ILM_DUP_RNA	PASS	PASS			PASS		same reads, declared rna: duplication not judged
+ILM_ADAPTER	WARN	WARN			PASS	adapter trimmed pct is 38.3% (warn limit: above 30.0%).	37978 of 100000 pairs (38%) have an 80 bp fragment, so reads run into adapter: adapter-trimmed reads over the 30% warn limit
+ILM_N_WARN	WARN	WARN			PASS	n base rate is 1.6% (warn limit: above 1.0%).	1.5% of bases set to N: N rate over the 1% warn limit; fastp discards only the few reads with > 5 N, so passed-filter stays above 90%
+ILM_N_FAIL	FAIL	FAIL			PASS	total reads is 9,404 (warn limit: below 100,000). passed filter pct is 4.7% (fail limit: below 70.0%). n base rate is 6.1% (fail limit: above 5.0%).	6% of bases set to N: N rate over the 5% fail limit (fastp also discards most reads)
+ILM_EMPTY	FAIL	FAIL			PASS		empty file: no reads
+ILM_DECLARED_ONT	WARN	WARN		BASENAME_MISMATCH	PASS		control Illumina reads declared ont: metadata contradicts reads (screen also flags ont + 2 files and the shared file)
+ILM_UNDECLARED	WARN	WARN		BASENAME_MISMATCH	PASS		control Illumina reads, no platform declared: platform inferred, so at most WARN
+ILM_MIXED_MATES	WARN	WARN			PASS		R1 from KPE111, R2 from a different isolate (ECE107_ILM_R2.fastq.gz): read names do not match
+ILM_SWAPPED_FILES	PASS	PASS		BASENAME_MISMATCH	PASS		R2 file given as fastq_1: flagged by the screen; metadata flags do not lower the verdict today (open question)
+ONT_TWO_FILES	UNCERTAIN	UNCERTAIN			PASS		nanopore reads split into two files: kept out of NanoPlot, no QC
+ONT_U_DNA	WARN	WARN		FASTQ_SHARED	PASS		T written as U, as direct RNA is, but molecule declared dna: contradiction
+ONT_U_RNA	PASS	PASS		BASENAME_MISMATCH	PASS		same reads, declared rna: consistent
+ILM_TRUNCATED_GZ	FAIL	FAIL			PASS		gzip cut in half. Since D45 the integrity check catches it: a FAIL row, and the rest of the batch carries on (rounds 1 and 1-re-run ran it alone, when it still stopped the run: 'RUN_STOPS').
+ILM_MALFORMED	FAIL	FAIL			PASS		valid gzip, but record 501's quality is one character shorter than its sequence: FAIL row, batch carries on (D45)
+ONT_READS_10K_EXACT	PASS	PASS			PASS		exactly 10,000 reads, ON the 10,000 warn limit: a value at a limit passes (D34)
