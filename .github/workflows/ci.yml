@@ -1,6 +1,16 @@
 # seq-triage CI
 #
-# Runs on every pull request and on every push to main:
+# Runs on every pull request, and by hand (workflow_dispatch). Not on push to
+# main: only code a pull request's CI has passed is merged, so a second run
+# on main repeated the same tests at full cost (user, 2026-10-22: Actions
+# minutes). To save minutes further (D71), a first job lists what the pull
+# request changed: the repository guard and R unit tests always run; the
+# pipeline jobs (e2e, lockfile/lint/--help, nf-test) only when something
+# other than documentation or published validation tables changed; the conda
+# end-to-end only when environments, modules or configuration changed. A
+# skipped job counts as passed. A manual run runs everything.
+#
+# Jobs:
 #   1. unit:  R unit tests (metadata screen, platform detection, report), in the
 #             same pinned R container the pipeline uses
 #   2. e2e:   installs the launch environment from environment.yml exactly as
@@ -16,8 +26,6 @@ name: CI
 
 on:
   pull_request:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 # A new push to the same branch cancels the run in progress.
@@ -34,6 +42,35 @@ env:
   NXF_ANSI_LOG: false       # plain log lines, readable in CI
 
 jobs:
+  changes:
+    name: What changed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      code:  ${{ steps.diff.outputs.code }}
+      conda: ${{ steps.diff.outputs.conda }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE:  ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT" != "pull_request" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"; echo "conda=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          files=$(git diff --name-only "origin/$BASE...HEAD")
+          echo "$files"
+          # Documentation and published validation tables only: no pipeline run needed.
+          code=$(printf '%s\n' "$files" | grep -vE '^(docs/|validation/outcomes/)|\.md$|^LICENSE$' | grep -c . || true)
+          # Anything that could change a conda environment or how one is used.
+          conda=$(printf '%s\n' "$files" | grep -cE '(^|/)environment\.yml$|^envs/|^modules/|^nextflow\.config$|^conf/|^\.github/workflows/' || true)
+          echo "code=$([ "$code" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "conda=$([ "$conda" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "pipeline jobs: $([ "$code" -gt 0 ] && echo run || echo skip); conda e2e: $([ "$conda" -gt 0 ] && echo run || echo skip)"
+
   guard:
     name: Repository guard (no data, no HPC details)
     runs-on: ubuntu-24.04
@@ -84,7 +121,8 @@ jobs:
 
   e2e:
     name: End-to-end (-profile test)
-    needs: unit
+    needs: [changes, unit]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     defaults:
@@ -131,6 +169,8 @@ jobs:
   # stale or broken lockfile cannot go unnoticed.
   lockfile:
     name: Lockfile rebuild (linux-64), lint, --help
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     defaults:
@@ -200,7 +240,8 @@ jobs:
   # CI can never quietly accept new results.
   nf-test:
     name: nf-test (modules + pipeline)
-    needs: unit
+    needs: [changes, unit]
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     defaults:
@@ -225,7 +266,8 @@ jobs:
   # expected verdicts: results must not depend on how the tools are installed.
   e2e-conda:
     name: End-to-end, conda (-profile test,conda)
-    needs: unit
+    needs: [changes, unit]
+    if: needs.changes.outputs.conda == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     defaults:
