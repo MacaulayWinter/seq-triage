@@ -471,11 +471,80 @@ run against both Standard-8 and the full Standard database. Round 2 is what
 tests the D47 rule, and the comparison between the two databases separates
 the effect of the 8 GB cap from the classifier itself.
 
-### Not covered by round 1
+### Results, round 2: new isolates, two databases (2026-10-22)
 
-- **Contamination.** seq-triage has no contamination screen yet (v0.2).
-  Validating one will need samples with known contamination: reads of a
-  public, openly consented human genome (e.g. Genome in a Bottle HG002) mixed
-  into bacterial reads at known fractions (1%, 5%, 20%).
-- **Round 2** (~150 runs) will widen the candidate pool per category: after
-  the one-run-per-study rule, some categories had only 4-11 eligible runs.
+Pre-registered as D49: the same 13 mixtures, expected verdicts and pass
+marks as round 1, with all-new isolates, run against the 8 GB-capped
+Standard-8 and the full Standard database (Oct 2025, 95 GB). Both runs
+used the same mixtures (checked: identical `truth.tsv`) and the same tool
+versions; only the database differs. Both databases hold the same
+libraries; Standard-8 is the same database capped to 8 GB. Tables:
+[`layer_D_round2_std8/`](../validation/outcomes/layer_D_round2_std8/),
+[`layer_D_round2_full/`](../validation/outcomes/layer_D_round2_full/),
+side by side in
+[`layer_D_round2_compare.tsv`](../validation/outcomes/layer_D_round2_compare.tsv).
+
+| | Standard-8 | Full Standard |
+|---|---|---|
+| Scored samples PASS (pass mark: all 24) | **20 / 24: not met** | **22 / 24: not met** |
+| Human host (10 samples) | 10 / 10 | 10 / 10 |
+| Off-target (14 samples) | 10 / 14 | 12 / 14 |
+| Strain limit (2) | confirmed on both | confirmed on Illumina; **not seen** on nanopore |
+| Unclassified reads, Illumina / nanopore | 7.6-9.9% / 1.3-3.0% | 0.37-0.66% / 0.17-0.38% |
+
+**Host DNA is right on both databases**, as in round 1: every human fraction
+from 0.5% to 30% within tolerance, on both platforms.
+
+**The cap explains most of the Illumina off-target error.** With Standard-8,
+Bracken overestimated *K. pneumoniae* in all three Illumina spikes (true
+2 / 10 / 30%: 4.3 / 14.9 / 41.2%). With the full database: 2.4 / 11.1 /
+32.1%, all within tolerance. Reads that only match the capped database at
+genus level or above are redistributed by Bracken to the species present,
+and the capped database leaves more of them. Nanopore estimates, which do
+not use Bracken, were within tolerance on both databases.
+
+**The two misses that remain on the full database:**
+
+- **K. pneumoniae 2%, nanopore:** 2.5% for a tolerance of +/- 0.4 points,
+  just outside (Standard-8: 2.4%, inside).
+- **K. variicola 10% in K. pneumoniae, Illumina:** 6.6% (Standard-8: 4.9%).
+  Short reads assign part of *K. variicola* to its sister species *K.
+  pneumoniae* on both databases; nanopore reads get the same mixture right
+  (10.6% and 11.2%). Same-genus contamination is therefore under-estimated
+  on Illumina, which is the conservative direction for a verdict only when
+  it still crosses the limit (it did not here: PASS on Standard-8, WARN on
+  the full database, expected WARN).
+
+**Enterobacter is right on both databases** (Illumina 11.8 / 8.9%,
+nanopore 9.3 / 9.7%). Round 1's nanopore under-detection (4.9% for 10%, on
+Standard-8) was therefore a property of that isolate, CPO025, not of the
+cap.
+
+**The 1% trace-species rule (D47), on data it was not designed on:** every
+control stayed below 5% off-target on both databases (0.0-2.7%). The full
+database reports far longer trace tails on Illumina (18-36 species per
+sample, against 4-9 on Standard-8; nanopore is similar on both, 38-95), so
+without the floor more pure Illumina samples would have warned.
+
+**Not explained yet: the strain mixture on nanopore, full database.** 30%
+of a second *E. coli* strain (AH21H052) should look like pure *E. coli*,
+and on Standard-8 it does (0.0% off-target). On the full database, 6.4% of
+species-level reads are called *K. pneumoniae*, so the sample WARNs and the
+expected limit is not seen. The Illumina reads of the same mixture show
+2.1%. Possible causes, not tested: *Klebsiella* reads in the AH21H052
+nanopore source run, or a plasmid shared with *Klebsiella* that only the
+full database can place. It is reported, not explained away.
+
+**What this means for use:** with the full database, the screen's host
+estimates are dependable on both platforms and its species estimates are
+dependable for different-genus contamination; same-genus contamination on
+Illumina is under-estimated. With Standard-8, Illumina species estimates
+are inflated by Bracken's redistribution and should be read as upper
+bounds. The pass mark (every sample within tolerance) is not met by either
+database, and is not changed after seeing these results.
+
+### Not covered yet
+
+- Fungal or protozoan contamination: neither database holds those
+  libraries.
+- Strain-level contamination: a separate method (ConFindr-style), planned.

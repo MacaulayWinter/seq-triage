@@ -124,9 +124,11 @@ every sample whose result or verdict changes with the database. It stops if
 the two runs do not hold the same mixtures.
 
 ```bash
-cd ~/seqtriage-scratch/validation/r2 && mkdir -p std8 full && tar -xzf std8.tgz -C std8 && tar -xzf full.tgz -C full
+mkdir -p ~/seqtriage-scratch/validation/r2/std8 ~/seqtriage-scratch/validation/r2/full && tar -xzf ~/seqtriage-scratch/validation/r2/std8.tgz -C ~/seqtriage-scratch/validation/r2/std8 && tar -xzf ~/seqtriage-scratch/validation/r2/full.tgz -C ~/seqtriage-scratch/validation/r2/full
 ```
 
+Then, **from your `seq-triage` folder** (the script path is relative to it):
+
 ```bash
-Rscript validation/layer_D/compare_layer_D.R std8=$HOME/seqtriage-scratch/validation/r2/std8 full=$HOME/seqtriage-scratch/validation/r2/full layer_D_r2_compare.tsv
+cd ~/Documents/Bioinformatics_pipelines/seq-triage && Rscript validation/layer_D/compare_layer_D.R std8=$HOME/seqtriage-scratch/validation/r2/std8 full=$HOME/seqtriage-scratch/validation/r2/full layer_D_r2_compare.tsv
 ```
