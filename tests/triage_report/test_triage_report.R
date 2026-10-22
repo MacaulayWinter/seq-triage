@@ -29,6 +29,11 @@ SEQKIT_OK <- c(num_seqs = 250000, sum_len = 75000000, sum_n = 1000)
 KRAKEN_OK <- c("U|0|unclassified" = 20000, "R|1|root" = 980000, "S|562|Escherichia coli" = 900000,
                "S|623|Shigella flexneri" = 30000, "S|573|Klebsiella pneumoniae" = 5000, "S|9606|Homo sapiens" = 2000)
 
+# Six species, none above 25%: a community (D65).
+META <- c("S|562|Escherichia coli" = 200000, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 180000,
+          "S|1280|Staphylococcus aureus" = 170000, "S|287|Pseudomonas aeruginosa" = 160000,
+          "S|1352|Enterococcus faecium" = 150000, "S|1313|Streptococcus pneumoniae" = 120000)
+
 # Cases: platform route, metadata, detection, QC overrides (NA removes a
 # field), and what to expect.
 cases <- list(
@@ -120,6 +125,27 @@ cases <- list(
   list(id = "HIFI_INFERRED",   route = "pacbio", declared = NA, nano = c(mean_qual = 25), verdict = "WARN"),
   list(id = "PACBIO_NOT_HIFI", route = "unrouted", routed_by = "pacbio_not_hifi", declared = "pacbio",
        detected = "uncertain", confidence = "uncertain", verdict = "UNCERTAIN"),
+  # D65: sample type. expect_type = "type confidence"; expect_flag = a flag that must be set.
+  # (Not ty/flag: R's $ partially matches them to the existing type/flags fields.)
+  list(id = "TYPE_AMP_UNDECLARED", route = "illumina", start = 0.30, verdict = "PASS",
+       expect_type = "amplicon high", hint = TRUE),
+  list(id = "TYPE_AMP_DECLARED",   route = "illumina", start = 0.30, type = "amplicon", verdict = "PASS", expect_type = "amplicon high"),
+  list(id = "TYPE_AMP_SAYS_ISOLATE", route = "illumina", start = 0.30, type = "isolate", verdict = "WARN",
+       expect_type = "amplicon high", expect_flag = "TYPE_CONTRADICTS"),
+  list(id = "TYPE_RNA_LIKE",       route = "illumina", start = 0.13, verdict = "PASS", expect_type = "uncertain uncertain"),
+  list(id = "TYPE_FEW_READS",      route = "illumina", start = 0.30, probe = 100, verdict = "PASS", expect_type = "uncertain uncertain"),
+  list(id = "TYPE_NO_SCREEN",      route = "illumina", start = 0.01, verdict = "PASS", expect_type = "uncertain uncertain"),
+  list(id = "TYPE_ISOLATE_ILM",    route = "illumina", start = 0.01, type = "isolate", screen = TRUE, verdict = "PASS",
+       expect_type = "isolate high"),
+  list(id = "TYPE_META",           route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META,
+       verdict = "PASS", expect_type = "metagenome high"),
+  list(id = "TYPE_META_SAYS_ISOLATE", route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META,
+       verdict = "FAIL", expect_type = "metagenome high", expect_flag = "TYPE_CONTRADICTS"),
+  list(id = "TYPE_ONT_ISOLATE",    route = "ont", type = "amplicon", screen = TRUE, verdict = "PASS", expect_type = "isolate medium"),
+  # Nanopore 16S amplicon of a community: composition says metagenome, but a
+  # declared amplicon is not contradicted when the reads cannot show it.
+  list(id = "TYPE_ONT_16S",        route = "ont", type = "amplicon", screen = TRUE, kraken = META,
+       verdict = "PASS", expect_type = "metagenome high"),
   # D60: a medium call contradicting the declaration is not routed.
   list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
        detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),
@@ -141,7 +167,9 @@ build <- function(cases, dir) {
       detection_flags = if (is.null(cs$flags)) NA else cs$flags, reasons = "synthetic",
       route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by,
       declared_platform = if (!is.null(cs$hdr_declared)) cs$hdr_declared else declared,
-      declared_from = if (!is.null(cs$declared_from)) cs$declared_from else if (!is.na(declared)) "samplesheet" else NA)
+      declared_from = if (!is.null(cs$declared_from)) cs$declared_from else if (!is.na(declared)) "samplesheet" else NA,
+      start_share = if (is.null(cs$start)) NA else cs$start,
+      probe_reads = if (is.null(cs$start)) NA else if (is.null(cs$probe)) 2000 else cs$probe)
     add <- function(tool, base, over) {
       v <- base; if (length(over)) v[names(over)] <- over
       v <- v[!is.na(v)]
@@ -198,9 +226,15 @@ res <- do.call(rbind, lapply(cases, function(cs) {
   got_c <- if (length(cs$check)) paste(names(cs$check), mets$result[match(paste(cs$id, names(cs$check)), paste(mets$sample, mets$metric))], sep = "=", collapse = " ") else ""
   exp_c <- if (length(cs$check)) paste(names(cs$check), cs$check, sep = "=", collapse = " ") else ""
   got_h <- !is.na(summ$hint[summ$sample == cs$id])
-  ok <- identical(got_v, cs$verdict) && got_c == exp_c && got_h == isTRUE(cs$hint)
-  data.frame(case = cs$id, got = paste(got_v, got_c, if (got_h) "+hint" else ""),
-             expected = paste(cs$verdict, exp_c, if (isTRUE(cs$hint)) "+hint" else ""),
+  r <- summ[summ$sample == cs$id, ]
+  got_t <- if (is.null(cs$expect_type)) "" else paste(r$detected_type, r$type_confidence)
+  got_f <- if (is.null(cs$expect_flag)) "" else if (grepl(cs$expect_flag, ifelse(is.na(r$detection_flags), "", r$detection_flags))
+) cs$expect_flag else "no flag"
+  ok <- identical(got_v, cs$verdict) && got_c == exp_c && got_h == isTRUE(cs$hint) &&
+        got_t == (if (is.null(cs$expect_type)) "" else cs$expect_type) && got_f == (if (is.null(cs$expect_flag)) "" else cs$expect_flag)
+  data.frame(case = cs$id, got = paste(got_v, got_c, if (got_h) "+hint" else "", got_t, got_f),
+             expected = paste(cs$verdict, exp_c, if (isTRUE(cs$hint)) "+hint" else "", if (is.null(cs$expect_type)) "" else cs$expect_type,
+                              if (is.null(cs$expect_flag)) "" else cs$expect_flag),
              result = if (ok) "PASS" else "FAIL")
 }))
 

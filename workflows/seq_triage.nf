@@ -350,6 +350,9 @@ workflow SEQ_TRIAGE {
                 confidence           : blankToNull(det.confidence),
                 detection_flags      : blankToNull([ det.detection_flags, header_flag ].findAll { x -> x }.join(',')),
                 reasons              : blankToNull([ meta.bam_note, header_note, det.reasons ].findAll { x -> x }.join(' ')),
+                // Read-start concentration for the sample-type call (D65).
+                start_share          : blankToNull(det.start_share),
+                probe_reads          : blankToNull(det.probe_reads),
             ]
             [ routeSample(merged), reads ]
         }
@@ -424,7 +427,7 @@ workflow SEQ_TRIAGE {
     //    meta, one line per sample, sorted so the file is reproducible.
     def cols = [ 'id', 'single_end', 'n_files', 'n_reads', 'detected_platform', 'detected_layout',
                  'confidence', 'detection_flags', 'reasons', 'route', 'routed_by',
-                 'declared_platform', 'declared_from' ]
+                 'declared_platform', 'declared_from', 'start_share', 'probe_reads' ]
     ch_samples_tsv = ch_triaged
         .map { meta, _reads -> cols.collect { c -> meta[c] == null ? '' : meta[c].toString() }.join('\t') }
         .collectFile(name: 'samples.tsv', seed: (['sample'] + cols.drop(1)).join('\t'), newLine: true, sort: true)
