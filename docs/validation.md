@@ -554,7 +554,14 @@ recorded as failed**; a later round must:
    under the Viruses domain, a new information metric), not by species name.
 
 Re-scored with both: **0 wrong at high**; exactly the four wrong calls drop to
-medium, nothing else changes. (Viruses were identified by hand for the
+medium, nothing else changes.
+
+**Re-run on the HPC with the D67 code (2026-10-22):** the soil metagenome
+dropped to medium as intended, but the three SARS-CoV-2 amplicons stayed
+"isolate, high": `viral_fraction` read 0%, because the code looked for Viruses
+at rank `D` and the Oct 2025 databases report it at `R1` (NCBI's 2024
+"acellular root"). Fixed to match taxid 10239 at any rank (D70); from the
+re-run's own Kraken2 rows the viral amplicons are 93.5-100% viral. (Viruses were identified by hand for the
 re-score, because this run's results file did not include the Kraken2 rows;
 `run_layer_E.sh` now packs `qc_values.tsv`.)
 
