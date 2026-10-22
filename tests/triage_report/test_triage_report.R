@@ -142,10 +142,14 @@ cases <- list(
   list(id = "TYPE_META_SAYS_ISOLATE", route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META,
        verdict = "FAIL", expect_type = "metagenome high", expect_flag = "TYPE_CONTRADICTS"),
   list(id = "TYPE_ONT_ISOLATE",    route = "ont", type = "amplicon", screen = TRUE, verdict = "PASS", expect_type = "isolate medium"),
-  # Nanopore 16S amplicon of a community: composition says metagenome, but a
-  # declared amplicon is not contradicted when the reads cannot show it.
+  # Nanopore 16S amplicon of a community: composition says metagenome, but
+  # long reads cannot rule out an amplicon, so only medium confidence.
   list(id = "TYPE_ONT_16S",        route = "ont", type = "amplicon", screen = TRUE, kraken = META,
-       verdict = "PASS", expect_type = "metagenome high"),
+       verdict = "PASS", expect_type = "metagenome medium"),
+  # Long reads cannot rule out an amplicon, so a community is metagenome at
+  # medium confidence only, and a declared isolate is not contradicted.
+  list(id = "TYPE_ONT_META_SAYS_ISOLATE", route = "ont", type = "isolate", screen = TRUE, kraken = META,
+       verdict = "FAIL", expect_type = "metagenome medium"),
   # D60: a medium call contradicting the declaration is not routed.
   list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
        detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),

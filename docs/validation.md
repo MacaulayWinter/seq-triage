@@ -485,6 +485,29 @@ with one more pass mark: **no run that is not PacBio HiFi is QC'd as PacBio**
 the share of HiFi runs routed to QC, which is lower wherever archives strip
 the `/ccs` read names.
 
+## Layer E: sample type (pre-registered 2026-10-22)
+
+Fixed before the panel was drawn (CLAUDE.md D65). Tests the sample-type call
+(isolate, metagenome, amplicon) against ENA's library records.
+
+- **Strata (57 runs):** Illumina isolates 10, metagenomes 10, 16S amplicons
+  10, viral amplicons 5; nanopore isolates 8, metagenomes 8, amplicons 6
+  ([`strata.psv`](../validation/layer_E/strata.psv)).
+- **Draw:** the round 2 whole-pool method; every study in rounds 1-3
+  excluded; platforms declared from ENA; `sample_type` NOT declared, so
+  every call comes from the reads.
+- **Run:** on the HPC with the Standard-8 Kraken2 database (the layer D
+  settings), because isolate vs metagenome needs the contamination screen.
+- **Pass mark:** **zero wrong sample-type calls at high confidence.**
+  "uncertain" is never wrong. Truth may be corrected only by a documented
+  hand review.
+- **Expected by design, not failures:** nanopore amplicons cannot be
+  recognised (no high-confidence nanopore call is possible: isolate and
+  metagenome are medium for long reads); Illumina amplicons should be
+  called high; metatranscriptome-like read starts give uncertain.
+- **Reported:** correct calls per stratum at high and medium confidence,
+  and wrong medium calls (allowed, counted).
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

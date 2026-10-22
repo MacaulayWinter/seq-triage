@@ -358,8 +358,12 @@ classify_type <- function(s) {
     if (amp == "no") return(out("isolate", "high", sprintf("One organism: %s. %s", comp, amp_note), TRUE))
     return(out("isolate", "medium", sprintf("One organism: %s. %s It could also be a single-organism amplicon.", comp, amp_note), FALSE))
   }
-  if (top < TYPE_META_TOP || k >= 5)
-    return(out("metagenome", "high", sprintf("Many organisms: %s. %s", comp, amp_note), amp == "no"))
+  if (top < TYPE_META_TOP || k >= 5) {
+    # High only when the reads also rule out an amplicon (Illumina): a 16S
+    # amplicon of a community looks like a metagenome by composition.
+    if (amp == "no") return(out("metagenome", "high", sprintf("Many organisms: %s. %s", comp, amp_note), TRUE))
+    return(out("metagenome", "medium", sprintf("Many organisms: %s. %s It could also be an amplicon (e.g. 16S) of a community.", comp, amp_note), FALSE))
+  }
   out("uncertain", "uncertain", sprintf("Between isolate and metagenome: %s (a contaminated isolate also looks like this). %s", comp, amp_note), amp == "no")
 }
 ty <- lapply(seq_len(nrow(d)), function(i) classify_type(d[i, ]))
