@@ -1,0 +1,8 @@
+stratum|truth|type_truth|query|from|to|n|sample_type|molecule
+E3_ILM_ISOLATE_PHAGE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND tax_tree(2731619)|2020-01-01|2025-06-30|8||dna
+E3_ILM_ISOLATE_ARCHAEA|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND tax_tree(2157)|2020-01-01|2025-06-30|6||dna
+E3_ILM_ISOLATE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND BACTERIA|2024-01-01|2025-06-30|12||dna
+E3_ILM_METAGENOME_FOOD|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(870726)|2022-01-01|2025-06-30|8||dna
+E3_ILM_METAGENOME_BIOREACTOR|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(1076179)|2022-01-01|2025-06-30|6||dna
+E3_ILM_METAGENOME_GUT|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(408170)|2024-01-01|2025-06-30|6||dna
+E3_ILM_AMPLICON_16S|illumina|amplicon|instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"|2024-01-01|2025-06-30|4||dna

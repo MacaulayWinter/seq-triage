@@ -127,11 +127,15 @@ eligible <- function(cand) {
 }
 
 # Round 2 and later: exclude every study in every EARLIER round's panel file,
-# picked or backup (round 3, D61: rounds 1 and 2).
+# picked or backup (round 3, D61: rounds 1 and 2). Draw numbers above 4 are
+# layer E rounds (D74: 5) with no layer A panel of their own, so a missing
+# round file is skipped; their own earlier panels come via EXCLUDE_PANELS.
 if (round >= 2) {
   here <- dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)))
   for (r in seq_len(round - 1)) {
-    prev <- read.delim(file.path(here, "outcomes", paste0("round", r), "panel.tsv"), colClasses = "character")
+    prev_file <- file.path(here, "outcomes", paste0("round", r), "panel.tsv")
+    if (!file.exists(prev_file)) { message(sprintf("No round %d panel file: nothing to exclude", r)); next }
+    prev <- read.delim(prev_file, colClasses = "character")
     st   <- unique(prev$study_accession)
     message(sprintf("Excluding %d round %d studies", length(st), r))
     CALIBRATION_STUDIES <- c(CALIBRATION_STUDIES, st)

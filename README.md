@@ -338,6 +338,7 @@ a later round tests it. Full write-up: [docs/validation.md](docs/validation.md).
 | Layer D, rounds 1-2 | Contamination estimates on mixtures with known answers | 13 mixtures x 2 platforms, 2 databases | host DNA right in every case; **all-samples pass mark not met** (best: 22/24 with the full database) |
 | Layer E | Sample type: isolate / metagenome / amplicon | 57 runs | **failed: 4 wrong at high confidence** (fragmented viral amplicons; a mostly-unclassified soil metagenome); led to D67 |
 | Layer E round 2 | D67 on unseen studies | 49 runs | **failed: 7 wrong at high**, all true isolates called metagenome or amplicon (D67's own target held: nothing wrongly called isolate); led to D73 |
+| Layer E round 3 | D73 on unseen studies | 50 runs | pre-registered |
 
 Along the way validation found: a silent failure in a dependency (seqkit
 reports success on a truncated gzip), two runs whose ENA instrument labels

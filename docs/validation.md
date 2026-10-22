@@ -667,6 +667,31 @@ logging it, and a re-run rewrites the log, so this re-run's log lost the
 checksums of 96 of 98 reused files (the reads themselves were reused, not
 re-fetched). Fixed: the checksum file is kept with the reads.
 
+## Layer E round 3: testing D73 (pre-registered 2026-10-22)
+
+Fixed before the panel was drawn (CLAUDE.md D74). D73 was chosen after
+seeing layer E round 2, so this round tests it, on studies no earlier round
+used (layer A rounds 1-3, layer E rounds 1-2 excluded).
+
+- **Strata (50 runs, all Illumina):**
+  - where D73 acts: phage isolates 8 (*Caudoviricetes*), archaeal isolates 6
+    (archaea are thinly represented in Standard-8, so their reads are
+    expected to spread over relatives), bacterial isolates 12 (2024-2025,
+    with poorly-known species at their natural rate);
+  - where D73 costs: food metagenomes 8 and bioreactor metagenomes 6, which
+    are often dominated by one genus (fermentations, enrichments), so true
+    metagenomes may drop to medium; these also test the opposite risk, a
+    dominated community called isolate high;
+  - controls: gut metagenomes 6, 16S amplicons 4
+  ([`strata.psv`](../validation/layer_E/round3/strata.psv)).
+- **Draw, run and truth** as layer E round 2: whole-pool draw, one run per
+  study, platforms declared from ENA, `sample_type` not declared, Standard-8
+  on the HPC, truth from ENA's library records.
+- **Pass mark:** **zero wrong sample-type calls at high confidence.**
+- **Reported:** correct high calls per stratum; how many metagenome calls
+  D73 moved to medium (its cost), from the genus share in the results;
+  wrong medium calls.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
