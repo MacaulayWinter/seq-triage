@@ -6,8 +6,9 @@
 # WHAT IT DOES  For every sample in the triage summary, either names ONE
 #               downstream pipeline (from assets/downstream_pipelines.tsv,
 #               pinned versions) or says why there is none. Then writes, per
-#               recommended pipeline, a samplesheet in that pipeline's own
-#               format, a params.yaml and a README with the command.
+#               rule (one folder each, e.g. bacass_short and bacass_long, so
+#               every folder runs as it is), a samplesheet in that pipeline's
+#               own format, a params.yaml and a README with the command.
 # READY MEANS   verdict PASS or WARN; platform confirmed (routed by detection,
 #               or by a declaration the reads did not contradict); sample type
 #               declared, or detected with high confidence (D65); no metadata
@@ -20,7 +21,7 @@
 #               nonsense, so they are written commented out instead: the
 #               pipeline then stops because the value is missing (checked in
 #               ampliseq 2.18.0's code).
-# WRITES        <outdir>/recommendations.tsv and <outdir>/<pipeline>/...
+# WRITES        <outdir>/recommendations.tsv and <outdir>/<rule>/...
 #
 # Usage:  recommend.R <triage_summary.tsv> <triage_metrics.tsv> <samplesheet.csv> <downstream_pipelines.tsv> <outdir>
 #*******************************************************************************
@@ -116,19 +117,14 @@ sheet_row <- function(fmt, r) {
     stop("unknown samplesheet format: ", fmt))
 }
 
-for (p in unique(rec$pipeline[rec$pipeline != "none"])) {
-  sel  <- Filter(function(r) !is.null(r$rule) && paste0("nf-core/", r$rule$pipeline) == p, rows)
+for (rl in unique(rec$rule[rec$pipeline != "none"])) {
+  sel  <- Filter(function(r) !is.null(r$rule) && r$rule$rule == rl, rows)
   rule <- sel[[1]]$rule
-  dir  <- file.path(out, rule$pipeline); dir.create(dir, showWarnings = FALSE)
-  # bacass short and long reads use one format with different columns filled.
+  dir  <- file.path(out, rl); dir.create(dir, showWarnings = FALSE)
   ss <- do.call(rbind, lapply(sel, function(r) sheet_row(r$rule$format, r)))
   write.csv(ss, file.path(dir, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 
   fixed <- if (has(rule$params)) strsplit(rule$params, ";")[[1]] else character(0)
-  if (rule$pipeline == "bacass") {
-    types <- unique(vapply(sel, function(r) sub("^bacass_", "", r$rule$rule), ""))
-    fixed <- c(sprintf("assembly_type=%s", if (length(types) == 1) types else "FILL_IN"))
-  }
   if (rule$pipeline == "ampliseq" && all(vapply(sel, function(r) !has(r$row$fastq_2), TRUE))) fixed <- c(fixed, "single_end=true")
   kv <- do.call(rbind, strsplit(fixed, "=", fixed = TRUE))
   fill <- if (has(rule$fill_in)) strsplit(rule$fill_in, ",")[[1]] else character(0)
@@ -146,7 +142,6 @@ for (p in unique(rec$pipeline[rec$pipeline != "none"])) {
               sprintf("Recommended by seq-triage for %d sample(s): %s.", length(sel), paste(vapply(sel, `[[`, "", "sample"), collapse = ", ")), "",
               rule$note, "",
               if (length(fill)) c(sprintf("**Fill in first** (in `params.yaml`): %s.", paste(sprintf("`%s`", fill), collapse = ", ")), "") else NULL,
-              if (any(grepl("FILL_IN", fixed))) c("**Fill in first:** `assembly_type` (short- and long-read samples are mixed here; run them separately).", "") else NULL,
               "Run from this folder:", "", "```bash",
               sprintf("nextflow run nf-core/%s -r %s -profile <docker|singularity|conda> -params-file params.yaml --outdir results", rule$pipeline, rule$version),
               "```", "",

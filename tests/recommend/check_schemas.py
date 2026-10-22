@@ -15,14 +15,14 @@ from jsonschema import Draft202012Validator
 
 out = Path(sys.argv[1])
 table = sys.argv[2] if len(sys.argv) > 2 else "assets/downstream_pipelines.tsv"
-pins = {}
+rules = {}
 with open(table) as fh:
     for row in csv.DictReader(fh, delimiter="\t"):
-        pins[row["pipeline"]] = row["commit"]
+        rules[row["rule"]] = (row["pipeline"], row["commit"])
 
 failures, checked = 0, 0
-for pipeline, commit in sorted(pins.items()):
-    sheet = out / pipeline / "samplesheet.csv"
+for rule, (pipeline, commit) in sorted(rules.items()):
+    sheet = out / rule / "samplesheet.csv"
     if not sheet.exists():
         continue
     url = f"https://raw.githubusercontent.com/nf-core/{pipeline}/{commit}/assets/schema_input.json"
@@ -33,10 +33,10 @@ for pipeline, commit in sorted(pins.items()):
     checked += 1
     if errors:
         failures += 1
-        print(f"FAIL nf-core/{pipeline}@{commit[:7]}: {len(errors)} schema error(s)")
+        print(f"FAIL {rule} (nf-core/{pipeline}@{commit[:7]}): {len(errors)} schema error(s)")
         for e in errors[:5]:
             print(f"     {list(e.absolute_path)}: {e.message}")
     else:
-        print(f"PASS nf-core/{pipeline}@{commit[:7]}: {len(rows)} row(s) valid")
+        print(f"PASS {rule} (nf-core/{pipeline}@{commit[:7]}): {len(rows)} row(s) valid")
 print(f"\n{checked - failures} / {checked} samplesheets valid against their pipeline's schema")
 sys.exit(1 if failures or checked == 0 else 0)

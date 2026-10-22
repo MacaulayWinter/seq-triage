@@ -56,10 +56,16 @@ if (status != 0) stop("recommend.R exited with status ", status)
 rec <- read.delim(file.path(out, "recommendations.tsv"), colClasses = "character", na.strings = "")
 res <- data.frame(case = cases$sample, got = rec$pipeline[match(cases$sample, rec$sample)], expected = cases$expected)
 # Every recommended pipeline: three files, FILL_IN where the user must decide.
-for (p in unique(cases$expected[cases$expected != "none"])) {
-  d <- file.path(out, sub("^nf-core/", "", p))
+for (rl in unique(rec$rule[rec$pipeline != "none"])) {
+  d <- file.path(out, rl)
   ok <- all(file.exists(file.path(d, c("samplesheet.csv", "params.yaml", "README.md"))))
-  res <- rbind(res, data.frame(case = paste0("FILES_", basename(d)), got = if (ok) "3 files" else "missing", expected = "3 files"))
+  res <- rbind(res, data.frame(case = paste0("FILES_", rl), got = if (ok) "3 files" else "missing", expected = "3 files"))
+}
+# One folder per rule, so short- and long-read bacass each run as they are.
+for (k in c("short", "long")) {
+  y <- readLines(file.path(out, paste0("bacass_", k), "params.yaml"))
+  res <- rbind(res, data.frame(case = paste0("BACASS_", toupper(k), "_ASSEMBLY_TYPE"),
+                               got = if (any(y == sprintf("assembly_type: %s", k))) k else "wrong", expected = k))
 }
 fill <- function(p, key) any(grepl(sprintf("^%s: FILL_IN$", key), readLines(file.path(out, p, "params.yaml"))))
 # Free-text values must NOT be written as a live FILL_IN (ampliseq would run
@@ -70,7 +76,7 @@ for (key in c("FW_primer", "RV_primer")) {
   res <- rbind(res, data.frame(case = sprintf("COMMENTED_ampliseq_%s", key), got = if (ok) "commented" else "live", expected = "commented"))
 }
 checks <- list(c("viralrecon", "primer_set"),
-               c("rnaseq", "fasta"), c("taxprofiler", "databases"), c("bacass", "assembly_type"))
+               c("rnaseq", "fasta"), c("taxprofiler", "databases"))
 for (k in checks) res <- rbind(res, data.frame(case = sprintf("FILL_IN_%s_%s", k[1], k[2]),
                                                got = if (fill(k[1], k[2])) "FILL_IN" else "set", expected = "FILL_IN"))
 # A reason is always given.

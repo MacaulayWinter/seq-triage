@@ -69,7 +69,7 @@ check("MultiQC parsed fastp, FastQC and NanoPlot", length(mq) == 3, paste("found
 # 7. Downstream recommendations (D66)
 rec_f <- file.path(res, "recommendations", "recommendations.tsv")
 rec   <- if (file.exists(rec_f)) read_tsv(rec_f) else data.frame(sample = character(0), pipeline = character(0), reason = character(0))
-dirs  <- sub("^nf-core/", "", unique(rec$pipeline[rec$pipeline != "none"]))
+dirs  <- unique(rec$rule[rec$pipeline != "none"])
 files_ok <- all(vapply(dirs, function(d) all(file.exists(file.path(res, "recommendations", d, c("samplesheet.csv", "params.yaml", "README.md")))), TRUE))
 check("every sample has a recommendation or a reason", setequal(rec$sample, summary$sample) && all(!is.na(rec$reason)) && files_ok,
       sprintf("%d rows for %d samples; pipelines: %s", nrow(rec), nrow(summary), paste(dirs, collapse = ", ")))
