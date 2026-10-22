@@ -108,6 +108,18 @@ cases <- list(
        declared_from = "bam_header", verdict = "PASS"),
   # Same reads, no platform anywhere: inferred, at most WARN (control).
   list(id = "BAM_NO_PLATFORM",     route = "illumina", declared = NA, verdict = "WARN"),
+  # D64: PacBio HiFi QC. Same NanoPlot fields as nanopore, own quality limit
+  # (Q20 / Q10): Q15 passes for nanopore but WARNs for HiFi, which shows the
+  # report uses the platform's own guide row, not the first row of that name.
+  list(id = "HIFI_GOOD",       route = "pacbio", declared = "pacbio", nano = c(mean_qual = 25),
+       verdict = "PASS", check = c(mean_read_quality = "PASS")),
+  list(id = "HIFI_Q15",        route = "pacbio", declared = "pacbio", nano = c(mean_qual = 15),
+       verdict = "WARN", check = c(mean_read_quality = "WARN")),
+  list(id = "ONT_Q15",         route = "ont", nano = c(mean_qual = 15),
+       verdict = "PASS", check = c(mean_read_quality = "PASS")),
+  list(id = "HIFI_INFERRED",   route = "pacbio", declared = NA, nano = c(mean_qual = 25), verdict = "WARN"),
+  list(id = "PACBIO_NOT_HIFI", route = "unrouted", routed_by = "pacbio_not_hifi", declared = "pacbio",
+       detected = "uncertain", confidence = "uncertain", verdict = "UNCERTAIN"),
   # D60: a medium call contradicting the declaration is not routed.
   list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
        detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),
@@ -119,12 +131,12 @@ build <- function(cases, dir) {
   screen <- samples <- qc <- list()
   for (cs in cases) {
     route    <- cs$route
-    declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "ont")) route else NA
+    declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "ont", "pacbio")) route else NA
     screen[[cs$id]] <- data.frame(sample = cs$id, declared_platform_raw = declared, declared_platform = declared,
       declared_type = if (is.null(cs$type)) NA else cs$type,
       declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",
-      detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "ont")) route else "uncertain",
+      detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "ont", "pacbio")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,
       detection_flags = if (is.null(cs$flags)) NA else cs$flags, reasons = "synthetic",
       route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by,
@@ -142,7 +154,7 @@ build <- function(cases, dir) {
       qc[[paste0(cs$id, "q")]] <- data.frame(sample = cs$id, tool = "FastQC", file = "f",
         field = c("Per base sequence content", "Overrepresented sequences", "Per sequence GC content"), value = st)
     }
-    if (route == "ont") qc[[paste0(cs$id, "n")]] <- add("NanoPlot", NANO_OK, cs$nano)
+    if (route %in% c("ont", "pacbio")) qc[[paste0(cs$id, "n")]] <- add("NanoPlot", NANO_OK, cs$nano)
     if (isTRUE(cs$screen)) {
       kr <- add("Kraken2", KRAKEN_OK, cs$kraken)
       if (!is.null(cs$kraken) && any(names(cs$kraken) != "U|0|unclassified")) {
