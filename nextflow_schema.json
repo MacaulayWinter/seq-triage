@@ -51,6 +51,15 @@
                     ],
                     "description": "How results are written to outdir.",
                     "help_text": "copy is the default so that deleting work/ never empties results/."
+                },
+                "downstream_pipelines": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/tab-separated-values",
+                    "description": "TSV of rules naming the next nf-core pipeline (pinned version) for each kind of ready sample; seq-triage writes a samplesheet and params file for it.",
+                    "help_text": "Default: assets/downstream_pipelines.tsv. One row per rule: platform, sample type, molecule, target, pipeline, version, commit, samplesheet format, fixed params and values the user must fill in.",
+                    "fa_icon": "fas fa-forward"
                 }
             }
         },

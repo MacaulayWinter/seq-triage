@@ -1,0 +1,81 @@
+#!/usr/bin/env Rscript
+# Test for bin/recommend.R (D66)
+#
+# Synthetic triage results: one sample per rule in assets/downstream_pipelines.tsv
+# and one per "no recommendation" reason. Checks each sample's recommendation,
+# that every recommended pipeline gets samplesheet.csv, params.yaml and
+# README.md, and that values only the user knows are FILL_IN. The outputs are
+# kept in <out_dir> (argument, optional) so CI can validate each samplesheet
+# against that pipeline's own schema (tests/recommend/check_schemas.py).
+#
+# Run from the repository root:
+#   Rscript tests/recommend/test_recommend.R [out_dir]
+
+args <- commandArgs(trailingOnly = TRUE)
+out  <- if (length(args)) args[1] else file.path(tempdir(), "recommendations")
+tmp  <- tempfile("rec_"); dir.create(tmp)
+wt   <- function(x, f) write.table(x, f, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
+
+#        sample        verdict  routed_by   platform  decl_type    det_type     conf    molecule flags                 dominant                                                  bam  expected
+cases <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, na.strings = "", text = "
+sample        | verdict   | routed_by | platform | decl_type  | det_type   | conf      | molecule | flags            | dominant                                               | bam | expected
+ILM_ISOLATE   | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+ONT_ISOLATE   | WARN      | detected  | ont      | isolate    | isolate    | medium    |          |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+ILM_META      | WARN      | detected  | illumina |            | metagenome | high      | dna      |                  | Bacteroides uniformis (20.0%)                          |     | nf-core/taxprofiler
+ONT_META      | WARN      | declared  | ont      | metagenome | metagenome | medium    | dna      |                  | Bacteroides uniformis (20.0%)                          |     | nf-core/taxprofiler
+ILM_16S       | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Escherichia coli / Shigella (30.0%)                    |     | nf-core/ampliseq
+ILM_SC2       | WARN      | detected  | illumina | amplicon   | amplicon   | high      | rna      |                  | Severe acute respiratory syndrome coronavirus 2 (99%)  |     | nf-core/viralrecon
+ILM_RNA       | PASS      | detected  | illumina | isolate    | uncertain  | uncertain | rna      |                  | Pseudomonas aeruginosa (98.0%)                         |     | nf-core/rnaseq
+FAILED        | FAIL      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        |     | none
+BAM_INPUT     | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        | yes | none
+CONFLICT      | WARN      | detected  | illumina | isolate    | amplicon   | high      | dna      | TYPE_CONTRADICTS |                                                        |     | none
+NO_TYPE       | WARN      | detected  | illumina |            | uncertain  | uncertain | dna      |                  |                                                        |     | none
+ONT_AMPLICON  | WARN      | detected  | ont      | amplicon   | isolate    | medium    | dna      |                  | Severe acute respiratory syndrome coronavirus 2 (99%)  |     | none
+AMP_NO_SCREEN | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  |                                                        |     | none
+PB_ISOLATE    | WARN      | detected  | pacbio   | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (99.0%)                               |     | none
+META_RNA      | WARN      | detected  | illumina | metagenome | metagenome | high      | rna      |                  | Bacteroides uniformis (20.0%)                          |     | none
+")
+summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
+                   detected_platform = cases$platform, declared_platform = cases$platform,
+                   declared_type = cases$decl_type, detected_type = cases$det_type, type_confidence = cases$conf,
+                   declared_molecule = cases$molecule, detection_flags = cases$flags)
+mets <- data.frame(sample = cases$sample[!is.na(cases$dominant)], metric = "dominant_species",
+                   value = cases$dominant[!is.na(cases$dominant)])
+paired <- cases$platform == "illumina"
+sheet <- data.frame(sample = cases$sample,
+                    fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
+                    fastq_2 = ifelse(is.na(cases$bam) & paired, sprintf("/data/%s_R2.fastq.gz", cases$sample), ""),
+                    bam = ifelse(is.na(cases$bam), "", sprintf("/data/%s.bam", cases$sample)))
+wt(summ, file.path(tmp, "summary.tsv")); wt(mets, file.path(tmp, "metrics.tsv"))
+write.csv(sheet, file.path(tmp, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
+unlink(out, recursive = TRUE)
+status <- system2("Rscript", c("--vanilla", "bin/recommend.R", file.path(tmp, "summary.tsv"), file.path(tmp, "metrics.tsv"),
+                               file.path(tmp, "samplesheet.csv"), "assets/downstream_pipelines.tsv", out))
+if (status != 0) stop("recommend.R exited with status ", status)
+
+rec <- read.delim(file.path(out, "recommendations.tsv"), colClasses = "character", na.strings = "")
+res <- data.frame(case = cases$sample, got = rec$pipeline[match(cases$sample, rec$sample)], expected = cases$expected)
+# Every recommended pipeline: three files, FILL_IN where the user must decide.
+for (p in unique(cases$expected[cases$expected != "none"])) {
+  d <- file.path(out, sub("^nf-core/", "", p))
+  ok <- all(file.exists(file.path(d, c("samplesheet.csv", "params.yaml", "README.md"))))
+  res <- rbind(res, data.frame(case = paste0("FILES_", basename(d)), got = if (ok) "3 files" else "missing", expected = "3 files"))
+}
+fill <- function(p, key) any(grepl(sprintf("^%s: FILL_IN$", key), readLines(file.path(out, p, "params.yaml"))))
+# Free-text values must NOT be written as a live FILL_IN (ampliseq would run
+# with the "primer" FILL_IN); they appear commented out, so ampliseq stops.
+for (key in c("FW_primer", "RV_primer")) {
+  y <- readLines(file.path(out, "ampliseq", "params.yaml"))
+  ok <- !any(grepl(sprintf("^%s:", key), y)) && any(grepl(sprintf("^# %s: ", key), y))
+  res <- rbind(res, data.frame(case = sprintf("COMMENTED_ampliseq_%s", key), got = if (ok) "commented" else "live", expected = "commented"))
+}
+checks <- list(c("viralrecon", "primer_set"),
+               c("rnaseq", "fasta"), c("taxprofiler", "databases"), c("bacass", "assembly_type"))
+for (k in checks) res <- rbind(res, data.frame(case = sprintf("FILL_IN_%s_%s", k[1], k[2]),
+                                               got = if (fill(k[1], k[2])) "FILL_IN" else "set", expected = "FILL_IN"))
+# A reason is always given.
+res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
+res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")
+print(res, row.names = FALSE, right = FALSE)
+cat(sprintf("\n%d / %d cases as expected\n", sum(res$result == "PASS"), nrow(res)))
+if (any(res$result == "FAIL")) quit(status = 1)
