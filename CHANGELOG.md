@@ -61,6 +61,11 @@ All notable changes to seq-triage. Versions follow
   judged, next pipeline nf-core/methylseq 4.2.0), interleaved FASTQ
   (`INTERLEAVED`: split into R1/R2 before QC, local `DEINTERLEAVE`).
 
+- FASTA reads (D79): `.fa`/`.fasta`/`.fna` in any compression are converted
+  to FASTQ with a placeholder quality, so quality is not judged and the
+  sample cannot PASS; raw nanopore signal, BCL run folders and SRA files
+  stop the run with the conversion to do first.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short

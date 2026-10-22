@@ -50,6 +50,7 @@ SC_10X        | PASS      | detected  | illumina |            | uncertain  | unc
 METHYL_WGBS   | PASS      | detected  | illumina |            | uncertain  | uncertain | dna      | BISULFITE        |                                                        |     | nf-core/methylseq
 INTERLEAVED_ISO | PASS    | detected  | illumina | isolate    | isolate    | high      | dna      | INTERLEAVED      | Escherichia coli (99.0%)                               |     | none
 INDEX_MATE_ISO | WARN     | detected  | illumina | isolate    | isolate    | high      | dna      | INDEX_READ_AS_MATE | Escherichia coli (99.0%)                             |     | none
+FASTA_READS   | WARN      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | none
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
@@ -74,6 +75,7 @@ lanes <- sheet[startsWith(sheet$sample, "LANES_"), ]
 lanes$fastq_1 <- sub("_R1", "_L002_R1", lanes$fastq_1); lanes$fastq_2 <- sub("_R2", "_L002_R2", lanes$fastq_2)
 sheet <- rbind(sheet, lanes)
 sheet[sheet$sample == "DIR_ONT", c("fastq_1", "fastq_dir")] <- c("", "/data/fastq_pass/barcode01")
+sheet[sheet$sample == "FASTA_READS", c("fastq_1", "fastq_2")] <- c("/data/FASTA_READS_R1.fasta.gz", "/data/FASTA_READS_R2.fasta.gz")
 wt(summ, file.path(tmp, "summary.tsv")); wt(mets, file.path(tmp, "metrics.tsv"))
 write.csv(sheet, file.path(tmp, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 unlink(out, recursive = TRUE)

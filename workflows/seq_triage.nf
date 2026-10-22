@@ -319,7 +319,8 @@ workflow SEQ_TRIAGE {
     //     cached results stay valid. A file that will not decompress becomes
     //     a FAIL row, like a damaged BAM or gzip (D45).
     ch_fastq = ch_input.fastq.branch { _meta, files ->
-        gz:    files.every { f -> f.name.endsWith('.gz') }
+        // D79: FASTA reads are converted to FASTQ too, compressed or not.
+        gz:    files.every { f -> f.name ==~ /.+\.f(ast)?q\.gz$/ }
         other: true
     }
     NORMALISE_FASTQ(ch_fastq.other)
@@ -328,7 +329,10 @@ workflow SEQ_TRIAGE {
         ok: rows.every { r -> r.status == 'ok' }
             // Back in input order (NORMALISE_FASTQ numbers them 1, 2, ...):
             // lane order and mate order matter for several-file samples (D75).
-            return [ meta, [ files ].flatten().sort { f -> (f.name =~ /_(\d+)\.fastq\.gz$/)[0][1] as Integer } ]
+            // FASTA reads (D79) are marked, so the report can say why there
+            // is no quality to judge.
+            def fasta = rows.any { r -> r.file ==~ /.+\.(fa|fasta|fna)(\.(gz|bz2|xz|zst))?$/ }
+            return [ meta + (fasta ? [ from_fasta: true ] : [:]), [ files ].flatten().sort { f -> (f.name =~ /_(\d+)\.fastq\.gz$/)[0][1] as Integer } ]
         damaged: true
             return [ meta, [ files ].flatten(), rows.findAll { r -> r.status != 'ok' }.collect { r -> "${r.file}: ${r.problem}" }.join('; ') ]
     }
@@ -433,7 +437,9 @@ workflow SEQ_TRIAGE {
                 detected_layout      : blankToNull(det.detected_layout),
                 confidence           : blankToNull(det.confidence),
                 detection_flags      : blankToNull([ det.detection_flags, header_flag ].findAll { x -> x }.join(',')),
-                reasons              : blankToNull([ meta.bam_note, header_note, det.reasons ].findAll { x -> x }.join(' ')),
+                reasons              : blankToNull([ meta.bam_note, header_note,
+                                                     meta.from_fasta ? 'Reads were given as FASTA, which has no quality values; seq-triage wrote a placeholder quality, so quality is not judged and the sample cannot PASS.' : null,
+                                                     det.reasons ].findAll { x -> x }.join(' ')),
                 // Read-start concentration for the sample-type call (D65).
                 start_share          : blankToNull(det.start_share),
                 probe_reads          : blankToNull(det.probe_reads),
