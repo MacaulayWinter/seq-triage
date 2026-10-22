@@ -15,6 +15,19 @@ All notable changes to seq-triage. Versions follow
   `platform` accepts `pacbio`; a PacBio declaration alone never routes.
   Other PacBio data (CLR, subreads) is still recognised and not QC'd.
 
+- Sample type from the reads (D65): isolate / metagenome / amplicon /
+  uncertain, with confidence; contradicting a declared type caps at WARN; an
+  inferred type never relaxes a verdict. Validation layer E pre-registered.
+- Downstream recommendation (D66): for each ready sample, the next nf-core
+  pipeline at a pinned version (bacass 2.6.1, taxprofiler 2.0.1, ampliseq
+  2.18.0, viralrecon 3.0.0, rnaseq 3.27.0; rules in
+  `assets/downstream_pipelines.tsv`), with a samplesheet in that pipeline's
+  format and a params file. CI validates every generated samplesheet
+  against the pipeline's own schema at the pinned commit.
+- After validation layer E (D67): isolate at high confidence also needs at
+  most 25% of reads unclassified; a virus-dominated sample is isolate at
+  most at medium confidence; new information metric `viral_fraction`.
+
 ### Changed
 
 - The report takes each metric's limits from the guide row it was judged

@@ -19,6 +19,7 @@ include { UNTAR           } from '../modules/nf-core/untar/main'
 include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../modules/nf-core/kraken2/kraken2/main'
 include { BRACKEN_BRACKEN as BRACKEN } from '../modules/nf-core/bracken/bracken/main'
 include { KRAKEN2_BATCH   } from '../modules/local/kraken2_batch/main'
+include { RECOMMEND       } from '../modules/local/recommend/main'
 include { CHECK_BAM       } from '../modules/local/check_bam/main'
 include { SAMTOOLS_COLLATEFASTQ } from '../modules/nf-core/samtools/collatefastq/main'
 
@@ -445,6 +446,10 @@ workflow SEQ_TRIAGE {
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 
     TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups)
+
+    // 7b. Next pipeline for each ready sample (D66), with a ready-to-run
+    //     samplesheet and params file in that pipeline's own format.
+    RECOMMEND(TRIAGE_REPORT.out.tsv, TRIAGE_REPORT.out.metrics, samplesheet, file(params.downstream_pipelines))
 
     // 8. Software versions actually used (reproducibility layer 4): every
     //    module reports [process, tool, version] to the 'versions' topic.

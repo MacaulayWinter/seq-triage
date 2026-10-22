@@ -12,6 +12,8 @@
 #   4. every tool reported its version (reproducibility layer 4)
 #   5. every sample sent to QC has judged metrics, each gap explained
 #   6. MultiQC parsed fastp, FastQC and NanoPlot output
+#   7. recommendations.tsv has one row per sample, each with a pipeline or a
+#      reason, and every recommended pipeline got its three files (D66)
 # Run from the repository root.
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -63,6 +65,14 @@ check("every QC'd sample has judged metrics", length(no_metrics) == 0 && length(
 # 6. MultiQC picked up every tool (it must still read NanoPlot's --tsv_stats output)
 mq <- list.files(file.path(res, "multiqc"), pattern = "^multiqc_(fastp|fastqc|nanostat)\\.txt$", recursive = TRUE)
 check("MultiQC parsed fastp, FastQC and NanoPlot", length(mq) == 3, paste("found:", paste(basename(mq), collapse = ", ")))
+
+# 7. Downstream recommendations (D66)
+rec_f <- file.path(res, "recommendations", "recommendations.tsv")
+rec   <- if (file.exists(rec_f)) read_tsv(rec_f) else data.frame(sample = character(0), pipeline = character(0), reason = character(0))
+dirs  <- unique(rec$rule[rec$pipeline != "none"])
+files_ok <- all(vapply(dirs, function(d) all(file.exists(file.path(res, "recommendations", d, c("samplesheet.csv", "params.yaml", "README.md")))), TRUE))
+check("every sample has a recommendation or a reason", setequal(rec$sample, summary$sample) && all(!is.na(rec$reason)) && files_ok,
+      sprintf("%d rows for %d samples; pipelines: %s", nrow(rec), nrow(summary), paste(dirs, collapse = ", ")))
 
 n_fail <- sum(results == "FAIL")
 cat(sprintf("\n%d / %d checks passed\n", length(results) - n_fail, length(results)))

@@ -52,9 +52,11 @@ db=$(sed -n "s/^[[:space:]]*params\.kraken2_db[[:space:]]*=[[:space:]]*['\"]\([^
     printf 'files_dated\t%s\n' "$(date -r "$db/hash.k2d" +%Y-%m-%d 2>/dev/null || true)"
 } > "$work/results/database_info.tsv"
 
+# qc_values.tsv carries every Kraken2 row, so a later rule can be re-scored
+# from the tables alone (the first layer E run lacked it, D67).
 echo "== 4. Pack result tables (no reads)"
 tar -czf "$work/layer_E_results.tgz" -C "$work" \
-    results/triage_summary.tsv results/triage_metrics.tsv results/database_info.tsv \
+    results/triage_summary.tsv results/triage_metrics.tsv results/qc_values.tsv results/database_info.tsv \
     results/pipeline_info/software_versions.tsv panel/fetch_log.tsv
 ls -lh "$work/layer_E_results.tgz"
 echo "Done. Copy layer_E_results.tgz back to your Mac for scoring."

@@ -1,0 +1,7 @@
+rule	platform	sample_type	molecule	target	pipeline	version	commit	format	params	fill_in	note
+bacass_short	illumina	isolate	dna	any	bacass	2.6.1	5ed7c2dd9a05d2434d8ba39ace1116368a4ba570	bacass_short	assembly_type=short		Short-read assembly and annotation of a bacterial isolate. Optional: GenomeSize per sample in the samplesheet.
+bacass_long	ont	isolate	dna	any	bacass	2.6.1	5ed7c2dd9a05d2434d8ba39ace1116368a4ba570	bacass_long	assembly_type=long		Long-read assembly and annotation of a bacterial isolate.
+taxprofiler	illumina,ont,pacbio	metagenome	dna	any	taxprofiler	2.0.1	70ecc15e49b4f1fcf79d876643b5d14b65c66178	taxprofiler	run_kraken2=true	databases	Taxonomic profiling. databases: a CSV naming your profiler databases (taxprofiler docs). For assembly and binning instead: nf-core/mag 5.5.0.
+ampliseq	illumina	amplicon	dna,rna	not_sarscov2	ampliseq	2.18.0	2723d4c298d48321594920d0324697e14d73ee94	ampliseq		FW_primer!,RV_primer!	Marker-gene amplicons (16S, ITS). 3.0.0 is newer but under two weeks old on 2026-10-22, so 2.18.0 is pinned (CLAUDE.md D30).
+viralrecon	illumina	amplicon	dna,rna	sarscov2	viralrecon	3.0.0	395079f1d24dce731ac22e03d7a5e71f110103fc	viralrecon	platform=illumina;protocol=amplicon;genome=MN908947.3	primer_set,primer_set_version	SARS-CoV-2 amplicon analysis (variants, consensus). primer_set and primer_set_version: your scheme, e.g. artic and a version number.
+rnaseq	illumina	isolate	rna	any	rnaseq	3.27.0	a1fcdddd3b826fe46eb46f0479f2ff8a7815af05	rnaseq		fasta,gtf	RNA-seq of one organism. Strandedness is written as auto (inferred by rnaseq).

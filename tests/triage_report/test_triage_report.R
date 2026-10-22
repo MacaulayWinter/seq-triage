@@ -29,6 +29,13 @@ SEQKIT_OK <- c(num_seqs = 250000, sum_len = 75000000, sum_n = 1000)
 KRAKEN_OK <- c("U|0|unclassified" = 20000, "R|1|root" = 980000, "S|562|Escherichia coli" = 900000,
                "S|623|Shigella flexneri" = 30000, "S|573|Klebsiella pneumoniae" = 5000, "S|9606|Homo sapiens" = 2000)
 
+# D67: a virus on its own (taxonomy says Viruses), and a sample whose reads
+# are mostly unclassified with one recognised species.
+VIRUS <- c("D|10239|Viruses" = 950000, "S|694009|Betacoronavirus pandemicum" = 950000, "S|562|Escherichia coli" = 0,
+           "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0)
+MOSTLY_UNKNOWN <- c("U|0|unclassified" = 940000, "S|562|Escherichia coli" = 55000, "S|623|Shigella flexneri" = 0,
+                    "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0)
+
 # Six species, none above 25%: a community (D65).
 META <- c("S|562|Escherichia coli" = 200000, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 180000,
           "S|1280|Staphylococcus aureus" = 170000, "S|287|Pseudomonas aeruginosa" = 160000,
@@ -150,6 +157,13 @@ cases <- list(
   # medium confidence only, and a declared isolate is not contradicted.
   list(id = "TYPE_ONT_META_SAYS_ISOLATE", route = "ont", type = "isolate", screen = TRUE, kraken = META,
        verdict = "FAIL", expect_type = "metagenome medium"),
+  # D67 (after validation layer E): fragmented viral amplicons start at random,
+  # like an isolate, so a virus-dominated sample is isolate at most MEDIUM;
+  # and an isolate call resting on few classified reads is medium.
+  list(id = "TYPE_VIRUS_FRAGMENTED", route = "illumina", start = 0.03, screen = TRUE, kraken = VIRUS,
+       verdict = "PASS", expect_type = "isolate medium", check = c(viral_fraction = "info")),
+  list(id = "TYPE_MOSTLY_UNCLASSIFIED", route = "illumina", start = 0.02, screen = TRUE, kraken = MOSTLY_UNKNOWN,
+       verdict = "PASS", expect_type = "isolate medium"),
   # D60: a medium call contradicting the declaration is not routed.
   list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
        detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),

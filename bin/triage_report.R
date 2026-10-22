@@ -148,6 +148,7 @@ SCREEN_TOOL <- "Kraken2"
 # recognised but not routed.
 QC_ROUTES <- c("illumina", "ont", "pacbio")
 HOST_TAXID  <- "9606"           # Homo sapiens
+VIRUS_TAXID <- "10239"          # Viruses (domain)
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
 # A species counts towards off-target only at >= 1% of species-level reads
 # (D47). Validation layer D showed pure cultures carry a long tail of trace
@@ -168,8 +169,13 @@ contamination <- function(rows, route) {
   k$rank <- part[, 1]; k$taxid <- part[, 2]; k$name <- part[, 3]
   k$n <- as.numeric(k$value)
   total <- sum(k$n[k$taxid %in% c("0", "1")])          # unclassified + root
+  classified <- sum(k$n[k$taxid == "1"])
   out <- list(host_fraction = if (total > 0) sum(k$n[k$taxid == HOST_TAXID]) / total else NA_real_,
               unclassified_fraction = if (total > 0) sum(k$n[k$taxid == "0"]) / total else NA_real_,
+              # D67: share of CLASSIFIED reads under the Viruses domain (taxid
+              # 10239), from Kraken2 for every platform. Recognises viruses by
+              # taxonomy, not by species name (names change between versions).
+              viral_fraction = if (classified > 0) sum(k$n[k$rank == "D" & k$taxid == VIRUS_TAXID]) / classified else NA_real_,
               off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
 
   b <- rows[rows$tool == "Bracken", ]
@@ -328,6 +334,12 @@ TYPE_START_AMPLICON <- 0.20
 TYPE_START_RANDOM   <- 0.05
 TYPE_ISOLATE_TOP    <- 0.90   # and at most 2 other species at >= 1%
 TYPE_META_TOP       <- 0.50   # or at least 5 species at >= 1%
+# D67 (decided after validation layer E, so a later round must test them):
+TYPE_ISOLATE_MAX_UNCLASSIFIED <- 0.25  # isolate HIGH needs most reads classified
+                                       # (layer E: Illumina isolates <= 11.3%, metagenomes median 93.7%)
+TYPE_VIRAL_DOMINANT <- 0.50            # virus-dominated: isolate at most medium (viral
+                                       # genomes are usually amplified; fragmented amplicons
+                                       # do not start at primers: layer E SARS-CoV-2)
 classify_type <- function(s) {
   out <- function(type, conf, why, amplicon_judged) list(type = type, conf = conf, why = why, amplicon_judged = amplicon_judged)
   if (!s$route %in% QC_ROUTES) return(out("uncertain", "uncertain", "not assessed: the sample was not sent to QC.", FALSE))
@@ -355,6 +367,11 @@ classify_type <- function(s) {
   comp <- sprintf("the most common species holds %.0f%% of species-level reads and %d species %s 1%%", 100 * top, k,
                   if (k == 1) "reaches" else "reach")
   if (top >= TYPE_ISOLATE_TOP && k - 1 <= 2) {
+    unc <- co$unclassified_fraction; vir <- co$viral_fraction
+    if (!is.na(vir) && vir >= TYPE_VIRAL_DOMINANT)
+      return(out("isolate", "medium", sprintf("One organism, a virus (%.0f%% of classified reads are viral): %s. Viral genomes are usually sequenced from amplicons, which do not start at primers when the amplicons were fragmented, so an amplicon cannot be excluded.", 100 * vir, comp), FALSE))
+    if (!is.na(unc) && unc > TYPE_ISOLATE_MAX_UNCLASSIFIED)
+      return(out("isolate", "medium", sprintf("%s, but %.0f%% of reads are unclassified, so the composition rests on the few reads the database recognises (a poorly-known community also looks like this). %s", sub("^t", "T", comp), 100 * unc, amp_note), amp == "no"))
     if (amp == "no") return(out("isolate", "high", sprintf("One organism: %s. %s", comp, amp_note), TRUE))
     return(out("isolate", "medium", sprintf("One organism: %s. %s It could also be a single-organism amplicon.", comp, amp_note), FALSE))
   }
