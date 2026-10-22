@@ -3,6 +3,7 @@
         "content": [
             [
                 "BF_ILLUMINA_PE\tWARN",
+                "BF_TWO_LANES\tWARN",
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
                 "CRAM_PE\tWARN",
@@ -19,7 +20,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-22T18:20:06.557332",
+        "timestamp": "2026-10-22T21:02:34.598235",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -29,6 +30,7 @@
         "content": [
             [
                 "BF_ILLUMINA_PE\tWARN",
+                "BF_TWO_LANES\tWARN",
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
                 "CRAM_PE\tWARN",
@@ -49,6 +51,7 @@
                 "R\t4.5.2",
                 "bgzip\t1.24",
                 "bracken\t3.0.1",
+                "cat\t9.5",
                 "fastp\t1.4.0",
                 "fastqc\t0.13.0",
                 "gzip\t1.12",
@@ -60,7 +63,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-22T18:18:05.344087",
+        "timestamp": "2026-10-22T21:00:32.05674",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

@@ -2,10 +2,10 @@
     "synthetic samplesheet: output matches the saved snapshot": {
         "content": [
             [
-                "metadata_screen.tsv:md5,da26124241b96e4a585c7f45079aac95"
+                "metadata_screen.tsv:md5,7b3f4d3ea24b4248db8d885f62e16d50"
             ]
         ],
-        "timestamp": "2026-10-22T18:15:28.849508",
+        "timestamp": "2026-10-22T20:58:21.559485",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

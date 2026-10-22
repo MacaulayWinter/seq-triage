@@ -216,23 +216,40 @@ instead of once per sample. Results are identical either way.
 
 ### Samplesheet
 
-A CSV with one row per sample:
+A CSV with one row per sample, or several rows with the same `sample` for
+a sample whose reads are in several files:
 
 ```csv
-sample,fastq_1,fastq_2,bam,platform,sample_type,molecule
-ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,,illumina,isolate,dna
-MTX_01,MTX_01_R1.fastq.gz,MTX_01_R2.fastq.gz,,illumina,metagenome,rna
-ONT_01,ONT_01.fastq.gz,,,ont,,
-ONT_02,,,ONT_02.bam,ont,,
-UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,,
+sample,fastq_1,fastq_2,bam,fastq_dir,platform,sample_type,molecule
+ISO_01,ISO_01_R1.fastq.gz,ISO_01_R2.fastq.gz,,,illumina,isolate,dna
+LANES_01,LANES_01_L001_R1_001.fastq.gz,LANES_01_L001_R2_001.fastq.gz,,,illumina,,
+LANES_01,LANES_01_L002_R1_001.fastq.gz,LANES_01_L002_R2_001.fastq.gz,,,illumina,,
+MTX_01,MTX_01_R1.fastq.gz,MTX_01_R2.fastq.gz,,,illumina,metagenome,rna
+ONT_01,ONT_01.fastq.gz,,,,ont,,
+ONT_02,,,ONT_02.bam,,ont,,
+ONT_03,,,,fastq_pass/barcode03,ont,,
+UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,,,
 ```
+
+**Several files for one sample** (lanes, a top-up run, a nanopore barcode
+folder): repeat the `sample` on each row, or give a folder in `fastq_dir`.
+The rows must agree on `platform`, `sample_type` and `molecule`, and be all
+paired or all single; a file may appear only once; a BAM must be a sample's
+only row. Otherwise the run stops before reading anything, naming the
+sample. Every file is checked on its own, and **one damaged file fails the
+whole sample**, naming the file, rather than silently dropping a lane. The
+platform is detected per lane and the lanes must agree (the sample takes
+the weakest lane's confidence; lanes that disagree make it uncertain).
+Then the files are joined (nf-core `cat/fastq`) and QC, the contamination
+screen and the sample type judge the whole sample.
 
 | Column | Required | Notes |
 |---|---|---|
-| `sample` | yes | Unique ID. |
-| `fastq_1` | yes, unless `bam` | FASTQ: `.fastq`/`.fq`, plain or compressed as `.gz`, `.bz2`, `.xz` or `.zst`. Anything that is not `.gz` is rewritten as `.fastq.gz` in the work folder first; a file that will not decompress becomes a FAIL row. |
+| `sample` | yes | Sample ID. Repeat it on several rows for a sample in several files. |
+| `fastq_1` | yes, unless `bam` or `fastq_dir` | FASTQ: `.fastq`/`.fq`, plain or compressed as `.gz`, `.bz2`, `.xz` or `.zst`. Anything that is not `.gz` is rewritten as `.fastq.gz` in the work folder first; a file that will not decompress becomes a FAIL row. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
 | `bam` | instead of FASTQ | A BAM, SAM or CRAM file, aligned or unaligned (CRAM needs the reference it was written against: `--cram_fasta`, or samtools fetches it from EBI's reference registry; if neither works, the sample is a FAIL row saying so): dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. The header is read too: software that only runs on one platform's data (`@PG` ccs or lima for PacBio, dorado or guppy for nanopore) counts as evidence, like read names; `@RG PL`, which people type, stands in for a blank `platform`, and a samplesheet that disagrees with it is flagged for review. |
+| `fastq_dir` | instead of FASTQ files | A folder of one sample's FASTQ files (every `.fastq`/`.fq` in it, plain or compressed), each a file of single-end or long reads: for example a nanopore `fastq_pass/barcode03`. A local or cluster path (a web address cannot be listed as a folder). |
 | `platform` | no | `illumina`, `dnbseq` (also `mgi`, `bgiseq`), `element` (also `aviti`), `ont` or `pacbio`. Leave blank to have it detected. MGI/DNBSEQ and Element get the same short-read QC as Illumina; PacBio is QC'd only when the reads are HiFi. |
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
@@ -351,9 +368,11 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
 - **Platforms:** PacBio CLR, Ion Torrent, Ultima and older platforms are not
   QC'd. Without read names, an MGI or Element run can only be called a
   short-read platform at medium confidence.
-- **Inputs not yet handled:** several files per sample (lanes, nanopore
-  barcode folders), interleaved FASTQ, index/barcode reads, FASTA reads, raw
-  signal (FAST5/POD5) and BCL run folders.
+- **Inputs not yet handled:** interleaved FASTQ, index/barcode reads, FASTA
+  reads, raw signal (FAST5/POD5) and BCL run folders. Several files per
+  sample are handled (D75), but the next-pipeline recommendation cannot
+  write a samplesheet for a `fastq_dir` folder or for nf-core/ampliseq with
+  several files (it says to merge first).
 - **Sample kinds:** seq-triage is microbe-centred. Human or other eukaryotic
   samples are treated as host DNA; single-cell, bisulfite, Hi-C and
   ChIP/ATAC libraries are not recognised. Long-read amplicons cannot be
@@ -370,7 +389,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D73), including every rule that validation overturned and every CI
+(D1-D75), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

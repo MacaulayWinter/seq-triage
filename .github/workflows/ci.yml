@@ -102,6 +102,11 @@ jobs:
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
             Rscript tests/detect_platform/test_detect_platform.R
 
+      - name: Lane-combining tests (several files per sample, D75)
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/combine_detection/test_combine_detection.R
+
       - name: Report and QC-metric tests
         run: |
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \

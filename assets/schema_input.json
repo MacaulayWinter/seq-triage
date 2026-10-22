@@ -2,11 +2,8 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/MacaulayWinter/seq-triage/main/assets/schema_input.json",
     "title": "seq-triage samplesheet",
-    "description": "One row per sample. Hard rules only: anything unambiguously wrong in a single row. Cross-row and soft checks run later in the R metadata screen.",
+    "description": "One row per sample, or several rows with the same sample ID for a sample whose reads are in several files (lanes, top-up runs; D75). Hard rules only: anything unambiguously wrong in a single row, plus (in main.nf) rows of one sample that disagree. Cross-row soft checks run later in the R metadata screen.",
     "type": "array",
-    "uniqueEntries": [
-        "sample"
-    ],
     "items": {
         "type": "object",
         "required": [
@@ -42,6 +39,13 @@
                 "pattern": "^\\S+\\.(bam|sam|cram)$",
                 "errorMessage": "bam must be a .bam, .sam or .cram file (aligned or unaligned) with no spaces in the path. CRAM needs its reference: --cram_fasta, or EBI's registry. Leave fastq_1 and fastq_2 blank when bam is given."
             },
+            "fastq_dir": {
+                "type": "string",
+                "format": "directory-path",
+                "exists": true,
+                "pattern": "^\\S+$",
+                "errorMessage": "fastq_dir must be an existing folder (no spaces in the path) holding the sample's FASTQ files (.fastq or .fq, plain or compressed), for example a nanopore barcode folder. Every file in it is one file of single-end or long reads. It must be a local or cluster path: a web address cannot be listed as a folder."
+            },
             "platform": {
                 "type": "string",
                 "meta": [
@@ -73,8 +77,17 @@
                     "fastq_1"
                 ],
                 "not": {
-                    "required": [
-                        "bam"
+                    "anyOf": [
+                        {
+                            "required": [
+                                "bam"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "fastq_dir"
+                            ]
+                        }
                     ]
                 }
             },
@@ -93,11 +106,40 @@
                             "required": [
                                 "fastq_2"
                             ]
+                        },
+                        {
+                            "required": [
+                                "fastq_dir"
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "required": [
+                    "fastq_dir"
+                ],
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "fastq_1"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "fastq_2"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "bam"
+                            ]
                         }
                     ]
                 }
             }
         ],
-        "errorMessage": "Give either fastq_1 (and fastq_2 for paired reads) or bam, not both and not neither."
+        "errorMessage": "Give exactly one of: fastq_1 (and fastq_2 for paired reads), bam, or fastq_dir."
     }
 }
