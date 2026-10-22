@@ -2,7 +2,7 @@ sample	expected_verdict	note
 BF_ILLUMINA_PE	WARN	reads confirm illumina (ceiling PASS); total reads 49,986 < 100,000
 SC2_ONT	WARN	reads confirm ont (ceiling PASS); 4,000 reads < 10,000; read N50 not judged (amplicon)
 SIM_ONT_Q40	WARN	medium confidence, declared ont unconfirmed; quality not judged (placeholder); 1,000 reads < 10,000
-CONTRADICTION	WARN	metadata contradicts reads; total reads 24,993 < 100,000
+CONTRADICTION	FAIL	Illumina reads declared ont. Since D58 binned quality alone gives medium confidence, so the declared platform routes it (D2): nanopore QC, read N50 151 < 1,000 fails. Before D58: Illumina high, contradiction WARN. Open question for the user: should a medium call that contradicts the declaration stop routing instead?
 NO_METADATA	FAIL	same reads as SC2_ONT but no sample_type, so read N50 686 < 1,000 fails; report gives the amplicon hint
 ILLUMINA_SE	WARN	reads confirm illumina (ceiling PASS); total reads 24,993 < 100,000
 ECE107_NOVASEQ	PASS	real NovaSeq; reads confirm metadata and every QC number is within its limits

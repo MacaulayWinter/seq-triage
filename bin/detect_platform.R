@@ -378,6 +378,15 @@ if (is.null(platform)) {
     confidence <- "low"
     flags <- c(flags, "SIGNALS_DISAGREE")
     why   <- c(why, sprintf("But %s point the other way.", paste(against, collapse = " and ")))
+  } else if (call == "illumina" && length(support) == 1 && any(q_evid == call)) {
+    # Binned quality alone does not name the instrument (D58): validation
+    # round 2 found SRR14318705, recorded in ENA as BGISEQ-500 with read
+    # names stripped, whose quality uses exactly Illumina's 7-value binning;
+    # it was called Illumina at high confidence on that alone.
+    confidence <- "medium"
+    why   <- c(why, sprintf(paste("Binned quality values (%d distinct) fit Illumina, but they are the only confirmation and",
+                                  "do not name the instrument (an archived MGI run was found with the same binning), so",
+                                  "without Illumina read names confidence stays medium."), max(q_n)))
   } else if (length(support)) {
     confidence <- "high"
     why   <- c(why, sprintf("Confirmed by %s.", paste(support, collapse = " and ")))
