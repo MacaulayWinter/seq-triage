@@ -101,7 +101,15 @@ cases <- list(
        verdict = "WARN", check = c(off_target_fraction = "WARN")),
   # D40: a platform seq-triage names but has no QC for.
   list(id = "UNSUPPORTED_PACBIO", route = "unrouted", routed_by = "unsupported", detected = "pacbio",
-       declared = NA, flags = "PLATFORM_NOT_HANDLED", verdict = "UNCERTAIN")
+       declared = NA, flags = "PLATFORM_NOT_HANDLED", verdict = "UNCERTAIN"),
+  # D55: BAM header @RG PL. Blank samplesheet platform, header names it, reads
+  # confirm: the header counts as the declaration, so PASS is possible.
+  list(id = "BAM_HEADER_DECLARED", route = "illumina", declared = NA, hdr_declared = "illumina",
+       declared_from = "bam_header", verdict = "PASS"),
+  # Same reads, no platform anywhere: inferred, at most WARN (control).
+  list(id = "BAM_NO_PLATFORM",     route = "illumina", declared = NA, verdict = "WARN"),
+  # Samplesheet and header disagree: two metadata sources conflict, no PASS.
+  list(id = "BAM_HEADER_DISAGREES", route = "illumina", flags = "BAM_HEADER_DISAGREES", verdict = "WARN")
 )
 
 build <- function(cases, dir) {
@@ -116,7 +124,9 @@ build <- function(cases, dir) {
       detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "ont")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,
       detection_flags = if (is.null(cs$flags)) NA else cs$flags, reasons = "synthetic",
-      route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by)
+      route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by,
+      declared_platform = if (!is.null(cs$hdr_declared)) cs$hdr_declared else declared,
+      declared_from = if (!is.null(cs$declared_from)) cs$declared_from else if (!is.na(declared)) "samplesheet" else NA)
     add <- function(tool, base, over) {
       v <- base; if (length(over)) v[names(over)] <- over
       v <- v[!is.na(v)]

@@ -10,3 +10,5 @@ ECE107_R10	PASS	real R10.4.1; reads confirm metadata and every QC number is with
 PACBIO_HIFI	UNCERTAIN	PacBio HiFi: neither platform; nothing declared, no QC
 SC2_ILLUMINA	FAIL	real NextSeq SARS-CoV-2 amplicon reads; 200 reads < 1,000. Classified by the test Kraken2 database, so CI exercises Bracken
 BROKEN_FASTQ	FAIL	nf-core test_1_broken.fastq.gz: valid gzip, malformed FASTQ (record 2: quality 68 vs sequence 77). FAIL row; every other sample still finishes
+ILLUMINA_BAM	FAIL	aligned, coordinate-sorted paired BAM (nf-core): converted with samtools collate | fastq, 100 pairs kept, reads confirm illumina; 200 reads < 1,000
+PACBIO_UBAM	UNCERTAIN	PacBio HiFi unaligned BAM, the platform's native format (nf-core alz.ccs.bam): read names identify PacBio; not handled, no QC

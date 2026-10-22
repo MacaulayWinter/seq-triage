@@ -4,15 +4,21 @@
     "title": "seq-triage samplesheet",
     "description": "One row per sample. Hard rules only: anything unambiguously wrong in a single row. Cross-row and soft checks run later in the R metadata screen.",
     "type": "array",
-    "uniqueEntries": ["sample"],
+    "uniqueEntries": [
+        "sample"
+    ],
     "items": {
         "type": "object",
-        "required": ["sample", "fastq_1"],
+        "required": [
+            "sample"
+        ],
         "properties": {
             "sample": {
                 "type": "string",
                 "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
-                "meta": ["id"],
+                "meta": [
+                    "id"
+                ],
                 "errorMessage": "Sample ID must start with a letter or digit and contain only letters, digits, '.', '_' or '-' (it becomes part of output file names)."
             },
             "fastq_1": {
@@ -20,7 +26,7 @@
                 "format": "file-path",
                 "exists": true,
                 "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "fastq_1 must be a gzipped FASTQ (.fastq.gz or .fq.gz) with no spaces in the path."
+                "errorMessage": "fastq_1 must be a gzipped FASTQ (.fastq.gz or .fq.gz) with no spaces in the path. For a BAM file use the bam column instead."
             },
             "fastq_2": {
                 "type": "string",
@@ -29,24 +35,69 @@
                 "pattern": "^\\S+\\.f(ast)?q\\.gz$",
                 "errorMessage": "fastq_2 must be a gzipped FASTQ (.fastq.gz or .fq.gz) with no spaces in the path. Leave it blank for single-end or ONT data."
             },
+            "bam": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.bam$",
+                "errorMessage": "bam must be a .bam file (aligned or unaligned) with no spaces in the path. Leave fastq_1 and fastq_2 blank when bam is given."
+            },
             "platform": {
                 "type": "string",
-                "meta": ["declared_platform"],
+                "meta": [
+                    "declared_platform"
+                ],
                 "pattern": "(?i)^(illumina|ont|nanopore|na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "platform must be illumina or ont (nanopore is also accepted; case does not matter). Leave it blank to have the platform detected."
             },
             "sample_type": {
                 "type": "string",
-                "meta": ["declared_type"],
+                "meta": [
+                    "declared_type"
+                ],
                 "pattern": "(?i)^(isolate|metagenome|amplicon|unknown|na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "sample_type must be isolate, metagenome, amplicon or unknown (case does not matter), or left blank."
             },
             "molecule": {
                 "type": "string",
-                "meta": ["declared_molecule"],
+                "meta": [
+                    "declared_molecule"
+                ],
                 "pattern": "(?i)^(dna|rna|na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "molecule must be dna or rna (case does not matter), or left blank. Use rna for RNA-seq, metatranscriptomes and direct RNA, even when the reads are cDNA."
             }
-        }
+        },
+        "oneOf": [
+            {
+                "required": [
+                    "fastq_1"
+                ],
+                "not": {
+                    "required": [
+                        "bam"
+                    ]
+                }
+            },
+            {
+                "required": [
+                    "bam"
+                ],
+                "not": {
+                    "anyOf": [
+                        {
+                            "required": [
+                                "fastq_1"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "fastq_2"
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "errorMessage": "Give either fastq_1 (and fastq_2 for paired reads) or bam, not both and not neither."
     }
 }
