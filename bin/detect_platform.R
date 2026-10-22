@@ -24,12 +24,24 @@
 #               (CLAUDE.md "Test data survey" and D33). Observed ranges are
 #               noted next to each limit.
 #
+# BAM INPUT     (D55) --bam-programs=<names>: the program names (@PG PN)
+#               in a BAM's header. Software that only runs on one platform's
+#               data is evidence written by the instrument's own pipeline,
+#               not typed by a person: PacBio software names PacBio like a
+#               read-name marker; basecaller or Illumina software supports
+#               or contradicts the call. @RG PL, which people type, is not
+#               used here: the workflow treats it as a declared platform.
+#
 # Usage:  detect_platform.R <sample_id> <seqkit_stats.tsv> <output.tsv> <reads_1> [reads_2]
+#                           [--bam-programs=ccs,samtools,...]
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
+opt  <- grepl("^--bam-programs=", args)
+bam_programs <- if (any(opt)) strsplit(sub("^--bam-programs=", "", args[opt][1]), ",")[[1]] else character(0)
+args <- args[!opt]
 if (length(args) < 4 || length(args) > 5) {
-  stop("Usage: detect_platform.R <sample_id> <seqkit_stats.tsv> <output.tsv> <reads_1> [reads_2]")
+  stop("Usage: detect_platform.R <sample_id> <seqkit_stats.tsv> <output.tsv> <reads_1> [reads_2] [--bam-programs=...]")
 }
 sample_id <- args[1]
 stats_tsv <- args[2]
@@ -148,6 +160,15 @@ adapter_platforms <- function(frac, n_probed) {
 # Platforms seq-triage can name but does not run QC on, and the read type
 # each produces (used to check a marker agrees with the read lengths).
 NOT_HANDLED <- c(pacbio = "long", dnbseq = "short", element = "short")
+
+# Programs (BAM @PG PN, lower case) that only run on one platform's data, as
+# part of the instrument's own processing. Checked against the PacBio test
+# BAM (PN:ccs) and the dorado, PacBio and Picard documentation. Aligners and
+# samtools (any platform) are deliberately absent: they say nothing.
+BAM_SOFTWARE <- c(ccs = "pacbio", lima = "pacbio", baz2bam = "pacbio", bam2bam = "pacbio",
+                  skera = "pacbio", isoseq = "pacbio", isoseq3 = "pacbio",
+                  dorado = "ont", guppy = "ont", guppy_basecaller = "ont", basecall_client = "ont",
+                  illuminabasecallstosam = "illumina")
 DISPLAY <- c(illumina = "Illumina", ont = "ONT", pacbio = "PacBio", dnbseq = "MGI/DNBSEQ", element = "Element AVITI")
 
 # WHAT IT DOES  What the set of quality values says: "illumina" (binned, as
@@ -276,7 +297,19 @@ if (length(unique(calls)) > 1) {
 # when they agree with the read lengths. Illumina adapters are not markers
 # here: they identify the library kit, not the instrument.
 
-markers <- unique(c(intersect(hdr_ev, names(NOT_HANDLED)), intersect(ad_ev, names(NOT_HANDLED))))
+# BAM header software (D55): which platform's own software wrote the file.
+sw_hit <- unique(BAM_SOFTWARE[intersect(tolower(bam_programs), names(BAM_SOFTWARE))])
+sw_names <- intersect(tolower(bam_programs), names(BAM_SOFTWARE))
+if (length(sw_hit) > 1) {
+  flags <- c(flags, "SIGNALS_DISAGREE")
+  why   <- c(why, sprintf("The BAM header names software of more than one platform (%s), so it is not used as evidence.",
+                          paste(sw_names, collapse = ", ")))
+  sw_hit <- character(0)
+}
+sw_text <- if (length(sw_hit)) sprintf("the BAM header (written by %s)", paste(sw_names, collapse = ", ")) else ""
+
+markers <- unique(c(intersect(hdr_ev, names(NOT_HANDLED)), intersect(ad_ev, names(NOT_HANDLED)),
+                    intersect(sw_hit, names(NOT_HANDLED))))
 platform <- NULL
 if (length(markers) > 1) {
   flags <- c(flags, "SIGNALS_DISAGREE")
@@ -285,7 +318,8 @@ if (length(markers) > 1) {
   write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
 } else if (length(markers) == 1) {
   how <- c(if (markers %in% hdr_ev) "read names" else NULL,
-           if (markers %in% ad_ev) sprintf("%s adapters in %s of reads", DISPLAY[[markers]], pct(markers)) else NULL)
+           if (markers %in% ad_ev) sprintf("%s adapters in %s of reads", DISPLAY[[markers]], pct(markers)) else NULL,
+           if (markers %in% sw_hit) sw_text else NULL)
   if (NOT_HANDLED[[markers]] != read_kind) {
     flags <- c(flags, "SIGNALS_DISAGREE")
     why   <- c(sprintf("%s identify %s, but %s reads do not fit it (%s).", paste(how, collapse = " and "),
@@ -326,6 +360,8 @@ if (is.null(platform)) {
   if (any(hdr_ev == other)) against <- c(against, sprintf("%s-format read names", DISPLAY[[other]]))
   if (any(q_evid == call))  support <- c(support, sprintf("binned quality values (%d distinct), as NovaSeq/NextSeq write", max(q_n)))
   if (any(q_evid == other)) against <- c(against, sprintf("binned quality values (%d distinct), typical of Illumina", max(q_n)))
+  if (any(sw_hit == call))  support <- c(support, sw_text)
+  if (any(sw_hit == other)) against <- c(against, sw_text)
   if (call == "ont" && "ont" %in% ad_ev)       support <- c(support, sprintf("ONT adapters in %s of reads", pct("ont")))
   if (call == "illumina" && "ont" %in% ad_ev)  against <- c(against, sprintf("ONT adapters in %s of reads", pct("ont")))
   if (call == "ont" && "illumina_library" %in% ad_ev) against <- c(against, sprintf("Illumina library adapters in %s of reads", pct("illumina_library")))

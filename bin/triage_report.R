@@ -46,6 +46,12 @@ d <- merge(screen, samples, by = "sample", all = TRUE, sort = FALSE,
            suffixes = c("", ".pipeline"))
 d <- d[match(screen$sample, d$sample), ]   # keep samplesheet order
 if (!"declared_molecule" %in% names(d)) d$declared_molecule <- NA_character_
+# BAM input (D55): with no platform in the samplesheet, the workflow may take
+# one from the BAM header (@RG PL); it is then the declared platform here too.
+if (all(c("declared_from", "declared_platform.pipeline") %in% names(d))) {
+  from_hdr <- d$declared_from %in% "bam_header"
+  d$declared_platform[from_hdr] <- d$declared_platform.pipeline[from_hdr]
+}
 
 
 # 2. Verdict ceiling (D2) --------------------------------------------------------
@@ -77,6 +83,13 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected, reason
 v <- t(mapply(ceiling_for, d$route, d$routed_by, d$confidence, d$declared_platform, d$detected_platform, d$reasons))
 d$ceiling        <- v[, 1]
 d$verdict_reason <- v[, 2]
+# The samplesheet and the BAM header name different platforms (D55): two
+# sources of metadata disagree, so the sample cannot PASS (D1).
+hdr_conflict <- grepl("BAM_HEADER_DISAGREES", ifelse(is.na(d$detection_flags), "", d$detection_flags))
+lift <- hdr_conflict & d$ceiling == "PASS"
+d$ceiling[lift] <- "WARN"
+d$verdict_reason[lift] <- paste(d$verdict_reason[lift],
+  "But the BAM header names a different platform from the samplesheet. Review this sample.")
 
 # Molecule check: reads written with U are RNA (direct-RNA basecalls). If the
 # sheet says dna, the metadata contradicts the reads, so cap at WARN. The

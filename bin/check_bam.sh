@@ -13,6 +13,10 @@
 # WRITES        <sample>.check.tsv: file, status (ok | unreadable), problem,
 #               the same columns as check_fastq.sh, so the workflow reads
 #               both the same way.
+#               <sample>.header.tsv: what the header says about the platform
+#               (D55): rg_platform = the @RG PL values (typed by whoever made
+#               the file), programs = the @PG PN names (written by software).
+#               Recorded only; judged by the workflow and detection.
 # EXIT          Always 0: a damaged file is a result (a FAIL row), not an
 #               error that stops the batch (D45).
 #
@@ -23,6 +27,7 @@ sample=$1
 bam=$2
 out="${sample}.check.tsv"
 printf 'file\tstatus\tproblem\n' > "$out"
+printf 'rg_platform\tprograms\n' > "${sample}.header.tsv"
 
 if ! samtools quickcheck -u "$bam" 2>/dev/null; then
     printf '%s\tunreadable\t%s\n' "$(basename "$bam")" \
@@ -36,3 +41,9 @@ if ! err=$(samtools view -c "$bam" 2>&1 >/dev/null); then
     exit 0
 fi
 printf '%s\tok\t\n' "$(basename "$bam")" >> "$out"
+
+# Header values, unique, comma-separated; commas inside a value become '_'.
+field() { samtools view -H --no-PG "$bam" | awk -F'\t' -v tag="$1" -v key="$2" \
+    '$1 == tag { for (i = 2; i <= NF; i++) if (substr($i, 1, 3) == key ":") { v = substr($i, 4); gsub(",", "_", v); print v } }' \
+    | sort -u | paste -sd, -; }
+printf '%s\t%s\n' "$(field @RG PL)" "$(field @PG PN)" >> "${sample}.header.tsv"

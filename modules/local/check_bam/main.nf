@@ -18,6 +18,7 @@ process CHECK_BAM {
 
     output:
     tuple val(meta), path("${meta.id}.check.tsv"), emit: tsv
+    tuple val(meta), path("${meta.id}.header.tsv"), emit: header
     tuple val("${task.process}"), val('samtools'), eval("samtools version | sed '1!d;s/.* //'"), topic: versions
 
     script:

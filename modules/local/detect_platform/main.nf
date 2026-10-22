@@ -23,7 +23,10 @@ process DETECT_PLATFORM {
     tuple val("${task.process}"), val('R'), eval("Rscript --version 2>&1 | sed 's/^.*version //; s/ .*//'"), topic: versions
 
     script:
+    // BAM input (D55): the header's program names, as evidence. FASTQ
+    // samples have none, so their command line is unchanged.
+    def programs = meta.bam_programs ? "--bam-programs=${meta.bam_programs}" : ''
     """
-    detect_platform.R ${meta.id} ${stats} ${meta.id}.detection.tsv ${reads}
+    detect_platform.R ${meta.id} ${stats} ${meta.id}.detection.tsv ${reads} ${programs}
     """
 }

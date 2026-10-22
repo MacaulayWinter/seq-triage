@@ -66,9 +66,10 @@ make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna
              Q1 = qs[1], Q2 = qs[2], Q3 = qs[3])
 }
 
-# Each case: files as "n:lengths:header:qual[:alphabet[:adapter@fraction]]", and the expected result
-cases <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, text = "
-id                   | file1                         | file2                          | platform  | layout    | confidence | flags
+# Each case: files as "n:lengths:header:qual[:alphabet[:adapter@fraction]]", and the expected result.
+# programs (optional): BAM @PG program names, passed as --bam-programs (D55).
+cases <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, fill = TRUE, text = "
+id                   | file1                         | file2                          | platform  | layout    | confidence | flags | programs
 ILLUMINA_PAIRED      | 500:illumina:casava:binned    | 500:illumina:casava:binned     | illumina  | paired    | high       |
 ILLUMINA_OLD_HEADER  | 500:illumina:old_hiseq:full   |                                | illumina  | single    | high       |
 ILLUMINA_NO_EVIDENCE | 500:illumina:plain:full       |                                | illumina  | single    | medium     |
@@ -97,7 +98,14 @@ ONT_ADAPTER_ONLY     | 500:ont:plain:full:dna:ont@0.05 |                        
 ONT_ADAPTER_IN_SHORT | 500:illumina:plain:full:dna:ont@0.05 |                         | illumina  | single    | low        | SIGNALS_DISAGREE
 ILM_ADAPTER_ONLY     | 500:illumina:plain:full:dna:illumina@0.2 |                     | illumina  | single    | medium     |
 ADAPTER_TOO_RARE     | 500:ont:plain:full:dna:ont@0.004 |                             | ont       | single    | medium     |
+ONT_BAM_DORADO       | 500:ont:plain:full            |                                | ont       | single    | high       |                      | dorado,samtools
+ILLUMINA_BAM_DORADO  | 500:illumina:plain:full       |                                | illumina  | single    | low        | SIGNALS_DISAGREE     | dorado
+PACBIO_BAM_CCS       | 200:ont:plain:full            |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | ccs,samtools
+HIFI_NARROW_CCS      | 200:pacbio:plain:full         |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | ccs
+ALIGNER_ONLY         | 500:illumina:plain:full       |                                | illumina  | single    | medium     |                      | minimap2,samtools
+SOFTWARE_DISAGREES   | 500:ont:plain:full            |                                | ont       | single    | medium     | SIGNALS_DISAGREE     | dorado,ccs
 ")
+cases$programs[is.na(cases$programs)] <- ""
 
 run_case <- function(i) {
   cs    <- cases[i, ]
@@ -114,7 +122,8 @@ run_case <- function(i) {
   stats <- file.path(tmp, paste0(cs$id, ".stats.tsv"))
   write.table(do.call(rbind, rows), stats, sep = "\t", quote = FALSE, row.names = FALSE)
   out <- file.path(tmp, paste0(cs$id, ".detection.tsv"))
-  status <- system2("Rscript", c("--vanilla", "bin/detect_platform.R", cs$id, stats, out, paths))
+  status <- system2("Rscript", c("--vanilla", "bin/detect_platform.R", cs$id, stats, out, paths,
+                                 if (nzchar(cs$programs)) paste0("--bam-programs=", cs$programs)))
   if (status != 0) return(c(got = sprintf("script exited %d", status), expected = ""))
   d <- read.delim(out, colClasses = "character", na.strings = "")
   sorted <- function(f) if (is.na(f) || f == "") "" else paste(sort(strsplit(f, ",")[[1]]), collapse = ",")

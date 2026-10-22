@@ -60,6 +60,19 @@ def bamReads(Map meta, pair, other, singleton) {
     return out
 }
 
+// The BAM header's @RG PL as a platform (D55). PL is typed by whoever made
+// the file, so it is treated like a declared platform, never as evidence.
+// Only values that name a platform seq-triage routes are used; several
+// different ones mean nothing can be taken from it.
+def rgPlatform(String pl) {
+    if (!pl) {
+        return null
+    }
+    def known = [ illumina: 'illumina', ont: 'ont', nanopore: 'ont', oxford_nanopore: 'ont' ]
+    def hits = pl.split(',').collect { p -> known[p.trim().toLowerCase()] }.unique()
+    return hits.size() == 1 ? hits[0] : null
+}
+
 def blankToNull(String s) {
     return (s == null || s.trim().isEmpty()) ? null : s
 }
@@ -225,10 +238,13 @@ workflow SEQ_TRIAGE {
     CHECK_BAM(ch_bam)
     ch_bam_check = ch_bam
         .join(CHECK_BAM.out.tsv, failOnMismatch: true, failOnDuplicate: true)
-        .branch { meta, bam, check ->
+        .join(CHECK_BAM.out.header, failOnMismatch: true, failOnDuplicate: true)
+        .branch { meta, bam, check, header ->
             def row = check.splitCsv(header: true, sep: '\t')[0]
+            def hdr = header.splitCsv(header: true, sep: '\t')
             ok: row.status == 'ok'
-                return [ meta, bam ]
+                return [ meta + [ bam_rg_platform: hdr ? blankToNull(hdr[0].rg_platform) : null,
+                                  bam_programs   : hdr ? blankToNull(hdr[0].programs)    : null ], bam ]
             damaged: true
                 return [ meta, bam, "${row.file}: ${row.problem}" ]
         }
@@ -293,16 +309,32 @@ workflow SEQ_TRIAGE {
         .join(ch_screen, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_detect, failOnMismatch: true, failOnDuplicate: true)
         .map { _id, meta, reads, scr, det ->
+            // BAM header platform (D55): stands in for a blank samplesheet
+            // platform; a samplesheet that disagrees with it is flagged.
+            def declared      = blankToNull(scr.declared_platform)
+            def declared_from = declared ? 'samplesheet' : null
+            def rg            = rgPlatform(meta.bam_rg_platform as String)
+            def header_note   = null
+            def header_flag   = null
+            if (!declared && rg) {
+                declared      = rg
+                declared_from = 'bam_header'
+                header_note   = "No platform in the samplesheet; the BAM header names ${rg} (@RG PL:${meta.bam_rg_platform}), so that is used as the declared platform."
+            } else if (declared && rg && rg != declared) {
+                header_flag   = 'BAM_HEADER_DISAGREES'
+                header_note   = "The samplesheet says ${declared}, but the BAM header says ${rg} (@RG PL:${meta.bam_rg_platform})."
+            }
             def merged = meta + [
-                declared_platform    : blankToNull(scr.declared_platform),
+                declared_platform    : declared,
+                declared_from        : declared_from,
                 declared_type        : blankToNull(scr.declared_type),
                 n_files              : det.n_files as Integer,
                 n_reads              : det.n_reads as Long,
                 detected_platform    : blankToNull(det.detected_platform),
                 detected_layout      : blankToNull(det.detected_layout),
                 confidence           : blankToNull(det.confidence),
-                detection_flags      : blankToNull(det.detection_flags),
-                reasons              : blankToNull([ meta.bam_note, det.reasons ].findAll { x -> x }.join(' ')),
+                detection_flags      : blankToNull([ det.detection_flags, header_flag ].findAll { x -> x }.join(',')),
+                reasons              : blankToNull([ meta.bam_note, header_note, det.reasons ].findAll { x -> x }.join(' ')),
             ]
             [ routeSample(merged), reads ]
         }
@@ -373,7 +405,8 @@ workflow SEQ_TRIAGE {
     // 7. Report over ALL samples, routed or not. samples.tsv is built from
     //    meta, one line per sample, sorted so the file is reproducible.
     def cols = [ 'id', 'single_end', 'n_files', 'n_reads', 'detected_platform', 'detected_layout',
-                 'confidence', 'detection_flags', 'reasons', 'route', 'routed_by' ]
+                 'confidence', 'detection_flags', 'reasons', 'route', 'routed_by',
+                 'declared_platform', 'declared_from' ]
     ch_samples_tsv = ch_triaged
         .map { meta, _reads -> cols.collect { c -> meta[c] == null ? '' : meta[c].toString() }.join('\t') }
         .collectFile(name: 'samples.tsv', seed: (['sample'] + cols.drop(1)).join('\t'), newLine: true, sort: true)

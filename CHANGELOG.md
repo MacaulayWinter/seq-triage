@@ -11,6 +11,9 @@ All notable changes to seq-triage. Versions follow
 - BAM input (`bam` column), aligned or unaligned: checked from header to end
   (`CHECK_BAM`), converted with nf-core `samtools/collatefastq`; layout from
   the reads' READ1/READ2 flags; a damaged BAM becomes a FAIL row (D55).
+- BAM header: `@PG` software of one platform counts as detection evidence;
+  `@RG PL` stands in for a blank samplesheet platform, and a disagreement
+  with the samplesheet is flagged (D57).
 
 ## v0.1.0 (unreleased)
 
