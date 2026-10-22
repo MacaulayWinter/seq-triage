@@ -148,7 +148,14 @@ jobs:
       - name: nf-core pipelines lint
         run: |
           conda activate fromlock
-          nf-core pipelines lint --dir . --fail-warned
+          # A version without "dev" is a release: lint it in release mode,
+          # which also checks the versions agree (nf-core convention; D63).
+          version=$(sed -n "s/^ *version *= *'\([^']*\)'.*/\1/p" nextflow.config | head -1)
+          echo "manifest.version: $version"
+          case $version in
+              *dev) nf-core pipelines lint --dir . --fail-warned ;;
+              *)    nf-core pipelines lint --dir . --fail-warned --release ;;
+          esac
 
       # --help is generated from nextflow_schema.json: check it prints the
       # parameters, so a schema or config error cannot hide here. The exit

@@ -8,7 +8,7 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: v0.1, working and validated (round 3 met every mark).** Every step runs
+> **Status: v0.1.0 released (2026-10-22); validated (round 3 met every mark).** Every step runs
 > end to end and is tested in CI on every change. Round 1 (40 public runs,
 > 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
 > runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
