@@ -47,8 +47,8 @@
                 "meta": [
                     "declared_platform"
                 ],
-                "pattern": "(?i)^(illumina|ont|nanopore|na|n/a|nan|null|none|missing|\\.|-|--)$",
-                "errorMessage": "platform must be illumina or ont (nanopore is also accepted; case does not matter). Leave it blank to have the platform detected."
+                "pattern": "(?i)^(illumina|ont|nanopore|pacbio|na|n/a|nan|null|none|missing|\\.|-|--)$",
+                "errorMessage": "platform must be illumina, ont or pacbio (nanopore is also accepted; case does not matter). Leave it blank to have the platform detected. PacBio is QC'd only as HiFi."
             },
             "sample_type": {
                 "type": "string",

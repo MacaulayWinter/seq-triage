@@ -328,9 +328,23 @@ if (length(markers) > 1) {
   }
   platform   <- markers
   confidence <- "high"
-  flags <- c(flags, "PLATFORM_NOT_HANDLED")
-  why   <- c(sprintf("%s identify %s, and the read lengths fit (%s). seq-triage v0.1 does not run QC on %s data.",
-                     paste(how, collapse = " and "), DISPLAY[[markers]], describe(1), DISPLAY[[markers]]), why)
+  # PacBio HiFi (D64) is the one named platform seq-triage QCs. HiFi needs a
+  # HiFi-specific marker on top of the PacBio one: read names ending /ccs
+  # (also /ccs/fwd, /ccs/rev), or a BAM written by ccs. Other PacBio data
+  # (CLR, subreads) keeps PLATFORM_NOT_HANDLED: its quality values are not
+  # comparable, and are often placeholders.
+  hifi_names <- any(vapply(probes, function(p) any(grepl("/ccs(/|[[:space:]]|$)", p$headers)), FALSE))
+  hifi_bam   <- "ccs" %in% tolower(bam_programs)
+  if (markers == "pacbio" && (hifi_names || hifi_bam)) {
+    hifi_how <- c(if (hifi_names) "read names ending /ccs" else NULL, if (hifi_bam) "a BAM written by ccs" else NULL)
+    why <- c(sprintf("%s identify PacBio, %s marks the reads as HiFi, and the read lengths fit (%s).",
+                     paste(how, collapse = " and "), paste(hifi_how, collapse = " and "), describe(1)), why)
+  } else {
+    flags <- c(flags, "PLATFORM_NOT_HANDLED")
+    why   <- c(sprintf("%s identify %s, and the read lengths fit (%s). seq-triage does not run QC on %s data%s.",
+                       paste(how, collapse = " and "), DISPLAY[[markers]], describe(1), DISPLAY[[markers]],
+                       if (markers == "pacbio") " other than HiFi (no read names ending /ccs, no ccs in a BAM header)" else ""), why)
+  }
 }
 
 

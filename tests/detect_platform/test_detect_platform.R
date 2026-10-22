@@ -88,7 +88,7 @@ ONT_TWO_FILES        | 500:ont:ont:full              | 500:ont:ont:full         
 FILES_DISAGREE       | 500:illumina:casava:binned    | 500:ont:ont:full               | uncertain | uncertain | uncertain  | FILES_DISAGREE
 EMPTY                | 0:illumina:casava:binned      |                                | uncertain | uncertain | uncertain  |
 ONT_DIRECT_RNA       | 500:ont:ont:full:rna          |                                | ont       | single    | high       | U_BASES
-PACBIO_HIFI_NAMES    | 200:ont:pacbio:full           |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
+PACBIO_HIFI_NAMES    | 200:ont:pacbio:full           |                                | pacbio    | single    | high       |
 PACBIO_CLR_NAMES     | 200:ont:pacbio_clr:full       |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
 PACBIO_NAMES_SHORT   | 500:illumina:pacbio:full      |                                | uncertain | single    | uncertain  | SIGNALS_DISAGREE
 DNBSEQ_NAMES         | 500:illumina:dnbseq:full      | 500:illumina:dnbseq:full       | dnbseq    | paired    | high       | PLATFORM_NOT_HANDLED
@@ -101,9 +101,10 @@ ILM_ADAPTER_ONLY     | 500:illumina:plain:full:dna:illumina@0.2 |               
 ADAPTER_TOO_RARE     | 500:ont:plain:full:dna:ont@0.004 |                             | ont       | single    | medium     |
 ONT_BAM_DORADO       | 500:ont:plain:full            |                                | ont       | single    | high       |                      | dorado,samtools
 ILLUMINA_BAM_DORADO  | 500:illumina:plain:full       |                                | illumina  | single    | low        | SIGNALS_DISAGREE     | dorado
-PACBIO_BAM_CCS       | 200:ont:plain:full            |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | ccs,samtools
-HIFI_NARROW_CCS      | 200:pacbio:plain:full         |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | ccs
+PACBIO_BAM_CCS       | 200:ont:plain:full            |                                | pacbio    | single    | high       |                      | ccs,samtools
+HIFI_NARROW_CCS      | 200:pacbio:plain:full         |                                | pacbio    | single    | high       |                      | ccs
 ALIGNER_ONLY         | 500:illumina:plain:full       |                                | illumina  | single    | medium     |                      | minimap2,samtools
+PACBIO_LIMA_ONLY     | 200:ont:plain:full            |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | lima
 SOFTWARE_DISAGREES   | 500:ont:plain:full            |                                | ont       | single    | medium     | SIGNALS_DISAGREE     | dorado,ccs
 ")
 cases$programs[is.na(cases$programs)] <- ""

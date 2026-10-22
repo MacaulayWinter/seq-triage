@@ -70,6 +70,9 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected, reason
                                   if (!is.na(declared)) sprintf(" (declared: %s)", declared) else "")))
   }
   if (routed_by == "none")   return(c("UNCERTAIN", "Platform could not be determined from the reads, and none was declared. No QC was run."))
+  # D64: only PacBio HiFi is QC'd; a declaration alone cannot route PacBio.
+  if (routed_by == "pacbio_not_hifi")
+    return(c("UNCERTAIN", "Declared PacBio, but the reads do not show PacBio HiFi markers (read names ending /ccs, or a BAM written by ccs). seq-triage QCs PacBio HiFi only, so no QC was run."))
   # D60: the reads lean one way (not confidently), the metadata says another.
   if (routed_by == "contradicted")
     return(c("UNCERTAIN", sprintf(paste("Metadata says %s but the reads suggest %s (detection confidence: %s). Neither is",
@@ -141,6 +144,9 @@ QUALITY_METRICS <- c("q30_rate", "mean_read_quality")   # meaningless on placeho
 # must have Kraken2 results.
 SCREEN_ON   <- any(qc$tool == "Kraken2")
 SCREEN_TOOL <- "Kraken2"
+# Routes that get QC. PacBio means HiFi only (D64): other PacBio reads are
+# recognised but not routed.
+QC_ROUTES <- c("illumina", "ont", "pacbio")
 HOST_TAXID  <- "9606"           # Homo sapiens
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
 # A species counts towards off-target only at >= 1% of species-level reads
@@ -201,7 +207,7 @@ contamination <- function(rows, route) {
 #               result: PASS | WARN | FAIL | info | exempt | not_meaningful | not_available
 judge_sample <- function(s) {
   route <- s$route
-  if (!route %in% c("illumina", "ont")) return(NULL)
+  if (!route %in% QC_ROUTES) return(NULL)
   tag  <- paste0(route, "_reads")
   rows <- qc[qc$sample == s$sample, ]
   main_tool <- if (route == "illumina") "fastp" else "NanoPlot"
@@ -233,7 +239,7 @@ judge_sample <- function(s) {
       if (g$direction == "label") {
         return(data.frame(metric = g$metric, value = if (is.na(value)) "" else value,
                           result = if (is.na(value)) "not_available" else "info",
-                          note = if (is.na(value) && !is.null(contam$species_note)) contam$species_note else ""))
+                          note = if (is.na(value) && !is.null(contam$species_note)) contam$species_note else "", gi = j))
       }
     }
 
@@ -241,7 +247,7 @@ judge_sample <- function(s) {
       value  <- status_value(trows, g$source_field)
       result <- if (is.na(value)) "not_available" else "info"
       if (length(exempt) && !is.na(value)) note <- sprintf("known false alarm for %s libraries", exempt[1])
-      return(data.frame(metric = g$metric, value = value, result = result, note = note))
+      return(data.frame(metric = g$metric, value = value, result = result, note = note, gi = j))
     }
 
     if (g$source_tool != SCREEN_TOOL) value <- field_value(trows, g$source_field, g$source_tool)
@@ -261,15 +267,18 @@ judge_sample <- function(s) {
       exempt         = sprintf("not judged: %s library", exempt[1]),
       not_meaningful = "not judged: quality scores are a placeholder (every base the same)",
       "")
-    data.frame(metric = g$metric, value = format_value(value, g$unit), result = result, note = note)
+    data.frame(metric = g$metric, value = format_value(value, g$unit), result = result, note = note, gi = j)
   })
   m <- do.call(rbind, out)
   m <- cbind(sample = s$sample, m)
-  gi <- match(m$metric, guide$metric)
+  # gi: the guide row each metric was judged by. A metric can have one row
+  # per platform (e.g. mean_read_quality for nanopore and for PacBio HiFi,
+  # D64), so rows are never looked up by metric name.
+  gi <- m$gi
   m$unit <- guide$unit[gi]
   m$warn <- vapply(gi, function(j) format_value(guide$warn[j], guide$unit[j]), "")
   m$fail <- vapply(gi, function(j) format_value(guide$fail[j], guide$unit[j]), "")
-  m[, c("sample", "metric", "value", "unit", "warn", "fail", "result", "note")]
+  m[, c("sample", "metric", "value", "unit", "warn", "fail", "result", "note", "gi")]
 }
 
 # WHAT IT DOES  Formats a number for people: 87.5%, 49,986, Q16.6.
@@ -287,7 +296,8 @@ format_value <- function(x, unit) {
 metrics <- do.call(rbind, lapply(seq_len(nrow(d)), function(i) judge_sample(d[i, ])))
 if (is.null(metrics)) {
   metrics <- data.frame(sample = character(0), metric = character(0), value = character(0), unit = character(0),
-                        warn = character(0), fail = character(0), result = character(0), note = character(0))
+                        warn = character(0), fail = character(0), result = character(0), note = character(0),
+                        gi = integer(0))
 }
 
 
@@ -298,7 +308,7 @@ label <- setNames(guide$metric, guide$metric)
 label[] <- gsub("_", " ", label)
 qc_line <- function(m) {
   limit <- if (m$result == "FAIL") m$fail else m$warn
-  dir   <- guide$direction[guide$metric == m$metric]
+  dir   <- guide$direction[m$gi]
   sprintf("%s is %s (%s limit: %s %s).", label[[m$metric]], m$value, tolower(m$result),
           if (dir == "higher_is_better") "below" else "above", limit)
 }
@@ -309,7 +319,7 @@ d$verdict     <- d$ceiling
 for (i in seq_len(nrow(d))) {
   m <- metrics[metrics$sample == d$sample[i] & metrics$result %in% c("WARN", "FAIL"), ]
   if (!nrow(m)) {
-    if (d$route[i] %in% c("illumina", "ont")) d$qc_result[i] <- "PASS"
+    if (d$route[i] %in% QC_ROUTES) d$qc_result[i] <- "PASS"
     next
   }
   worst <- names(RANK)[max(RANK[m$result])]
@@ -341,7 +351,7 @@ d$hint <- ""
 for (i in seq_len(nrow(d))) {
   m <- metrics[metrics$sample == d$sample[i] & metrics$result %in% c("WARN", "FAIL"), ]
   if (!nrow(m)) next
-  ex <- guide$exempt_types[match(m$metric, guide$metric)]
+  ex <- guide$exempt_types[m$gi]
   types <- unique(unlist(strsplit(ex[!is.na(ex)], ",")))
   blank <- c(sample_type = is.na(d$declared_type[i]), molecule = is.na(d$declared_molecule[i]))
   types <- types[blank[TYPE_COLUMN[types]]]
@@ -362,7 +372,7 @@ cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hi
           "confidence", "route", "routed_by", "n_files", "n_reads", "declared_type",
           "declared_molecule", "n_flags", "flags", "detection_flags", "reasons")
 write.table(d[, cols], paste0(prefix, "_summary.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
-write.table(metrics, paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
+write.table(metrics[, setdiff(names(metrics), "gi")], paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
 show <- function(x) ifelse(is.na(x) | x == "", "-", x)
 SYMBOL <- c(PASS = "pass", WARN = "**warn**", FAIL = "**FAIL**", info = "info", exempt = "not judged",
@@ -371,7 +381,7 @@ SYMBOL <- c(PASS = "pass", WARN = "**warn**", FAIL = "**FAIL**", info = "info", 
 metric_table <- function(s) {
   m <- metrics[metrics$sample == s, ]
   if (!nrow(m)) return(character(0))
-  side  <- ifelse(guide$direction[match(m$metric, guide$metric)] == "higher_is_better", "below", "above")
+  side  <- ifelse(guide$direction[m$gi] == "higher_is_better", "below", "above")
   limit <- ifelse(m$warn == "" & m$fail == "", "-",
            ifelse(m$fail == "", sprintf("warn %s %s", side, m$warn),
                   sprintf("warn %s %s; fail %s %s", side, m$warn, side, m$fail)))
@@ -381,10 +391,17 @@ metric_table <- function(s) {
 }
 
 # "How to read these numbers": only the metrics that appear in this report.
-present <- unique(metrics$metric[metrics$result != "not_available"])
-present <- guide$metric[guide$metric %in% present]   # guide order
-guide_section <- unlist(lapply(present, function(mt) {
-  g <- guide[guide$metric == mt, ]
+# One entry per guide ROW used, in guide order; a metric with rows for two
+# platforms gets one entry per platform, each with its own limits.
+present <- sort(unique(metrics$gi[metrics$result != "not_available"]))
+PLATFORM_LABEL <- c(illumina_reads = "Illumina", ont_reads = "nanopore", pacbio_reads = "PacBio HiFi")
+guide_section <- unlist(lapply(present, function(j) {
+  g  <- guide[j, ]
+  mt <- g$metric
+  if (sum(guide$metric == mt) > 1) {
+    plats <- PLATFORM_LABEL[strsplit(g$applies_to, ",")[[1]]]
+    mt_title <- sprintf("%s (%s)", label[[mt]], paste(plats[!is.na(plats)], collapse = ", "))
+  } else mt_title <- label[[mt]]
   limits <- if (g$direction %in% c("higher_is_better", "lower_is_better"))
     sprintf("- **Limits:** %s%s. %s",
             if (!is.na(g$warn)) paste0("warn ", if (g$direction == "higher_is_better") "below " else "above ", format_value(g$warn, g$unit)) else "",
@@ -393,7 +410,7 @@ guide_section <- unlist(lapply(present, function(mt) {
   else if (g$direction == "status") "- **Information only:** never changes the verdict."
   else if (g$source_tool == SCREEN_TOOL) "- **Information only:** never changes the verdict."
   else "- **Information only:** no limit, because judging it needs to know the organism."
-  c(sprintf("### %s", label[[mt]]), "",
+  c(sprintf("### %s", mt_title), "",
     sprintf("- **What it measures:** %s", g$what_it_measures),
     sprintf("- **How to read it:** %s", g$how_to_read_it),
     limits,
@@ -421,7 +438,7 @@ md <- c(
     if (nzchar(d$qc_findings[i])) paste0("- QC: ", d$qc_findings[i]),
     if (nzchar(d$hint[i])) paste0("- Hint: ", d$hint[i]),
     paste0("- Detection (", show(d$confidence[i]), " confidence): ", show(d$reasons[i])),
-    if (!SCREEN_ON && d$route[i] %in% c("illumina", "ont")) "- Contamination: not screened (no Kraken2 database was given).",
+    if (!SCREEN_ON && d$route[i] %in% QC_ROUTES) "- Contamination: not screened (no Kraken2 database was given).",
     if (!is.na(d$detection_flags[i])) paste0("- Detection flags: ", gsub(",", ", ", d$detection_flags[i], fixed = TRUE)),
     if (!is.na(d$flags[i])) paste0("- Metadata: ", strsplit(d$flags[i], " | ", fixed = TRUE)[[1]]),
     metric_table(d$sample[i]),

@@ -6,7 +6,19 @@ All notable changes to seq-triage. Versions follow
 
 ## v0.2.0dev (unreleased)
 
-Nothing yet.
+### Added
+
+- PacBio HiFi QC (D64): reads named PacBio AND marked HiFi (read names
+  ending `/ccs`, or a BAM written by `ccs`) are routed to NanoPlot and judged
+  with HiFi limits (mean read quality warn below Q20, fail below Q10; read
+  count and N50 as for nanopore); Kraken2 screens them like nanopore.
+  `platform` accepts `pacbio`; a PacBio declaration alone never routes.
+  Other PacBio data (CLR, subreads) is still recognised and not QC'd.
+
+### Changed
+
+- The report takes each metric's limits from the guide row it was judged
+  by, so one metric can have different limits per platform (D64).
 
 ## v0.1.0 (2026-10-22)
 

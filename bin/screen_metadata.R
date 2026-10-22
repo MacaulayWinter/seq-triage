@@ -81,7 +81,7 @@ normalise_vocab <- function(raw, synonyms) {
   data.frame(value = value, tier = tier, stringsAsFactors = FALSE)
 }
 
-PLATFORM_SYNONYMS <- c(illumina = "illumina", ont = "ont", nanopore = "ont")
+PLATFORM_SYNONYMS <- c(illumina = "illumina", ont = "ont", nanopore = "ont", pacbio = "pacbio")   # pacbio: HiFi QC only (D64)
 TYPE_SYNONYMS     <- c(isolate = "isolate", metagenome = "metagenome",
                        amplicon = "amplicon", unknown = "unknown")
 MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")

@@ -68,7 +68,7 @@ def rgPlatform(String pl) {
     if (!pl) {
         return null
     }
-    def known = [ illumina: 'illumina', ont: 'ont', nanopore: 'ont', oxford_nanopore: 'ont' ]
+    def known = [ illumina: 'illumina', ont: 'ont', nanopore: 'ont', oxford_nanopore: 'ont', pacbio: 'pacbio' ]
     def hits = pl.split(',').collect { p -> known[p.trim().toLowerCase()] }.unique()
     return hits.size() == 1 ? hits[0] : null
 }
@@ -172,6 +172,9 @@ def seqkitRows(String sample, tsv) {
  *   damaged file              -> route 'unreadable' (FAIL; nothing else runs, D45)
  *   no reads                  -> route 'empty'    (FAIL; no QC can run)
  *   high-confidence detection -> route by DETECTED platform
+ *   declared PacBio without high-confidence PacBio HiFi detection
+ *                             -> 'unrouted' (routed_by 'pacbio_not_hifi'; only HiFi
+ *                                is QC'd, D64)
  *   medium/low detection that CONTRADICTS the declared platform
  *                             -> 'unrouted' (routed_by 'contradicted'; UNCERTAIN,
  *                                review): neither source can be trusted enough to
@@ -183,8 +186,10 @@ def seqkitRows(String sample, tsv) {
  * paired, and NanoPlot fails on two files, which would stop the whole run.
  * A sample confidently identified as a platform with no QC here (PacBio,
  * MGI/DNBSEQ, Element) is also 'unrouted' (routed_by 'unsupported', D40).
- * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unreadable' | 'unrouted') and
- * routed_by ('detected' | 'declared' | 'contradicted' | 'blocked' | 'unsupported' | 'none').
+ * Returns meta plus route ('illumina' | 'ont' | 'pacbio' | 'empty' | 'unreadable' | 'unrouted') and
+ * routed_by ('detected' | 'declared' | 'contradicted' | 'pacbio_not_hifi' | 'blocked' |
+ * 'unsupported' | 'none'). PacBio is routed only as HiFi (D64): detection names
+ * PacBio without PLATFORM_NOT_HANDLED only when HiFi markers are present.
  */
 def routeSample(Map meta) {
     def r
@@ -198,17 +203,20 @@ def routeSample(Map meta) {
     } else if (meta.declared_platform && meta.detected_platform in [ 'illumina', 'ont' ]
                && meta.detected_platform != meta.declared_platform) {
         r = [ route: 'unrouted', routed_by: 'contradicted' ]
+    } else if (meta.declared_platform == 'pacbio') {
+        r = [ route: 'unrouted', routed_by: 'pacbio_not_hifi' ]
     } else if (meta.declared_platform) {
         r = [ route: meta.declared_platform, routed_by: 'declared' ]
     } else {
         r = [ route: 'unrouted', routed_by: 'none' ]
     }
-    if (r.route == 'ont' && meta.n_files > 1) {
+    if (r.route in [ 'ont', 'pacbio' ] && meta.n_files > 1) {
         r = [ route: 'unrouted', routed_by: 'blocked' ]
     }
     // A named platform seq-triage has no QC for (PacBio, MGI/DNBSEQ,
     // Element; D40): reported by name, no QC.
-    if (r.routed_by == 'detected' && !(r.route in [ 'illumina', 'ont' ])) {
+    def not_handled = (meta.detection_flags ?: '').split(',').contains('PLATFORM_NOT_HANDLED')
+    if (r.routed_by == 'detected' && (!(r.route in [ 'illumina', 'ont', 'pacbio' ]) || not_handled)) {
         r = [ route: 'unrouted', routed_by: 'unsupported' ]
     }
     return meta + r
@@ -351,6 +359,7 @@ workflow SEQ_TRIAGE {
     ch_routed = ch_triaged.branch { meta, _reads ->
         illumina: meta.route == 'illumina'
         ont:      meta.route == 'ont'
+        pacbio:   meta.route == 'pacbio'
         no_qc:    true
     }
 
@@ -358,7 +367,9 @@ workflow SEQ_TRIAGE {
     //    failed reads, don't merge pairs. This is triage, not preprocessing.
     FASTP(ch_routed.illumina.map { meta, reads -> [ meta, reads, [] ] }, false, false, false)
     FASTQC(ch_routed.illumina)
-    NANOPLOT(ch_routed.ont)
+    // PacBio HiFi gets the same long-read QC as nanopore (D64); its limits
+    // differ only in the metric guide (pacbio_reads rows).
+    NANOPLOT(ch_routed.ont.mix(ch_routed.pacbio))
 
     // 6b. Contamination screen (CLAUDE.md D41), only when a Kraken2 database
     //     is given. Every sample sent to QC is classified by Kraken2 (host
@@ -374,7 +385,7 @@ workflow SEQ_TRIAGE {
         } else {
             ch_db = channel.value(file(params.kraken2_db, checkIfExists: true))
         }
-        ch_to_classify = ch_routed.illumina.mix(ch_routed.ont)
+        ch_to_classify = ch_routed.illumina.mix(ch_routed.ont).mix(ch_routed.pacbio)
         if (params.kraken2_batch) {
             // One task for every sample: the database is read once (D50).
             // Files are staged as in1/, in2/, ... (several samples may share

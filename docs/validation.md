@@ -476,6 +476,15 @@ WARN, as designed); 1 uncertain. Unhandled platforms: 11 named at high
 confidence (5 DNBSEQ, 4 Element, 2 PacBio HiFi), the rest medium or low
 and not routed. Every unhandled run ended UNCERTAIN.
 
+## Planned for the next layer A round: PacBio HiFi (D64)
+
+Fixed when HiFi QC was built, before any data: the next layer A round adds
+a PacBio HiFi stratum (Revio and Sequel II/IIe HiFi runs) and a CLR stratum,
+with one more pass mark: **no run that is not PacBio HiFi is QC'd as PacBio**
+(truth: ENA instrument model and library, hand-reviewed as before). Reported:
+the share of HiFi runs routed to QC, which is lower wherever archives strip
+the `/ccs` read names.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
