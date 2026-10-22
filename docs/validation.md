@@ -485,6 +485,29 @@ with one more pass mark: **no run that is not PacBio HiFi is QC'd as PacBio**
 the share of HiFi runs routed to QC, which is lower wherever archives strip
 the `/ccs` read names.
 
+## Layer E: sample type (pre-registered 2026-10-22)
+
+Fixed before the panel was drawn (CLAUDE.md D65). Tests the sample-type call
+(isolate, metagenome, amplicon) against ENA's library records.
+
+- **Strata (57 runs):** Illumina isolates 10, metagenomes 10, 16S amplicons
+  10, viral amplicons 5; nanopore isolates 8, metagenomes 8, amplicons 6
+  ([`strata.psv`](../validation/layer_E/strata.psv)).
+- **Draw:** the round 2 whole-pool method; every study in rounds 1-3
+  excluded; platforms declared from ENA; `sample_type` NOT declared, so
+  every call comes from the reads.
+- **Run:** on the HPC with the Standard-8 Kraken2 database (the layer D
+  settings), because isolate vs metagenome needs the contamination screen.
+- **Pass mark:** **zero wrong sample-type calls at high confidence.**
+  "uncertain" is never wrong. Truth may be corrected only by a documented
+  hand review.
+- **Expected by design, not failures:** nanopore amplicons cannot be
+  recognised (no high-confidence nanopore call is possible: isolate and
+  metagenome are medium for long reads); Illumina amplicons should be
+  called high; metatranscriptome-like read starts give uncertain.
+- **Reported:** correct calls per stratum at high and medium confidence,
+  and wrong medium calls (allowed, counted).
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
@@ -663,9 +686,20 @@ genome best (median identity 94.6%, 97.6% of each read aligned); only 5
 AH21H052 reads. So the source is not contaminated: the full database
 assigns genuine *E. coli* reads of this lineage to *K. pneumoniae*, most
 likely through a reference genome filed under *K. pneumoniae* that holds
-*E. coli* sequence. Confirming which reads, and so which lineage, needs
-Kraken2's per-read calls on ISCA
-([`per_read_kraken2.sh`](../validation/layer_D/per_read_kraken2.sh)).
+*E. coli* sequence. Kraken2's per-read calls, run on ISCA
+([`per_read_kraken2.sh`](../validation/layer_D/per_read_kraken2.sh)) and joined
+with the mapping on the Mac, **confirm it**: of the 3,600 mixture reads the
+full database calls 609 (16.9%) *K. pneumoniae*, and 539 of those fit
+AH21H052's own genome best (185 of them well, >= 80% aligned at >= 80%
+identity); Standard-8 calls 8. The calls are spread evenly along the whole
+chromosome (8-24% of reads in every 250 kb window) and almost all go to the
+species node itself, so it is not one shared element such as a prophage: the
+full database labels this E. coli lineage's own sequence as *K. pneumoniae*,
+most likely through a reference genome filed under *K. pneumoniae* that is
+(or contains) an E. coli of this lineage; Standard-8's k-mer subsampling
+drops most of it. A limit of that database for this lineage, not of the
+pipeline; naming the exact reference genome would need the database's own
+files and was not pursued.
 
 **What this means for use:** with the full database, the screen's host
 estimates are dependable on both platforms and its species estimates are

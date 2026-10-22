@@ -244,6 +244,8 @@ write_result <- function(platform, layout, confidence, evidence = list()) {
     quality_values    = paste(evidence$n_q,     collapse = ";"),
     u_bases           = paste(evidence$u,       collapse = ";"),
     adapters          = paste(evidence$adapters, collapse = ";"),
+    start_share       = paste(evidence$start_share, collapse = ";"),
+    probe_reads       = paste(evidence$probe_reads, collapse = ";"),
     stringsAsFactors  = FALSE
   )
   write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -273,7 +275,19 @@ q_n     <- vapply(q_ev, `[[`, 0L, "n_distinct")
 u_bases <- vapply(probes, function(p) written_as_rna(p$seq), FALSE)
 ad_frac <- lapply(probes, function(p) adapter_scan(p$seq))
 ad_ev   <- unique(unlist(lapply(seq_len(n_files), function(i) adapter_platforms(ad_frac[[i]], length(probes[[i]]$seq)))))
+# Read-start concentration (D65): the share of probed reads (first file)
+# whose first 20 bases are one of the 10 most common 20-base starts. Amplicon
+# reads begin at primers, so a few starts dominate; reads from fragmented DNA
+# start almost anywhere. Used for the sample-type call in the report, and
+# only for short reads: nanopore reads start with adapter sequence.
+start_share <- function(seq) {
+  s <- seq[nchar(seq) >= 20]
+  if (!length(s)) return(NA_real_)
+  st <- sort(table(substr(s, 1, 20)), decreasing = TRUE)
+  round(sum(head(st, 10)) / length(s), 4)
+}
 evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases,
+                 start_share = start_share(probes[[1]]$seq), probe_reads = length(probes[[1]]$seq),
                  adapters = vapply(ad_frac, function(f) paste(sprintf("%s=%.3f", names(f), f), collapse = ","), ""))
 if (any(u_bases)) {
   flags <- c(flags, "U_BASES")

@@ -193,6 +193,10 @@ contamination <- function(rows, route) {
   counted <- others[others >= MIN_SPECIES_SHARE]
   trace   <- others[others <  MIN_SPECIES_SHARE]
   out$off_target_fraction <- sum(counted)
+  # For the sample-type call (D65): the top unit's share, and how many units
+  # (the top one included) reach the 1% floor.
+  out$dominant_share <- share[[1]]
+  out$n_species_1pct <- 1 + length(counted)
   out$dominant_species <- sprintf("%s (%.1f%% of species-level reads, %s)", names(share)[1], 100 * share[[1]], source)
   top <- head(share, 3)
   out$top_species <- paste(c(sprintf("%s %.1f%%", names(top), 100 * top),
@@ -301,6 +305,87 @@ if (is.null(metrics)) {
 }
 
 
+# 3b. Sample type (D65) ------------------------------------------------------------
+# WHAT IT DOES  Calls isolate, metagenome or amplicon from the reads, with a
+#               confidence, or says uncertain. It never relaxes a verdict:
+#               only a DECLARED type stops a metric being judged (D27). A
+#               high-confidence call that contradicts the declared type caps
+#               the sample at WARN (review), and an undeclared amplicon or
+#               metagenome strengthens the hint to declare it.
+# SIGNALS       Amplicon (Illumina only): share of reads starting with one of
+#               the 10 most common 20-base starts (detection). Calibrated on 18
+#               runs (validation round 1 + test data): amplicons 0.26-0.35,
+#               whole-genome and metagenome <= 0.034, metatranscriptomes
+#               0.05-0.13 (rRNA). Nanopore and PacBio reads start with
+#               adapter sequence, so amplicons cannot be told from them.
+#               Isolate vs metagenome: the contamination screen's species
+#               counts (look-alike groups combined, human excluded, 1% floor).
+#               Provisional limits from layer D pure cultures (top species
+#               97-99%) and mixtures (30% contamination -> ~70%).
+for (col in c("start_share", "probe_reads")) if (!col %in% names(d)) d[[col]] <- NA_character_
+TYPE_MIN_PROBE      <- 1000   # probed reads needed to judge read starts
+TYPE_START_AMPLICON <- 0.20
+TYPE_START_RANDOM   <- 0.05
+TYPE_ISOLATE_TOP    <- 0.90   # and at most 2 other species at >= 1%
+TYPE_META_TOP       <- 0.50   # or at least 5 species at >= 1%
+classify_type <- function(s) {
+  out <- function(type, conf, why, amplicon_judged) list(type = type, conf = conf, why = why, amplicon_judged = amplicon_judged)
+  if (!s$route %in% QC_ROUTES) return(out("uncertain", "uncertain", "not assessed: the sample was not sent to QC.", FALSE))
+  short <- s$route == "illumina"
+  amp <- "unknown"; amp_note <- "Nanopore and PacBio reads start with adapter sequence, so an amplicon library cannot be recognised from them."
+  if (short) {
+    st <- suppressWarnings(as.numeric(s$start_share)); n <- suppressWarnings(as.numeric(s$probe_reads))
+    if (is.na(st) || is.na(n) || n < TYPE_MIN_PROBE) {
+      amp_note <- sprintf("Too few reads (%s) to judge whether reads start at primers.", if (is.na(n)) "?" else format(n, big.mark = ","))
+    } else {
+      pct <- sprintf("%.0f%% of reads start with one of 10 sequences", 100 * st)
+      if (st >= TYPE_START_AMPLICON)
+        return(out("amplicon", "high", sprintf("%s: amplicon reads start at their primers.", pct), TRUE))
+      if (st >= TYPE_START_RANDOM)
+        return(out("uncertain", "uncertain", sprintf("%s: more than fragmented DNA gives (under %.0f%%), fewer than amplicons (%.0f%% or more). rRNA-rich RNA libraries look like this.",
+                                                     pct, 100 * TYPE_START_RANDOM, 100 * TYPE_START_AMPLICON), TRUE))
+      amp <- "no"; amp_note <- sprintf("%s, as fragmented DNA gives, so not an amplicon library.", sub("^(\\d+)%", "Only \\1%", pct))
+    }
+  }
+  if (!SCREEN_ON) return(out("uncertain", "uncertain", paste(amp_note, "Isolate or metagenome needs the contamination screen (--kraken2_db)."), amp == "no"))
+  co <- contamination(qc[qc$sample == s$sample, ], s$route)
+  if (is.null(co$dominant_share))
+    return(out("uncertain", "uncertain", paste(amp_note, "Too few reads were classified to a species to tell isolate from metagenome."), amp == "no"))
+  top <- co$dominant_share; k <- co$n_species_1pct
+  comp <- sprintf("the most common species holds %.0f%% of species-level reads and %d species %s 1%%", 100 * top, k,
+                  if (k == 1) "reaches" else "reach")
+  if (top >= TYPE_ISOLATE_TOP && k - 1 <= 2) {
+    if (amp == "no") return(out("isolate", "high", sprintf("One organism: %s. %s", comp, amp_note), TRUE))
+    return(out("isolate", "medium", sprintf("One organism: %s. %s It could also be a single-organism amplicon.", comp, amp_note), FALSE))
+  }
+  if (top < TYPE_META_TOP || k >= 5) {
+    # High only when the reads also rule out an amplicon (Illumina): a 16S
+    # amplicon of a community looks like a metagenome by composition.
+    if (amp == "no") return(out("metagenome", "high", sprintf("Many organisms: %s. %s", comp, amp_note), TRUE))
+    return(out("metagenome", "medium", sprintf("Many organisms: %s. %s It could also be an amplicon (e.g. 16S) of a community.", comp, amp_note), FALSE))
+  }
+  out("uncertain", "uncertain", sprintf("Between isolate and metagenome: %s (a contaminated isolate also looks like this). %s", comp, amp_note), amp == "no")
+}
+ty <- lapply(seq_len(nrow(d)), function(i) classify_type(d[i, ]))
+d$detected_type   <- vapply(ty, `[[`, "", "type")
+d$type_confidence <- vapply(ty, `[[`, "", "conf")
+d$type_reason     <- vapply(ty, `[[`, "", "why")
+amp_judged        <- vapply(ty, `[[`, TRUE, "amplicon_judged")
+# A declared amplicon is never contradicted when the reads cannot show
+# whether they are an amplicon (long reads, too few reads): a nanopore 16S
+# amplicon of a community would otherwise look like a "metagenome".
+declared_t <- ifelse(d$declared_type %in% c("isolate", "metagenome", "amplicon"), d$declared_type, NA)
+type_conflict <- !is.na(declared_t) & d$type_confidence == "high" & d$detected_type != declared_t &
+                 !(declared_t == "amplicon" & !amp_judged)
+d$detection_flags[type_conflict] <- ifelse(is.na(d$detection_flags[type_conflict]), "TYPE_CONTRADICTS",
+                                           paste0(d$detection_flags[type_conflict], ",TYPE_CONTRADICTS"))
+lift <- type_conflict & d$ceiling == "PASS"
+d$ceiling[lift] <- "WARN"
+d$verdict_reason[type_conflict] <- paste(d$verdict_reason[type_conflict],
+  sprintf("The samplesheet says %s, but the reads look like %s (%s) Review this sample.",
+          declared_t[type_conflict], d$detected_type[type_conflict], d$type_reason[type_conflict]))
+
+
 # 4. Final verdict: the worse of the ceiling and the worst metric ----------------
 
 RANK <- c(PASS = 1, WARN = 2, FAIL = 3)
@@ -364,13 +449,23 @@ for (i in seq_len(nrow(d))) {
                        if (length(which_metrics) > 1) "s" else "", if (length(which_metrics) > 1) "are" else "is")
 }
 
+# D65: an undeclared amplicon or metagenome, recognised with high confidence,
+# gets a hint even when no metric failed: the declaration changes judgements.
+for (i in seq_len(nrow(d))) {
+  if (!is.na(d$declared_type[i]) || d$type_confidence[i] != "high" || !d$detected_type[i] %in% c("amplicon", "metagenome")) next
+  extra <- sprintf("The reads look like a%s %s library (%s) If so, declare sample_type = %s.",
+                   if (d$detected_type[i] == "amplicon") "n" else "", d$detected_type[i], d$type_reason[i], d$detected_type[i])
+  d$hint[i] <- trimws(paste(d$hint[i], extra))
+}
+
 
 # 5. Write -----------------------------------------------------------------------
 
 cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hint",
           "declared_platform", "declared_platform_raw", "detected_platform", "detected_layout",
           "confidence", "route", "routed_by", "n_files", "n_reads", "declared_type",
-          "declared_molecule", "n_flags", "flags", "detection_flags", "reasons")
+          "declared_molecule", "n_flags", "flags", "detection_flags", "reasons",
+          "detected_type", "type_confidence", "type_reason")
 write.table(d[, cols], paste0(prefix, "_summary.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 write.table(metrics[, setdiff(names(metrics), "gi")], paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
@@ -440,6 +535,9 @@ md <- c(
     paste0("- Detection (", show(d$confidence[i]), " confidence): ", show(d$reasons[i])),
     if (!SCREEN_ON && d$route[i] %in% QC_ROUTES) "- Contamination: not screened (no Kraken2 database was given).",
     if (!is.na(d$detection_flags[i])) paste0("- Detection flags: ", gsub(",", ", ", d$detection_flags[i], fixed = TRUE)),
+    sprintf("- Sample type (from the reads): %s%s. %s", d$detected_type[i],
+            if (d$type_confidence[i] %in% c("high", "medium")) sprintf(", %s confidence", d$type_confidence[i]) else "",
+            d$type_reason[i]),
     if (!is.na(d$flags[i])) paste0("- Metadata: ", strsplit(d$flags[i], " | ", fixed = TRUE)[[1]]),
     metric_table(d$sample[i]),
     ""))),

@@ -135,6 +135,29 @@ run_case <- function(i) {
 
 res <- data.frame(case = cases$id, t(vapply(seq_len(nrow(cases)), run_case, c(got = "", expected = ""))),
                   stringsAsFactors = FALSE)
+# D65: the read-start share. 1,500 reads, half starting with one of three
+# primer-like 20-mers, half random: the share must be about 0.5; all-random
+# reads must give under 0.05.
+start_case <- function(id, primed) {
+  n <- 1500; primers <- c("ACGTACGTTGCAAGTCCTAG", "GGATCCAATTGCCTAGGACT", "TTGACCAGTAGCATGCATGC")
+  seq <- vapply(seq_len(n), function(i) paste(sample(c("A", "C", "G", "T"), 150, TRUE), collapse = ""), "")
+  if (primed) { k <- seq_len(n / 2); seq[k] <- paste0(primers[(k %% 3) + 1], substr(seq[k], 21, 150)) }
+  path <- file.path(tmp, paste0(id, "_R1.fastq.gz")); con <- gzfile(path, "w")
+  writeLines(c(rbind(sprintf("@A00611:237:H5335DRX5:2:2101:%d:1000 1:N:0:ACGT", seq_len(n)), seq, "+", strrep("F", 150))), con); close(con)
+  stats <- file.path(tmp, paste0(id, ".stats.tsv"))
+  writeLines(c("file\tnum_seqs\tmax_len\tQ1\tQ2\tQ3", sprintf("%s\t%d\t150\t150\t150\t150", basename(path), n)), stats)
+  out <- file.path(tmp, paste0(id, ".detection.tsv"))
+  system2("Rscript", c("--vanilla", "bin/detect_platform.R", id, stats, out, path))
+  as.numeric(read.delim(out, colClasses = "character")$start_share)
+}
+st_primed <- start_case("START_PRIMED", TRUE); st_random <- start_case("START_RANDOM", FALSE)
+ok_p <- !is.na(st_primed) && st_primed > 0.45 && st_primed < 0.55
+ok_r <- !is.na(st_random) && st_random < 0.05
+res <- rbind(res, data.frame(case = c("START_SHARE_PRIMED", "START_SHARE_RANDOM"),
+                             got = c(if (ok_p) "0.45-0.55" else sprintf("%.3f", st_primed),
+                                     if (ok_r) "< 0.05" else sprintf("%.3f", st_random)),
+                             expected = c("0.45-0.55", "< 0.05"), stringsAsFactors = FALSE))
+
 # Regression (validation round 1): seqkit exits 0 on a truncated gzip but
 # writes no row for it. Detection must stop with a message saying so.
 trunc_stats <- file.path(tmp, "TRUNCATED.stats.tsv")

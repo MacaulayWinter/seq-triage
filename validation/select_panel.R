@@ -85,6 +85,18 @@ ELEMENT            | element      | instrument_platform="ELEMENT"               
 ION_TORRENT        | ion_torrent  | instrument_platform="ION_TORRENT" AND BACTERIA                                                                | 2018-01-01 | 2025-12-31 | 2  | 5  | 3  | isolate     | dna
 ')
 
+# Layer E (D65) and later designs: STRATA_FILE replaces the strata above with
+# a '|'-separated file (same columns, the count in "n", plus optional
+# type_truth). Exclusions and the whole-pool draw are as for round 2+.
+strata_file <- Sys.getenv("STRATA_FILE")
+if (nzchar(strata_file)) {
+  strata <- read.table(strata_file, header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE,
+                       quote = "", colClasses = "character", na.strings = "")
+  strata$n <- as.integer(strata$n)
+  strata$sample_type[is.na(strata$sample_type)] <- ""
+  strata$molecule[is.na(strata$molecule)] <- ""
+}
+
 FIELDS <- c("run_accession", "study_accession", "sample_accession", "instrument_platform", "instrument_model",
             "library_strategy", "library_source", "library_layout", "tax_id", "scientific_name",
             "first_public", "read_count", "fastq_ftp", "fastq_bytes")
@@ -127,7 +139,7 @@ if (round >= 2) {
   CALIBRATION_STUDIES <- unique(CALIBRATION_STUDIES)
 }
 
-n_col <- paste0("r", round)
+n_col <- if (nzchar(strata_file)) "n" else paste0("r", round)
 panel <- list()
 for (k in seq_len(nrow(strata))) {
   s <- strata[k, ]
@@ -191,6 +203,7 @@ for (k in seq_len(nrow(strata))) {
   pick$stratum     <- s$stratum
   pick$truth       <- s$truth
   pick$role        <- c(rep("panel", min(s[[n_col]], nrow(pick))), rep("backup", max(0, nrow(pick) - s[[n_col]])))
+  if ("type_truth" %in% names(s)) pick$type_truth <- s$type_truth
   pick$sample_type <- s$sample_type
   pick$molecule    <- s$molecule
   pick$pool        <- sprintf("%s; first_public %s..%s; %s", s$query, s$from, s$to, pool_text)
@@ -205,7 +218,7 @@ panel$fastq_ftp <- vapply(strsplit(panel$fastq_ftp, ";"), function(f) {
 # Archive the run was submitted to (DRR = DDBJ, ERR = ENA, SRR = NCBI SRA):
 # DDBJ-served files can lose their original read names (open question A1).
 panel$archive <- c(D = "DDBJ", E = "ENA", S = "SRA")[substr(panel$run_accession, 1, 1)]
-cols <- c("stratum", "role", "run_accession", "archive", "truth", "library_layout", "instrument_platform", "instrument_model",
+cols <- c("stratum", "role", "run_accession", "archive", "truth", if ("type_truth" %in% names(panel)) "type_truth", "library_layout", "instrument_platform", "instrument_model",
           "library_strategy", "library_source", "scientific_name", "tax_id", "study_accession",
           "first_public", "read_count", "sample_type", "molecule", "fastq_ftp", "pool")
 write.table(panel[, cols], out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
