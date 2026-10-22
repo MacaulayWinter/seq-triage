@@ -421,12 +421,14 @@ Add your own private strings (account names, usernames), one per line, to
 `.githooks/private_patterns.txt`; that file is git-ignored. CI runs the same
 check on every tracked file, in case the hook was skipped.
 
-To merge a pull request only once CI passes (GitHub's branch protection is
-not available for private repositories on the free plan):
+`main` is protected: GitHub refuses a merge until every CI check has passed
+(a check skipped because a pull request changes only documentation counts as
+passed). To wait for the checks and merge in one step:
 
 ```bash
 bash .githooks/merge_when_green.sh <PR number>
 ```
+
 ## Citations
 
 If you use seq-triage, please cite the tools it is built on, listed in
