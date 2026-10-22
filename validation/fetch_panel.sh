@@ -11,7 +11,10 @@
 # WRITES        <out_dir>/fastq/*.fastq.gz, <out_dir>/fetch_log.tsv (every
 #               attempt, with read counts and md5 of the uncompressed reads),
 #               and <out_dir>/samplesheet.csv for the pipeline. The samplesheet
-#               never declares the platform: the reads must decide.
+#               never declares the platform (the reads must decide), unless
+#               DECLARE=ena is set (round 3, D61): then it declares ENA's
+#               platform where that is illumina or ont, as a user would, so
+#               mislabelled runs become real contradictions.
 #
 # Usage:  bash validation/fetch_panel.sh <panel.tsv> <out_dir>
 #*******************************************************************************
@@ -77,7 +80,9 @@ for stratum in $(col stratum | awk '!seen[$0]++'); do
         fi
         r1="$out/fastq/${id}_R1.fastq.gz"
         r2=""; [ "${#urls[@]}" -eq 2 ] && r2="$out/fastq/${id}_R2.fastq.gz"
-        printf '%s,%s,%s,,%s,%s\n' "$id" "$r1" "$r2" "$stype" "$mol" >> "$sheet"
+        decl=""
+        if [ "${DECLARE:-}" = ena ]; then case $truth in illumina|ont) decl=$truth ;; esac; fi
+        printf '%s,%s,%s,%s,%s,%s\n' "$id" "$r1" "$r2" "$decl" "$stype" "$mol" >> "$sheet"
         got=$((got + 1))
         echo "  $id: ${counts[*]} reads"
     done < <(awk -F'\t' -v s="$stratum" 'NR==1{for(i=1;i<=NF;i++) h[$i]=i; next}

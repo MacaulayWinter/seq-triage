@@ -23,7 +23,8 @@
 #               definition and size are recorded in panel.tsv.
 #
 # Usage:  Rscript validation/select_panel.R <round> <out_panel.tsv>
-#         round = 1 (40 runs) or 2 (~150 runs)
+#         round = 1 (40 runs), 2 (115 runs) or 3 (54 runs, D61: tests D58/D60;
+#         reuses round 2's saved pools when copied next to the output)
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -63,25 +64,25 @@ BACTERIA  <- "tax_tree(2)"
 # metadata the samplesheet will declare (platform is never declared: the
 # reads must decide). truth = what ENA says the platform is.
 strata <- read.table(header = TRUE, sep = "|", strip.white = TRUE, stringsAsFactors = FALSE, quote = "", text = '
-stratum            | truth        | query                                                                                                         | from       | to         | r1 | r2 | sample_type | molecule
-ILM_MISEQ          | illumina     | instrument_model="Illumina MiSeq" AND library_strategy="WGS" AND BACTERIA                                     | 2023-01-01 | 2024-12-31 | 2  | 8  | isolate     | dna
-ILM_NEXTSEQ        | illumina     | instrument_model="NextSeq 2000" AND library_strategy="WGS" AND BACTERIA                                       | 2023-01-01 | 2024-12-31 | 2  | 8  | isolate     | dna
-ILM_HISEQ          | illumina     | instrument_model="Illumina HiSeq 2500" AND library_strategy="WGS" AND BACTERIA                                | 2016-01-01 | 2019-12-31 | 2  | 8  | isolate     | dna
-ILM_NOVASEQ6000    | illumina     | instrument_model="Illumina NovaSeq 6000" AND library_strategy="WGS" AND BACTERIA                              | 2022-01-01 | 2024-12-31 | 2  | 8  | isolate     | dna
-ILM_NOVASEQX       | illumina     | instrument_model="Illumina NovaSeq X Plus" AND library_strategy="WGS" AND BACTERIA                            | 2024-01-01 | 2025-12-31 | 2  | 8  | isolate     | dna
-ILM_METAGENOME     | illumina     | instrument_platform="ILLUMINA" AND library_source="METAGENOMIC" AND library_strategy="WGS"                    | 2023-01-01 | 2024-12-31 | 2  | 5  | metagenome  | dna
-ILM_AMPLICON       | illumina     | instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"              | 2023-01-01 | 2024-12-31 | 2  | 5  | amplicon    | dna
-ILM_RNASEQ         | illumina     | instrument_platform="ILLUMINA" AND library_strategy="RNA-Seq" AND library_source="TRANSCRIPTOMIC" AND BACTERIA | 2022-01-01 | 2024-12-31 | 2  | 5  | isolate     | rna
-ILM_METATRANSCRIPT | illumina     | instrument_platform="ILLUMINA" AND library_source="METATRANSCRIPTOMIC"                                       | 2022-01-01 | 2024-12-31 | 2  | 5  | metagenome  | rna
-ONT_OLD            | ont          | instrument_platform="OXFORD_NANOPORE" AND library_strategy="WGS" AND BACTERIA                                 | 2019-01-01 | 2021-12-31 | 4  | 10 | isolate     | dna
-ONT_R10_ERA        | ont          | instrument_platform="OXFORD_NANOPORE" AND library_strategy="WGS" AND BACTERIA                                 | 2024-06-01 | 2025-12-31 | 4  | 10 | isolate     | dna
-ONT_RNA            | ont          | instrument_platform="OXFORD_NANOPORE" AND library_source="TRANSCRIPTOMIC"                                    | 2021-01-01 | 2025-12-31 | 2  | 5  |             | rna
-ONT_METAGENOME     | ont          | instrument_platform="OXFORD_NANOPORE" AND library_source="METAGENOMIC" AND library_strategy="WGS"            | 2022-01-01 | 2025-12-31 | 2  | 5  | metagenome  | dna
-PB_HIFI            | pacbio       | instrument_model="Revio"                                                                                      | 2023-06-01 | 2025-12-31 | 2  | 5  |             |
-PB_CLR             | pacbio       | instrument_model="PacBio RS II"                                                                               | 2015-01-01 | 2019-12-31 | 2  | 5  |             |
-DNBSEQ             | dnbseq       | instrument_platform="BGISEQ" AND library_strategy="WGS" AND BACTERIA                                          | 2021-01-01 | 2025-12-31 | 2  | 5  | isolate     | dna
-ELEMENT            | element      | instrument_platform="ELEMENT"                                                                                 | 2023-01-01 | 2025-12-31 | 2  | 5  |             |
-ION_TORRENT        | ion_torrent  | instrument_platform="ION_TORRENT" AND BACTERIA                                                                | 2018-01-01 | 2025-12-31 | 2  | 5  | isolate     | dna
+stratum            | truth        | query                                                                                                         | from       | to         | r1 | r2 | r3 | sample_type | molecule
+ILM_MISEQ          | illumina     | instrument_model="Illumina MiSeq" AND library_strategy="WGS" AND BACTERIA                                     | 2023-01-01 | 2024-12-31 | 2  | 8  | 3  | isolate     | dna
+ILM_NEXTSEQ        | illumina     | instrument_model="NextSeq 2000" AND library_strategy="WGS" AND BACTERIA                                       | 2023-01-01 | 2024-12-31 | 2  | 8  | 3  | isolate     | dna
+ILM_HISEQ          | illumina     | instrument_model="Illumina HiSeq 2500" AND library_strategy="WGS" AND BACTERIA                                | 2016-01-01 | 2019-12-31 | 2  | 8  | 3  | isolate     | dna
+ILM_NOVASEQ6000    | illumina     | instrument_model="Illumina NovaSeq 6000" AND library_strategy="WGS" AND BACTERIA                              | 2022-01-01 | 2024-12-31 | 2  | 8  | 6  | isolate     | dna
+ILM_NOVASEQX       | illumina     | instrument_model="Illumina NovaSeq X Plus" AND library_strategy="WGS" AND BACTERIA                            | 2024-01-01 | 2025-12-31 | 2  | 8  | 4  | isolate     | dna
+ILM_METAGENOME     | illumina     | instrument_platform="ILLUMINA" AND library_source="METAGENOMIC" AND library_strategy="WGS"                    | 2023-01-01 | 2024-12-31 | 2  | 5  | 4  | metagenome  | dna
+ILM_AMPLICON       | illumina     | instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"              | 2023-01-01 | 2024-12-31 | 2  | 5  | 0  | amplicon    | dna
+ILM_RNASEQ         | illumina     | instrument_platform="ILLUMINA" AND library_strategy="RNA-Seq" AND library_source="TRANSCRIPTOMIC" AND BACTERIA | 2022-01-01 | 2024-12-31 | 2  | 5  | 4  | isolate     | rna
+ILM_METATRANSCRIPT | illumina     | instrument_platform="ILLUMINA" AND library_source="METATRANSCRIPTOMIC"                                       | 2022-01-01 | 2024-12-31 | 2  | 5  | 4  | metagenome  | rna
+ONT_OLD            | ont          | instrument_platform="OXFORD_NANOPORE" AND library_strategy="WGS" AND BACTERIA                                 | 2019-01-01 | 2021-12-31 | 4  | 10 | 2  | isolate     | dna
+ONT_R10_ERA        | ont          | instrument_platform="OXFORD_NANOPORE" AND library_strategy="WGS" AND BACTERIA                                 | 2024-06-01 | 2025-12-31 | 4  | 10 | 2  | isolate     | dna
+ONT_RNA            | ont          | instrument_platform="OXFORD_NANOPORE" AND library_source="TRANSCRIPTOMIC"                                    | 2021-01-01 | 2025-12-31 | 2  | 5  | 0  |             | rna
+ONT_METAGENOME     | ont          | instrument_platform="OXFORD_NANOPORE" AND library_source="METAGENOMIC" AND library_strategy="WGS"            | 2022-01-01 | 2025-12-31 | 2  | 5  | 0  | metagenome  | dna
+PB_HIFI            | pacbio       | instrument_model="Revio"                                                                                      | 2023-06-01 | 2025-12-31 | 2  | 5  | 2  |             |
+PB_CLR             | pacbio       | instrument_model="PacBio RS II"                                                                               | 2015-01-01 | 2019-12-31 | 2  | 5  | 2  |             |
+DNBSEQ             | dnbseq       | instrument_platform="BGISEQ" AND library_strategy="WGS" AND BACTERIA                                          | 2021-01-01 | 2025-12-31 | 2  | 5  | 8  | isolate     | dna
+ELEMENT            | element      | instrument_platform="ELEMENT"                                                                                 | 2023-01-01 | 2025-12-31 | 2  | 5  | 4  |             |
+ION_TORRENT        | ion_torrent  | instrument_platform="ION_TORRENT" AND BACTERIA                                                                | 2018-01-01 | 2025-12-31 | 2  | 5  | 3  | isolate     | dna
 ')
 
 FIELDS <- c("run_accession", "study_accession", "sample_accession", "instrument_platform", "instrument_model",
@@ -113,21 +114,26 @@ eligible <- function(cand) {
     ((cand$library_layout %in% "SINGLE" & n_files == 1) | (cand$library_layout %in% "PAIRED" & n_files %in% 2:3))
 }
 
-# Round 2 exclusions: every study in the round 1 panel file, picked or backup.
+# Round 2 and later: exclude every study in every EARLIER round's panel file,
+# picked or backup (round 3, D61: rounds 1 and 2).
 if (round >= 2) {
-  r1 <- file.path(dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))),
-                  "outcomes", "round1", "panel.tsv")
-  r1_studies <- unique(read.delim(r1, colClasses = "character")$study_accession)
-  message(sprintf("Excluding %d calibration studies and %d round 1 studies", length(CALIBRATION_STUDIES), length(r1_studies)))
-  CALIBRATION_STUDIES <- c(CALIBRATION_STUDIES, r1_studies)
+  here <- dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)))
+  for (r in seq_len(round - 1)) {
+    prev <- read.delim(file.path(here, "outcomes", paste0("round", r), "panel.tsv"), colClasses = "character")
+    st   <- unique(prev$study_accession)
+    message(sprintf("Excluding %d round %d studies", length(st), r))
+    CALIBRATION_STUDIES <- c(CALIBRATION_STUDIES, st)
+  }
+  CALIBRATION_STUDIES <- unique(CALIBRATION_STUDIES)
 }
 
-n_col <- if (round == 1) "r1" else "r2"
+n_col <- paste0("r", round)
 panel <- list()
 for (k in seq_len(nrow(strata))) {
   s <- strata[k, ]
   q <- sprintf("%s AND %s AND first_public>=%s AND first_public<=%s",
                gsub("BACTERIA", BACTERIA, s$query, fixed = TRUE), NOT_HUMAN, s$from, s$to)
+  if (s[[n_col]] == 0) next          # stratum not in this round
   want <- s[[n_col]] + BACKUPS
   if (round == 1) {
     cand <- ena_search(q, CANDIDATES)
