@@ -352,7 +352,8 @@ classify_type <- function(s) {
   if (is.null(co$dominant_share))
     return(out("uncertain", "uncertain", paste(amp_note, "Too few reads were classified to a species to tell isolate from metagenome."), amp == "no"))
   top <- co$dominant_share; k <- co$n_species_1pct
-  comp <- sprintf("the most common species holds %.0f%% of species-level reads and %d species reach 1%%", 100 * top, k)
+  comp <- sprintf("the most common species holds %.0f%% of species-level reads and %d species %s 1%%", 100 * top, k,
+                  if (k == 1) "reaches" else "reach")
   if (top >= TYPE_ISOLATE_TOP && k - 1 <= 2) {
     if (amp == "no") return(out("isolate", "high", sprintf("One organism: %s. %s", comp, amp_note), TRUE))
     return(out("isolate", "medium", sprintf("One organism: %s. %s It could also be a single-organism amplicon.", comp, amp_note), FALSE))
