@@ -21,6 +21,7 @@ include { BRACKEN_BRACKEN as BRACKEN } from '../modules/nf-core/bracken/bracken/
 include { KRAKEN2_BATCH   } from '../modules/local/kraken2_batch/main'
 include { RECOMMEND       } from '../modules/local/recommend/main'
 include { CHECK_BAM       } from '../modules/local/check_bam/main'
+include { NORMALISE_FASTQ } from '../modules/local/normalise_fastq/main'
 include { SAMTOOLS_COLLATEFASTQ } from '../modules/nf-core/samtools/collatefastq/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
@@ -41,21 +42,21 @@ def bamReads(Map meta, pair, other, singleton) {
     def out
     if (hasReads(r1) && hasReads(r2)) {
         out  = [ meta + [ single_end: false ], [ r1, r2 ] ]
-        note = 'Reads extracted from BAM: paired by their READ1/READ2 flags.'
+        note = 'Reads extracted from the BAM/SAM/CRAM file: paired by their READ1/READ2 flags.'
         if (hasReads(other) || hasReads(singleton)) {
             note += ' Some reads had no mate or no READ1/READ2 flag and are not used.'
         }
     } else if (hasReads(other)) {
         out  = [ meta + [ single_end: true ], [ other ] ]
-        note = 'Reads extracted from BAM: no READ1/READ2 flags, so treated as one file of reads.'
+        note = 'Reads extracted from the BAM/SAM/CRAM file: no READ1/READ2 flags, so treated as one file of reads.'
         if (hasReads(r1) || hasReads(r2)) {
             note += ' Reads flagged as only one mate are not used.'
         }
     } else {
         def first = hasReads(r1) ? r1 : (hasReads(r2) ? r2 : other)
         out  = [ meta + [ single_end: true ], [ first ] ]
-        note = hasReads(first) ? 'Reads extracted from BAM: only one mate present, treated as single.'
-                               : 'Reads extracted from BAM: the BAM holds no primary reads.'
+        note = hasReads(first) ? 'Reads extracted from the BAM/SAM/CRAM file: only one mate present, treated as single.'
+                               : 'Reads extracted from the BAM/SAM/CRAM file: the BAM holds no primary reads.'
     }
     out[0] = out[0] + [ bam_note: note ]
     return out
@@ -192,6 +193,12 @@ def seqkitRows(String sample, tsv) {
  * 'unsupported' | 'none'). PacBio is routed only as HiFi (D64): detection names
  * PacBio without PLATFORM_NOT_HANDLED only when HiFi markers are present.
  */
+// Platforms seq-triage QCs, by read class (D69): short reads get fastp +
+// FastQC, long reads NanoPlot.
+def readClass(String platform) {
+    return [ illumina: 'short', dnbseq: 'short', element: 'short', ont: 'long', pacbio: 'long' ][platform]
+}
+
 def routeSample(Map meta) {
     def r
     if (meta.detection_flags == 'FILE_UNREADABLE') {
@@ -201,8 +208,12 @@ def routeSample(Map meta) {
         r = [ route: 'empty', routed_by: 'none' ]
     } else if (meta.confidence == 'high') {
         r = [ route: meta.detected_platform, routed_by: 'detected' ]
-    } else if (meta.declared_platform && meta.detected_platform in [ 'illumina', 'ont' ]
-               && meta.detected_platform != meta.declared_platform) {
+    } else if (meta.declared_platform && readClass(meta.detected_platform as String)
+               && readClass(meta.detected_platform as String) != readClass(meta.declared_platform as String)) {
+        // D60, refined in D69: a contradiction is short reads vs long reads.
+        // A medium "illumina" call is a SHORT-READ call (without names the
+        // reads cannot tell Illumina from MGI or Element), so a declared
+        // dnbseq or element is not contradicted by it.
         r = [ route: 'unrouted', routed_by: 'contradicted' ]
     } else if (meta.declared_platform == 'pacbio') {
         r = [ route: 'unrouted', routed_by: 'pacbio_not_hifi' ]
@@ -211,13 +222,13 @@ def routeSample(Map meta) {
     } else {
         r = [ route: 'unrouted', routed_by: 'none' ]
     }
-    if (r.route in [ 'ont', 'pacbio' ] && meta.n_files > 1) {
+    if (readClass(r.route as String) == 'long' && meta.n_files > 1) {
         r = [ route: 'unrouted', routed_by: 'blocked' ]
     }
     // A named platform seq-triage has no QC for (PacBio, MGI/DNBSEQ,
     // Element; D40): reported by name, no QC.
     def not_handled = (meta.detection_flags ?: '').split(',').contains('PLATFORM_NOT_HANDLED')
-    if (r.routed_by == 'detected' && (!(r.route in [ 'illumina', 'ont', 'pacbio' ]) || not_handled)) {
+    if (r.routed_by == 'detected' && (!readClass(r.route as String) || not_handled)) {
         r = [ route: 'unrouted', routed_by: 'unsupported' ]
     }
     return meta + r
@@ -250,8 +261,11 @@ workflow SEQ_TRIAGE {
         bam:   meta.input_format == 'bam'
         fastq: true
     }
+    // CRAM needs the reference it was written against (D69): --cram_fasta, or
+    // samtools fetches it from EBI's reference registry by checksum.
+    ch_cram_ref = params.cram_fasta ? file(params.cram_fasta, checkIfExists: true) : []
     ch_bam = ch_input.bam.map { meta, files -> [ meta, files[0] ] }
-    CHECK_BAM(ch_bam)
+    CHECK_BAM(ch_bam, ch_cram_ref)
     ch_bam_check = ch_bam
         .join(CHECK_BAM.out.tsv, failOnMismatch: true, failOnDuplicate: true)
         .join(CHECK_BAM.out.header, failOnMismatch: true, failOnDuplicate: true)
@@ -266,13 +280,39 @@ workflow SEQ_TRIAGE {
         }
     // collate first: mates are written as pairs only when they sit next to
     // each other, and a coordinate-sorted BAM scatters them (the first test
-    // run kept 60 of 200 reads without it). No reference: BAM, not CRAM.
-    SAMTOOLS_COLLATEFASTQ(ch_bam_check.ok, [ [], [], [] ], false)
+    // run kept 60 of 200 reads without it). The reference is used for CRAM
+    // only; samtools builds its .fai itself.
+    SAMTOOLS_COLLATEFASTQ(ch_bam_check.ok,
+        params.cram_fasta ? [ [ id: 'cram_reference' ], file(params.cram_fasta, checkIfExists: true), [] ] : [ [], [], [] ],
+        false)
     ch_from_bam = SAMTOOLS_COLLATEFASTQ.out.fastq
         .join(SAMTOOLS_COLLATEFASTQ.out.fastq_other, failOnMismatch: true, failOnDuplicate: true)
         .join(SAMTOOLS_COLLATEFASTQ.out.fastq_singleton, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, pair, other, singleton -> bamReads(meta, pair, other, singleton) }
-    ch_reads = ch_input.fastq.mix(ch_from_bam)
+
+    // 1c. Other compression (D69): any FASTQ file that is not .gz (plain,
+    //     .bz2, .xz, .zst) is rewritten as .fastq.gz first, so every later
+    //     step sees one format. Samples already all .gz skip this, so their
+    //     cached results stay valid. A file that will not decompress becomes
+    //     a FAIL row, like a damaged BAM or gzip (D45).
+    ch_fastq = ch_input.fastq.branch { _meta, files ->
+        gz:    files.every { f -> f.name.endsWith('.gz') }
+        other: true
+    }
+    NORMALISE_FASTQ(ch_fastq.other)
+    ch_normalised = NORMALISE_FASTQ.out.reads.branch { meta, report, files ->
+        def rows = report.splitCsv(header: true, sep: '\t')
+        ok: rows.every { r -> r.status == 'ok' }
+            return [ meta, [ files ].flatten().sort { f -> f.name } ]
+        damaged: true
+            return [ meta, [ files ].flatten(), rows.findAll { r -> r.status != 'ok' }.collect { r -> "${r.file}: ${r.problem}" }.join('; ') ]
+    }
+    // Every input that could not be read before the integrity check, in one
+    // place: [ meta, files, problem ].
+    ch_damaged_input = ch_bam_check.damaged.map { meta, bam, problem -> [ meta, [ bam ], problem ] }
+        .mix(ch_normalised.damaged)
+
+    ch_reads = ch_fastq.gz.mix(ch_normalised.ok).mix(ch_from_bam)
 
     // 2. Integrity check (D45): is every file readable and well-formed
     //    FASTQ? A damaged sample skips every later step and becomes a FAIL
@@ -303,7 +343,7 @@ workflow SEQ_TRIAGE {
     ch_detect = DETECT_PLATFORM.out.tsv
         .map { meta, tsv -> [ meta.id, tsv.splitCsv(header: true, sep: '\t')[0] ] }
         .mix(ch_integrity.unreadable.map { meta, problem, n_files -> [ meta, problem, n_files ] }
-            .mix(ch_bam_check.damaged.map { meta, _bam, problem -> [ meta, problem, 1 ] })
+            .mix(ch_damaged_input.map { meta, files, problem -> [ meta, problem, files.size() ] })
             .map { meta, problem, n_files ->
                 [ meta.id, [ n_files: "${n_files}", n_reads: '0', detected_platform: 'uncertain',
                              detected_layout: 'uncertain', confidence: 'uncertain',
@@ -320,7 +360,7 @@ workflow SEQ_TRIAGE {
     //    makes a wording change in the screen re-run QC. The first -resume
     //    showed exactly that.
     ch_triaged = ch_reads
-        .mix(ch_bam_check.damaged.map { meta, bam, _problem -> [ meta, [ bam ] ] })
+        .mix(ch_damaged_input.map { meta, files, _problem -> [ meta, files ] })
         .map { meta, reads -> [ meta.id, meta, reads ] }
         .join(ch_screen, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_detect, failOnMismatch: true, failOnDuplicate: true)
@@ -361,7 +401,7 @@ workflow SEQ_TRIAGE {
     // 5. Route. Only samples with a platform get QC; 'empty' and
     //    'unrouted' go straight to the report.
     ch_routed = ch_triaged.branch { meta, _reads ->
-        illumina: meta.route == 'illumina'
+        short_reads: readClass(meta.route as String) == 'short'    // illumina, dnbseq, element
         ont:      meta.route == 'ont'
         pacbio:   meta.route == 'pacbio'
         no_qc:    true
@@ -369,8 +409,12 @@ workflow SEQ_TRIAGE {
 
     // 6. QC. fastp's three flags: don't discard trimmed reads, don't save
     //    failed reads, don't merge pairs. This is triage, not preprocessing.
-    FASTP(ch_routed.illumina.map { meta, reads -> [ meta, reads, [] ] }, false, false, false)
-    FASTQC(ch_routed.illumina)
+    // MGI/DNBSEQ samples get MGI's adapter sequences, so trimming does not
+    // depend on fastp's auto-detection (D69); Illumina and Element (Adept,
+    // Illumina-compatible adapters) keep auto-detection.
+    def mgi_adapters = file("${projectDir}/assets/adapters/mgi.fasta", checkIfExists: true)
+    FASTP(ch_routed.short_reads.map { meta, reads -> [ meta, reads, meta.route == 'dnbseq' ? mgi_adapters : [] ] }, false, false, false)
+    FASTQC(ch_routed.short_reads)
     // PacBio HiFi gets the same long-read QC as nanopore (D64); its limits
     // differ only in the metric guide (pacbio_reads rows).
     NANOPLOT(ch_routed.ont.mix(ch_routed.pacbio))
@@ -389,7 +433,7 @@ workflow SEQ_TRIAGE {
         } else {
             ch_db = channel.value(file(params.kraken2_db, checkIfExists: true))
         }
-        ch_to_classify = ch_routed.illumina.mix(ch_routed.ont).mix(ch_routed.pacbio)
+        ch_to_classify = ch_routed.short_reads.mix(ch_routed.ont).mix(ch_routed.pacbio)
         if (params.kraken2_batch) {
             // One task for every sample: the database is read once (D50).
             // Files are staged as in1/, in2/, ... (several samples may share
@@ -412,7 +456,7 @@ workflow SEQ_TRIAGE {
             KRAKEN2(ch_to_classify, ch_db, false, false)
             ch_kraken_reports = KRAKEN2.out.report
         }
-        BRACKEN(ch_kraken_reports.filter { meta, report -> meta.route == 'illumina' && maxSpeciesReads(report) >= 10 }, ch_db)
+        BRACKEN(ch_kraken_reports.filter { meta, report -> readClass(meta.route as String) == 'short' && maxSpeciesReads(report) >= 10 }, ch_db)
         ch_bracken_tables = BRACKEN.out.reports
     }
 

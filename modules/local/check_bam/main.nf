@@ -15,6 +15,7 @@ process CHECK_BAM {
 
     input:
     tuple val(meta), path(bam)
+    path reference    // CRAM reference (--cram_fasta), or [] (D69)
 
     output:
     tuple val(meta), path("${meta.id}.check.tsv"), emit: tsv
@@ -23,6 +24,6 @@ process CHECK_BAM {
 
     script:
     """
-    check_bam.sh ${meta.id} ${bam}
+    check_bam.sh ${meta.id} ${bam} ${reference ?: ''}
     """
 }

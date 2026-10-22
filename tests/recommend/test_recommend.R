@@ -28,6 +28,9 @@ ILM_SC2       | WARN      | detected  | illumina | amplicon   | amplicon   | hig
 ILM_RNA       | PASS      | detected  | illumina | isolate    | uncertain  | uncertain | rna      |                  | Pseudomonas aeruginosa (98.0%)                         |     | nf-core/rnaseq
 ILM_SC2_NEWNAME | WARN    | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Betacoronavirus pandemicum (100.0% of species-level reads, Bracken) |     | nf-core/viralrecon
 ILM_MUMPS     | WARN      | detected  | illumina | amplicon   | amplicon   | high      | rna      |                  | Orthorubulavirus parotitidis (100.0% of species-level reads, Bracken) |   | none
+DNB_ISOLATE   | PASS      | detected  | dnbseq   | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+DNB_META      | WARN      | detected  | dnbseq   | metagenome | metagenome | high      | dna      |                  | Bacteroides uniformis (20.0%)                          |     | nf-core/taxprofiler
+ELEMENT_META  | WARN      | detected  | element  | metagenome | metagenome | high      | dna      |                  | Bacteroides uniformis (20.0%)                          |     | none
 FAILED        | FAIL      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        |     | none
 BAM_INPUT     | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  |                                                        | yes | none
 CONFLICT      | WARN      | detected  | illumina | isolate    | amplicon   | high      | dna      | TYPE_CONTRADICTS |                                                        |     | none
@@ -46,7 +49,7 @@ viral   <- grepl("coronavirus|Betacoronavirus|Orthorubulavirus", cases$dominant)
 mets <- rbind(data.frame(sample = cases$sample[has_dom], metric = "dominant_species", value = cases$dominant[has_dom]),
               data.frame(sample = cases$sample[has_dom], metric = "viral_fraction",
                          value = ifelse(viral[has_dom], "100.0%", "0.10%")))
-paired <- cases$platform == "illumina"
+paired <- cases$platform %in% c("illumina", "dnbseq", "element")
 sheet <- data.frame(sample = cases$sample,
                     fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
                     fastq_2 = ifelse(is.na(cases$bam) & paired, sprintf("/data/%s_R2.fastq.gz", cases$sample), ""),

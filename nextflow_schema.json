@@ -60,6 +60,14 @@
                     "description": "TSV of rules naming the next nf-core pipeline (pinned version) for each kind of ready sample; seq-triage writes a samplesheet and params file for it.",
                     "help_text": "Default: assets/downstream_pipelines.tsv. One row per rule: platform, sample type, molecule, target, pipeline, version, commit, samplesheet format, fixed params and values the user must fill in.",
                     "fa_icon": "fas fa-forward"
+                },
+                "cram_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.f(ast)?a(\\.gz)?$|^\\S+\\.fna(\\.gz)?$",
+                    "description": "Reference FASTA for CRAM input: the genome the CRAM files were written against. Without it, samtools fetches the reference from EBI's registry.",
+                    "fa_icon": "fas fa-dna"
                 }
             }
         },

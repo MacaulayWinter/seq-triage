@@ -1,0 +1,12 @@
+# Same tools and versions as the container (community.wave.seqera.io
+# htslib_samtools_xz, also used by CHECK_BAM): bgzip from htslib; bzip2, xz
+# and zstd as in that image (CLAUDE.md D69).
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::htslib=1.24
+  - conda-forge::bzip2=1.0.8
+  - conda-forge::xz=5.8.3
+  - conda-forge::zstd=1.5.7
+  - conda-forge::gzip=1.12

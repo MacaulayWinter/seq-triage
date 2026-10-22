@@ -25,30 +25,30 @@
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "fastq_1 must be a gzipped FASTQ (.fastq.gz or .fq.gz) with no spaces in the path. For a BAM file use the bam column instead."
+                "pattern": "^\\S+\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$",
+                "errorMessage": "fastq_1 must be a FASTQ file (.fastq or .fq; plain, or compressed as .gz, .bz2, .xz or .zst) with no spaces in the path. For BAM, SAM or CRAM use the bam column."
             },
             "fastq_2": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "fastq_2 must be a gzipped FASTQ (.fastq.gz or .fq.gz) with no spaces in the path. Leave it blank for single-end or ONT data."
+                "pattern": "^\\S+\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$",
+                "errorMessage": "fastq_2 must be a FASTQ file (.fastq or .fq; plain, .gz, .bz2, .xz or .zst) with no spaces in the path. Leave it blank for single-end or long reads."
             },
             "bam": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.bam$",
-                "errorMessage": "bam must be a .bam file (aligned or unaligned) with no spaces in the path. Leave fastq_1 and fastq_2 blank when bam is given."
+                "pattern": "^\\S+\\.(bam|sam|cram)$",
+                "errorMessage": "bam must be a .bam, .sam or .cram file (aligned or unaligned) with no spaces in the path. CRAM needs its reference: --cram_fasta, or EBI's registry. Leave fastq_1 and fastq_2 blank when bam is given."
             },
             "platform": {
                 "type": "string",
                 "meta": [
                     "declared_platform"
                 ],
-                "pattern": "(?i)^(illumina|ont|nanopore|pacbio|na|n/a|nan|null|none|missing|\\.|-|--)$",
-                "errorMessage": "platform must be illumina, ont or pacbio (nanopore is also accepted; case does not matter). Leave it blank to have the platform detected. PacBio is QC'd only as HiFi."
+                "pattern": "(?i)^(illumina|ont|nanopore|pacbio|dnbseq|mgi|bgiseq|element|aviti|na|n/a|nan|null|none|missing|\\.|-|--)$",
+                "errorMessage": "platform must be illumina, ont, pacbio, dnbseq or element (nanopore, mgi, bgiseq and aviti are also accepted; case does not matter). Leave it blank to have the platform detected. PacBio is QC'd only as HiFi."
             },
             "sample_type": {
                 "type": "string",

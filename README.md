@@ -8,15 +8,26 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: v0.1.0 released (2026-10-22); validated (round 3 met every mark).** Every step runs
-> end to end and is tested in CI on every change. Round 1 (40 public runs,
-> 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
-> runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
-> 115 runs. One was an ENA labelling error; the other led to a stricter rule
-> (D58), chosen after the fact. Round 3 (54 runs from unseen studies,
-> pre-registered) then tested it and met every pass mark
-> ([results](docs/validation.md)). BAM input (v0.2) is built; see
-> [Roadmap](#roadmap).
+> **Status:** v0.1.0 released (2026-10-22); v0.2 in development on `main`.
+> Every change is tested end to end in CI. Validated in pre-registered rounds
+> on public data it was not tuned on, failures included: see
+> [Validation](#validation).
+
+**Quick start** (needs [conda](https://conda-forge.org/download/) and
+[Docker](https://www.docker.com/)):
+
+```bash
+git clone https://github.com/MacaulayWinter/seq-triage.git && cd seq-triage
+conda env create -f environment.yml && conda activate seq-triage-dev
+nextflow run main.nf -profile test,docker --outdir results   # Apple Silicon: test,docker,arm64
+```
+
+Then open `results/triage_summary.md`. For your own data, see [Usage](#usage).
+
+**What it reads:** FASTQ (plain, `.gz`, `.bz2`, `.xz`, `.zst`), BAM, SAM and
+CRAM; single or paired. **Platforms QC'd:** Illumina, MGI/DNBSEQ, Element,
+Oxford Nanopore and PacBio HiFi; other platforms are named and left
+UNCERTAIN rather than guessed.
 
 ## Why
 
@@ -48,10 +59,11 @@ samplesheet ─► validate (nf-schema) ─┬─► read statistics (seqkit) �
 | high confidence | missing | detected | WARN (inferred, not declared) |
 | high confidence | contradicts | detected | WARN (metadata contradicts reads) |
 | low or medium, same platform or uncertain | present | declared | WARN (not confirmed by reads) |
-| low or medium, other platform | contradicts | not routed | UNCERTAIN (review: neither is certain enough to pick the QC) |
+| low or medium, other read class (short vs long) | contradicts | not routed | UNCERTAIN (review: neither is certain enough to pick the QC) |
 | uncertain | missing | not routed | UNCERTAIN |
 | PacBio HiFi (read names ending `/ccs`, or a BAM written by `ccs`) | as for any platform | detected | PASS if declared `pacbio`, else WARN; NanoPlot QC with HiFi limits |
-| PacBio other than HiFi, MGI/DNBSEQ or Element (named) | any | not routed | UNCERTAIN (platform not handled) |
+| MGI/DNBSEQ or Element (named by read names or adapters) | as for any platform | detected | short-read QC (fastp + FastQC), their own guide rows |
+| PacBio other than HiFi (named) | any | not routed | UNCERTAIN (platform not handled) |
 | none at high confidence | `pacbio` | not routed | UNCERTAIN (only HiFi is QC'd) |
 | empty file | any | not routed | FAIL |
 
@@ -101,7 +113,9 @@ checksums), use the lockfile for your system instead:
 conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-64.lock.txt        # Linux and WSL2 (Intel/AMD)
 conda create -n seq-triage-dev --file envs/seq-triage-dev.linux-aarch64.lock.txt   # Linux on ARM
 conda create -n seq-triage-dev --file envs/seq-triage-dev.osx-arm64.lock.txt       # Apple Silicon Mac
-``` The analysis tools themselves run in version-pinned
+```
+
+The analysis tools themselves run in version-pinned
 containers and need no installation. See
 [docs/reproducibility.md](docs/reproducibility.md) for how each layer is
 pinned.
@@ -216,10 +230,10 @@ UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,,
 | Column | Required | Notes |
 |---|---|---|
 | `sample` | yes | Unique ID. |
-| `fastq_1` | yes, unless `bam` | Gzipped FASTQ. |
+| `fastq_1` | yes, unless `bam` | FASTQ: `.fastq`/`.fq`, plain or compressed as `.gz`, `.bz2`, `.xz` or `.zst`. Anything that is not `.gz` is rewritten as `.fastq.gz` in the work folder first; a file that will not decompress becomes a FAIL row. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
-| `bam` | instead of FASTQ | A BAM file, aligned or unaligned: dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. The header is read too: software that only runs on one platform's data (`@PG` ccs or lima for PacBio, dorado or guppy for nanopore) counts as evidence, like read names; `@RG PL`, which people type, stands in for a blank `platform`, and a samplesheet that disagrees with it is flagged for review. CRAM is not accepted yet. |
-| `platform` | no | `illumina`, `ont` or `pacbio`. Leave blank to have it detected. PacBio is QC'd only when the reads are HiFi. |
+| `bam` | instead of FASTQ | A BAM, SAM or CRAM file, aligned or unaligned (CRAM needs the reference it was written against: `--cram_fasta`, or samtools fetches it from EBI's reference registry; if neither works, the sample is a FAIL row saying so): dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. The header is read too: software that only runs on one platform's data (`@PG` ccs or lima for PacBio, dorado or guppy for nanopore) counts as evidence, like read names; `@RG PL`, which people type, stands in for a blank `platform`, and a samplesheet that disagrees with it is flagged for review. |
+| `platform` | no | `illumina`, `dnbseq` (also `mgi`, `bgiseq`), `element` (also `aviti`), `ont` or `pacbio`. Leave blank to have it detected. MGI/DNBSEQ and Element get the same short-read QC as Illumina; PacBio is QC'd only when the reads are HiFi. |
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
@@ -309,40 +323,54 @@ outside the repository.
 
 ## Validation
 
-Tests check the code does what it was designed to do. Validation checks the
-design is right, on data it was never tuned on, against answers known
-independently of the pipeline. The pass marks were fixed before any result
-was seen. Round 1 (full write-up in [docs/validation.md](docs/validation.md)):
+Tests check that the code does what it was designed to do. Validation checks
+that the design is right, on public data it was never tuned on, against
+answers known independently of the pipeline. Every round's pass marks were
+fixed (and committed) before its data was drawn, and a failed round stays
+recorded as failed: a rule chosen after seeing the data is only trusted once
+a later round tests it. Full write-up: [docs/validation.md](docs/validation.md).
 
-| Layer | Question | Result |
-|---|---|---|
-| A | Is the platform call right? (40 public ENA runs, 18 kinds of data, chosen by seeded rule) | **0 wrong calls at high confidence**; 29 of 40 correct at high confidence; the rest medium, low or *uncertain* |
-| B | Are the reported numbers right? (recomputed independently in base R) | **542 / 542** agree |
-| C | Do damaged files get the verdict they should? (29 cases, answers written in advance) | **29 / 29** |
+| Round | What it tests | Data | Result |
+|---|---|---|---|
+| Round 1 | Platform calls (A), every reported number (B), damaged files (C) | 40 ENA runs, 29 damaged samples | A 0 wrong at high, B 526/526; **C 28/29** (placeholder quality could PASS; fixed by D40, re-run 29/29) |
+| Round 2 | as round 1, whole-ENA draw | 115 runs, 31 damaged samples | B 1158/1158, C 30/30; **A failed: 2 wrong at high confidence** (one an ENA labelling error; one led to rule D58) |
+| Round 3 | D58 on unseen studies | 54 runs | **all pass marks met**; D58 stopped a wrong call it was not designed on |
+| Layer D, rounds 1-2 | Contamination estimates on mixtures with known answers | 13 mixtures x 2 platforms, 2 databases | host DNA right in every case; **all-samples pass mark not met** (best: 22/24 with the full database) |
+| Layer E | Sample type: isolate / metagenome / amplicon | 57 runs | **failed: 4 wrong at high confidence** (fragmented viral amplicons; a mostly-unclassified soil metagenome); led to D67 |
+| Layer E round 2 | D67 on unseen studies | 49 runs | running |
 
-Validation found and fixed a silent failure in a dependency (seqkit reports
-success on a truncated gzip), pinned down how NanoPlot averages quality, and
-found one run whose ENA instrument label is wrong; that correction is
-recorded with its evidence.
+Along the way validation found: a silent failure in a dependency (seqkit
+reports success on a truncated gzip), two runs whose ENA instrument labels
+are wrong, a full-size Kraken2 database that files one E. coli lineage
+under *K. pneumoniae*, and a taxonomy change (NCBI's 2024 virus
+reorganisation) that broke a rule on real data while synthetic tests passed.
 
-**Round 2** (2026-10-21, 115 runs from a whole-ENA draw, 31 damaged
-samples, pre-registered): **B 1,158 / 1,158 and C 30 / 30 pass. A fails as
-registered**, with 2 wrong calls at high confidence out of 115. One is very
-likely another ENA labelling error; the other exposes a real limit: when the
-archive has stripped the read names, binned quality alone can raise an MGI
-run to "Illumina, high". Both are set out with their evidence in
-[docs/validation.md](docs/validation.md). Decided afterwards (D58): the
-first is recorded as an ENA error; binned quality alone now gives at most
-medium confidence. Re-scored that way, no call is wrong at high confidence,
-at the cost of 7 correct calls dropping to medium. A rule chosen after
-seeing the data cannot be tested by the same data, so round 2 stays a fail.
+## Known limitations
 
-**Round 3** (2026-10-22, 54 runs from studies neither earlier round used,
-pre-registered to test that rule): **every mark met**, with 0 wrong calls at
-high confidence and 0 unhandled runs sent to QC; 411 / 411 recalculations
-agree. The new rule stopped one wrong call it had not been designed on: an
-archived MGI run that the old rule would have called Illumina with high
-confidence.
+- **Platforms:** PacBio CLR, Ion Torrent, Ultima and older platforms are not
+  QC'd. Without read names, an MGI or Element run can only be called a
+  short-read platform at medium confidence.
+- **Inputs not yet handled:** several files per sample (lanes, nanopore
+  barcode folders), interleaved FASTQ, index/barcode reads, FASTA reads, raw
+  signal (FAST5/POD5) and BCL run folders.
+- **Sample kinds:** seq-triage is microbe-centred. Human or other eukaryotic
+  samples are treated as host DNA; single-cell, bisulfite, Hi-C and
+  ChIP/ATAC libraries are not recognised. Long-read amplicons cannot be
+  recognised from the reads.
+- **Contamination:** species level only (another strain of the same species
+  is invisible); same-genus contamination is under-estimated on short reads;
+  estimates depend on the Kraken2 database (see layer D).
+- **Thresholds** are provisional defaults, each labelled as such in
+  `assets/metric_guide.tsv`.
+
+## How this was built
+
+seq-triage was built by Macaulay Winter with
+[Claude Code](https://claude.com/claude-code) as a coding assistant; commits
+it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
+their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
+(D1-D71), including every rule that validation overturned and every CI
+failure and how it was fixed.
 
 ## Roadmap
 
@@ -362,7 +390,9 @@ confidence.
 
 **v0.2** (in progress)
 
-- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); CRAM to follow
+- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); SAM and CRAM **built** (D69)
+- Plain, `.bz2`, `.xz` and `.zst` FASTQ: **built** (D69)
+- QC for MGI/DNBSEQ and Element: **built** (D69)
 - QC for PacBio HiFi: **built** (D64); PacBio CLR stays recognised, not QC'd
 - rRNA fraction for metatranscriptomes
 - Isolate vs metagenome vs amplicon classification: **built** (D65); layer E

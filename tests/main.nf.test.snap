@@ -5,8 +5,10 @@
                 "BF_ILLUMINA_PE\tWARN",
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
+                "CRAM_PE\tWARN",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "HIFI_PLAIN_FASTQ\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
@@ -17,7 +19,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-22T14:36:26.341552",
+        "timestamp": "2026-10-22T18:20:06.557332",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -29,8 +31,10 @@
                 "BF_ILLUMINA_PE\tWARN",
                 "BROKEN_FASTQ\tFAIL",
                 "CONTRADICTION\tUNCERTAIN",
+                "CRAM_PE\tWARN",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
+                "HIFI_PLAIN_FASTQ\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
@@ -43,6 +47,7 @@
             [
                 "NanoPlot\t1.47.0",
                 "R\t4.5.2",
+                "bgzip\t1.24",
                 "bracken\t3.0.1",
                 "fastp\t1.4.0",
                 "fastqc\t0.13.0",
@@ -55,7 +60,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-22T14:33:55.564651",
+        "timestamp": "2026-10-22T18:18:05.344087",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

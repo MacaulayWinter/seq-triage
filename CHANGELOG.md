@@ -28,8 +28,22 @@ All notable changes to seq-triage. Versions follow
   most 25% of reads unclassified; a virus-dominated sample is isolate at
   most at medium confidence; new information metric `viral_fraction`.
 
+- Input formats (D69): plain FASTQ and `.bz2`/`.xz`/`.zst` (rewritten as
+  `.fastq.gz` first, `NORMALISE_FASTQ`; a file that will not decompress is a
+  FAIL row); SAM and CRAM in the `bam` column (`--cram_fasta`, or EBI's
+  reference registry; a missing reference is a FAIL row, not a crash).
+- MGI/DNBSEQ and Element are QC'd (D69): short-read QC like Illumina, own
+  guide rows, MGI adapters given to fastp; `platform` accepts `dnbseq`/`mgi`/
+  `bgiseq` and `element`/`aviti`; the downstream rules accept them where the
+  next pipeline does.
+
 ### Changed
 
+- A contradiction between detected and declared platform (D60) is now short
+  reads vs long reads: a medium "illumina" call no longer contradicts a
+  declared MGI or Element sample (D69).
+- `CHECK_BAM` decodes every base (`samtools fastq`), not only counts reads:
+  counting passed a CRAM whose reference was missing (D69).
 - The report takes each metric's limits from the guide row it was judged
   by, so one metric can have different limits per platform (D64).
 
