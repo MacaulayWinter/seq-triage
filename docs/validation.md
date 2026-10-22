@@ -394,13 +394,17 @@ The cost is the 7 correct Illumina calls that rested on binned quality alone:
 they are now medium, so UNCERTAIN unless the platform is declared.
 SRR14318705 becomes "wrong, medium": not routed, UNCERTAIN.
 
-**Found by the change, not yet decided:** the test-profile sample
+**Found by the change, then decided (D60):** the test-profile sample
 `CONTRADICTION` (Illumina reads declared `ont`) is now called Illumina at
-medium confidence, and D2 routes medium calls by the declared platform, so
-the Illumina reads go through nanopore QC and FAIL on read N50. Before D58 a
-high-confidence call overrode the label (WARN, "review"). The verdict is
-safe; the reason is misleading. Recommended: a medium call that contradicts
-the declaration should not route (UNCERTAIN, review).
+medium confidence. Under the old routing rule (D2) a medium call deferred to
+the declared platform, so the Illumina reads went through nanopore QC and
+FAILED on read N50: a safe verdict with a misleading reason. Before D58 a
+high-confidence call overrode the label (WARN, "review"). Decided by the
+user on Claude's recommendation: a medium or low call that contradicts the
+declared platform is not routed. The sample is now UNCERTAIN: "Metadata says
+ont but the reads suggest illumina (detection confidence: medium) ... Review
+this sample." No round 2 panel sample declares a platform, so the re-score
+above is unchanged.
 
 ## Layer D: contamination screen accuracy
 

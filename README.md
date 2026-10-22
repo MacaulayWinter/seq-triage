@@ -46,7 +46,8 @@ samplesheet ─► validate (nf-schema) ─┬─► read statistics (seqkit) �
 | high confidence | agrees | detected | PASS |
 | high confidence | missing | detected | WARN (inferred, not declared) |
 | high confidence | contradicts | detected | WARN (metadata contradicts reads) |
-| low or medium | present | declared | WARN (not confirmed by reads) |
+| low or medium, same platform or uncertain | present | declared | WARN (not confirmed by reads) |
+| low or medium, other platform | contradicts | not routed | UNCERTAIN (review: neither is certain enough to pick the QC) |
 | uncertain | missing | not routed | UNCERTAIN |
 | PacBio, MGI/DNBSEQ or Element (named) | any | not routed | UNCERTAIN (platform not handled in v0.1) |
 | empty file | any | not routed | FAIL |
