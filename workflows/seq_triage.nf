@@ -172,6 +172,10 @@ def seqkitRows(String sample, tsv) {
  *   damaged file              -> route 'unreadable' (FAIL; nothing else runs, D45)
  *   no reads                  -> route 'empty'    (FAIL; no QC can run)
  *   high-confidence detection -> route by DETECTED platform
+ *   medium/low detection that CONTRADICTS the declared platform
+ *                             -> 'unrouted' (routed_by 'contradicted'; UNCERTAIN,
+ *                                review): neither source can be trusted enough to
+ *                                pick the QC (D60)
  *   otherwise, if declared    -> route by DECLARED platform (verdict capped at WARN)
  *   otherwise                 -> 'unrouted'      (UNCERTAIN; no QC run)
  * Then one safety rule (D33): a sample headed for ONT QC with two files is
@@ -180,7 +184,7 @@ def seqkitRows(String sample, tsv) {
  * A sample confidently identified as a platform with no QC here (PacBio,
  * MGI/DNBSEQ, Element) is also 'unrouted' (routed_by 'unsupported', D40).
  * Returns meta plus route ('illumina' | 'ont' | 'empty' | 'unreadable' | 'unrouted') and
- * routed_by ('detected' | 'declared' | 'blocked' | 'unsupported' | 'none').
+ * routed_by ('detected' | 'declared' | 'contradicted' | 'blocked' | 'unsupported' | 'none').
  */
 def routeSample(Map meta) {
     def r
@@ -191,6 +195,9 @@ def routeSample(Map meta) {
         r = [ route: 'empty', routed_by: 'none' ]
     } else if (meta.confidence == 'high') {
         r = [ route: meta.detected_platform, routed_by: 'detected' ]
+    } else if (meta.declared_platform && meta.detected_platform in [ 'illumina', 'ont' ]
+               && meta.detected_platform != meta.declared_platform) {
+        r = [ route: 'unrouted', routed_by: 'contradicted' ]
     } else if (meta.declared_platform) {
         r = [ route: meta.declared_platform, routed_by: 'declared' ]
     } else {

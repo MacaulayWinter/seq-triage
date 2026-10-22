@@ -73,6 +73,7 @@ id                   | file1                         | file2                    
 ILLUMINA_PAIRED      | 500:illumina:casava:binned    | 500:illumina:casava:binned     | illumina  | paired    | high       |
 ILLUMINA_OLD_HEADER  | 500:illumina:old_hiseq:full   |                                | illumina  | single    | high       |
 ILLUMINA_NO_EVIDENCE | 500:illumina:plain:full       |                                | illumina  | single    | medium     |
+ILLUMINA_BINNED_ONLY | 500:illumina:plain:binned     |                                | illumina  | single    | medium     |
 ONT_HEADER           | 500:ont:ont:full              |                                | ont       | single    | high       |
 ONT_SRA_SLASH1       | 500:ont:ont_sra:full          |                                | ont       | single    | high       |
 ONT_PLACEHOLDER_Q    | 500:ont:plain:placeholder     |                                | ont       | single    | medium     | QUALITY_UNINFORMATIVE

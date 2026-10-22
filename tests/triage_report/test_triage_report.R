@@ -108,6 +108,9 @@ cases <- list(
        declared_from = "bam_header", verdict = "PASS"),
   # Same reads, no platform anywhere: inferred, at most WARN (control).
   list(id = "BAM_NO_PLATFORM",     route = "illumina", declared = NA, verdict = "WARN"),
+  # D60: a medium call contradicting the declaration is not routed.
+  list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
+       detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),
   # Samplesheet and header disagree: two metadata sources conflict, no PASS.
   list(id = "BAM_HEADER_DISAGREES", route = "illumina", flags = "BAM_HEADER_DISAGREES", verdict = "WARN")
 )

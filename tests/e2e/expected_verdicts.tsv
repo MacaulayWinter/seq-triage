@@ -2,7 +2,7 @@ sample	expected_verdict	note
 BF_ILLUMINA_PE	WARN	reads confirm illumina (ceiling PASS); total reads 49,986 < 100,000
 SC2_ONT	WARN	reads confirm ont (ceiling PASS); 4,000 reads < 10,000; read N50 not judged (amplicon)
 SIM_ONT_Q40	WARN	medium confidence, declared ont unconfirmed; quality not judged (placeholder); 1,000 reads < 10,000
-CONTRADICTION	WARN	metadata contradicts reads; total reads 24,993 < 100,000
+CONTRADICTION	UNCERTAIN	Illumina reads declared ont. Binned quality alone gives medium confidence (D58), and a medium call that contradicts the declared platform is not routed (D60): no QC, UNCERTAIN, review. (Before D58: Illumina high, contradiction WARN.)
 NO_METADATA	FAIL	same reads as SC2_ONT but no sample_type, so read N50 686 < 1,000 fails; report gives the amplicon hint
 ILLUMINA_SE	WARN	reads confirm illumina (ceiling PASS); total reads 24,993 < 100,000
 ECE107_NOVASEQ	PASS	real NovaSeq; reads confirm metadata and every QC number is within its limits
