@@ -476,6 +476,15 @@ WARN, as designed); 1 uncertain. Unhandled platforms: 11 named at high
 confidence (5 DNBSEQ, 4 Element, 2 PacBio HiFi), the rest medium or low
 and not routed. Every unhandled run ended UNCERTAIN.
 
+## Planned for the next layer A round: MGI/DNBSEQ and Element QC (D69)
+
+Fixed when their QC was built: the next layer A round's DNBSEQ and Element
+strata get one more pass mark, **no DNBSEQ or Element run named at high
+confidence is QC'd as another platform** (route equals the named platform),
+and layer B's recalculation covers their fastp numbers. Reported: how many
+are named at all (archives strip read names, so many become "illumina,
+medium", which D60 as refined in D69 leaves routed by their declaration).
+
 ## Planned for the next layer A round: PacBio HiFi (D64)
 
 Fixed when HiFi QC was built, before any data: the next layer A round adds
