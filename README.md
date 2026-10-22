@@ -13,7 +13,8 @@ and writes a plain-language summary that says which samples are ready and why.
 > 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
 > runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
 > 115 runs. One was an ENA labelling error; the other led to a stricter rule
-> (D58), chosen after the fact and so still to be tested by a later round
+> (D58), chosen after the fact. Round 3 (54 runs from unseen studies,
+> pre-registered) then tested it and met every pass mark
 > ([results](docs/validation.md)). BAM input (v0.2) is built; see
 > [Roadmap](#roadmap).
 
@@ -354,7 +355,7 @@ confidence.
 - [x] `-profile test` on small public data, run in GitHub Actions
 - [x] Validation round 1: 40 public runs + 29 damaged samples, all pass marks met
 - [x] PacBio, MGI/DNBSEQ and Element recognised and named (no QC yet)
-- [ ] Validation round 2: ~150 runs, wider candidate pools
+- [x] Validation round 2 (115 runs, whole-ENA draw) and round 3 (54 runs, testing the rule round 2 led to)
 
 **v0.2** (planned)
 
