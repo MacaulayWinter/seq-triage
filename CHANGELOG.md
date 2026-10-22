@@ -44,6 +44,16 @@ All notable changes to seq-triage. Versions follow
   local step `COMBINE_DETECTION`), then the files are joined with nf-core
   `cat/fastq` before QC.
 
+- Human and other eukaryotic samples (D76): optional `target_taxid` column
+  (NCBI taxid of the organism the sample is meant to be). Off-target is
+  measured against it; new information metrics `target_fraction` and
+  `bacterial_fraction`; flags `TARGET_NOT_DOMINANT` and `TARGET_NOT_SEEN`
+  (at most WARN). Human as the target is not host contamination. With no
+  target, a sample whose classified reads are at least half human is
+  UNCERTAIN (`HOST_DOMINANT`) instead of FAIL. Human DNA isolates are
+  recommended nf-core/sarek 3.10.0; bacass only when most classified reads
+  are bacterial.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short

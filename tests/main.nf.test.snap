@@ -10,6 +10,7 @@
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
                 "HIFI_PLAIN_FASTQ\tFAIL",
+                "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
@@ -20,7 +21,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-22T21:02:34.598235",
+        "timestamp": "2026-10-22T22:23:11.114056",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -37,6 +38,7 @@
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
                 "HIFI_PLAIN_FASTQ\tFAIL",
+                "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
                 "NO_METADATA\tFAIL",
@@ -63,7 +65,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-22T21:00:32.05674",
+        "timestamp": "2026-10-22T22:21:16.589965",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

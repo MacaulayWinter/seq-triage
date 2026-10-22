@@ -43,16 +43,22 @@ LANES_ISOLATE | PASS      | detected  | illumina | isolate    | isolate    | hig
 LANES_META    | WARN      | detected  | illumina | metagenome | metagenome | high      | dna      |                  | Bacteroides uniformis (20.0%)                          |     | nf-core/taxprofiler
 LANES_16S     | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Escherichia coli / Shigella (30.0%)                    |     | none
 DIR_ONT       | WARN      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (99.0%)                               |     | none
+HUMAN_WGS     | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Homo sapiens (99.0%)                                   |     | nf-core/sarek
+LANES_HUMAN   | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Homo sapiens (99.0%)                                   |     | nf-core/sarek
+YEAST_ISOLATE | WARN      | detected  | illumina | isolate    | uncertain  | uncertain | dna      |                  | Escherichia coli (60.0%)                               |     | none
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
                    declared_type = cases$decl_type, detected_type = cases$det_type, type_confidence = cases$conf,
-                   declared_molecule = cases$molecule, detection_flags = cases$flags)
+                   declared_molecule = cases$molecule, detection_flags = cases$flags,
+                   declared_target = ifelse(cases$sample %in% c("HUMAN_WGS", "LANES_HUMAN"), "9606", ""))
 has_dom <- !is.na(cases$dominant)
 viral   <- grepl("coronavirus|Betacoronavirus|Orthorubulavirus", cases$dominant)
 mets <- rbind(data.frame(sample = cases$sample[has_dom], metric = "dominant_species", value = cases$dominant[has_dom]),
               data.frame(sample = cases$sample[has_dom], metric = "viral_fraction",
-                         value = ifelse(viral[has_dom], "100.0%", "0.10%")))
+                         value = ifelse(viral[has_dom], "100.0%", "0.10%")),
+              # D76: a yeast-like isolate: few classified reads are bacterial.
+              data.frame(sample = "YEAST_ISOLATE", metric = "bacterial_fraction", value = "2.0%"))
 paired <- cases$platform %in% c("illumina", "dnbseq", "element")
 sheet <- data.frame(sample = cases$sample,
                     fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
@@ -105,6 +111,11 @@ res <- rbind(res, data.frame(case = "LANES_TAXPROFILER_RUNS", got = paste(tp$run
                              expected = "LANES_META_1,LANES_META_2"))
 am <- read.csv(file.path(out, "ampliseq", "samplesheet.csv"), colClasses = "character")
 res <- rbind(res, data.frame(case = "LANES_NOT_IN_AMPLISEQ", got = as.character(sum(am$sample == "LANES_16S")), expected = "0"))
+# D76: sarek gets one row per lane, lanes distinct (its uniqueEntries).
+sk <- read.csv(file.path(out, "sarek", "samplesheet.csv"), colClasses = "character")
+res <- rbind(res, data.frame(case = "SAREK_LANES", got = paste(sk$lane[sk$sample == "LANES_HUMAN"], collapse = ","), expected = "L1,L2"))
+res <- rbind(res, data.frame(case = "SAREK_UNIQUE_ENTRIES", got = as.character(!anyDuplicated(sk[, c("patient", "sample", "lane")])), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "FILL_IN_sarek_tools", got = if (fill("sarek", "tools")) "FILL_IN" else "set", expected = "FILL_IN"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")

@@ -56,6 +56,9 @@ PHAGE_SPLIT <- c("U|0|unclassified" = 100000, "R1|10239|Viruses" = 900000,
                  "S|2560504|Drulisvirus KpV71" = 200000, "S|2560505|Drulisvirus KpV41" = 150000,
                  "S|562|Escherichia coli" = 0, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0,
                  "S|9606|Homo sapiens" = 0)
+# D76: a human sample (human reads at species and genus level, a trace of E. coli).
+HUMAN <- c("U|0|unclassified" = 20000, "S|9606|Homo sapiens" = 950000, "G|9605|Homo" = 950000,
+           "S|562|Escherichia coli" = 1000, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0)
 # Community species without any genus rows: D73 cannot run, so not high.
 META_NO_GENUS <- META[!startsWith(names(META), "G|")]
 
@@ -189,6 +192,22 @@ cases <- list(
        verdict = "FAIL", hint = TRUE, expect_type = "metagenome medium"),
   list(id = "TYPE_META_NO_GENUS",  route = "illumina", start = 0.01, screen = TRUE, kraken = META_NO_GENUS,
        verdict = "FAIL", hint = TRUE, expect_type = "metagenome medium"),
+  # D76: the target organism. Human declared as the target: host_fraction not
+  # judged, and the sample is one organism.
+  list(id = "HUMAN_DECLARED",      route = "illumina", start = 0.01, type = "isolate", target = "9606", screen = TRUE, kraken = HUMAN,
+       verdict = "PASS", check = c(host_fraction = "exempt", target_fraction = "info"), expect_type = "isolate high"),
+  # Human-dominated, nothing declared: human sample or swamped isolate? UNCERTAIN.
+  list(id = "HUMAN_UNDECLARED",    route = "illumina", start = 0.01, screen = TRUE, kraken = HUMAN,
+       verdict = "UNCERTAIN", check = c(host_fraction = "exempt"), expect_type = "uncertain uncertain", expect_flag = "HOST_DOMINANT"),
+  # A yeast the database cannot see: contamination not judged, cannot PASS.
+  list(id = "TARGET_NOT_SEEN",     route = "illumina", start = 0.01, type = "isolate", target = "4932", screen = TRUE, kraken = MOSTLY_UNKNOWN,
+       verdict = "WARN", check = c(off_target_fraction = "not_available"), expect_type = "uncertain uncertain", expect_flag = "TARGET_NOT_SEEN"),
+  # Declared K. pneumoniae, but the reads are E. coli: off-target is measured
+  # against the target, so it FAILs, and the flag names the problem.
+  list(id = "TARGET_NOT_DOMINANT", route = "illumina", start = 0.01, type = "isolate", target = "573", screen = TRUE,
+       verdict = "FAIL", check = c(off_target_fraction = "FAIL"), expect_flag = "TARGET_NOT_DOMINANT"),
+  list(id = "TARGET_OK",           route = "illumina", start = 0.01, type = "isolate", target = "562", screen = TRUE,
+       verdict = "PASS", check = c(off_target_fraction = "PASS", target_fraction = "info")),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
@@ -207,7 +226,8 @@ build <- function(cases, dir) {
     declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else NA
     screen[[cs$id]] <- data.frame(sample = cs$id, declared_platform_raw = declared, declared_platform = declared,
       declared_type = if (is.null(cs$type)) NA else cs$type,
-      declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA)
+      declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA,
+      declared_target = if (is.null(cs$target)) NA else cs$target)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",
       detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,

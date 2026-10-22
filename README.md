@@ -252,6 +252,7 @@ screen and the sample type judge the whole sample.
 | `fastq_dir` | instead of FASTQ files | A folder of one sample's FASTQ files (every `.fastq`/`.fq` in it, plain or compressed), each a file of single-end or long reads: for example a nanopore `fastq_pass/barcode03`. A local or cluster path (a web address cannot be listed as a folder). |
 | `platform` | no | `illumina`, `dnbseq` (also `mgi`, `bgiseq`), `element` (also `aviti`), `ont` or `pacbio`. Leave blank to have it detected. MGI/DNBSEQ and Element get the same short-read QC as Illumina; PacBio is QC'd only when the reads are HiFi. |
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
+| `target_taxid` | no | The NCBI taxonomy ID of the organism the sample is meant to be: `9606` human, `4932` *S. cerevisiae*, `10090` mouse, `562` *E. coli*. A number, not a name, because names change between database versions. With the contamination screen on, it sets what counts as off-target (anything that is not the target), reports `target_fraction`, and flags a target that is not the most common species (`TARGET_NOT_DOMINANT`, at most WARN) or that no read was classified to (`TARGET_NOT_SEEN`: contamination cannot be judged, at most WARN; Standard-8 holds no eukaryote but human, so use e.g. PlusPF for fungi). With `9606`, human reads are the sample, not contamination. With no target declared, a sample whose classified reads are at least half human is UNCERTAIN (`HOST_DOMINANT`): a human sample, or one swamped by human DNA, which only you can say. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
 Unknown parameters and unknown samplesheet columns are errors, not warnings.
@@ -373,10 +374,11 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
   sample are handled (D75), but the next-pipeline recommendation cannot
   write a samplesheet for a `fastq_dir` folder or for nf-core/ampliseq with
   several files (it says to merge first).
-- **Sample kinds:** seq-triage is microbe-centred. Human or other eukaryotic
-  samples are treated as host DNA; single-cell, bisulfite, Hi-C and
-  ChIP/ATAC libraries are not recognised. Long-read amplicons cannot be
-  recognised from the reads.
+- **Sample kinds:** human and other eukaryotic samples need `target_taxid`
+  (D76); a eukaryote missing from the Kraken2 database cannot be checked for
+  contamination, and depth of coverage (which needs a genome size) is not
+  reported. Single-cell, bisulfite, Hi-C and ChIP/ATAC libraries are not
+  recognised. Long-read amplicons cannot be recognised from the reads.
 - **Contamination:** species level only (another strain of the same species
   is invisible); same-genus contamination is under-estimated on short reads;
   estimates depend on the Kraken2 database (see layer D).
@@ -389,7 +391,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D75), including every rule that validation overturned and every CI
+(D1-D76), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
@@ -426,6 +428,11 @@ failure and how it was fixed.
 No real research data is stored in this repository. Test data comes from
 public sources and is referenced by URL. `.gitignore` blocks sequencing file
 formats anywhere in the tree as a second safeguard.
+
+**Human reads are personal data.** seq-triage never publishes reads: its
+results hold counts, QC numbers and species names only. The work folder
+does hold copies of the reads while it runs, so keep it, like the input,
+where your data-protection rules allow, and delete it after the run.
 
 ### Repository guard
 

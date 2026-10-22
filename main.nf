@@ -36,7 +36,7 @@ def sampleFromRows(List rs) {
         return [ meta + [ single_end: false, input_format: 'bam' ], [ first[3] ] ]
     }
     def single_end = !first[2]
-    def units = rs.collectMany { _m, r1, r2, _bam, dir -> dir ? dirFastqs(dir).collect { f -> [ f ] } : [ r2 ? [ r1, r2 ] : [ r1 ] ] }
+    def units = rs.collectMany { _m, r1, r2, _bam, dir, _target -> dir ? dirFastqs(dir).collect { f -> [ f ] } : [ r2 ? [ r1, r2 ] : [ r1 ] ] }
     def extra = units.size() > 1 ? [ n_units: units.size() ] : [:]
     return [ meta + [ single_end: single_end ] + extra, units.flatten() ]
 }
@@ -62,10 +62,10 @@ workflow {
     // "meta" become keys of the meta map: id, declared_platform, declared_type.
     // A row gives FASTQ files or one BAM, never both (the schema checks it).
     def rows = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
-    def same_mates = rows.findAll { _meta, r1, r2, _bam, _dir -> r2 && r1 == r2 }
+    def same_mates = rows.findAll { _meta, r1, r2, _bam, _dir, _target -> r2 && r1 == r2 }
     if (same_mates) {
         error("fastq_1 and fastq_2 are the same file for sample(s): " +
-              same_mates.collect { meta, _r1, _r2, _bam, _dir -> meta.id }.join(', '))
+              same_mates.collect { meta, _r1, _r2, _bam, _dir, _target -> meta.id }.join(', '))
     }
 
     // Several rows with the same sample ID are one sample whose reads are in
@@ -73,7 +73,7 @@ workflow {
     // but the files, or the run stops here, naming the sample.
     def problems = []
     rows.groupBy { row -> row[0].id }.each { id, rs ->
-        def files = rs.collectMany { _meta, r1, r2, bam, dir -> [ r1, r2, bam, dir ].findAll { f -> f } }
+        def files = rs.collectMany { _meta, r1, r2, bam, dir, _target -> [ r1, r2, bam, dir ].findAll { f -> f } }
         def twice = files.findAll { f -> files.count(f) > 1 }.unique()
         if (twice) {
             problems << "${id}: the same file is listed twice (${twice.collect { f -> f.name }.join(', ')})"
@@ -91,6 +91,10 @@ workflow {
             if (values.size() > 1) {
                 problems << "${id}: rows disagree on ${column} (${values.collect { v -> v ?: 'blank' }.join(', ')})"
             }
+        }
+        def targets = rs.collect { row -> declaredValue(row[5]) }.unique()
+        if (targets.size() > 1) {
+            problems << "${id}: rows disagree on target_taxid (${targets.collect { v -> v ?: 'blank' }.join(', ')})"
         }
     }
     if (problems) {
