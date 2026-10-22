@@ -10,6 +10,37 @@
 include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin/nf-schema'
 include { SEQ_TRIAGE } from './workflows/seq_triage'
 
+// Empty cells arrive as [] (D22); case and spaces do not make two
+// declarations differ.
+def declaredValue(v) {
+    return (v == null || v == []) ? null : v.toString().trim().toLowerCase()
+}
+
+// FASTQ files in a fastq_dir folder (D75), sorted by name.
+def dirFastqs(dir) {
+    def found = dir.listFiles().findAll { f -> f.name ==~ /.+\.f(ast)?q(\.(gz|bz2|xz|zst))?$/ }.sort { f -> f.name }
+    if (!found) {
+        error("fastq_dir ${dir} holds no FASTQ files (.fastq or .fq, plain or compressed).")
+    }
+    return found
+}
+
+// One sample from its samplesheet rows: [ meta, [ files ] ]. Files are in
+// lane order, mates together (L1 R1, L1 R2, L2 R1, ...), as nf-core's
+// CAT_FASTQ expects. meta gains n_units only when there is more than one
+// lane or file, so a one-file sample's meta (and its cache) is unchanged.
+def sampleFromRows(List rs) {
+    def meta  = rs[0][0].collectEntries { k, v -> [ k, v == [] ? null : v ] }
+    def first = rs[0]
+    if (first[3]) {
+        return [ meta + [ single_end: false, input_format: 'bam' ], [ first[3] ] ]
+    }
+    def single_end = !first[2]
+    def units = rs.collectMany { _m, r1, r2, _bam, dir -> dir ? dirFastqs(dir).collect { f -> [ f ] } : [ r2 ? [ r1, r2 ] : [ r1 ] ] }
+    def extra = units.size() > 1 ? [ n_units: units.size() ] : [:]
+    return [ meta + [ single_end: single_end ] + extra, units.flatten() ]
+}
+
 workflow {
     // --help / --helpFull: nf-schema has already printed the help (generated
     // from nextflow_schema.json, D53). Stop here, so a help request is not
@@ -31,34 +62,43 @@ workflow {
     // "meta" become keys of the meta map: id, declared_platform, declared_type.
     // A row gives FASTQ files or one BAM, never both (the schema checks it).
     def rows = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
-
-    // R1 and R2 the same file: JSON Schema cannot compare two fields, so this
-    // is checked here. It must be a hard error: seqkit would see identical
-    // read counts and call the sample "paired" with high confidence.
-    def same_mates = rows.findAll { _meta, r1, r2, _bam -> r2 && r1 == r2 }
+    def same_mates = rows.findAll { _meta, r1, r2, _bam, _dir -> r2 && r1 == r2 }
     if (same_mates) {
         error("fastq_1 and fastq_2 are the same file for sample(s): " +
-              same_mates.collect { meta, _r1, _r2, _bam -> meta.id }.join(', '))
+              same_mates.collect { meta, _r1, _r2, _bam, _dir -> meta.id }.join(', '))
     }
 
-    ch_samples = channel.fromList(rows)
-        .map { meta, r1, r2, bam ->
-            // single_end comes from the samplesheet LAYOUT only. Whether the
-            // reads agree with it is for the detection step to judge. A BAM
-            // row is marked input_format 'bam': its layout is decided after
-            // conversion, from the reads' own READ1/READ2 flags (D55).
-            def single_end = !r2
-            // nf-schema returns a blank cell as [] (empty list). Convert to
-            // null here, once, so downstream code has a single meaning of
-            // "not declared". Non-blank values are kept exactly as written:
-            // normalising "Nanopore" or "N/A" is the R screen's job, and it
-            // reports that it did so (CLAUDE.md D7).
-            def clean = meta.collectEntries { k, v -> [ k, v == [] ? null : v ] }
-            if (bam) {
-                return [ clean + [ single_end: false, input_format: 'bam' ], [ bam ] ]
-            }
-            [ clean + [ single_end: single_end ], single_end ? [ r1 ] : [ r1, r2 ] ]
+    // Several rows with the same sample ID are one sample whose reads are in
+    // several files: lanes, top-up runs (D75). They must agree on everything
+    // but the files, or the run stops here, naming the sample.
+    def problems = []
+    rows.groupBy { row -> row[0].id }.each { id, rs ->
+        def files = rs.collectMany { _meta, r1, r2, bam, dir -> [ r1, r2, bam, dir ].findAll { f -> f } }
+        def twice = files.findAll { f -> files.count(f) > 1 }.unique()
+        if (twice) {
+            problems << "${id}: the same file is listed twice (${twice.collect { f -> f.name }.join(', ')})"
         }
+        if (rs.size() == 1) {
+            return
+        }
+        if (rs.any { row -> row[3] }) {
+            problems << "${id}: a BAM, SAM or CRAM file must be the only row of its sample"
+        } else if (rs.collect { row -> row[2] ? 'paired' : 'single' }.unique().size() > 1) {
+            problems << "${id}: some rows are paired (fastq_2 given) and some are not"
+        }
+        [ declared_platform: 'platform', declared_type: 'sample_type', declared_molecule: 'molecule' ].each { key, column ->
+            def values = rs.collect { row -> declaredValue(row[0][key]) }.unique()
+            if (values.size() > 1) {
+                problems << "${id}: rows disagree on ${column} (${values.collect { v -> v ?: 'blank' }.join(', ')})"
+            }
+        }
+    }
+    if (problems) {
+        error("Samplesheet rows of the same sample must agree (D75):\n  " + problems.join('\n  '))
+    }
+
+    ch_samples = channel.fromList(rows.groupBy { row -> row[0].id }.values() as List)
+        .map { rs -> sampleFromRows(rs) }
 
     SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide), file(params.species_groups))
 }

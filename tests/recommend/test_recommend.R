@@ -39,6 +39,10 @@ ONT_AMPLICON  | WARN      | detected  | ont      | amplicon   | isolate    | med
 AMP_NO_SCREEN | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  |                                                        |     | none
 PB_ISOLATE    | WARN      | detected  | pacbio   | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (99.0%)                               |     | none
 META_RNA      | WARN      | detected  | illumina | metagenome | metagenome | high      | rna      |                  | Bacteroides uniformis (20.0%)                          |     | none
+LANES_ISOLATE | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+LANES_META    | WARN      | detected  | illumina | metagenome | metagenome | high      | dna      |                  | Bacteroides uniformis (20.0%)                          |     | nf-core/taxprofiler
+LANES_16S     | PASS      | detected  | illumina | amplicon   | amplicon   | high      | dna      |                  | Escherichia coli / Shigella (30.0%)                    |     | none
+DIR_ONT       | WARN      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (99.0%)                               |     | none
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
@@ -53,7 +57,12 @@ paired <- cases$platform %in% c("illumina", "dnbseq", "element")
 sheet <- data.frame(sample = cases$sample,
                     fastq_1 = ifelse(is.na(cases$bam), sprintf("/data/%s_R1.fastq.gz", cases$sample), ""),
                     fastq_2 = ifelse(is.na(cases$bam) & paired, sprintf("/data/%s_R2.fastq.gz", cases$sample), ""),
-                    bam = ifelse(is.na(cases$bam), "", sprintf("/data/%s.bam", cases$sample)))
+                    bam = ifelse(is.na(cases$bam), "", sprintf("/data/%s.bam", cases$sample)), fastq_dir = "")
+# D75: LANES_* samples have a second lane (a second row); DIR_ONT is a folder.
+lanes <- sheet[startsWith(sheet$sample, "LANES_"), ]
+lanes$fastq_1 <- sub("_R1", "_L002_R1", lanes$fastq_1); lanes$fastq_2 <- sub("_R2", "_L002_R2", lanes$fastq_2)
+sheet <- rbind(sheet, lanes)
+sheet[sheet$sample == "DIR_ONT", c("fastq_1", "fastq_dir")] <- c("", "/data/fastq_pass/barcode01")
 wt(summ, file.path(tmp, "summary.tsv")); wt(mets, file.path(tmp, "metrics.tsv"))
 write.csv(sheet, file.path(tmp, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 unlink(out, recursive = TRUE)
@@ -87,6 +96,15 @@ checks <- list(c("viralrecon", "primer_set"),
                c("rnaseq", "fasta"), c("taxprofiler", "databases"))
 for (k in checks) res <- rbind(res, data.frame(case = sprintf("FILL_IN_%s_%s", k[1], k[2]),
                                                got = if (fill(k[1], k[2])) "FILL_IN" else "set", expected = "FILL_IN"))
+# D75: a sample in two lanes is two rows in bacass's and taxprofiler's
+# samplesheets (taxprofiler: one run_accession per row).
+bs <- read.csv(file.path(out, "bacass_short", "samplesheet.csv"), colClasses = "character")
+res <- rbind(res, data.frame(case = "LANES_BACASS_TWO_ROWS", got = as.character(sum(bs$ID == "LANES_ISOLATE")), expected = "2"))
+tp <- read.csv(file.path(out, "taxprofiler", "samplesheet.csv"), colClasses = "character")
+res <- rbind(res, data.frame(case = "LANES_TAXPROFILER_RUNS", got = paste(tp$run_accession[tp$sample == "LANES_META"], collapse = ","),
+                             expected = "LANES_META_1,LANES_META_2"))
+am <- read.csv(file.path(out, "ampliseq", "samplesheet.csv"), colClasses = "character")
+res <- rbind(res, data.frame(case = "LANES_NOT_IN_AMPLISEQ", got = as.character(sum(am$sample == "LANES_16S")), expected = "0"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")

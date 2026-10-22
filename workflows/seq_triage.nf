@@ -23,6 +23,8 @@ include { RECOMMEND       } from '../modules/local/recommend/main'
 include { CHECK_BAM       } from '../modules/local/check_bam/main'
 include { NORMALISE_FASTQ } from '../modules/local/normalise_fastq/main'
 include { SAMTOOLS_COLLATEFASTQ } from '../modules/nf-core/samtools/collatefastq/main'
+include { CAT_FASTQ       } from '../modules/nf-core/cat/fastq/main'
+include { COMBINE_DETECTION } from '../modules/local/combine_detection/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
 // "not present" throughout the pipeline (CLAUDE.md D22).
@@ -73,6 +75,20 @@ def rgPlatform(String pl) {
     def known = [ illumina: 'illumina', ont: 'ont', nanopore: 'ont', oxford_nanopore: 'ont', pacbio: 'pacbio' ]
     def hits = pl.split(',').collect { p -> known[p.trim().toLowerCase()] }.unique()
     return hits.size() == 1 ? hits[0] : null
+}
+
+// The lanes of a sample (D75): [ meta, files ] per lane (a mate pair, or
+// one file of single-end reads), each with id "<sample>.u<k>", unit_of and
+// unit. A one-file sample comes back unchanged.
+def lanes(Map meta, reads) {
+    def files = [ reads ].flatten()
+    if (!meta.n_units) {
+        return [ [ meta, reads ] ]
+    }
+    def groups = meta.single_end ? files.collect { f -> [ f ] } : files.collate(2)
+    return groups.withIndex().collect { g, k ->
+        [ meta + [ id: "${meta.id}.u${k + 1}".toString(), unit_of: meta.id, unit: k + 1 ], g ]
+    }
 }
 
 def blankToNull(String s) {
@@ -222,7 +238,9 @@ def routeSample(Map meta) {
     } else {
         r = [ route: 'unrouted', routed_by: 'none' ]
     }
-    if (readClass(r.route as String) == 'long' && meta.n_files > 1) {
+    // Several single files of long reads (lanes, a barcode folder; D75)
+    // are merged, so only a mate PAIR of long reads is blocked.
+    if (readClass(r.route as String) == 'long' && !meta.single_end) {
         r = [ route: 'unrouted', routed_by: 'blocked' ]
     }
     // A named platform seq-triage has no QC for (PacBio, MGI/DNBSEQ,
@@ -303,7 +321,9 @@ workflow SEQ_TRIAGE {
     ch_normalised = NORMALISE_FASTQ.out.reads.branch { meta, report, files ->
         def rows = report.splitCsv(header: true, sep: '\t')
         ok: rows.every { r -> r.status == 'ok' }
-            return [ meta, [ files ].flatten().sort { f -> f.name } ]
+            // Back in input order (NORMALISE_FASTQ numbers them 1, 2, ...):
+            // lane order and mate order matter for several-file samples (D75).
+            return [ meta, [ files ].flatten().sort { f -> (f.name =~ /_(\d+)\.fastq\.gz$/)[0][1] as Integer } ]
         damaged: true
             return [ meta, [ files ].flatten(), rows.findAll { r -> r.status != 'ok' }.collect { r -> "${r.file}: ${r.problem}" }.join('; ') ]
     }
@@ -334,14 +354,32 @@ workflow SEQ_TRIAGE {
     // 3. Read statistics and platform detection, per readable sample.
     //    Detection needs the stats AND the reads (headers, quality values),
     //    so the stats are joined back onto the reads by meta.
-    SEQKIT_STATS(ch_readable)
+    //    A sample in several files (D75) is detected per lane (or per file
+    //    for single-end reads), then the lanes are combined: a top-up run at
+    //    another read length would blur the read-length spread if the files
+    //    were pooled first. Each lane is its own task ("<sample>.u<k>");
+    //    one-file samples are untouched.
+    ch_units = ch_readable.flatMap { meta, reads -> lanes(meta, reads) }
+    SEQKIT_STATS(ch_units)
     DETECT_PLATFORM(
-        SEQKIT_STATS.out.stats.join(ch_readable, failOnMismatch: true, failOnDuplicate: true)
+        SEQKIT_STATS.out.stats.join(ch_units, failOnMismatch: true, failOnDuplicate: true)
+    )
+    ch_unit_tsv = DETECT_PLATFORM.out.tsv.branch { meta, _tsv ->
+        lane:  meta.unit_of
+        whole: true
+    }
+    COMBINE_DETECTION(
+        ch_unit_tsv.lane
+            .map { meta, tsv -> [ groupKey(meta.unit_of, meta.n_units as Integer), meta.unit, tsv ] }
+            .groupTuple()
+            .map { id, units, tsvs -> [ id.toString(), [ units, tsvs ].transpose().sort { u -> u[0] }.collect { u -> u[1] } ] }
     )
     // Unreadable samples get a detection row saying so, so every sample
     // still reaches the joins below (and the report) exactly once.
-    ch_detect = DETECT_PLATFORM.out.tsv
-        .map { meta, tsv -> [ meta.id, tsv.splitCsv(header: true, sep: '\t')[0] ] }
+    ch_detect = ch_unit_tsv.whole
+        .map { meta, tsv -> [ meta.id, tsv ] }
+        .mix(COMBINE_DETECTION.out.tsv)
+        .map { id, tsv -> [ id, tsv.splitCsv(header: true, sep: '\t')[0] ] }
         .mix(ch_integrity.unreadable.map { meta, problem, n_files -> [ meta, problem, n_files ] }
             .mix(ch_damaged_input.map { meta, files, problem -> [ meta, problem, files.size() ] })
             .map { meta, problem, n_files ->
@@ -399,8 +437,16 @@ workflow SEQ_TRIAGE {
         }
 
     // 5. Route. Only samples with a platform get QC; 'empty' and
-    //    'unrouted' go straight to the report.
-    ch_routed = ch_triaged.branch { meta, _reads ->
+    //    'unrouted' go straight to the report. A sample in several files
+    //    headed for QC is merged into one file (or one pair) first, with
+    //    nf-core's CAT_FASTQ (D75): QC, the screen and the type call judge
+    //    the whole sample. Its files were each checked above.
+    ch_to_merge = ch_triaged.branch { meta, _reads ->
+        merge: meta.n_units && readClass(meta.route as String)
+        as_is: true
+    }
+    CAT_FASTQ(ch_to_merge.merge)
+    ch_routed = ch_to_merge.as_is.mix(CAT_FASTQ.out.reads).branch { meta, _reads ->
         short_reads: readClass(meta.route as String) == 'short'    // illumina, dnbseq, element
         ont:      meta.route == 'ont'
         pacbio:   meta.route == 'pacbio'
@@ -481,7 +527,7 @@ workflow SEQ_TRIAGE {
     //    seqkit runs on every sample, so this channel is never empty and the
     //    report always runs, even if no sample was routed to QC.
     ch_qc_values = channel.empty()
-        .mix(SEQKIT_STATS.out.stats.flatMap { meta, f -> seqkitRows(meta.id, f) })
+        .mix(SEQKIT_STATS.out.stats.flatMap { meta, f -> seqkitRows((meta.unit_of ?: meta.id) as String, f) })
         .mix(FASTP.out.json.flatMap         { meta, f -> fastpRows(meta.id, f) })
         .mix(NANOPLOT.out.txt.flatMap       { meta, f -> [ f ].flatten().findAll { x -> x.name.endsWith('NanoStats.txt') }.collectMany { x -> nanoplotRows(meta.id, x) } })
         .mix(FASTQC.out.zip.flatMap         { meta, f -> [ f ].flatten().collectMany { x -> fastqcRows(meta.id, x) } })

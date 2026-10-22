@@ -31,7 +31,7 @@ if (length(args) != 5) stop("Usage: recommend.R <triage_summary.tsv> <triage_met
 rt   <- function(f) read.delim(f, colClasses = "character", na.strings = "", quote = "", check.names = FALSE)
 summ <- rt(args[1]); mets <- rt(args[2]); rules <- rt(args[4]); out <- args[5]
 sheet <- read.csv(args[3], colClasses = "character", na.strings = "", check.names = FALSE, strip.white = TRUE)
-for (col in c("fastq_1", "fastq_2", "bam")) if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir")) if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 sheet$sample <- trimws(sheet$sample)
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 
@@ -47,11 +47,15 @@ in_list <- function(value, list) value %in% strsplit(list, ",")[[1]]
 
 # WHAT IT DOES  Decides for one sample. RETURNS list(rule = row of rules or
 #               NULL, reason = text).
+# row: the sample's samplesheet rows (several for a sample in several
+# files, D75), in samplesheet order.
 decide <- function(s, row) {
   none <- function(why) list(rule = NULL, reason = why)
   if (!s$verdict %in% c("PASS", "WARN"))
     return(none(sprintf("Verdict is %s: resolve the triage findings first.", s$verdict)))
-  if (has(row$bam))
+  if (any(has(row$fastq_dir)))
+    return(none("Reads given as a folder (fastq_dir): list the files in the next pipeline's samplesheet, one row each, or merge them first."))
+  if (any(has(row$bam)))
     return(none("BAM input: the downstream pipelines take FASTQ. Convert first (samtools collate | samtools fastq)."))
   flags <- if (has(s$detection_flags)) strsplit(s$detection_flags, ",")[[1]] else character(0)
   conflict <- intersect(flags, c("TYPE_CONTRADICTS", "BAM_HEADER_DISAGREES"))
@@ -79,6 +83,11 @@ decide <- function(s, row) {
       (r$target == "any" || (r$target == "sarscov2" && target %in% "sarscov2") ||
        (r$target == "not_sarscov2" && target %in% "other"))
   }, TRUE))
+  # ampliseq's samplesheet takes one row per sample (its schema says so,
+  # whatever its code allows), so several files must be merged first (D75).
+  fits <- fits[!(rules$pipeline[fits] == "ampliseq" & nrow(row) > 1)]
+  if (length(fits) == 0 && nrow(row) > 1 && type == "amplicon" && !target %in% c("sarscov2", "virus"))
+    return(none("Several files for one sample: nf-core/ampliseq takes one row per sample, so merge the files first (cat), then use nf-core/ampliseq."))
   if (length(fits)) {
     note <- c(if (!has(s$declared_molecule)) "molecule not declared, so DNA assumed" else NULL,
               if (!has(s$declared_type)) sprintf("sample type %s detected from the reads", type) else NULL)
@@ -102,7 +111,7 @@ decide <- function(s, row) {
 
 rows <- lapply(seq_len(nrow(summ)), function(i) {
   s   <- summ[i, ]
-  row <- sheet[match(s$sample, sheet$sample), ]
+  row <- sheet[sheet$sample == s$sample, , drop = FALSE]
   d   <- decide(s, row)
   list(sample = s$sample, row = row, platform = switch(s$routed_by, detected = s$detected_platform, declared = s$declared_platform, NA),
        rule = d$rule, reason = d$reason)
@@ -121,12 +130,16 @@ write.table(rec, file.path(out, "recommendations.tsv"), sep = "\t", quote = FALS
 # assets/schema_input.json at the pinned commit; tests/recommend/).
 NAv <- function(x) ifelse(has(x), x, "NA")
 blank <- function(x) ifelse(has(x), x, "")
+# One output row per samplesheet row: the pipelines that accept a sample
+# in several files take repeated rows (bacass, viralrecon, rnaseq; taxprofiler
+# with a different run_accession per row), checked in their code (D75).
 sheet_row <- function(fmt, r) {
   f1 <- r$row$fastq_1; f2 <- r$row$fastq_2
+  run <- if (nrow(r$row) > 1) sprintf("%s_%d", r$sample, seq_len(nrow(r$row))) else r$sample
   switch(fmt,
     bacass_short = data.frame(ID = r$sample, R1 = NAv(f1), R2 = NAv(f2), LongFastQ = "NA", Fast5 = "NA", GenomeSize = "NA"),
     bacass_long  = data.frame(ID = r$sample, R1 = "NA", R2 = "NA", LongFastQ = NAv(f1), Fast5 = "NA", GenomeSize = "NA"),
-    taxprofiler  = data.frame(sample = r$sample, run_accession = r$sample,
+    taxprofiler  = data.frame(sample = r$sample, run_accession = run,
                               instrument_platform = c(illumina = "ILLUMINA", dnbseq = "DNBSEQ", ont = "OXFORD_NANOPORE",
                                                       pacbio = "PACBIO_SMRT")[[r$platform]],
                               fastq_1 = f1, fastq_2 = blank(f2), fasta = ""),
@@ -144,7 +157,7 @@ for (rl in unique(rec$rule[rec$pipeline != "none"])) {
   write.csv(ss, file.path(dir, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 
   fixed <- if (has(rule$params)) strsplit(rule$params, ";")[[1]] else character(0)
-  if (rule$pipeline == "ampliseq" && all(vapply(sel, function(r) !has(r$row$fastq_2), TRUE))) fixed <- c(fixed, "single_end=true")
+  if (rule$pipeline == "ampliseq" && all(vapply(sel, function(r) all(!has(r$row$fastq_2)), TRUE))) fixed <- c(fixed, "single_end=true")
   kv <- do.call(rbind, strsplit(fixed, "=", fixed = TRUE))
   fill <- if (has(rule$fill_in)) strsplit(rule$fill_in, ",")[[1]] else character(0)
   free <- endsWith(fill, "!"); fill <- sub("!$", "", fill)

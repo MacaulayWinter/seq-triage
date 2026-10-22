@@ -94,7 +94,7 @@ MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_1", "fastq_2", "bam", "platform", "sample_type", "molecule")) {
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -128,7 +128,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "bam", "platform", "sample_type", "molecule")) {
+for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))
@@ -136,13 +136,18 @@ for (col in c("sample", "fastq_1", "fastq_2", "bam", "platform", "sample_type", 
 
 # ID collisions: distinct IDs that become identical once normalised. The
 # schema already rejected exact duplicates, so any hit here is S1 vs s1.
-id_key <- normalise_identifier(sheet$sample)
-for (k in unique(id_key[duplicated(id_key)])) {
+# Rows with the SAME ID are one sample in several files (D75), so a
+# collision is two DIFFERENT IDs that match once case and punctuation go.
+id_trim <- trimws(sheet$sample)
+id_key  <- normalise_identifier(sheet$sample)
+for (k in unique(id_key)) {
   r <- which(id_key == k)
+  if (length(unique(id_trim[r])) < 2) next
   for (i in r) {
+    others <- unique(id_trim[r][id_trim[r] != id_trim[i]])
     add_flag(i, "ID_COLLISION",
              sprintf("'%s' collides with %s after normalising case and punctuation",
-                     sheet$sample[i], paste0("'", sheet$sample[setdiff(r, i)], "'", collapse = ", ")))
+                     sheet$sample[i], paste0("'", others, "'", collapse = ", ")))
   }
 }
 
@@ -182,16 +187,19 @@ r <- which(!paired & m1 %in% "R2" & explicit)
 add_flag(r, "SINGLE_FILE_NAMED_R2", rep("only one file given and it is named like a second mate (_R2); check R1 is not missing", length(r)))
 
 # The same file used by more than one sample.
-files  <- data.frame(row = c(seq_len(n), seq_len(n), seq_len(n)),
-                     path = c(sheet$fastq_1, sheet$fastq_2, sheet$bam), stringsAsFactors = FALSE)
+files  <- data.frame(row = rep(seq_len(n), 4),
+                     path = c(sheet$fastq_1, sheet$fastq_2, sheet$bam, sheet$fastq_dir), stringsAsFactors = FALSE)
 files  <- files[!is.na(files$path), ]
-shared <- unique(files$path[duplicated(files$path)])
-for (p in shared) {
-  r <- unique(files$row[files$path == p])
-  for (i in r) {
+files$sample <- id_trim[files$row]
+# Shared means used by another SAMPLE; the same file twice within one sample
+# is a hard error in main.nf (D75).
+for (p in unique(files$path)) {
+  users <- unique(files$sample[files$path == p])
+  if (length(users) < 2) next
+  for (i in unique(files$row[files$path == p])) {
     add_flag(i, "FASTQ_SHARED",
              sprintf("'%s' is also used by %s", basename(p),
-                     paste0("'", sheet$sample[setdiff(r, i)], "'", collapse = ", ")))
+                     paste0("'", setdiff(users, id_trim[i]), "'", collapse = ", ")))
   }
 }
 
@@ -206,22 +214,28 @@ add_flag(r, "LAYOUT_CONFLICT", rep("platform declared as ONT but two FASTQ files
 # building meta.id (tested), so the key is trimmed here to match. Otherwise a
 # sample written as " B" would silently drop out of the join. The WHITESPACE
 # flag above still records that the raw value had spaces.
+# One row per SAMPLE (D75): the rows of a several-file sample agree on
+# platform, type and molecule (main.nf stops otherwise), so the first row
+# speaks for them; their flags are pooled, each once.
+first <- !duplicated(id_trim)
+pooled <- lapply(id_trim[first], function(id) unique(unlist(flags[id_trim == id])))
 out <- data.frame(
-  sample                 = trimws(sheet$sample),
-  declared_platform_raw  = sheet$platform,
-  declared_platform      = plat$value,
-  platform_tier          = plat$tier,
-  declared_type_raw      = sheet$sample_type,
-  declared_type          = type$value,
-  type_tier              = type$tier,
-  declared_molecule_raw  = sheet$molecule,
-  declared_molecule      = mol$value,
-  molecule_tier          = mol$tier,
-  n_flags                = lengths(flags),
-  flags                  = vapply(flags, function(f) paste(f, collapse = " | "), character(1)),
+  sample                 = id_trim[first],
+  declared_platform_raw  = sheet$platform[first],
+  declared_platform      = plat$value[first],
+  platform_tier          = plat$tier[first],
+  declared_type_raw      = sheet$sample_type[first],
+  declared_type          = type$value[first],
+  type_tier              = type$tier[first],
+  declared_molecule_raw  = sheet$molecule[first],
+  declared_molecule      = mol$value[first],
+  molecule_tier          = mol$tier[first],
+  n_rows                 = as.vector(table(id_trim)[id_trim[first]]),
+  n_flags                = lengths(pooled),
+  flags                  = vapply(pooled, function(f) paste(f, collapse = " | "), character(1)),
   stringsAsFactors       = FALSE
 )
 write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
 message(sprintf("Screened %d sample(s): %d flag(s) on %d sample(s).",
-                n, sum(out$n_flags), sum(out$n_flags > 0)))
+                nrow(out), sum(out$n_flags), sum(out$n_flags > 0)))

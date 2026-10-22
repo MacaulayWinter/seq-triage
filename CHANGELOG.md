@@ -37,6 +37,13 @@ All notable changes to seq-triage. Versions follow
   `bgiseq` and `element`/`aviti`; the downstream rules accept them where the
   next pipeline does.
 
+- Several files per sample (D75): repeat the sample ID on several rows
+  (lanes, top-up runs) or give a folder in the new `fastq_dir` column (a
+  nanopore barcode folder). Every file is checked; one damaged file fails
+  the whole sample. The platform is detected per lane and combined (new
+  local step `COMBINE_DETECTION`), then the files are joined with nf-core
+  `cat/fastq` before QC.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short

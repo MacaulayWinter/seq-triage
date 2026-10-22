@@ -6,7 +6,8 @@
 #   Rscript tests/e2e/check_test_profile.R results
 #
 # Checks, each printed as PASS/FAIL; exits 1 if any fails, so CI can gate on it:
-#   1. every samplesheet row has a verdict (no sample silently lost)
+#   1. every samplesheet sample has a verdict, once (no sample silently lost;
+#      several rows with one ID are one sample, D75)
 #   2. each verdict matches tests/e2e/expected_verdicts.tsv
 #   3. no FASTQ was published to results/ (reads never belong there)
 #   4. every tool reported its version (reproducibility layer 4)
@@ -33,7 +34,8 @@ summary  <- read_tsv(file.path(res, "triage_summary.tsv"))
 
 # 1. Completeness
 lost <- setdiff(sheet$sample, summary$sample)
-check("every samplesheet row has a verdict", length(lost) == 0 && nrow(summary) == nrow(sheet),
+# Several rows with one ID are one sample (D75), so count unique IDs.
+check("every samplesheet sample has a verdict", length(lost) == 0 && nrow(summary) == length(unique(sheet$sample)),
       paste("missing:", paste(lost, collapse = ", ")))
 
 # 2. Verdicts
