@@ -39,3 +39,14 @@ cd ~/Documents/Bioinformatics_pipelines/seq-triage && Rscript validation/layer_E
 
 The results file holds tables only: verdicts, metrics, detected types,
 software versions, the database's name and size, and checksums of the reads.
+
+## Round 2 (D68)
+
+Same steps, with the round 2 panel. On the HPC:
+
+```bash
+cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round2/panel.tsv sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_E/run_layer_E.sh validation/layer_D/settings.config ~/seqtriage_layer_E_r2
+```
+
+Score on your Mac with `validation/outcomes/layer_E_round2/panel.tsv` and
+`~/seqtriage_layer_E_r2/layer_E_results.tgz`.

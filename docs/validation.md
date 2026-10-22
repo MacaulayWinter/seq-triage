@@ -563,6 +563,27 @@ database names SARS-CoV-2 "Betacoronavirus pandemicum", which the viralrecon
 rule did not recognise, and a mumps amplicon would have gone to ampliseq.
 Both fixed before D66 was merged.
 
+## Layer E round 2: testing D67 (pre-registered 2026-10-22)
+
+Fixed before the panel was drawn (CLAUDE.md D68). D67 was chosen after
+seeing layer E, so layer E cannot test it; this round does, on studies no
+earlier round used (rounds 1-3 and layer E excluded).
+
+- **Strata (49 runs, all Illumina; nanopore cannot give high-confidence
+  type calls):** viral amplicons 12 (SARS-CoV-2 and others, fragmented or
+  primer-anchored), environmental metagenomes 10 (soil, marine, freshwater:
+  mostly unclassified), gut metagenomes 6 (better classified), bacterial
+  isolates 10 (control: must stay high), phage isolates 5 (*Caudoviricetes*,
+  WGS: measures the cost of D67's virus rule, which caps them at medium),
+  16S amplicons 6 (control)
+  ([`strata.psv`](../validation/layer_E/round2/strata.psv)).
+- **Draw, run and truth** as layer E: whole-pool, platforms declared from
+  ENA, `sample_type` not declared, Standard-8 on the HPC, truth from ENA's
+  library records.
+- **Pass mark:** **zero wrong sample-type calls at high confidence.**
+- **Reported:** correct high-confidence calls per stratum (the cost of D67:
+  phage isolates are expected at medium by design), and wrong medium calls.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
