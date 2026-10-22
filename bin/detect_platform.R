@@ -57,6 +57,19 @@ NARROW_MAX  <- 0.25   # spread <= this: uniform lengths. Illumina seen: 0.00-0.0
 WIDE_MIN    <- 0.5    # spread >= this: variable lengths. ONT seen: 0.82-1.98
 BINNED_MAX  <- 8      # <= this many distinct quality values: binned (NovaSeq/NextSeq: 4-6)
 MIN_READS   <- 100    # fewer reads than this: too few to trust the length shape
+# Library structure (D78, provisional). Biological reads are longer than 30
+# bp; index reads are 6-12 bp, 10x cell barcode + UMI reads 26-28 bp.
+INDEX_MAX      <- 30
+BIO_MIN        <- 50     # the other mate of a barcode or index read
+# Bisulfite / EM-seq convert unmethylated C to T, so one strand's reads keep
+# little C (or, for PBAT, little G) while the other base is unchanged. Two
+# conditions: the depleted base under 10%, AND under half the other one.
+# Checked on real reads: rice WGBS R1 3.3% C, Panax WGBS R1 6.2% C (plants
+# keep more C: non-CpG methylation), against 192 ordinary real files whose
+# lowest C or G share is 13.4% (C and G within a factor of 2 in every one).
+BISULFITE_MAX   <- 0.10
+BISULFITE_RATIO <- 0.50
+INTERLEAVED_MIN <- 0.9   # share of probed record pairs with the same read name
 PROBE_N     <- 2000   # reads read from the start of each file for headers and quality
 HEADER_FRAC <- 0.9    # share of probed headers that must match a format to count as evidence
 
@@ -289,6 +302,52 @@ start_share <- function(seq) {
 evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases,
                  start_share = start_share(probes[[1]]$seq), probe_reads = length(probes[[1]]$seq),
                  adapters = vapply(ad_frac, function(f) paste(sprintf("%s=%.3f", names(f), f), collapse = ","), ""))
+# Library structure (D78) -----------------------------------------------------
+base_frac <- function(seq, b) {
+  n <- sum(nchar(seq))
+  if (n == 0) return(NA_real_)
+  sum(nchar(gsub(sprintf("[^%s]", b), "", seq))) / n
+}
+lib_short <- max_ln <= INDEX_MAX
+if (all(lib_short)) {
+  flags <- c(flags, "INDEX_READS")
+  why   <- sprintf("Every read is %s bp or shorter (%s): these are index or barcode reads, not reads of the sample's DNA. Give the sample's read files (R1, R2) instead; no QC was run.",
+                   INDEX_MAX, paste(sprintf("longest %s bp", max_ln), collapse = "; "))
+  write_result("uncertain", if (n_files == 1) "single" else "uncertain", "uncertain", evidence)
+}
+if (n_files == 2 && lib_short[1] && max_ln[2] >= BIO_MIN) {
+  # 10x Genomics-style single-cell: R1 = cell barcode + UMI, R2 = cDNA.
+  flags <- c(flags, "BARCODE_READ")
+  why   <- c(why, sprintf("R1 is only %s bp and R2 %s bp: R1 is a cell-barcode/UMI read, as 10x Genomics-style single-cell libraries write, so this looks like single-cell data. QC is run on R2, the read of the sample's molecules.",
+                          max_ln[1], max_ln[2]))
+  evidence$start_share <- start_share(probes[[2]]$seq)
+  evidence$probe_reads <- length(probes[[2]]$seq)
+} else if (n_files == 2 && lib_short[2] && max_ln[1] >= BIO_MIN) {
+  flags <- c(flags, "INDEX_READ_AS_MATE")
+  why   <- c(why, sprintf("fastq_2 is only %s bp: it looks like an index (I1) read given as the second mate, not R2. QC is run on fastq_1 alone, as single-end; give R2 as fastq_2 if there is one.",
+                          max_ln[2]))
+}
+bio <- if ("BARCODE_READ" %in% flags) 2 else 1
+c_frac <- base_frac(probes[[bio]]$seq, "C"); g_frac <- base_frac(probes[[bio]]$seq, "G")
+if (!is.na(c_frac) && min(c_frac, g_frac) < BISULFITE_MAX &&
+    min(c_frac, g_frac) < BISULFITE_RATIO * max(c_frac, g_frac)) {
+  flags <- c(flags, "BISULFITE")
+  why   <- c(why, sprintf("Only %.1f%% of bases are C and %.1f%% G in %s: one strand has lost its C, as bisulfite or EM-seq conversion does, so this looks like a methylation library. Converted reads cannot be classified reliably, so contamination is not judged.",
+                          100 * c_frac, 100 * g_frac, if (bio == 2) "R2" else "the reads"))
+}
+interleaved <- FALSE
+if (n_files == 1 && max_ln[1] <= SHORT_MAX) {
+  nm <- probes[[1]]$names
+  k  <- 2 * (length(nm) %/% 2)
+  if (k >= 2 && n_reads[1] %% 2 == 0 &&
+      mean(nm[seq(1, k, 2)] == nm[seq(2, k, 2)]) >= INTERLEAVED_MIN) {
+    interleaved <- TRUE
+    flags <- c(flags, "INTERLEAVED")
+    why   <- c(why, sprintf("One file, but each read name appears twice in a row (first %s reads): both mates are in one interleaved file. It is split into R1 and R2 before QC.",
+                            format(k, big.mark = ",")))
+  }
+}
+
 if (any(u_bases)) {
   flags <- c(flags, "U_BASES")
   why   <- c(why, "Reads are written with U instead of T, as direct-RNA basecalls are.")
@@ -442,7 +501,7 @@ if (any(n_reads < MIN_READS)) {
 # 4. Layout --------------------------------------------------------------------
 
 if (n_files == 1) {
-  layout <- "single"
+  layout <- if (interleaved && read_kind == "short") "interleaved" else "single"
 } else if (read_kind == "long") {
   layout <- "uncertain"
   flags  <- c(flags, "TWO_FILES_LONG_READS")

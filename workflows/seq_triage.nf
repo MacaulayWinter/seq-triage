@@ -25,6 +25,7 @@ include { NORMALISE_FASTQ } from '../modules/local/normalise_fastq/main'
 include { SAMTOOLS_COLLATEFASTQ } from '../modules/nf-core/samtools/collatefastq/main'
 include { CAT_FASTQ       } from '../modules/nf-core/cat/fastq/main'
 include { COMBINE_DETECTION } from '../modules/local/combine_detection/main'
+include { DEINTERLEAVE    } from '../modules/local/deinterleave/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
 // "not present" throughout the pipeline (CLAUDE.md D22).
@@ -219,6 +220,10 @@ def routeSample(Map meta) {
     def r
     if (meta.detection_flags == 'FILE_UNREADABLE') {
         return meta + [ route: 'unreadable', routed_by: 'none' ]
+    }
+    // Only index or barcode reads were given (D78): nothing to QC.
+    if ((meta.detection_flags ?: '').split(',').contains('INDEX_READS')) {
+        return meta + [ route: 'unrouted', routed_by: 'index_reads' ]
     }
     if (meta.n_reads == 0) {
         r = [ route: 'empty', routed_by: 'none' ]
@@ -446,7 +451,25 @@ workflow SEQ_TRIAGE {
         as_is: true
     }
     CAT_FASTQ(ch_to_merge.merge)
-    ch_routed = ch_to_merge.as_is.mix(CAT_FASTQ.out.reads).branch { meta, _reads ->
+    //    Library structure (D78), for samples headed for QC: an interleaved
+    //    file is split into R1 and R2; a cell-barcode R1 (10x-style) or an
+    //    index read given as R2 is set aside, so QC judges the read of the
+    //    sample's molecules, as single-end. meta changes only for these.
+    ch_shaped = ch_to_merge.as_is.mix(CAT_FASTQ.out.reads).branch { meta, _reads ->
+        def f = (meta.detection_flags ?: '').split(',')
+        interleaved: readClass(meta.route as String) == 'short' && meta.detected_layout == 'interleaved'
+        one_mate:    readClass(meta.route as String) == 'short' && (f.contains('BARCODE_READ') || f.contains('INDEX_READ_AS_MATE'))
+        as_is:       true
+    }
+    DEINTERLEAVE(ch_shaped.interleaved)
+    ch_qc_reads = ch_shaped.as_is
+        .mix(DEINTERLEAVE.out.reads.map { meta, reads -> [ meta + [ single_end: false ], reads ] })
+        .mix(ch_shaped.one_mate.map { meta, reads ->
+            def pair = [ reads ].flatten()
+            def keep = (meta.detection_flags ?: '').split(',').contains('BARCODE_READ') ? pair[1] : pair[0]
+            [ meta + [ single_end: true, qc_mate: keep == pair[1] ? 'R2' : 'R1' ], [ keep ] ]
+        })
+    ch_routed = ch_qc_reads.branch { meta, _reads ->
         short_reads: readClass(meta.route as String) == 'short'    // illumina, dnbseq, element
         ont:      meta.route == 'ont'
         pacbio:   meta.route == 'pacbio'

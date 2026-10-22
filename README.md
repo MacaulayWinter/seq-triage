@@ -255,6 +255,19 @@ screen and the sample type judge the whole sample.
 | `target_taxid` | no | The NCBI taxonomy ID of the organism the sample is meant to be: `9606` human, `4932` *S. cerevisiae*, `10090` mouse, `562` *E. coli*. A number, not a name, because names change between database versions. With the contamination screen on, it sets what counts as off-target (anything that is not the target), reports `target_fraction`, and flags a target that is not the most common species (`TARGET_NOT_DOMINANT`, at most WARN) or that no read was classified to (`TARGET_NOT_SEEN`: contamination cannot be judged, at most WARN; Standard-8 holds no eukaryote but human, so use e.g. PlusPF for fungi). With `9606`, human reads are the sample, not contamination. With no target declared, a sample whose classified reads are at least half human is UNCERTAIN (`HOST_DOMINANT`): a human sample, or one swamped by human DNA, which only you can say. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
+**Library structure is read from the reads** (D78), whatever was declared:
+
+| Seen in the reads | Flag | What happens |
+|---|---|---|
+| Every read 30 bp or shorter | `INDEX_READS` | Index or barcode reads, not the sample's DNA: no QC, UNCERTAIN, give R1/R2 instead. |
+| R1 30 bp or shorter, R2 longer | `BARCODE_READ` | A 10x Genomics-style single-cell library (cell barcode + UMI in R1): QC on R2; next pipeline nf-core/scrnaseq. |
+| fastq_2 30 bp or shorter, fastq_1 longer | `INDEX_READ_AS_MATE` | An index (I1) read given as R2: QC on fastq_1 only, at most WARN. |
+| One strand with little C (or G): under 10% and under half of the other base | `BISULFITE` | A bisulfite or EM-seq methylation library: contamination not judged; next pipeline nf-core/methylseq. |
+| One file whose consecutive reads share a name | `INTERLEAVED` | Both mates in one file: split into R1 and R2 before QC (never published). |
+
+Plate-based single-cell (Smart-seq) has no barcode read, so it looks like
+bulk RNA-seq; RRBS and EM-seq cannot be told from WGBS by the reads.
+
 Unknown parameters and unknown samplesheet columns are errors, not warnings.
 This stops a typo such as `fastq2` from silently turning paired data into
 single-end.
@@ -391,7 +404,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D77), including every rule that validation overturned and every CI
+(D1-D78), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
