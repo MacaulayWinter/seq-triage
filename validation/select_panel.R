@@ -10,10 +10,17 @@
 #               2. No human samples (tax_id 9606).
 #               3. Runs must have downloadable FASTQ (1 file single, 2 paired).
 #               4. Same inputs + same seed = same panel, for anyone.
-# CAVEAT        ENA returns candidates in its own order, and only the first
-#               CANDIDATES per stratum are drawn from, inside a stated date
-#               window. The panel is random within that pool, not across all
-#               of ENA. The pool definition is recorded in panel.tsv.
+# CAVEAT        Round 1: ENA returns candidates in its own order, and only
+#               the first CANDIDATES per stratum are drawn from, inside a
+#               stated date window. One run per study then left pools as
+#               small as 4 runs, and 19 of 40 picks were DDBJ runs.
+# ROUND 2       (D51) Draws from the WHOLE pool: every matching run's
+#               accession and study is fetched, studies are put in a seeded
+#               random order, and one random run per study is checked for
+#               eligibility until the stratum is full. Every study in the
+#               round 1 panel file is excluded too: the D40 read-name markers
+#               were designed after looking at those runs. The pool
+#               definition and size are recorded in panel.tsv.
 #
 # Usage:  Rscript validation/select_panel.R <round> <out_panel.tsv>
 #         round = 1 (40 runs) or 2 (~150 runs)
@@ -24,6 +31,7 @@ if (length(args) != 2) stop("Usage: select_panel.R <round> <out_panel.tsv>")
 round   <- as.integer(args[1])
 out_tsv <- args[2]
 
+options(timeout = 900)   # whole-pool queries return up to ~360,000 rows; R's default is 60 s
 SEED       <- 20261020
 CANDIDATES <- 500     # runs fetched per stratum before the random pick
 BACKUPS    <- 2       # extra runs per stratum, used only if a download fails
@@ -80,12 +88,38 @@ FIELDS <- c("run_accession", "study_accession", "sample_accession", "instrument_
             "library_strategy", "library_source", "library_layout", "tax_id", "scientific_name",
             "first_public", "read_count", "fastq_ftp", "fastq_bytes")
 
-ena_search <- function(query, n) {
+ena_search <- function(query, n, fields = FIELDS) {
   url <- paste0("https://www.ebi.ac.uk/ena/portal/api/search?result=read_run",
                 "&query=", URLencode(query, reserved = TRUE),
-                "&fields=", paste(FIELDS, collapse = ","),
+                "&fields=", paste(fields, collapse = ","),
                 "&limit=", n, "&format=tsv")
-  read.delim(url(url), colClasses = "character", na.strings = "", quote = "")
+  # ENA's API sometimes answers 500 to a large query; try again before giving up.
+  for (attempt in 1:4) {
+    res <- tryCatch(read.delim(url(url), colClasses = "character", na.strings = "", quote = ""),
+                    error = function(e) e)
+    if (!inherits(res, "error")) return(res)
+    message(sprintf("  ENA query failed (attempt %d): %s", attempt, conditionMessage(res)))
+    Sys.sleep(10 * attempt)
+  }
+  stop("ENA query failed 4 times: ", query)
+}
+# A run is usable if its FASTQ is downloadable as 1 file (single) or 2 (paired;
+# a third file of unpaired reads is allowed and dropped later).
+eligible <- function(cand) {
+  n_files <- lengths(strsplit(ifelse(is.na(cand$fastq_ftp), "", cand$fastq_ftp), ";"))
+  # %in% rather than ==, so a blank field in ENA's record (NA) means "not
+  # eligible" instead of an NA that stops the script.
+  !is.na(cand$fastq_ftp) & !(cand$tax_id %in% "9606") &
+    ((cand$library_layout %in% "SINGLE" & n_files == 1) | (cand$library_layout %in% "PAIRED" & n_files %in% 2:3))
+}
+
+# Round 2 exclusions: every study in the round 1 panel file, picked or backup.
+if (round >= 2) {
+  r1 <- file.path(dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))),
+                  "outcomes", "round1", "panel.tsv")
+  r1_studies <- unique(read.delim(r1, colClasses = "character")$study_accession)
+  message(sprintf("Excluding %d calibration studies and %d round 1 studies", length(CALIBRATION_STUDIES), length(r1_studies)))
+  CALIBRATION_STUDIES <- c(CALIBRATION_STUDIES, r1_studies)
 }
 
 n_col <- if (round == 1) "r1" else "r2"
@@ -94,34 +128,78 @@ for (k in seq_len(nrow(strata))) {
   s <- strata[k, ]
   q <- sprintf("%s AND %s AND first_public>=%s AND first_public<=%s",
                gsub("BACTERIA", BACTERIA, s$query, fixed = TRUE), NOT_HUMAN, s$from, s$to)
-  cand <- ena_search(q, CANDIDATES)
-  n_files <- lengths(strsplit(ifelse(is.na(cand$fastq_ftp), "", cand$fastq_ftp), ";"))
-  keep <- !is.na(cand$fastq_ftp) & !cand$study_accession %in% CALIBRATION_STUDIES &
-          cand$tax_id != "9606" &
-          ((cand$library_layout == "SINGLE" & n_files == 1) | (cand$library_layout == "PAIRED" & n_files %in% 2:3))
-  cand <- cand[keep, ]
-  # One run per study, so one large study cannot dominate a stratum.
-  cand <- cand[!duplicated(cand$study_accession), ]
   want <- s[[n_col]] + BACKUPS
-  set.seed(SEED + k)
-  pick <- cand[sample(nrow(cand), min(want, nrow(cand))), ]
+  if (round == 1) {
+    cand <- ena_search(q, CANDIDATES)
+    keep <- eligible(cand) & !cand$study_accession %in% CALIBRATION_STUDIES
+    cand <- cand[keep, ]
+    # One run per study, so one large study cannot dominate a stratum.
+    cand <- cand[!duplicated(cand$study_accession), ]
+    set.seed(SEED + k)
+    pick <- cand[sample(nrow(cand), min(want, nrow(cand))), ]
+    pool_text <- sprintf("first %d candidates; %d eligible after exclusions", CANDIDATES, nrow(cand))
+  } else {
+    # Whole pool, two columns only, fetched one calendar year at a time
+    # (smaller requests, which ENA's API answers more reliably; together they
+    # are the same pool). Each pool is saved next to the panel, so a re-run
+    # reuses it and the panel records exactly what it was drawn from.
+    pool_dir <- paste0(out_tsv, ".pools")
+    dir.create(pool_dir, showWarnings = FALSE)
+    pool_file <- file.path(pool_dir, paste0(s$stratum, ".tsv"))
+    if (file.exists(pool_file)) {
+      all_runs <- read.delim(pool_file, colClasses = "character")
+    } else {
+      years <- as.integer(substr(s$from, 1, 4)):as.integer(substr(s$to, 1, 4))
+      all_runs <- do.call(rbind, lapply(years, function(y) {
+        lo <- max(s$from, sprintf("%d-01-01", y)); hi <- min(s$to, sprintf("%d-12-31", y))
+        qy <- sprintf("%s AND %s AND first_public>=%s AND first_public<=%s",
+                      gsub("BACTERIA", BACTERIA, s$query, fixed = TRUE), NOT_HUMAN, lo, hi)
+        ena_search(qy, 0, c("run_accession", "study_accession"))
+      }))
+      write.table(all_runs, pool_file, sep = "\t", quote = FALSE, row.names = FALSE)
+    }
+    all_runs <- all_runs[!all_runs$study_accession %in% CALIBRATION_STUDIES, ]
+    # Sorted first, so the seeded shuffle depends only on the pool's contents,
+    # not on the order ENA happened to return it in.
+    all_runs <- all_runs[order(all_runs$study_accession, all_runs$run_accession), ]
+    studies  <- sort(unique(all_runs$study_accession))
+    set.seed(SEED + 1000 * round + k)
+    studies  <- studies[sample(length(studies))]
+    pick <- list(); tried <- 0L
+    for (st in studies) {
+      if (length(pick) == want) break
+      runs <- all_runs$run_accession[all_runs$study_accession == st]
+      # Up to 3 random runs per study: some runs lack FASTQ or have odd files.
+      for (r in runs[sample(length(runs), min(3L, length(runs)))]) {
+        tried <- tried + 1L
+        d <- ena_search(sprintf('run_accession="%s"', r), 1)
+        if (nrow(d) == 1 && eligible(d)) { pick[[length(pick) + 1]] <- d; break }
+      }
+    }
+    pick <- if (length(pick)) do.call(rbind, pick)
+            else as.data.frame(setNames(replicate(length(FIELDS), character(0), simplify = FALSE), FIELDS))
+    pool_text <- sprintf("whole pool: %d runs in %d studies after exclusions; one random run per study, %d runs checked",
+                         nrow(all_runs), length(studies), tried)
+  }
   if (nrow(pick) < s[[n_col]]) warning(sprintf("%s: only %d eligible runs", s$stratum, nrow(pick)))
   pick$stratum     <- s$stratum
   pick$truth       <- s$truth
   pick$role        <- c(rep("panel", min(s[[n_col]], nrow(pick))), rep("backup", max(0, nrow(pick) - s[[n_col]])))
   pick$sample_type <- s$sample_type
   pick$molecule    <- s$molecule
-  pick$pool        <- sprintf("%s; first_public %s..%s; first %d candidates; %d eligible after exclusions",
-                              s$query, s$from, s$to, CANDIDATES, nrow(cand))
+  pick$pool        <- sprintf("%s; first_public %s..%s; %s", s$query, s$from, s$to, pool_text)
   panel[[k]] <- pick
-  message(sprintf("%-19s %3d eligible -> %d picked", s$stratum, nrow(cand), nrow(pick)))
+  message(sprintf("%-19s %s -> %d picked", s$stratum, pool_text, nrow(pick)))
 }
 panel <- do.call(rbind, panel)
 # Paired runs on ENA sometimes carry a third file of unpaired reads: keep _1 and _2 only.
 panel$fastq_ftp <- vapply(strsplit(panel$fastq_ftp, ";"), function(f) {
   if (length(f) == 3) paste(grep("_[12]\\.fastq\\.gz$", f, value = TRUE), collapse = ";") else paste(f, collapse = ";")
 }, "")
-cols <- c("stratum", "role", "run_accession", "truth", "library_layout", "instrument_platform", "instrument_model",
+# Archive the run was submitted to (DRR = DDBJ, ERR = ENA, SRR = NCBI SRA):
+# DDBJ-served files can lose their original read names (open question A1).
+panel$archive <- c(D = "DDBJ", E = "ENA", S = "SRA")[substr(panel$run_accession, 1, 1)]
+cols <- c("stratum", "role", "run_accession", "archive", "truth", "library_layout", "instrument_platform", "instrument_model",
           "library_strategy", "library_source", "scientific_name", "tax_id", "study_accession",
           "first_public", "read_count", "sample_type", "molecule", "fastq_ftp", "pool")
 write.table(panel[, cols], out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")

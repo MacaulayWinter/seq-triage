@@ -1,0 +1,116 @@
+stratum	run	instrument_model	scientific_name	ena_truth	adjudicated	truth	detected_platform	confidence	outcome	wrong_high	verdict	unhandled_verdict	archive	library_layout	detected_layout	layout_ok	detection_flags
+DNBSEQ	DRR671599	MGISEQ-2000RS	Klebsiella pneumoniae	dnbseq	FALSE	dnbseq	dnbseq	high	correct, high	FALSE	UNCERTAIN	FALSE	DDBJ	PAIRED	paired		PLATFORM_NOT_HANDLED
+DNBSEQ	SRR14318705	BGISEQ-500	Providencia	dnbseq	FALSE	dnbseq	illumina	high	WRONG, high	TRUE	WARN	TRUE	SRA	PAIRED	paired		
+DNBSEQ	SRR24683256	MGISEQ-2000RS	Lacticaseibacillus paracasei	dnbseq	FALSE	dnbseq	dnbseq	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED,QUALITY_UNINFORMATIVE
+DNBSEQ	SRR27240554	BGISEQ-500	Klebsiella pneumoniae	dnbseq	FALSE	dnbseq	dnbseq	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		PLATFORM_NOT_HANDLED,QUALITY_UNINFORMATIVE
+DNBSEQ	SRR31630465	BGISEQ-500	Bacillus cereus	dnbseq	FALSE	dnbseq	dnbseq	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ELEMENT	SRR28991946	Element AVITI	Habropoda pallida	element	FALSE	element	element	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ELEMENT	SRR29364970	Element AVITI	Lasioglossum leucozonium	element	FALSE	element	element	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ELEMENT	SRR32358442	Element AVITI	Mus musculus	element	FALSE	element	element	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ELEMENT	SRR32590479	Element AVITI	metagenome	element	FALSE	element	element	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ELEMENT	SRR36469225	Element AVITI		element	FALSE	element	element	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ILM_AMPLICON	ERR11275563	Illumina NovaSeq 6000	chicken gut metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	ENA	PAIRED	paired	TRUE	
+ILM_AMPLICON	SRR24971984	Illumina MiSeq	soil metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_AMPLICON	SRR25982936	Illumina MiSeq	bovine metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_AMPLICON	SRR26250598	Illumina MiSeq	plant metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	QUALITY_UNINFORMATIVE
+ILM_AMPLICON	SRR31181121	Illumina MiSeq	mouse gut metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR10058609	Illumina HiSeq 2500	Klebsiella pneumoniae subsp. pneumoniae	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR2584911	Illumina HiSeq 2500	Escherichia coli B str. REL606	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR4136552	Illumina HiSeq 2500	Rhodobacter capsulatus	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR4139922	Illumina HiSeq 2500	Pseudomonas sp. NFACC46-3	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR4139939	Illumina HiSeq 2500	Bradyrhizobium sp. NFR13	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR4140253	Illumina HiSeq 2500	Streptococcus gallolyticus	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR4235474	Illumina HiSeq 2500	Nitrosomonas eutropha	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_HISEQ	SRR7812053	Illumina HiSeq 2500	Acetivibrio thermocellus	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_METAGENOME	SRR23367660	NextSeq 550	human metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ILM_METAGENOME	SRR25706847	Illumina MiSeq	metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_METAGENOME	SRR26077540	Illumina NovaSeq 6000	soil metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_METAGENOME	SRR27420223	Illumina NovaSeq 6000	lake water metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_METAGENOME	SRR28362880	Illumina NovaSeq 6000	seawater metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_METATRANSCRIPT	SRR14039645	HiSeq X Ten	gut metagenome	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_METATRANSCRIPT	SRR14424465	Illumina HiSeq 2500	Methanosarcina acetivorans	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_METATRANSCRIPT	SRR18283693	Illumina NovaSeq 6000	Hermetia illucens	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_METATRANSCRIPT	SRR22860055	Illumina NovaSeq 6000	Methanothrix thermoacetophila	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_METATRANSCRIPT	SRR28793840	Illumina HiSeq 2500	root metagenome	illumina	FALSE	illumina	dnbseq	high	WRONG, high	TRUE	UNCERTAIN	FALSE	SRA	PAIRED	paired		PLATFORM_NOT_HANDLED
+ILM_MISEQ	DRR491189	Illumina MiSeq	Vibrio alginolyticus	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	DDBJ	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_MISEQ	ERR10694625	Illumina MiSeq	Lactococcus garvieae 21881	illumina	FALSE	illumina	uncertain	uncertain	uncertain (missed)	FALSE	UNCERTAIN	FALSE	ENA	PAIRED	uncertain		
+ILM_MISEQ	SRR23190432	Illumina MiSeq	Salmonella enterica subsp. enterica serovar Typhi	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_MISEQ	SRR26980297	Illumina MiSeq	Enterococcus avium	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_MISEQ	SRR27304795	Illumina MiSeq	Enterobacter cloacae	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_MISEQ	SRR27762772	Illumina MiSeq	Clavibacter michiganensis subsp. michiganensis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_MISEQ	SRR30007196	Illumina MiSeq	Enterococcus faecium	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_MISEQ	SRR30887330	Illumina MiSeq	Streptococcus pyogenes	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NEXTSEQ	SRR22777638	NextSeq 2000	Xanthomonas citri pv. citri	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NEXTSEQ	SRR24736332	NextSeq 2000	Escherichia coli	illumina	FALSE	illumina	illumina	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single	TRUE	QUALITY_UNINFORMATIVE
+ILM_NEXTSEQ	SRR25296603	NextSeq 2000	Corynebacterium diphtheriae	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NEXTSEQ	SRR27396066	NextSeq 2000	Staphylococcus aureus	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NEXTSEQ	SRR28412918	NextSeq 2000	Escherichia coli	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NEXTSEQ	SRR29680707	NextSeq 2000	Streptococcus equi subsp. equi	illumina	FALSE	illumina	uncertain	uncertain	uncertain (missed)	FALSE	UNCERTAIN	FALSE	SRA	PAIRED	uncertain		
+ILM_NEXTSEQ	SRR31503468	NextSeq 2000	Pseudomonas ficuserectae	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NEXTSEQ	SRR31508161	NextSeq 2000	Shigella sonnei	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQ6000	ERR11274133	Illumina NovaSeq 6000	Escherichia coli	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	ENA	PAIRED	paired	TRUE	
+ILM_NOVASEQ6000	ERR13909775	Illumina NovaSeq 6000	Escherichia coli BW25113	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	ENA	PAIRED	paired	TRUE	
+ILM_NOVASEQ6000	SRR19329822	Illumina NovaSeq 6000	Micrococcus yunnanensis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQ6000	SRR20082808	Illumina NovaSeq 6000	Mycobacterium tuberculosis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQ6000	SRR26344951	Illumina NovaSeq 6000	Limosilactobacillus fermentum	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NOVASEQ6000	SRR27669181	Illumina NovaSeq 6000	Streptomyces sp. LFS02B3B1	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NOVASEQ6000	SRR28741284	Illumina NovaSeq 6000	Lactiplantibacillus paraplantarum	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_NOVASEQ6000	SRR29155558	Illumina NovaSeq 6000	Sinorhizobium meliloti	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	ERR14758848	Illumina NovaSeq X Plus	Streptococcus mitis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	ENA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR29848267	Illumina NovaSeq X Plus	Arthrobacter sp. PSC	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR31589862	Illumina NovaSeq X Plus	Vibrio parahaemolyticus	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR32518059	Illumina NovaSeq X Plus	Staphylococcus	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR33065699	Illumina NovaSeq X Plus	Staphylococcus epidermidis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR33874979	Illumina NovaSeq X Plus	Microbacterium trichothecenolyticum	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR34437055	Illumina NovaSeq X Plus	Bacillus velezensis	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_NOVASEQX	SRR34516349	Illumina NovaSeq X Plus	Microbacterium sp. KNMS	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_RNASEQ	ERR8958160	Illumina HiSeq 3000	Campylobacter jejuni	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	ENA	PAIRED	paired	TRUE	
+ILM_RNASEQ	SRR16820667	Illumina HiSeq 1500	Enterococcus durans	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_RNASEQ	SRR20326877	NextSeq 550	Escherichia coli	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	
+ILM_RNASEQ	SRR25495536	HiSeq X Ten	Edwardsiella piscicida	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	PAIRED	paired	TRUE	QUALITY_UNINFORMATIVE
+ILM_RNASEQ	SRR26596333	NextSeq 500	Brucella abortus	illumina	FALSE	illumina	illumina	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ION_TORRENT	ERR11895847	Ion Torrent PGM	uncultured bacterium	ion_torrent	FALSE	ion_torrent	uncertain	uncertain	uncertain (correct: not handled)	FALSE	UNCERTAIN	FALSE	ENA	SINGLE	single		
+ION_TORRENT	SRR13249454	Ion Torrent S5	Enterococcus faecalis	ion_torrent	FALSE	ion_torrent	illumina	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+ION_TORRENT	SRR13342264	Ion Torrent S5 XL	Dechloromonas	ion_torrent	FALSE	ion_torrent	illumina	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+ION_TORRENT	SRR6703077	Ion Torrent PGM	Escherichia coli	ion_torrent	FALSE	ion_torrent	illumina	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+ION_TORRENT	SRR8237513	Ion Torrent Proton	Escherichia coli	ion_torrent	FALSE	ion_torrent	illumina	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+ONT_METAGENOME	ERR15093289	MinION	metagenome	ont	FALSE	ont	ont	high	correct, high	FALSE	FAIL	FALSE	ENA	SINGLE	single	TRUE	
+ONT_METAGENOME	ERR15695980	MinION	compost metagenome	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	ENA	SINGLE	single	TRUE	
+ONT_METAGENOME	SRR25317562	MinION	mosquito metagenome	ont	FALSE	ont	uncertain	uncertain	uncertain (missed)	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+ONT_METAGENOME	SRR28272155	MinION	metagenome	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_METAGENOME	SRR29492112	MinION	aquatic metagenome	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	DRR174575	MinION	Klebsiella pneumoniae	ont	FALSE	ont	ont	medium	correct, medium	FALSE	UNCERTAIN	FALSE	DDBJ	SINGLE	single	TRUE	
+ONT_OLD	DRR245514	GridION	Vibrio nigripulchritudo	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	DDBJ	SINGLE	single	TRUE	
+ONT_OLD	ERR7416542	MinION	Nocardioides alcanivorans	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	ENA	SINGLE	single	TRUE	
+ONT_OLD	SRR11091403	MinION	Leptospira interrogans serovar Copenhageni	ont	FALSE	ont	ont	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR12020695	MinION	Gillisella vitis	ont	FALSE	ont	ont	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR12506199	MinION	Escherichia coli	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR13528757	MinION	Escherichia coli	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR13664849	MinION	Bacteroides xylanisolvens	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR15361523	MinION	Nocardia uniformis	ont	FALSE	ont	ont	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_OLD	SRR16069012	MinION	Salmonella enterica subsp. enterica serovar Minnesota	ont	FALSE	ont	ont	medium	correct, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	ERR13929838	MinION	Imbroritus primus	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	ENA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR27241280	GridION	Lacticaseibacillus paracasei	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR28468065	PromethION	Bacteroides thetaiotaomicron	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR28526000	MinION	Bacillus paranthracis	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR30971815	GridION	Mesorhizobium sp. AaZ16	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR31244669	MinION	Mediterraneibacter torques	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR32649472	GridION	Streptococcus equi subsp. equi	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR32743026	MinION	Streptococcus mitis	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR34019040	MinION	Acinetobacter baumannii	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_R10_ERA	SRR35918736	MinION	Campylobacter jejuni	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_RNA	SRR26067559	PromethION	Coronaproctus castanopsis	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_RNA	SRR26830249	PromethION	Cucumis melo	ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+ONT_RNA	SRR27335061	MinION	Paspalum saurae	ont	FALSE	ont	ont	high	correct, high	FALSE	FAIL	FALSE	SRA	SINGLE	single	TRUE	
+ONT_RNA	SRR28897365	MinION	Flueggea suffruticosa	ont	FALSE	ont	ont	high	correct, high	FALSE	FAIL	FALSE	SRA	SINGLE	single	TRUE	
+ONT_RNA	SRR30175768	GridION		ont	FALSE	ont	ont	high	correct, high	FALSE	WARN	FALSE	SRA	SINGLE	single	TRUE	
+PB_CLR	SRR3541222	PacBio RS II	Phoenix dactylifera	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+PB_CLR	SRR6493626	PacBio RS II	Oryza sativa Japonica Group	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+PB_CLR	SRR7516841	PacBio RS II	Dactylonectria estremocensis	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+PB_CLR	SRR8466275	PacBio RS II	Streptomyces sp. PanSC9	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+PB_CLR	SRR9022279	PacBio RS II	Avena sativa	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		
+PB_HIFI	ERR13510360	Revio	Nola aerugula	pacbio	FALSE	pacbio	pacbio	high	correct, high	FALSE	UNCERTAIN	FALSE	ENA	SINGLE	single		PLATFORM_NOT_HANDLED
+PB_HIFI	ERR13698328	Revio	Ascidiella scabra	pacbio	FALSE	pacbio	pacbio	high	correct, high	FALSE	UNCERTAIN	FALSE	ENA	SINGLE	single		PLATFORM_NOT_HANDLED
+PB_HIFI	ERR13757986	Revio	Coregonus lavaretus	pacbio	FALSE	pacbio	ont	medium	WRONG, medium	FALSE	UNCERTAIN	FALSE	ENA	SINGLE	single		QUALITY_UNINFORMATIVE
+PB_HIFI	SRR30819523	Revio	Augochlorella aurata	pacbio	FALSE	pacbio	pacbio	high	correct, high	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		PLATFORM_NOT_HANDLED
+PB_HIFI	SRR33571203	Revio	Glaucomys sabrinus	pacbio	FALSE	pacbio	uncertain	uncertain	uncertain (correct: not handled)	FALSE	UNCERTAIN	FALSE	SRA	SINGLE	single		

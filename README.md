@@ -8,11 +8,12 @@ analysis starts. It validates the sample metadata, works out from the reads
 themselves which platform produced them, routes each sample to the right QC,
 and writes a plain-language summary that says which samples are ready and why.
 
-> **Status: v0.1, working and validated.** Every step runs end to end and is
-> tested in CI on every change. Validation on 40 public runs it was not tuned
-> on, plus 29 deliberately damaged samples, passes all of its pre-set pass
-> marks ([results](docs/validation.md)). A larger validation round and the
-> v0.2 features are planned; see [Roadmap](#roadmap).
+> **Status: v0.1, working; validation round 2 under review.** Every step runs
+> end to end and is tested in CI on every change. Round 1 (40 public runs,
+> 29 damaged samples) passed all of its pre-set pass marks. Round 2 (115
+> runs, 31 damaged samples) passed layers B and C and failed layer A on 2 of
+> 115 runs, now under review ([results](docs/validation.md)). The v0.2
+> features are planned; see [Roadmap](#roadmap).
 
 ## Why
 
@@ -316,6 +317,14 @@ Validation found and fixed a silent failure in a dependency (seqkit reports
 success on a truncated gzip), pinned down how NanoPlot averages quality, and
 found one run whose ENA instrument label is wrong; that correction is
 recorded with its evidence.
+
+**Round 2** (2026-10-21, 115 runs from a whole-ENA draw, 31 damaged
+samples, pre-registered): **B 1,158 / 1,158 and C 30 / 30 pass. A fails as
+registered**, with 2 wrong calls at high confidence out of 115. One is very
+likely another ENA labelling error; the other exposes a real limit: when the
+archive has stripped the read names, binned quality alone can raise an MGI
+run to "Illumina, high". Both are set out with their evidence in
+[docs/validation.md](docs/validation.md), with the decision still open.
 
 ## Roadmap
 
