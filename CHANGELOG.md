@@ -4,6 +4,10 @@ All notable changes to seq-triage. Versions follow
 [semantic versioning](https://semver.org/); each entry names the decisions
 (`D` numbers) recorded in [CLAUDE.md](CLAUDE.md).
 
+## v0.2.0dev (unreleased)
+
+Nothing yet.
+
 ## v0.1.0 (2026-10-22)
 
 The first release. It also contains two features first planned for v0.2,
