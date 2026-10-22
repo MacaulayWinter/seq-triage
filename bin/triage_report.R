@@ -70,6 +70,11 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected, reason
                                   if (!is.na(declared)) sprintf(" (declared: %s)", declared) else "")))
   }
   if (routed_by == "none")   return(c("UNCERTAIN", "Platform could not be determined from the reads, and none was declared. No QC was run."))
+  # D60: the reads lean one way (not confidently), the metadata says another.
+  if (routed_by == "contradicted")
+    return(c("UNCERTAIN", sprintf(paste("Metadata says %s but the reads suggest %s (detection confidence: %s). Neither is",
+                                        "certain enough to choose the QC, so no QC was run. Review this sample."),
+                                  declared, detected, confidence)))
   if (routed_by == "declared") {
     if (confidence == "uncertain")
       return(c("WARN", sprintf("Reads were inconclusive; QC used the declared platform (%s), which is unconfirmed.", declared)))
