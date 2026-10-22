@@ -12,3 +12,5 @@ SC2_ILLUMINA,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c876
 BROKEN_FASTQ,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/sarscov2/illumina/fastq/test_1_broken.fastq.gz,,illumina,,
 ILLUMINA_BAM,,,illumina,,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/sarscov2/illumina/bam/test.paired_end.sorted.bam
 PACBIO_UBAM,,,,,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/pacbio/bam/alz.ccs.bam
+HIFI_PLAIN_FASTQ,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/pacbio/fastq/alz.ccs.fastq,,,,
+CRAM_PE,,,illumina,,https://raw.githubusercontent.com/nf-core/test-datasets/76179c1c8765b0233ba72d3fb82bc142f1d92b13/data/genomics/homo_sapiens/illumina/cram/test.paired_end.sorted.cram

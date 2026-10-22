@@ -93,6 +93,8 @@ decide <- function(s, row) {
     return(none(sprintf("Viral amplicon other than SARS-CoV-2 (%s): no pipeline set up here.", sub(" \\(.*$", "", dom))))
   if (type == "isolate" && platform == "pacbio")
     return(none("PacBio HiFi isolates: no pipeline set up here yet."))
+  if (type == "metagenome" && platform == "element")
+    return(none("Element metagenome: nf-core/taxprofiler does not list Element as a platform; nf-core/mag (assembly) does."))
   if (molecule == "rna" && type != "isolate")
     return(none(sprintf("RNA %s (e.g. metatranscriptome): no pipeline set up here yet.", type)))
   none(sprintf("No pipeline in assets/downstream_pipelines.tsv for %s / %s / %s.", platform, type, molecule))
@@ -125,7 +127,8 @@ sheet_row <- function(fmt, r) {
     bacass_short = data.frame(ID = r$sample, R1 = NAv(f1), R2 = NAv(f2), LongFastQ = "NA", Fast5 = "NA", GenomeSize = "NA"),
     bacass_long  = data.frame(ID = r$sample, R1 = "NA", R2 = "NA", LongFastQ = NAv(f1), Fast5 = "NA", GenomeSize = "NA"),
     taxprofiler  = data.frame(sample = r$sample, run_accession = r$sample,
-                              instrument_platform = c(illumina = "ILLUMINA", ont = "OXFORD_NANOPORE", pacbio = "PACBIO_SMRT")[[r$platform]],
+                              instrument_platform = c(illumina = "ILLUMINA", dnbseq = "DNBSEQ", ont = "OXFORD_NANOPORE",
+                                                      pacbio = "PACBIO_SMRT")[[r$platform]],
                               fastq_1 = f1, fastq_2 = blank(f2), fasta = ""),
     ampliseq     = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),
     viralrecon   = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),

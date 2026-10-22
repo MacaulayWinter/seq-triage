@@ -75,6 +75,13 @@ jobs:
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
             Rscript tests/recommend/test_recommend.R
 
+      # D69: every compression format, damaged files, a mixed pair; in the
+      # same pinned samtools image NORMALISE_FASTQ uses.
+      - name: Read-file normalisation tests
+        run: |
+          docker run --rm -v "$PWD":/w -w /w community.wave.seqera.io/library/htslib_samtools_xz:63148285647cb8e3 \
+            bash tests/normalise/test_normalise.sh
+
   e2e:
     name: End-to-end (-profile test)
     needs: unit

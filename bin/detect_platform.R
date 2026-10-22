@@ -353,6 +353,11 @@ if (length(markers) > 1) {
     hifi_how <- c(if (hifi_names) "read names ending /ccs" else NULL, if (hifi_bam) "a BAM written by ccs" else NULL)
     why <- c(sprintf("%s identify PacBio, %s marks the reads as HiFi, and the read lengths fit (%s).",
                      paste(how, collapse = " and "), paste(hifi_how, collapse = " and "), describe(1)), why)
+  } else if (markers %in% c("dnbseq", "element")) {
+    # D69: MGI/DNBSEQ and Element are QC'd like Illumina (short, fixed-length
+    # reads), each with its own rows in the metric guide.
+    why <- c(sprintf("%s identify %s, and the read lengths fit (%s).",
+                     paste(how, collapse = " and "), DISPLAY[[markers]], describe(1)), why)
   } else {
     flags <- c(flags, "PLATFORM_NOT_HANDLED")
     why   <- c(sprintf("%s identify %s, and the read lengths fit (%s). seq-triage does not run QC on %s data%s.",

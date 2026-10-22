@@ -91,9 +91,9 @@ ONT_DIRECT_RNA       | 500:ont:ont:full:rna          |                          
 PACBIO_HIFI_NAMES    | 200:ont:pacbio:full           |                                | pacbio    | single    | high       |
 PACBIO_CLR_NAMES     | 200:ont:pacbio_clr:full       |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
 PACBIO_NAMES_SHORT   | 500:illumina:pacbio:full      |                                | uncertain | single    | uncertain  | SIGNALS_DISAGREE
-DNBSEQ_NAMES         | 500:illumina:dnbseq:full      | 500:illumina:dnbseq:full       | dnbseq    | paired    | high       | PLATFORM_NOT_HANDLED
-ELEMENT_NAMES        | 500:illumina:element:binned   | 500:illumina:element:binned    | element   | paired    | high       | PLATFORM_NOT_HANDLED
-DNBSEQ_ADAPTER_ONLY  | 500:illumina:plain:full:dna:dnbseq@0.05 |                      | dnbseq    | single    | high       | PLATFORM_NOT_HANDLED
+DNBSEQ_NAMES         | 500:illumina:dnbseq:full      | 500:illumina:dnbseq:full       | dnbseq    | paired    | high       |
+ELEMENT_NAMES        | 500:illumina:element:binned   | 500:illumina:element:binned    | element   | paired    | high       |
+DNBSEQ_ADAPTER_ONLY  | 500:illumina:plain:full:dna:dnbseq@0.05 |                      | dnbseq    | single    | high       |
 PACBIO_ADAPTER_ONLY  | 200:ont:plain:full:dna:pacbio@0.2 |                            | pacbio    | single    | high       | PLATFORM_NOT_HANDLED
 ONT_ADAPTER_ONLY     | 500:ont:plain:full:dna:ont@0.05 |                              | ont       | single    | high       |
 ONT_ADAPTER_IN_SHORT | 500:illumina:plain:full:dna:ont@0.05 |                         | illumina  | single    | low        | SIGNALS_DISAGREE

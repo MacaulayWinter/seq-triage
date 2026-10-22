@@ -146,7 +146,9 @@ SCREEN_ON   <- any(qc$tool == "Kraken2")
 SCREEN_TOOL <- "Kraken2"
 # Routes that get QC. PacBio means HiFi only (D64): other PacBio reads are
 # recognised but not routed.
-QC_ROUTES <- c("illumina", "ont", "pacbio")
+QC_ROUTES <- c("illumina", "dnbseq", "element", "ont", "pacbio")
+# Short-read routes (D69): fastp + FastQC, Bracken, read-start amplicon signal.
+SHORT_ROUTES <- c("illumina", "dnbseq", "element")
 HOST_TAXID  <- "9606"           # Homo sapiens
 VIRUS_TAXID <- "10239"          # Viruses (domain)
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
@@ -179,7 +181,7 @@ contamination <- function(rows, route) {
               off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
 
   b <- rows[rows$tool == "Bracken", ]
-  if (route == "illumina" && nrow(b)) {
+  if (route %in% SHORT_ROUTES && nrow(b)) {
     bp <- do.call(rbind, strsplit(b$field, "|", fixed = TRUE))
     sp <- data.frame(rank = bp[, 1], taxid = bp[, 2], name = bp[, 3], n = as.numeric(b$value))
     source <- "Bracken"
@@ -220,7 +222,7 @@ judge_sample <- function(s) {
   if (!route %in% QC_ROUTES) return(NULL)
   tag  <- paste0(route, "_reads")
   rows <- qc[qc$sample == s$sample, ]
-  main_tool <- if (route == "illumina") "fastp" else "NanoPlot"
+  main_tool <- if (route %in% SHORT_ROUTES) "fastp" else "NanoPlot"
   if (!any(rows$tool == main_tool)) {
     stop(sprintf("Sample %s was sent to %s QC but no %s results reached the report.", s$sample, route, main_tool))
   }
@@ -343,7 +345,7 @@ TYPE_VIRAL_DOMINANT <- 0.50            # virus-dominated: isolate at most medium
 classify_type <- function(s) {
   out <- function(type, conf, why, amplicon_judged) list(type = type, conf = conf, why = why, amplicon_judged = amplicon_judged)
   if (!s$route %in% QC_ROUTES) return(out("uncertain", "uncertain", "not assessed: the sample was not sent to QC.", FALSE))
-  short <- s$route == "illumina"
+  short <- s$route %in% SHORT_ROUTES
   amp <- "unknown"; amp_note <- "Nanopore and PacBio reads start with adapter sequence, so an amplicon library cannot be recognised from them."
   if (short) {
     st <- suppressWarnings(as.numeric(s$start_share)); n <- suppressWarnings(as.numeric(s$probe_reads))
@@ -506,7 +508,8 @@ metric_table <- function(s) {
 # One entry per guide ROW used, in guide order; a metric with rows for two
 # platforms gets one entry per platform, each with its own limits.
 present <- sort(unique(metrics$gi[metrics$result != "not_available"]))
-PLATFORM_LABEL <- c(illumina_reads = "Illumina", ont_reads = "nanopore", pacbio_reads = "PacBio HiFi")
+PLATFORM_LABEL <- c(illumina_reads = "Illumina", dnbseq_reads = "MGI/DNBSEQ", element_reads = "Element AVITI",
+                    ont_reads = "nanopore", pacbio_reads = "PacBio HiFi")
 guide_section <- unlist(lapply(present, function(j) {
   g  <- guide[j, ]
   mt <- g$metric

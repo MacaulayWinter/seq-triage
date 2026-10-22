@@ -164,6 +164,10 @@ cases <- list(
        verdict = "PASS", expect_type = "isolate medium", check = c(viral_fraction = "info")),
   list(id = "TYPE_MOSTLY_UNCLASSIFIED", route = "illumina", start = 0.02, screen = TRUE, kraken = MOSTLY_UNKNOWN,
        verdict = "PASS", expect_type = "isolate medium"),
+  # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
+  list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
+  list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
+       verdict = "WARN", check = c(total_reads = "WARN")),
   # D60: a medium call contradicting the declaration is not routed.
   list(id = "CONTRADICTED_MEDIUM", route = "unrouted", routed_by = "contradicted", declared = "ont",
        detected = "illumina", confidence = "medium", verdict = "UNCERTAIN"),
@@ -175,12 +179,12 @@ build <- function(cases, dir) {
   screen <- samples <- qc <- list()
   for (cs in cases) {
     route    <- cs$route
-    declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "ont", "pacbio")) route else NA
+    declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else NA
     screen[[cs$id]] <- data.frame(sample = cs$id, declared_platform_raw = declared, declared_platform = declared,
       declared_type = if (is.null(cs$type)) NA else cs$type,
       declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",
-      detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "ont", "pacbio")) route else "uncertain",
+      detected_platform = if (!is.null(cs$detected)) cs$detected else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else "uncertain",
       detected_layout = "single", confidence = if (is.null(cs$confidence)) "high" else cs$confidence,
       detection_flags = if (is.null(cs$flags)) NA else cs$flags, reasons = "synthetic",
       route = route, routed_by = if (is.null(cs$routed_by)) "detected" else cs$routed_by,
@@ -194,7 +198,7 @@ build <- function(cases, dir) {
       data.frame(sample = cs$id, tool = tool, file = "f", field = names(v), value = format(v, scientific = FALSE, trim = TRUE))
     }
     qc[[paste0(cs$id, "s")]] <- add("seqkit", SEQKIT_OK, cs$seqkit)
-    if (route == "illumina") {
+    if (route %in% c("illumina", "dnbseq", "element")) {
       qc[[paste0(cs$id, "f")]] <- add("fastp", FASTP_OK, cs$fastp)
       st <- if (is.null(cs$fastqc)) "PASS" else cs$fastqc
       qc[[paste0(cs$id, "q")]] <- data.frame(sample = cs$id, tool = "FastQC", file = "f",

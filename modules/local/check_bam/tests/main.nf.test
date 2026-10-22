@@ -11,6 +11,7 @@ nextflow_process {
                 """
                 input[0] = [ [ id: 'UBAM' ],
                     file(params.test_data + 'sarscov2/illumina/bam/test.unaligned.bam', checkIfExists: true) ]
+                input[1] = []
                 """
             }
         }
@@ -31,6 +32,7 @@ nextflow_process {
                 def cut = file("\${workflow.workDir}/truncated.bam")
                 cut.bytes = java.util.Arrays.copyOf(src.bytes, 5000)
                 input[0] = [ [ id: 'TRUNC' ], cut ]
+                input[1] = []
                 """
             }
         }
@@ -59,6 +61,7 @@ nextflow_process {
                 def bad = file("\${workflow.workDir}/midcorrupt.bam")
                 bad.bytes = bytes
                 input[0] = [ [ id: 'MID' ], bad ]
+                input[1] = []
                 """
             }
         }
@@ -66,7 +69,43 @@ nextflow_process {
             assert process.success
             def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
             assert row[1] == 'unreadable'
-            assert row[2].startsWith('BAM is damaged part-way through')
+            assert row[2].startsWith('file is damaged part-way through')
+        }
+    }
+
+    test("CRAM with its reference passes (D69)") {
+        when {
+            process {
+                """
+                input[0] = [ [ id: 'CRAM' ],
+                    file(params.test_data + 'homo_sapiens/illumina/cram/test.paired_end.sorted.cram', checkIfExists: true) ]
+                input[1] = file(params.test_data + 'homo_sapiens/genome/genome.fasta', checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert path(process.out.tsv[0][1]).readLines()[1].split('\t')[1] == 'ok'
+        }
+    }
+
+    test("CRAM without its reference is caught, not passed (D69)") {
+        when {
+            process {
+                """
+                // Counting reads works without the reference; decoding bases
+                // does not. The test genome is not in EBI's registry.
+                input[0] = [ [ id: 'CRAM_NOREF' ],
+                    file(params.test_data + 'homo_sapiens/illumina/cram/test.paired_end.sorted.cram', checkIfExists: true) ]
+                input[1] = []
+                """
+            }
+        }
+        then {
+            assert process.success
+            def row = path(process.out.tsv[0][1]).readLines()[1].split('\t')
+            assert row[1] == 'unreadable'
+            assert row[2].startsWith('CRAM reference not found')
         }
     }
 }
