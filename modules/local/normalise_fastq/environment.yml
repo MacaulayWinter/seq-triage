@@ -10,3 +10,4 @@ dependencies:
   - conda-forge::xz=5.8.3
   - conda-forge::zstd=1.5.7
   - conda-forge::gzip=1.12
+  - conda-forge::gawk=5.3.1   # FASTA -> FASTQ conversion (D79), as CHECK_FASTQ

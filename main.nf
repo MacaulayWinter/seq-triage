@@ -18,9 +18,16 @@ def declaredValue(v) {
 
 // FASTQ files in a fastq_dir folder (D75), sorted by name.
 def dirFastqs(dir) {
-    def found = dir.listFiles().findAll { f -> f.name ==~ /.+\.f(ast)?q(\.(gz|bz2|xz|zst))?$/ }.sort { f -> f.name }
+    def all   = dir.listFiles()
+    def found = all.findAll { f -> f.name ==~ /.+\.(f(ast)?q|fa|fasta|fna)(\.(gz|bz2|xz|zst))?$/ }.sort { f -> f.name }
     if (!found) {
-        error("fastq_dir ${dir} holds no FASTQ files (.fastq or .fq, plain or compressed).")
+        // Say what the folder IS when it is not reads yet (D79).
+        def names = all.collect { f -> f.name }
+        def what  = names.any { n -> n ==~ /.+\.(pod5|fast5)$/ } ? ' It holds raw nanopore signal (POD5/FAST5): basecall it first (e.g. dorado), then give the FASTQ or BAM.'
+                  : names.contains('RunInfo.xml') || names.contains('Data') ? ' It looks like an Illumina run folder (BCL): demultiplex it first (bcl-convert or bcl2fastq), then give the FASTQ files.'
+                  : names.any { n -> n.endsWith('.sra') } ? ' It holds SRA files: convert them first (fasterq-dump).'
+                  : ''
+        error("fastq_dir ${dir} holds no FASTQ or FASTA read files (.fastq/.fq, .fa/.fasta/.fna, plain or compressed).${what}")
     }
     return found
 }

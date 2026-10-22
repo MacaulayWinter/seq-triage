@@ -22,15 +22,15 @@
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$",
-                "errorMessage": "fastq_1 must be a FASTQ file (.fastq or .fq; plain, or compressed as .gz, .bz2, .xz or .zst) with no spaces in the path. For BAM, SAM or CRAM use the bam column."
+                "pattern": "^\\S+\\.(f(ast)?q|fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$",
+                "errorMessage": "fastq_1 must be a FASTQ file (.fastq or .fq) or FASTA reads (.fa, .fasta, .fna; no quality values, so quality cannot be judged), plain or compressed as .gz, .bz2, .xz or .zst, with no spaces in the path. For BAM, SAM or CRAM use the bam column. Raw nanopore signal (POD5, FAST5) must be basecalled first (e.g. dorado); an Illumina run folder (BCL) must be demultiplexed first (bcl-convert); an SRA file (.sra) must be converted first (fasterq-dump)."
             },
             "fastq_2": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$",
-                "errorMessage": "fastq_2 must be a FASTQ file (.fastq or .fq; plain, .gz, .bz2, .xz or .zst) with no spaces in the path. Leave it blank for single-end or long reads."
+                "pattern": "^\\S+\\.(f(ast)?q|fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$",
+                "errorMessage": "fastq_2 must be a FASTQ file (.fastq or .fq) or FASTA reads (.fa, .fasta, .fna), plain, .gz, .bz2, .xz or .zst, with no spaces in the path. Leave it blank for single-end or long reads."
             },
             "bam": {
                 "type": "string",

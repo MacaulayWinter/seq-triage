@@ -49,7 +49,7 @@ normalise_identifier <- function(x) {
 
 # Sequencing-file noise: Illumina's _S<n>, _L<lane>, _R<mate>, _001 and the
 # FASTQ extension. PROVENANCE: R_Bible 1.10 diagnose_id_mismatch().
-FILE_NOISE <- "(_S[0-9]+)?(_L[0-9]{3})?(_R[12])?(_001)?(\\.(fastq|fq)(\\.(gz|bz2|xz|zst))?|\\.(bam|sam|cram))?$"
+FILE_NOISE <- "(_S[0-9]+)?(_L[0-9]{3})?(_R[12])?(_001)?(\\.(fastq|fq|fasta|fa|fna)(\\.(gz|bz2|xz|zst))?|\\.(bam|sam|cram))?$"
 
 # WHAT IT DOES  File name without directory, extension or Illumina suffixes,
 #               e.g. ".../ISO_01_S3_L001_R1_001.fastq.gz" -> "ISO_01".
@@ -59,7 +59,7 @@ strip_file_noise <- function(path) sub(FILE_NOISE, "", basename(path))
 #               Matches _R1 / _R2 / _1 / _2 (optionally _001) right before
 #               the FASTQ extension, as in "X_R1_001.fastq.gz" or "SRR1_2.fq.gz".
 mate_from_name <- function(path) {
-  pat <- "^.*[_.]R?([12])(_001)?\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$"
+  pat <- "^.*[_.]R?([12])(_001)?\\.(f(ast)?q|fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$"
   b   <- basename(path)
   ifelse(!is.na(b) & grepl(pat, b), paste0("R", sub(pat, "\\1", b)), NA_character_)
 }
@@ -180,7 +180,7 @@ for (col in c("fastq_1", "fastq_2", "bam")) {
 m1       <- mate_from_name(sheet$fastq_1)
 m2       <- mate_from_name(sheet$fastq_2)
 paired   <- !is.na(sheet$fastq_2)
-explicit <- grepl("[_.]R[12](_001)?\\.f(ast)?q(\\.(gz|bz2|xz|zst))?$", basename(sheet$fastq_1))
+explicit <- grepl("[_.]R[12](_001)?\\.(f(ast)?q|fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$", basename(sheet$fastq_1))
 r <- which(paired & ((m1 %in% "R2") | (m2 %in% "R1")))
 add_flag(r, "MATES_POSSIBLY_SWAPPED", rep("fastq_1 is named like R2 or fastq_2 like R1", length(r)))
 r <- which(!paired & m1 %in% "R2" & explicit)

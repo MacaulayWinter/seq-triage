@@ -54,6 +54,8 @@ decide <- function(s, row) {
   none <- function(why) list(rule = NULL, reason = why)
   if (!s$verdict %in% c("PASS", "WARN"))
     return(none(sprintf("Verdict is %s: resolve the triage findings first.", s$verdict)))
+  if (any(grepl("\\.(fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$", c(row$fastq_1, row$fastq_2))))
+    return(none("Reads given as FASTA (no quality values): the downstream pipelines take FASTQ; convert or obtain the FASTQ first."))
   if (any(has(row$fastq_dir)))
     return(none("Reads given as a folder (fastq_dir): list the files in the next pipeline's samplesheet, one row each, or merge them first."))
   if (any(has(row$bam)))

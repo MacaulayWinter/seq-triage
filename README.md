@@ -246,7 +246,7 @@ screen and the sample type judge the whole sample.
 | Column | Required | Notes |
 |---|---|---|
 | `sample` | yes | Sample ID. Repeat it on several rows for a sample in several files. |
-| `fastq_1` | yes, unless `bam` or `fastq_dir` | FASTQ: `.fastq`/`.fq`, plain or compressed as `.gz`, `.bz2`, `.xz` or `.zst`. Anything that is not `.gz` is rewritten as `.fastq.gz` in the work folder first; a file that will not decompress becomes a FAIL row. |
+| `fastq_1` | yes, unless `bam` or `fastq_dir` | FASTQ: `.fastq`/`.fq`, plain or compressed as `.gz`, `.bz2`, `.xz` or `.zst`. Anything that is not `.fastq.gz` is rewritten as `.fastq.gz` in the work folder first; a file that will not decompress becomes a FAIL row. FASTA reads (`.fa`, `.fasta`, `.fna`) are accepted too: they have no quality values, so a placeholder is written, quality is not judged and the sample cannot PASS. Raw signal (POD5/FAST5), BCL run folders and `.sra` files are not reads yet: the run stops and says how to convert them. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
 | `bam` | instead of FASTQ | A BAM, SAM or CRAM file, aligned or unaligned (CRAM needs the reference it was written against: `--cram_fasta`, or samtools fetches it from EBI's reference registry; if neither works, the sample is a FAIL row saying so): dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. The header is read too: software that only runs on one platform's data (`@PG` ccs or lima for PacBio, dorado or guppy for nanopore) counts as evidence, like read names; `@RG PL`, which people type, stands in for a blank `platform`, and a samplesheet that disagrees with it is flagged for review. |
 | `fastq_dir` | instead of FASTQ files | A folder of one sample's FASTQ files (every `.fastq`/`.fq` in it, plain or compressed), each a file of single-end or long reads: for example a nanopore `fastq_pass/barcode03`. A local or cluster path (a web address cannot be listed as a folder). |
@@ -404,7 +404,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D78), including every rule that validation overturned and every CI
+(D1-D79), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
