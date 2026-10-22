@@ -46,6 +46,18 @@ All notable changes to seq-triage. Versions follow
   counting passed a CRAM whose reference was missing (D69).
 - The report takes each metric's limits from the guide row it was judged
   by, so one metric can have different limits per platform (D64).
+- After validation layer E round 2 (D73): a metagenome call is high
+  confidence only if the most common genus holds under 50% of genus-level
+  reads; a new phage or poorly-known bacterium split over sister species is
+  now metagenome at medium confidence. Layer E round 2 failed as registered
+  (7 wrong at high; 2 with D73).
+
+### Fixed
+
+- The virus rule (D67) matched Viruses at rank D; the Oct 2025 databases
+  report it as R1, so it never fired on real data. Now matched by taxid (D70).
+- `validation/fetch_panel.sh` kept no checksums when a re-run reused files
+  (D73).
 
 ## v0.1.0 (2026-10-22)
 

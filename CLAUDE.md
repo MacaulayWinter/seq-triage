@@ -3,7 +3,7 @@
 > **What this file is:** the public development log of seq-triage, kept as
 > it was built with Claude Code (an AI coding assistant). Claude reads it at
 > the start of every session; people can read it to see why each design
-> choice was made. The **decisions log** (D1-D71) records every decision with
+> choice was made. The **decisions log** (D1-D73) records every decision with
 > its reason, including the rules validation overturned; the **CI fix log**
 > records every CI failure and how it was fixed. It mentions the HPC cluster
 > the validation ran on by name only: no accounts, usernames or paths.
@@ -155,6 +155,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D70 | **D67's virus rule did not fire on real data: fixed** (2026-10-22). The layer E re-run on ISCA with the D67 code still gave 3 wrong at high (the SARS-CoV-2 amplicons): `viral_fraction` read 0% because it matched Viruses at rank `D`, but NCBI made Viruses an "acellular root" in 2024 and the Oct 2025 Kraken2 databases report it as `R1` (Bacteria as `R2`). The synthetic test used the old `D` form, so it passed. Fix: match taxid 10239 at any rank. An implementation bug, not a rule change: D67 as decided says "classified reads under Viruses, taxid 10239". New test in the R1 form; negative control (rank-D match restored) fails it. Recomputed from the re-run's real Kraken2 rows: viral amplicons 93.5-100% viral, bacterial isolates and 16S 0%. My hand re-score (D67) was right; the code was not. Round 2 (D68) was submitted with the buggy code, so its report must be re-run with the fix before scoring (-resume: only the report and recommendation steps). | Real taxonomy changes under you: match stable IDs, and test with real database output. |
 | D71 | **Getting ready to go public; CI minutes** (user, 2026-10-22: 90% of the month's Actions minutes used; "I like all the recommendations, including going public"). History audited before publishing: author emails are only the GitHub noreply address and GitHub's; no account ID, username, cluster path or private email in any commit (the only matches are the guard's own patterns); no sequencing file ever committed; largest files are three 6 MB validation tables. CI: no run on push to main (only PR-tested code is merged; the duplicate cost a full run per merge); a first job (`changes`) lists what a PR changed; guard and unit tests always run; e2e, lockfile/lint/--help and nf-test only when something besides docs/validation tables changed; conda e2e only when environments, modules, nextflow.config, conf/ or the workflow file changed; skipped jobs count as passed; a manual run runs everything. README front page: status, 3-line quick start, inputs and platforms, one validation table with every round's result (failures included), Known limitations, How this was built (Claude Code, CLAUDE.md as the public log). CLAUDE.md gains a header saying what it is. User also gave standing permission (2026-10-22) to merge fixes, docs and already-approved features once CI is green; rule changes, new designs and publishing still need the user. | Public code shows its history; Actions are free for public repositories. |
 | D72 | **Public, with branch protection** (user, 2026-10-22: ran the visibility change; then the protection command). `main` requires all 7 CI checks (guard, unit, what changed, e2e, e2e conda, lockfile/lint/--help, nf-test); a job skipped by D71's change filter counts as passed; not up-to-date-with-main (strict off, saves a re-run per merge); admins not bound (emergency override). `merge_when_green.sh` kept as a convenience. Checked from outside: the repo page opens without signing in. | The rule "nothing reaches main untested" (D28) is now enforced by GitHub, not by care. |
+| D73 | **Layer E round 2 results; metagenome HIGH needs a mixed genus** (user: "go with your recommendation, build D73", 2026-10-22). Round 2 (D68; ISCA, Standard-8, commit `41febc1`, report re-run with -resume after D70): **FAILED as registered, 7 wrong at high.** D67's target held: nothing wrongly called isolate at high; 4 viral amplicons held at medium by the virus rule. New failure, other direction: 4 phages, a phytoplasma and a *Paraburkholderia* (genomes the database knows only through relatives, so reads spread over sister species) called metagenome high; SRR10176048 (three unrelated genera, may be mixed) metagenome high; SRR23446558 (a *Mycobacterium* phage, 28% repeated read starts) amplicon high; the last two unexplained, not adjudicated. **Rule (post hoc):** metagenome HIGH only if the top genus (Kraken2 rank G, *Homo* excluded) holds < 50% of genus-level reads, else medium; no genus counts -> medium. Round 2 metagenomes top genus <= 37%; the 5 fixed runs 72-100%. Re-score (`validation/layer_E/rescore_D73.R`): round 2 wrong at high 7 -> 2, correct at high unchanged 33/49; round 1 loses one correct high (a *Microcystis* bloom, 98% one genus). Tests: report 60/60 (2 new: a phage split over 4 sister species, human reads in genus Homo ignored; community species without genus rows); negative control (rule off) fails exactly the phage case. Also fixed: `fetch_panel.sh` deleted checksum side files after logging, so a re-run's log lost them (96/98 rows in round 2's re-run); now kept. | The genus is the stable level when the species is missing from the database; a later round must test this. |
 | D30 | **Pin everything external by immutable reference:** test data by nf-core/test-datasets commit (`76179c1c`), R image by digest (`rocker/r-ver:4.5.2@sha256:fd4ccdd3...`), GitHub Actions by commit SHA (tag in a comment), Miniforge installer `26.7.2-0`, Nextflow via `NXF_VER`. Avoid releases younger than about two weeks (upload-artifact v7.0.1 chosen over v7.0.2, which was 13 days old). | Tags and branches can move; commits and digests cannot. SHA-pinned actions also close a known supply-chain risk. |
 
 ## Test data findings (2026-10-20, inspected with seqkit 2.13.0)
@@ -238,32 +239,27 @@ Findings:
 
 ## Status
 
-**Current state (end of session 2, 2026-10-22):** `main` at `6b056b3` (PR #27). 27 PRs,
-each merged after CI passed. CI has six jobs: repository guard, R unit tests, e2e with
-Docker, e2e with conda, lockfile rebuild + nf-core lint + `--help`, nf-test.
-- v0.1 validation: round 1 passed (D39, D40). **Round 2 of layers A-C failed layer A as
-  registered** (2 wrong at high; D54); B 1158/1158 and C 30/30 passed. Decided afterwards:
-  SRR28793840 adjudicated, binned quality alone caps at medium (D58), contradicted medium
-  calls not routed (D60). Re-scored: 0 wrong at high, 65/89 correct at high. Post hoc, so
-  a future round must test D58.
-- v0.2: contamination screen (D41, D47, D50); layer D round 2 (D56): pass mark not met by
-  Standard-8 (20/24) or the full DB (22/24); host 10/10 on both. **BAM/uBAM input** (D55)
-  with header evidence (D57).
-- Repository guard and pre-commit hook (D52); nf-core lint clean, `--help`, CHANGELOG,
-  CITATIONS (D53).
-- ISCA: full Standard DB at `~/kraken2_db_full`. Claude never acts on the HPC.
+**Current state (2026-10-22, evening):** repo **public** (D72), `main` protected (all 7 CI
+checks required). v0.1.0 released (D63); `main` is 0.2.0dev. CI runs only what a PR changes
+(D71); Actions minutes are free now the repo is public.
+- Validation: rounds 1 and 3 of layer A met their marks; round 2 failed layer A as registered
+  (D54; D58 then held on unseen data in round 3, D62). Layer D: pass mark not met on either
+  database (D56). Layer E failed (D67); **layer E round 2 failed (D73)**: D67 held, a new
+  failure (isolates called metagenome) led to D73, which is post hoc.
+- v0.2 built: PacBio HiFi QC (D64), sample type (D65, D67, D70, D73), downstream recommendation
+  (D66), input formats and DNBSEQ/Element QC (D69).
+- ISCA: Claude never acts on the HPC. ISCA submits use the user's `sbatchm` alias (one mail
+  at end or failure); the address is never in the repo (guard's private list).
 
 **Next:**
-1. AH21H052 (D59): closed 2026-10-22, full-DB mislabel of this lineage confirmed.
-2. v0.1.0 released (D63). Next version: 0.2.0 (PacBio QC etc.).
-3. Weekend: one-page interview walkthrough (user item 7).
-4. v0.2 (user item 6): PacBio HiFi QC (D64), sample type (D65; layer E on ISCA), downstream
-   recommendation (D66) built. Next (user, 2026-10-22: cover every input blind spot): quick
-   wins (uncompressed/other compression, SAM, CRAM, DNBSEQ/Element QC), several files per
-   sample, human/eukaryotic samples, then the rest of the 28-gap inventory; rRNA fraction; strain-level
-   contamination (ConFindr-style).
-5. D58 tested on unseen data (round 3, D62: held). D60 still untested on real data.
-6. Repo public since 2026-10-22 (D72); `main` protected. Open questions above.
+1. Layer E round 3: pre-register a round that tests D73 (novel isolates, phages,
+   single-genus-dominated metagenomes such as blooms), studies unseen by every earlier round.
+2. Investigate the two unexplained round 2 runs (SRR10176048 mixed or novel?; SRR23446558
+   repeated read starts in a phage).
+3. Blind-spot inventory (user, 2026-10-22: cover every raw-read input): several files per
+   sample, human/eukaryotic samples, then the rest; rRNA fraction; strain-level contamination.
+4. Waiting on the user: DNBSEQ/Element subsamples in the public test-data repo (D69).
+5. Weekend: one-page interview walkthrough.
 
 **How to run things (notes for future sessions):**
 - User's shell: `conda activate seq-triage-dev` before `nextflow`/`nf-core`.

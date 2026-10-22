@@ -150,6 +150,7 @@ QC_ROUTES <- c("illumina", "dnbseq", "element", "ont", "pacbio")
 # Short-read routes (D69): fastp + FastQC, Bracken, read-start amplicon signal.
 SHORT_ROUTES <- c("illumina", "dnbseq", "element")
 HOST_TAXID  <- "9606"           # Homo sapiens
+HOST_GENUS_TAXID <- "9605"      # Homo
 VIRUS_TAXID <- "10239"          # Viruses (domain)
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
 # A species counts towards off-target only at >= 1% of species-level reads
@@ -183,6 +184,15 @@ contamination <- function(rows, route) {
               # SARS-CoV-2 runs (layer E re-run, 2026-10-22).
               viral_fraction = if (classified > 0) sum(k$n[k$taxid == VIRUS_TAXID]) / classified else NA_real_,
               off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
+  # D73: the most common genus and its share of genus-level reads (Kraken2
+  # clade counts at rank G, human excluded), for every platform. A genome the
+  # database knows only through relatives (a new phage, a poorly-known
+  # bacterium) is spread over sister species but stays in one genus.
+  g <- k[k$rank == "G" & k$taxid != HOST_GENUS_TAXID & k$n > 0, ]
+  if (nrow(g) && sum(g$n) > 0) {
+    i <- which.max(g$n)
+    out$top_genus <- g$name[i]; out$top_genus_share <- g$n[i] / sum(g$n)
+  }
 
   b <- rows[rows$tool == "Bracken", ]
   if (route %in% SHORT_ROUTES && nrow(b)) {
@@ -346,6 +356,10 @@ TYPE_ISOLATE_MAX_UNCLASSIFIED <- 0.25  # isolate HIGH needs most reads classifie
 TYPE_VIRAL_DOMINANT <- 0.50            # virus-dominated: isolate at most medium (viral
                                        # genomes are usually amplified; fragmented amplicons
                                        # do not start at primers: layer E SARS-CoV-2)
+# D73 (decided after layer E round 2, so a later round must test it):
+TYPE_META_MAX_GENUS <- 0.50            # metagenome HIGH needs the top genus under 50%
+                                       # (round 2: metagenomes <= 37%; phages and poorly-known
+                                       # isolates split over sister species 72-100%)
 classify_type <- function(s) {
   out <- function(type, conf, why, amplicon_judged) list(type = type, conf = conf, why = why, amplicon_judged = amplicon_judged)
   if (!s$route %in% QC_ROUTES) return(out("uncertain", "uncertain", "not assessed: the sample was not sent to QC.", FALSE))
@@ -384,7 +398,15 @@ classify_type <- function(s) {
   if (top < TYPE_META_TOP || k >= 5) {
     # High only when the reads also rule out an amplicon (Illumina): a 16S
     # amplicon of a community looks like a metagenome by composition.
-    if (amp == "no") return(out("metagenome", "high", sprintf("Many organisms: %s. %s", comp, amp_note), TRUE))
+    if (amp == "no") {
+      gs <- co$top_genus_share
+      if (is.null(gs) || is.na(gs))
+        return(out("metagenome", "medium", sprintf("Many species: %s, but no genus-level counts, so one organism split over related species cannot be excluded. %s", comp, amp_note), TRUE))
+      if (gs >= TYPE_META_MAX_GENUS)
+        return(out("metagenome", "medium", sprintf("Many species: %s, but one genus (%s) holds %.0f%% of genus-level reads: one organism the database knows only through related species (e.g. a new phage) looks like this. %s",
+                                                   comp, co$top_genus, 100 * gs, amp_note), TRUE))
+      return(out("metagenome", "high", sprintf("Many organisms: %s; the most common genus holds %.0f%%. %s", comp, 100 * gs, amp_note), TRUE))
+    }
     return(out("metagenome", "medium", sprintf("Many organisms: %s. %s It could also be an amplicon (e.g. 16S) of a community.", comp, amp_note), FALSE))
   }
   out("uncertain", "uncertain", sprintf("Between isolate and metagenome: %s (a contaminated isolate also looks like this). %s", comp, amp_note), amp == "no")
