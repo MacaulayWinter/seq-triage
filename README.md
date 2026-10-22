@@ -214,6 +214,24 @@ on an HPC (the full Standard database is ~94 GB), add `--kraken2_batch`:
 every sample is classified in one task, so the database is read once
 instead of once per sample. Results are identical either way.
 
+### rRNA screen (optional)
+
+For RNA samples (`molecule = rna`), give an rRNA reference to measure how
+much of the library is ribosomal RNA, which tells you whether rRNA
+depletion worked:
+
+```bash
+nextflow run main.nf -profile docker --input samplesheet.csv --outdir results \
+    --rrna_db https://github.com/sortmerna/sortmerna/releases/download/v7.0.0/smr_v4.3_fast_db.fasta.gz
+```
+
+SortMeRNA (4.3.7) classifies each RNA sample against it; the report adds
+`rrna_fraction` (warn above 25%, fail above 75%, provisional; not judged
+for amplicons, which are rRNA by design). `--rrna_db` takes one FASTA or a
+`.txt` manifest of several (paths or URLs); the index is built once per
+run. The `smr_v4.3_*` databases match the SortMeRNA version the pipeline
+runs. Without `--rrna_db`, RNA samples say "not screened".
+
 ### Samplesheet
 
 A CSV with one row per sample, or several rows with the same `sample` for
@@ -405,7 +423,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D80), including every rule that validation overturned and every CI
+(D1-D81), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

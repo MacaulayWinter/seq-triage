@@ -116,6 +116,20 @@
                     "help_text": "Use with big databases (the full Standard database is ~94 GB), where loading it once per sample dominates the run. Samples then run one after another, and -resume reruns the whole batch if any sample changes. Results are identical to the default per-sample mode."
                 }
             }
+        },
+        "rrna_screen": {
+            "title": "rRNA screen",
+            "type": "object",
+            "description": "Share of ribosomal RNA in RNA samples (D81).",
+            "default": "",
+            "properties": {
+                "rrna_db": {
+                    "type": "string",
+                    "pattern": "^\\S+$",
+                    "description": "rRNA reference for SortMeRNA: a FASTA (.fa/.fasta, optionally .gz), or a .txt manifest listing several (one path or URL per line). Leave unset to skip; RNA samples then say 'not screened'.",
+                    "help_text": "Recommended: SortMeRNA's fast database, https://github.com/sortmerna/sortmerna/releases/download/v7.0.0/smr_v4.3_fast_db.fasta.gz (the v4.3 database series, matching the SortMeRNA 4.3.7 the pipeline runs). Only samples declared molecule = rna on short-read routes are screened."
+                }
+            }
         }
     },
     "allOf": [
@@ -124,6 +138,9 @@
         },
         {
             "$ref": "#/$defs/contamination_screen"
+        },
+        {
+            "$ref": "#/$defs/rrna_screen"
         }
     ]
 }

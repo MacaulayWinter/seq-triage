@@ -26,6 +26,9 @@ include { SAMTOOLS_COLLATEFASTQ } from '../modules/nf-core/samtools/collatefastq
 include { CAT_FASTQ       } from '../modules/nf-core/cat/fastq/main'
 include { COMBINE_DETECTION } from '../modules/local/combine_detection/main'
 include { DEINTERLEAVE    } from '../modules/local/deinterleave/main'
+include { SORTMERNA       } from '../modules/nf-core/sortmerna/main'
+include { SORTMERNA as SORTMERNA_INDEX } from '../modules/nf-core/sortmerna/main'
+include { GUNZIP as GUNZIP_RRNA        } from '../modules/nf-core/gunzip/main'
 
 // Empty TSV cells arrive as "", so convert them to null: one meaning of
 // "not present" throughout the pipeline (CLAUDE.md D22).
@@ -177,6 +180,20 @@ def maxSpeciesReads(report) {
         .findAll { p -> p.size() >= 6 && p[3].trim() == 'S' }
         .collect { p -> p[1].trim() as Long }
     return counts ? counts.max() : 0L
+}
+
+// SortMeRNA log (D81): "Total reads passing E-value threshold = 1234 (12.34)".
+// Field rrna_fraction = that percentage / 100.
+def sortmernaRows(String sample, log) {
+    def line = log.readLines().find { l -> l.contains('Total reads passing E-value threshold') }
+    if (!line) {
+        return []
+    }
+    // One find() only: Groovy's truth test of a Matcher already calls
+    // find(), so "m && m.find()" looks for a SECOND match and drops the row
+    // (found on real SortMeRNA logs, D81).
+    def m = (line =~ /\(\s*([0-9.]+)\s*%?\s*\)/)
+    return m.find() ? [ qcRow(sample, 'SortMeRNA', log.name, 'rrna_fraction', (m.group(1) as BigDecimal) / 100) ] : []
 }
 
 // seqkit stats: one row per FASTQ file; the report sums over a sample's files.
@@ -536,6 +553,28 @@ workflow SEQ_TRIAGE {
         ch_bracken_tables = BRACKEN.out.reports
     }
 
+    // 6c. rRNA screen (D81), only with --rrna_db: SortMeRNA on samples
+    //     declared molecule = rna on short-read routes. References may be
+    //     one FASTA or a .txt manifest of several; .gz ones are unzipped
+    //     first. The index is built once and reused by every sample.
+    ch_rrna_logs = channel.empty()
+    if (params.rrna_db) {
+        def refs = params.rrna_db.endsWith('.txt')
+            ? file(params.rrna_db, checkIfExists: true).readLines().findAll { l -> l.trim() && !l.startsWith('#') }.collect { l -> file(l.trim(), checkIfExists: true) }
+            : [ file(params.rrna_db, checkIfExists: true) ]
+        ch_refs_in = channel.fromList(refs).branch { f ->
+            gz:    f.name.endsWith('.gz')
+            plain: true
+        }
+        GUNZIP_RRNA(ch_refs_in.gz.map { f -> [ [ id: f.baseName ], f ] })
+        ch_refs = ch_refs_in.plain.mix(GUNZIP_RRNA.out.gunzip.map { _m, f -> f })
+            .collect().map { fs -> [ [ id: 'rrna_db' ], fs.sort { f -> f.name } ] }
+        SORTMERNA_INDEX(channel.of([ [ id: 'rrna_index', single_end: true ], [] ]), ch_refs, [ [], [] ])
+        ch_rna = ch_routed.short_reads.filter { meta, _reads -> (meta.declared_molecule ?: '').toString().toLowerCase() == 'rna' }
+        SORTMERNA(ch_rna, ch_refs.first(), SORTMERNA_INDEX.out.index.first())
+        ch_rrna_logs = SORTMERNA.out.log
+    }
+
     ch_multiqc_files = channel.empty()
         .mix(FASTP.out.json.map    { _meta, f -> f })
         .mix(FASTQC.out.zip.map    { _meta, f -> f })
@@ -563,6 +602,7 @@ workflow SEQ_TRIAGE {
         .mix(FASTQC.out.zip.flatMap         { meta, f -> [ f ].flatten().collectMany { x -> fastqcRows(meta.id, x) } })
         .mix(ch_kraken_reports.flatMap      { meta, f -> kraken2Rows(meta.id, f) })
         .mix(ch_bracken_tables.flatMap      { meta, f -> brackenRows(meta.id, f) })
+        .mix(ch_rrna_logs.flatMap           { meta, f -> sortmernaRows(meta.id, f) })
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 
     TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups, genome_sizes)

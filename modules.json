@@ -25,6 +25,11 @@
             "git_sha": "18eb358065b06f2d3419e37383b002fe7db3da02",
             "installed_by": ["modules"]
           },
+          "gunzip": {
+            "branch": "master",
+            "git_sha": "0902eac3012baaf4f9ab6513c8c55acc9353c96c",
+            "installed_by": ["modules"]
+          },
           "kraken2/kraken2": {
             "branch": "master",
             "git_sha": "d67d33d5925fcec4691b499670fa2bd926fd2be5",
@@ -49,6 +54,11 @@
           "seqkit/stats": {
             "branch": "master",
             "git_sha": "8fff8cfa10626a5acb7652f2212dec0cbc18b47e",
+            "installed_by": ["modules"]
+          },
+          "sortmerna": {
+            "branch": "master",
+            "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
             "installed_by": ["modules"]
           },
           "untar": {

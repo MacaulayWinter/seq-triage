@@ -73,6 +73,11 @@ All notable changes to seq-triage. Versions follow
   organism's DNA only; never judged. bacass and sarek advice states the depth
   and warns when it is thin.
 
+- rRNA screen (D81): with `--rrna_db` (an rRNA FASTA or manifest), RNA
+  samples are classified by SortMeRNA 4.3.7 (nf-core module; index built
+  once) and judged on the new metric `rrna_fraction` (warn > 25%, fail
+  > 75%, provisional; not judged for amplicons).
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short
