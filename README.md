@@ -50,7 +50,9 @@ samplesheet ─► validate (nf-schema) ─┬─► read statistics (seqkit) �
 | low or medium, same platform or uncertain | present | declared | WARN (not confirmed by reads) |
 | low or medium, other platform | contradicts | not routed | UNCERTAIN (review: neither is certain enough to pick the QC) |
 | uncertain | missing | not routed | UNCERTAIN |
-| PacBio, MGI/DNBSEQ or Element (named) | any | not routed | UNCERTAIN (platform not handled in v0.1) |
+| PacBio HiFi (read names ending `/ccs`, or a BAM written by `ccs`) | as for any platform | detected | PASS if declared `pacbio`, else WARN; NanoPlot QC with HiFi limits |
+| PacBio other than HiFi, MGI/DNBSEQ or Element (named) | any | not routed | UNCERTAIN (platform not handled) |
+| none at high confidence | `pacbio` | not routed | UNCERTAIN (only HiFi is QC'd) |
 | empty file | any | not routed | FAIL |
 
 **How the platform is detected.** Read lengths make the call: Illumina reads
@@ -217,7 +219,7 @@ UNKNOWN_01,UNKNOWN_01.fastq.gz,,,,,
 | `fastq_1` | yes, unless `bam` | Gzipped FASTQ. |
 | `fastq_2` | no | Second mate for paired-end data. Leave blank for single-end or ONT. |
 | `bam` | instead of FASTQ | A BAM file, aligned or unaligned: dorado and PacBio deliver reads as unaligned BAM. Give either FASTQ or one BAM per row. The BAM is checked from header to end, then converted to FASTQ (`samtools collate \| samtools fastq`); paired or single is decided from the reads' own READ1/READ2 flags, and secondary and supplementary alignments are left out, so each read counts once. The header is read too: software that only runs on one platform's data (`@PG` ccs or lima for PacBio, dorado or guppy for nanopore) counts as evidence, like read names; `@RG PL`, which people type, stands in for a blank `platform`, and a samplesheet that disagrees with it is flagged for review. CRAM is not accepted yet. |
-| `platform` | no | `illumina` or `ont`. Leave blank to have it detected. |
+| `platform` | no | `illumina`, `ont` or `pacbio`. Leave blank to have it detected. PacBio is QC'd only when the reads are HiFi. |
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
@@ -360,7 +362,7 @@ confidence.
 **v0.2** (planned)
 
 - BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); CRAM to follow
-- QC for PacBio (already recognised by name, but not yet QC'd)
+- QC for PacBio HiFi: **built** (D64); PacBio CLR stays recognised, not QC'd
 - rRNA fraction for metatranscriptomes
 - Isolate vs metagenome vs amplicon classification
 - Host and contaminant screen, validated with human reads spiked into
