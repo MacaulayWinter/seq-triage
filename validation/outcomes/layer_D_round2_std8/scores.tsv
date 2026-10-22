@@ -1,0 +1,27 @@
+sample	mixture	platform	metric	true	estimate	tolerance	estimate_ok	expected	got	verdict_ok	dominant	result
+D_CTRL_ECOLI_ILM	CTRL_ECOLI	ILM	off_target_fraction	0.0%	1.2%	< 5%	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (98.5% of species-level reads, Bracken)	PASS
+D_CTRL_ECOLI_ONT	CTRL_ECOLI	ONT	off_target_fraction	0.0%	0.0%	< 5%	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (94.2% of species-level reads, Kraken2)	PASS
+D_HUMAN_0.5_ILM	HUMAN_0.5	ILM	host_fraction	0.5%	0.5%	+/- 0.20 pp	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (98.5% of species-level reads, Bracken)	PASS
+D_HUMAN_0.5_ONT	HUMAN_0.5	ONT	host_fraction	0.5%	0.5%	+/- 0.20 pp	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (94.3% of species-level reads, Kraken2)	PASS
+D_HUMAN_2_ILM	HUMAN_2	ILM	host_fraction	2.0%	1.9%	+/- 0.40 pp	TRUE	WARN	WARN	TRUE	Escherichia coli / Shigella (98.6% of species-level reads, Bracken)	PASS
+D_HUMAN_2_ONT	HUMAN_2	ONT	host_fraction	2.0%	1.9%	+/- 0.40 pp	TRUE	WARN	WARN	TRUE	Escherichia coli / Shigella (94.2% of species-level reads, Kraken2)	PASS
+D_HUMAN_10_ILM	HUMAN_10	ILM	host_fraction	10.0%	9.8%	+/- 2.00 pp	TRUE	WARN_OR_FAIL	WARN		Escherichia coli / Shigella (99.7% of species-level reads, Bracken)	PASS
+D_HUMAN_10_ONT	HUMAN_10	ONT	host_fraction	10.0%	9.5%	+/- 2.00 pp	TRUE	WARN_OR_FAIL	WARN		Escherichia coli / Shigella (93.6% of species-level reads, Kraken2)	PASS
+D_HUMAN_30_ILM	HUMAN_30	ILM	host_fraction	30.0%	29.3%	+/- 6.00 pp	TRUE	FAIL	FAIL	TRUE	Escherichia coli / Shigella (99.8% of species-level reads, Bracken)	PASS
+D_HUMAN_30_ONT	HUMAN_30	ONT	host_fraction	30.0%	28.3%	+/- 6.00 pp	TRUE	FAIL	FAIL	TRUE	Escherichia coli / Shigella (90.7% of species-level reads, Kraken2)	PASS
+D_HUMAN_10_META_ILM	HUMAN_10_META	ILM	host_fraction	10.0%	9.8%	+/- 2.00 pp	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (99.7% of species-level reads, Bracken)	PASS
+D_HUMAN_10_META_ONT	HUMAN_10_META	ONT	host_fraction	10.0%	9.5%	+/- 2.00 pp	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (93.6% of species-level reads, Kraken2)	PASS
+D_KPN_2_ILM	KPN_2	ILM	off_target_fraction	2.0%	4.3%	+/- 0.40 pp	FALSE	PASS	PASS	TRUE	Escherichia coli / Shigella (95.5% of species-level reads, Bracken)	FAIL
+D_KPN_2_ONT	KPN_2	ONT	off_target_fraction	2.0%	2.4%	+/- 0.40 pp	TRUE	PASS	PASS	TRUE	Escherichia coli / Shigella (92.9% of species-level reads, Kraken2)	PASS
+D_KPN_10_ILM	KPN_10	ILM	off_target_fraction	10.0%	14.9%	+/- 2.00 pp	FALSE	WARN	WARN	TRUE	Escherichia coli / Shigella (83.7% of species-level reads, Bracken)	FAIL
+D_KPN_10_ONT	KPN_10	ONT	off_target_fraction	10.0%	8.6%	+/- 2.00 pp	TRUE	WARN	WARN	TRUE	Escherichia coli / Shigella (86.8% of species-level reads, Kraken2)	PASS
+D_KPN_30_ILM	KPN_30	ILM	off_target_fraction	30.0%	41.2%	+/- 6.00 pp	FALSE	FAIL	FAIL	TRUE	Escherichia coli / Shigella (58.0% of species-level reads, Bracken)	FAIL
+D_KPN_30_ONT	KPN_30	ONT	off_target_fraction	30.0%	25.3%	+/- 6.00 pp	TRUE	FAIL	FAIL	TRUE	Escherichia coli / Shigella (69.8% of species-level reads, Kraken2)	PASS
+D_ENT_10_ILM	ENT_10	ILM	off_target_fraction	10.0%	11.8%	+/- 2.00 pp	TRUE	WARN	WARN	TRUE	Escherichia coli / Shigella (87.9% of species-level reads, Bracken)	PASS
+D_ENT_10_ONT	ENT_10	ONT	off_target_fraction	10.0%	9.3%	+/- 2.00 pp	TRUE	WARN	WARN	TRUE	Escherichia coli / Shigella (85.3% of species-level reads, Kraken2)	PASS
+D_CTRL_KPN_ILM	CTRL_KPN	ILM	off_target_fraction	0.0%	0.0%	< 5%	TRUE	PASS	PASS	TRUE	Klebsiella pneumoniae (97.9% of species-level reads, Bracken)	PASS
+D_CTRL_KPN_ONT	CTRL_KPN	ONT	off_target_fraction	0.0%	2.7%	< 5%	TRUE	PASS	PASS	TRUE	Klebsiella pneumoniae (93.6% of species-level reads, Kraken2)	PASS
+D_KVAR_10_ILM	KVAR_10	ILM	off_target_fraction	10.0%	4.9%	+/- 2.00 pp	FALSE	WARN	PASS	FALSE	Klebsiella pneumoniae (93.9% of species-level reads, Bracken)	FAIL
+D_KVAR_10_ONT	KVAR_10	ONT	off_target_fraction	10.0%	11.2%	+/- 2.00 pp	TRUE	WARN	WARN	TRUE	Klebsiella pneumoniae (86.1% of species-level reads, Kraken2)	PASS
+D_STRAIN_30_ILM	STRAIN_30	ILM	off_target_fraction	30.0%	0.0%	+/- 6.00 pp		PASS	PASS	TRUE	Escherichia coli / Shigella (99.8% of species-level reads, Bracken)	LIMIT_CONFIRMED
+D_STRAIN_30_ONT	STRAIN_30	ONT	off_target_fraction	30.0%	0.0%	+/- 6.00 pp		PASS	PASS	TRUE	Escherichia coli / Shigella (94.8% of species-level reads, Kraken2)	LIMIT_CONFIRMED
