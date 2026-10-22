@@ -42,21 +42,21 @@ def bamReads(Map meta, pair, other, singleton) {
     def out
     if (hasReads(r1) && hasReads(r2)) {
         out  = [ meta + [ single_end: false ], [ r1, r2 ] ]
-        note = 'Reads extracted from BAM: paired by their READ1/READ2 flags.'
+        note = 'Reads extracted from the BAM/SAM/CRAM file: paired by their READ1/READ2 flags.'
         if (hasReads(other) || hasReads(singleton)) {
             note += ' Some reads had no mate or no READ1/READ2 flag and are not used.'
         }
     } else if (hasReads(other)) {
         out  = [ meta + [ single_end: true ], [ other ] ]
-        note = 'Reads extracted from BAM: no READ1/READ2 flags, so treated as one file of reads.'
+        note = 'Reads extracted from the BAM/SAM/CRAM file: no READ1/READ2 flags, so treated as one file of reads.'
         if (hasReads(r1) || hasReads(r2)) {
             note += ' Reads flagged as only one mate are not used.'
         }
     } else {
         def first = hasReads(r1) ? r1 : (hasReads(r2) ? r2 : other)
         out  = [ meta + [ single_end: true ], [ first ] ]
-        note = hasReads(first) ? 'Reads extracted from BAM: only one mate present, treated as single.'
-                               : 'Reads extracted from BAM: the BAM holds no primary reads.'
+        note = hasReads(first) ? 'Reads extracted from the BAM/SAM/CRAM file: only one mate present, treated as single.'
+                               : 'Reads extracted from the BAM/SAM/CRAM file: the BAM holds no primary reads.'
     }
     out[0] = out[0] + [ bam_note: note ]
     return out
