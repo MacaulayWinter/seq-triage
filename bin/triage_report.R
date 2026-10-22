@@ -46,6 +46,7 @@ d <- merge(screen, samples, by = "sample", all = TRUE, sort = FALSE,
            suffixes = c("", ".pipeline"))
 d <- d[match(screen$sample, d$sample), ]   # keep samplesheet order
 if (!"declared_molecule" %in% names(d)) d$declared_molecule <- NA_character_
+if (!"declared_target" %in% names(d))   d$declared_target   <- NA_character_
 # BAM input (D55): with no platform in the samplesheet, the workflow may take
 # one from the BAM header (@RG PL); it is then the declared platform here too.
 if (all(c("declared_from", "declared_platform.pipeline") %in% names(d))) {
@@ -151,6 +152,11 @@ QC_ROUTES <- c("illumina", "dnbseq", "element", "ont", "pacbio")
 SHORT_ROUTES <- c("illumina", "dnbseq", "element")
 HOST_TAXID  <- "9606"           # Homo sapiens
 HOST_GENUS_TAXID <- "9605"      # Homo
+BACTERIA_TAXID   <- "2"
+# D76 (provisional): with no target declared, a sample whose classified reads
+# are at least half human is either a human sample or one swamped by human
+# DNA; the reads cannot say which, so it is UNCERTAIN until target_taxid says.
+HOST_DOMINANT_SHARE <- 0.50
 VIRUS_TAXID <- "10239"          # Viruses (domain)
 MIN_SPECIES_READS <- 10         # below this, no species-level estimate (as Bracken)
 # A species counts towards off-target only at >= 1% of species-level reads
@@ -166,7 +172,13 @@ MIN_SPECIES_SHARE <- 0.01
 # RETURNS       named list: host_fraction, unclassified_fraction,
 #               off_target_fraction, dominant_species, top_species, and
 #               species_note when no species-level estimate was possible.
-contamination <- function(rows, route) {
+#               D76: with a declared target (NCBI taxid), also
+#               target_fraction (reads under the target / classified reads,
+#               Kraken2 clade count), target_seen, and off-target measured
+#               against the TARGET instead of the most common species; a human
+#               target keeps human reads in the composition. Also
+#               human_share and bacterial_fraction (of classified reads).
+contamination <- function(rows, route, target = NA_character_) {
   k <- rows[rows$tool == "Kraken2", ]
   part <- do.call(rbind, strsplit(k$field, "|", fixed = TRUE))
   k$rank <- part[, 1]; k$taxid <- part[, 2]; k$name <- part[, 3]
@@ -184,6 +196,13 @@ contamination <- function(rows, route) {
               # SARS-CoV-2 runs (layer E re-run, 2026-10-22).
               viral_fraction = if (classified > 0) sum(k$n[k$taxid == VIRUS_TAXID]) / classified else NA_real_,
               off_target_fraction = NA_real_, dominant_species = NA_character_, top_species = NA_character_)
+  clade <- function(id) sum(k$n[k$taxid == id])
+  has_target <- !is.na(target) && nzchar(target)
+  human_target <- has_target && target %in% c(HOST_TAXID, HOST_GENUS_TAXID)
+  out$human_share        <- if (classified > 0) clade(HOST_TAXID) / classified else NA_real_
+  out$bacterial_fraction <- if (classified > 0) clade(BACTERIA_TAXID) / classified else NA_real_
+  out$target_fraction    <- if (has_target && classified > 0) clade(target) / classified else NA_real_
+  out$target_seen        <- has_target && clade(target) > 0
   # D73: the most common genus and its share of genus-level reads (Kraken2
   # clade counts at rank G, human excluded), for every platform. A genome the
   # database knows only through relatives (a new phage, a poorly-known
@@ -203,7 +222,7 @@ contamination <- function(rows, route) {
     sp <- k[k$rank == "S", c("rank", "taxid", "name", "n")]
     source <- "Kraken2"
   }
-  sp <- sp[sp$taxid != HOST_TAXID & sp$rank == "S", ]
+  sp <- sp[(human_target | sp$taxid != HOST_TAXID) & sp$rank == "S", ]
   if (sum(sp$n) < MIN_SPECIES_READS) {
     out$species_note <- sprintf("species-level estimate not possible: fewer than %d reads were classified to a species", MIN_SPECIES_READS)
     return(out)
@@ -211,10 +230,18 @@ contamination <- function(rows, route) {
   sp$unit <- ifelse(sp$taxid %in% groups$taxid, groups$group[match(sp$taxid, groups$taxid)], sp$name)
   by_unit <- sort(tapply(sp$n, sp$unit, sum), decreasing = TRUE)
   share <- by_unit / sum(by_unit)
-  others <- share[-1]
+  # D76: off-target is everything that is not the declared target, when the
+  # target is a species the screen saw; otherwise the most common species.
+  target_unit <- if (out$target_seen) unique(sp$unit[sp$taxid == target]) else character(0)
+  others <- if (length(target_unit) == 1) share[names(share) != target_unit] else share[-1]
+  out$target_not_dominant <- length(target_unit) == 1 && names(share)[1] != target_unit
   counted <- others[others >= MIN_SPECIES_SHARE]
   trace   <- others[others <  MIN_SPECIES_SHARE]
   out$off_target_fraction <- sum(counted)
+  if (has_target && !out$target_seen) {
+    out$off_target_fraction <- NA_real_
+    out$species_note <- sprintf("no reads were classified to the declared target (taxid %s): the database may not contain it (Standard-8 holds no eukaryote but human), or the reads are not from it, so contamination cannot be judged against the target", target)
+  }
   # For the sample-type call (D65): the top unit's share, and how many units
   # (the top one included) reach the 1% floor.
   out$dominant_share <- share[[1]]
@@ -247,8 +274,9 @@ judge_sample <- function(s) {
     if (!any(rows$tool == "Kraken2")) {
       stop(sprintf("Sample %s was sent to QC and the contamination screen is on, but no Kraken2 results reached the report.", s$sample))
     }
-    contam <- contamination(rows, route)
+    contam <- contamination(rows, route, s$declared_target)
   }
+  human_target <- s$declared_target %in% c(HOST_TAXID, HOST_GENUS_TAXID)
 
   applies <- which(vapply(strsplit(guide$applies_to, ","), function(a) tag %in% a, TRUE) &
                    (SCREEN_ON | guide$source_tool != SCREEN_TOOL))
@@ -287,10 +315,14 @@ judge_sample <- function(s) {
       } else if (g$direction == "lower_is_better") {
         if (!is.na(fail) && value > fail) "FAIL" else if (!is.na(warn) && value > warn) "WARN" else "PASS"
       } else "info"
+    if (g$metric == "host_fraction" && human_target && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
     note <- switch(result,
-      not_available  = if (g$source_tool == SCREEN_TOOL && !is.null(contam$species_note)) contam$species_note
+      not_available  = if (g$metric == "target_fraction") (if (is.na(s$declared_target)) "no target_taxid declared"
+                                                           else "not computed: no reads were classified at all")
+                       else if (g$source_tool == SCREEN_TOOL && !is.null(contam$species_note)) contam$species_note
                        else sprintf("not reported by %s", g$source_tool),
-      exempt         = sprintf("not judged: %s library", exempt[1]),
+      exempt         = if (g$metric == "host_fraction" && human_target) "not judged: human is the declared target"
+                       else sprintf("not judged: %s library", exempt[1]),
       not_meaningful = "not judged: quality scores are a placeholder (every base the same)",
       "")
     data.frame(metric = g$metric, value = format_value(value, g$unit), result = result, note = note, gi = j)
@@ -380,7 +412,13 @@ classify_type <- function(s) {
     }
   }
   if (!SCREEN_ON) return(out("uncertain", "uncertain", paste(amp_note, "Isolate or metagenome needs the contamination screen (--kraken2_db)."), amp == "no"))
-  co <- contamination(qc[qc$sample == s$sample, ], s$route)
+  co <- contamination(qc[qc$sample == s$sample, ], s$route, s$declared_target)
+  # D76: composition cannot speak for a target the database does not see, or
+  # for a human-dominated sample nobody has said is human.
+  if (!is.na(s$declared_target) && !co$target_seen)
+    return(out("uncertain", "uncertain", paste(amp_note, sprintf("No reads were classified to the declared target (taxid %s), so the composition the database sees says nothing about the sample.", s$declared_target)), amp == "no"))
+  if (is.na(s$declared_target) && !s$declared_type %in% "metagenome" && !is.na(co$human_share) && co$human_share >= HOST_DOMINANT_SHARE)
+    return(out("uncertain", "uncertain", paste(amp_note, sprintf("%.0f%% of classified reads are human and no target_taxid is declared: a human sample, or one swamped by human DNA.", 100 * co$human_share)), amp == "no"))
   if (is.null(co$dominant_share))
     return(out("uncertain", "uncertain", paste(amp_note, "Too few reads were classified to a species to tell isolate from metagenome."), amp == "no"))
   top <- co$dominant_share; k <- co$n_species_1pct
@@ -431,6 +469,41 @@ d$verdict_reason[type_conflict] <- paste(d$verdict_reason[type_conflict],
           declared_t[type_conflict], d$detected_type[type_conflict], d$type_reason[type_conflict]))
 
 
+# 3c. Target organism (D76) --------------------------------------------------------
+# WHAT IT DOES  With a declared target_taxid: a target the screen did not see
+#               (contamination cannot be judged) or one that is not the most
+#               common species caps the sample at WARN. With none declared, a
+#               human-dominated sample (not declared a metagenome) is not
+#               judged on host_fraction and cannot PASS or WARN: UNCERTAIN,
+#               declare the target (a FAIL from another metric still stands).
+add_flag_d <- function(i, f) d$detection_flags[i] <<- if (is.na(d$detection_flags[i])) f else paste0(d$detection_flags[i], ",", f)
+host_dominant <- rep(FALSE, nrow(d))
+if (SCREEN_ON) for (i in seq_len(nrow(d))) {
+  if (!d$route[i] %in% QC_ROUTES) next
+  co <- contamination(qc[qc$sample == d$sample[i], ], d$route[i], d$declared_target[i])
+  t  <- d$declared_target[i]
+  if (!is.na(t) && !co$target_seen) {
+    add_flag_d(i, "TARGET_NOT_SEEN")
+    if (d$ceiling[i] == "PASS") d$ceiling[i] <- "WARN"
+    d$verdict_reason[i] <- paste(d$verdict_reason[i], sprintf(
+      "No reads were classified to the declared target (taxid %s), so contamination cannot be judged: use a Kraken2 database that contains it (e.g. PlusPF for fungi and protists).", t))
+  } else if (!is.na(t) && isTRUE(co$target_not_dominant)) {
+    add_flag_d(i, "TARGET_NOT_DOMINANT")
+    if (d$ceiling[i] == "PASS") d$ceiling[i] <- "WARN"
+    d$verdict_reason[i] <- paste(d$verdict_reason[i], sprintf(
+      "The declared target (taxid %s) is not the most common species; the most common is %s. Review this sample.", t, co$dominant_species))
+  } else if (is.na(t) && !d$declared_type[i] %in% "metagenome" && !is.na(co$human_share) && co$human_share >= HOST_DOMINANT_SHARE) {
+    add_flag_d(i, "HOST_DOMINANT")
+    host_dominant[i] <- TRUE
+    h <- metrics$sample == d$sample[i] & metrics$metric == "host_fraction" & metrics$result %in% c("PASS", "WARN", "FAIL")
+    metrics$result[h] <- "exempt"
+    metrics$note[h]   <- "not judged: human-dominated sample with no target_taxid declared"
+    d$verdict_reason[i] <- paste(d$verdict_reason[i], sprintf(
+      "%.0f%% of classified reads are human and no target_taxid is declared: either a human sample or one heavily contaminated with human DNA. Declare target_taxid (9606 if it is human) to say which.", 100 * co$human_share))
+  }
+}
+
+
 # 4. Final verdict: the worse of the ceiling and the worst metric ----------------
 
 RANK <- c(PASS = 1, WARN = 2, FAIL = 3)
@@ -457,6 +530,10 @@ for (i in seq_len(nrow(d))) {
   d$qc_findings[i] <- paste(vapply(seq_len(nrow(m)), function(k) qc_line(m[k, ]), ""), collapse = " ")
   if (d$ceiling[i] %in% names(RANK) && RANK[[worst]] > RANK[[d$ceiling[i]]]) d$verdict[i] <- worst
 }
+
+# D76: a human-dominated sample with no declared target is UNCERTAIN, unless
+# another metric already FAILs it.
+d$verdict[host_dominant & d$verdict %in% c("PASS", "WARN")] <- "UNCERTAIN"
 
 # Quality that could not be judged (placeholder scores, D26) means QC is
 # incomplete, so the sample cannot PASS (D1; user decision after validation
@@ -510,7 +587,7 @@ cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hi
           "declared_platform", "declared_platform_raw", "detected_platform", "detected_layout",
           "confidence", "route", "routed_by", "n_files", "n_reads", "declared_type",
           "declared_molecule", "n_flags", "flags", "detection_flags", "reasons",
-          "detected_type", "type_confidence", "type_reason")
+          "detected_type", "type_confidence", "type_reason", "declared_target")
 write.table(d[, cols], paste0(prefix, "_summary.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 write.table(metrics[, setdiff(names(metrics), "gi")], paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 

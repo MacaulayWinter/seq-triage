@@ -69,6 +69,12 @@ decide <- function(s, row) {
   molecule <- if (has(s$declared_molecule)) s$declared_molecule else "dna"
   dom <- mets$value[mets$sample == s$sample & mets$metric == "dominant_species"]
   vir <- suppressWarnings(as.numeric(sub("%", "", mets$value[mets$sample == s$sample & mets$metric == "viral_fraction"]))) / 100
+  bac <- suppressWarnings(as.numeric(sub("%", "", mets$value[mets$sample == s$sample & mets$metric == "bacterial_fraction"]))) / 100
+  # D76: a declared human target goes to sarek, never to a bacterial
+  # assembler; bacass also needs most classified reads to be bacterial when
+  # the screen ran (a yeast isolate is not a job for bacass).
+  human <- has(s$declared_target) && s$declared_target %in% c("9606", "9605")
+  bacterial <- !human && (!length(bac) || is.na(bac) || bac >= 0.5)
   # target: SARS-CoV-2 (by name, every taxonomy version); another virus (by
   # taxonomy: most classified reads under Viruses, D67); or a cellular
   # organism/community. A mumps amplicon must not go to ampliseq, which is
@@ -81,7 +87,8 @@ decide <- function(s, row) {
     r <- rules[i, ]
     in_list(platform, r$platform) && r$sample_type == type && in_list(molecule, r$molecule) &&
       (r$target == "any" || (r$target == "sarscov2" && target %in% "sarscov2") ||
-       (r$target == "not_sarscov2" && target %in% "other"))
+       (r$target == "not_sarscov2" && target %in% "other") ||
+       (r$target == "human" && human) || (r$target == "bacterial" && bacterial))
   }, TRUE))
   # ampliseq's samplesheet takes one row per sample (its schema says so,
   # whatever its code allows), so several files must be merged first (D75).
@@ -94,6 +101,10 @@ decide <- function(s, row) {
     return(list(rule = rules[fits[1], ], reason = paste(c(rules$note[fits[1]], if (length(note)) sprintf("(%s)", paste(note, collapse = "; "))), collapse = " ")))
   }
   # Known gaps, said plainly.
+  if (type == "isolate" && human)
+    return(none(sprintf("Human %s on %s: no pipeline set up here for that combination.", molecule, platform)))
+  if (type == "isolate" && molecule == "dna" && !bacterial)
+    return(none(sprintf("Isolate whose classified reads are mostly not bacterial (bacterial: %.0f%%): no pipeline set up here for non-bacterial organisms (a eukaryote may also be missing from the Kraken2 database).", 100 * bac)))
   if (type == "amplicon" && platform != "illumina")
     return(none("Long-read amplicons: no pipeline set up here (nf-core/viralrecon expects the sequencer's barcode folders)."))
   if (type == "amplicon" && is.na(target))
@@ -146,6 +157,10 @@ sheet_row <- function(fmt, r) {
     ampliseq     = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),
     viralrecon   = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),
     rnaseq       = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2), strandedness = "auto"),
+    # sarek (D76): one row per lane, lanes distinct (its uniqueEntries:
+    # patient + sample + lane); patient = the sample ID.
+    sarek        = data.frame(patient = r$sample, sample = r$sample, lane = sprintf("L%d", seq_len(nrow(r$row))),
+                              fastq_1 = f1, fastq_2 = blank(f2)),
     stop("unknown samplesheet format: ", fmt))
 }
 

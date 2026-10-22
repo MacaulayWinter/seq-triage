@@ -69,6 +69,15 @@
                 ],
                 "pattern": "(?i)^(dna|rna|na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "molecule must be dna or rna (case does not matter), or left blank. Use rna for RNA-seq, metatranscriptomes and direct RNA, even when the reads are cDNA."
+            },
+            "target_taxid": {
+                "type": [
+                    "integer",
+                    "string"
+                ],
+                "pattern": "(?i)^(na|n/a|nan|null|none|missing|\\.|-|--)$",
+                "errorMessage": "target_taxid must be the NCBI taxonomy ID (a whole number) of the organism the sample is meant to be, e.g. 9606 for human, 4932 for Saccharomyces cerevisiae, 562 for Escherichia coli; or left blank.",
+                "minimum": 1
             }
         },
         "oneOf": [
