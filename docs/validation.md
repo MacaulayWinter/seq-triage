@@ -635,12 +635,32 @@ amplicon (1).**
   medium"; they were not called isolates at all.)
 - **SRR10176048** ("Proteobacteria bacterium 005FR1") was called metagenome:
   species across *Pseudoalteromonas*, *Burkholderia* and *Staphylococcus*,
-  85% unclassified, top genus 11%. A novel proteobacterium would not look
-  like *Staphylococcus*; this may be a mixed sample. **Unexplained**, not
-  adjudicated.
+  85% unclassified, top genus 11%. **Checked afterwards (first 50,000 read
+  pairs from ENA, the same reads the pipeline used): one genome, not a
+  mixture.** Per-read GC has a single peak (55-65%; 99% of reads between
+  45% and 70%) and duplicates are 4.3%; *Staphylococcus* (GC about 33%) or
+  *Pseudoalteromonas* (about 40%) reads would form their own peaks. So a
+  genome the database does not know, with its few classified reads
+  scattered over distant genera. A real failure that D73 does not catch.
+  The ENA label stands.
 - **SRR23446558** (a *Mycobacterium* phage) was called amplicon: 28% of
   reads start with one of 10 sequences; the other phages show 1-3%.
-  **Unexplained.**
+  **Checked afterwards: most of the run is one amplified molecule.** The 10
+  starts are single-letter variants of one sequence; 28,232 of 50,000 pairs
+  belong to it, with BOTH mates starting at fixed places (R1 and R2 each
+  dominated by one start: an amplicon, not fragmented DNA), and 68% of reads
+  are exact duplicates. The molecule contains a stretch that looks like a
+  conserved region of a 16S rRNA gene (not confirmed by alignment). A
+  second, smaller GC peak (65-70%) fits a GC-rich mycobacteriophage. So the
+  library is mostly an amplicon plus some phage DNA: the reads support the
+  pipeline's call, and ENA's label (phage, WGS) does not describe most of
+  the run. Not adjudicated (the user's decision); still counted as wrong.
+
+  *Possible signal for later (not a decision):* an isolate's reads share one
+  narrow GC distribution, while a community's spread wider. Per-read GC
+  spread would be computable in detection from the probed reads and might
+  catch the SRR10176048 kind of error; it would need its own design and
+  calibration on runs it was not chosen from.
 
 ### Decision after layer E round 2 (D73)
 
@@ -655,7 +675,7 @@ Re-scored on the real Kraken2 tables
 | | Wrong at high | Correct at high |
 |---|---|---|
 | Layer E round 2, as run | 7 | 33 / 49 |
-| Layer E round 2, with D73 | **2** (the two unexplained runs) | 33 / 49 |
+| Layer E round 2, with D73 | **2** (SRR10176048, a genome the database does not know; SRR23446558, mostly an amplicon despite its label) | 33 / 49 |
 | Layer E round 1, with D73 | no new wrong call | one fewer: a *Microcystis* bloom (98% one genus) drops to correct, medium |
 
 (The round 1 re-score file also lists the 3 SARS-CoV-2 amplicons as wrong

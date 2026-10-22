@@ -255,8 +255,10 @@ checks required). v0.1.0 released (D63); `main` is 0.2.0dev. CI runs only what a
 **Next:**
 1. Layer E round 3: pre-register a round that tests D73 (novel isolates, phages,
    single-genus-dominated metagenomes such as blooms), studies unseen by every earlier round.
-2. Investigate the two unexplained round 2 runs (SRR10176048 mixed or novel?; SRR23446558
-   repeated read starts in a phage).
+2. Round 2's two remaining wrong-high runs checked (2026-10-22, `docs/validation.md`): SRR10176048 is
+   one genome unknown to the database (single GC peak), a real failure; SRR23446558 is mostly one
+   amplified molecule (both mates at fixed starts), so its ENA label looks wrong: adjudication is the
+   user's call. Idea for later: per-read GC spread as an isolate-vs-community signal.
 3. Blind-spot inventory (user, 2026-10-22: cover every raw-read input): several files per
    sample, human/eukaryotic samples, then the rest; rRNA fraction; strain-level contamination.
 4. Waiting on the user: DNBSEQ/Element subsamples in the public test-data repo (D69).
