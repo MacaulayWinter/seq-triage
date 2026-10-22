@@ -11,7 +11,7 @@ nf_core_version: 4.1.0
 # with manifest.version; seq-triage was not generated from the nf-core
 # template, so this is the only template field it records (D63).
 template:
-  version: 0.1.0
+  version: 0.2.0dev
 lint:
   files_exist:
     # nf-core organisation files: community templates, logos, Dockstore,
