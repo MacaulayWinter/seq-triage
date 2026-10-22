@@ -27,6 +27,15 @@
 #*******************************************************************************
 set -euo pipefail
 reads=$1; out=$2; shift 2
+# Check every database folder first, so a wrong path stops the job before
+# any database is loaded (the first submission read a settings comment into
+# the path and failed with a bare cat error).
+for db in "$@"; do
+    if [ ! -f "$db/hash.k2d" ]; then
+        echo "Not a Kraken2 database folder (no hash.k2d): [$db]" >&2
+        exit 1
+    fi
+done
 env=${K2_ENV:-$HOME/.conda/envs/seqtriage_k2}
 if [ ! -x "$env/bin/kraken2" ]; then
     conda create -y -q -p "$env" -c conda-forge -c bioconda kraken2=2.1.6

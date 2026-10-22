@@ -218,31 +218,33 @@ Findings:
 
 ## Status
 
-**Current state (session 2, 2026-10-21):** `main` at `e25edb0` (PR #19). 19 PRs, each
-merged only after CI passed. CI has five jobs: R unit tests, e2e with Docker, e2e with conda,
-lockfile rebuild (linux-64), nf-test.
-- v0.1: validated (round 1 re-run: A 0 wrong-high, B 542/542, C 29/29; D39, D40).
-- Added today: integrity check, a damaged file is a FAIL row (D45); nf-test (D46); native
-  `arm64` profile (D44); Linux lockfiles + WSL2 route for Windows (D48); `--kraken2_batch` (D50).
-- v0.2 contamination screen (D41) with the 1% trace-species floor (D47).
-- Layer D round 1 (Standard-8): 19/24, **pass mark not met** (D47; `docs/validation.md`).
-- Layer D round 2 (D49, pre-registered): **running on ISCA**, submitted by the user
-  2026-10-21: Standard-8 per-sample (`~/seqtriage_layer_D_r2_std8`) and full Standard DB in
-  batch mode (`~/seqtriage_layer_D_r2_full`, `settings_full.config`). The full DB (Oct 2025,
-  95 GB, md5-verified 17/17) is at `~/kraken2_db_full` on ISCA. Claude never acts on the HPC.
+**Current state (end of session 2, 2026-10-22):** `main` at `6b056b3` (PR #27). 27 PRs,
+each merged after CI passed. CI has six jobs: repository guard, R unit tests, e2e with
+Docker, e2e with conda, lockfile rebuild + nf-core lint + `--help`, nf-test.
+- v0.1 validation: round 1 passed (D39, D40). **Round 2 of layers A-C failed layer A as
+  registered** (2 wrong at high; D54); B 1158/1158 and C 30/30 passed. Decided afterwards:
+  SRR28793840 adjudicated, binned quality alone caps at medium (D58), contradicted medium
+  calls not routed (D60). Re-scored: 0 wrong at high, 65/89 correct at high. Post hoc, so
+  a future round must test D58.
+- v0.2: contamination screen (D41, D47, D50); layer D round 2 (D56): pass mark not met by
+  Standard-8 (20/24) or the full DB (22/24); host 10/10 on both. **BAM/uBAM input** (D55)
+  with header evidence (D57).
+- Repository guard and pre-commit hook (D52); nf-core lint clean, `--help`, CHANGELOG,
+  CITATIONS (D53).
+- ISCA: full Standard DB at `~/kraken2_db_full`. Claude never acts on the HPC.
 
 **Next:**
-0. Round 2 decisions made (D58, D60). Open: AH21H052 per-read Kraken2 on ISCA (D59),
-   submitted by the user.
-1. Layer D round 2: scored and written up 2026-10-22 (D56); pass mark not met by either
-   database. The 6.4% K. pneumoniae in STRAIN_30 ONT: database effect, not contamination (D59).
-2. Validation round 2 of layers A-C: run 2026-10-21 (D51, D54); decision pending (item 0).
+1. AH21H052 per-read Kraken2 (D59): the user resubmitted `per_read_kraken2.sh` with the
+   corrected path command (the first attempt read a settings comment into the path). When
+   `~/ah21h052_k2.*` is back, join taxon IDs with the minimap2 best hits.
+2. v0.1.0 release (addition 3): round 2 decisions are made; release when the user agrees the
+   fail-as-registered result is acceptable to document.
 3. Weekend: one-page interview walkthrough (user item 7).
-4. Next week: v0.2 features (user item 6): BAM/uBAM input, PacBio QC, rRNA fraction,
-   isolate/metagenome classification, downstream pipeline recommendation; strain-level
-   contamination (ConFindr-style) as its own item.
-5. Repo stays private until fully developed (user decision).
-6. Open questions above.
+4. Next week, v0.2 (user item 6): PacBio QC, rRNA fraction, isolate/metagenome
+   classification, downstream pipeline recommendation, CRAM input; strain-level
+   contamination (ConFindr-style).
+5. A future validation round to test D58 and D60 on unseen data.
+6. Repo stays private until fully developed (user decision). Open questions above.
 
 **How to run things (notes for future sessions):**
 - User's shell: `conda activate seq-triage-dev` before `nextflow`/`nf-core`.
@@ -284,6 +286,12 @@ lockfile rebuild (linux-64), nf-test.
 - Layer D round 2 design, pre-registered (D49) -> PR #17 (`d8f64ec`).
 - `--kraken2_batch`; per-run launch folders for layer D (D50) -> PR #18 (`e2075de`).
 - `.gitignore` covers every layer D settings file and run log -> PR #19 (`e25edb0`).
+- CLAUDE.md status; two-database comparison script -> PRs #20, #21.
+- Repository guard (D52); nf-core lint, `--help`, CHANGELOG, CITATIONS (D53) -> PRs #22, #23.
+- Validation round 2 of layers A-C, pre-registered and run (D51, D54) -> PR #24 (`9e776c5`).
+- BAM/uBAM input (D55) and header evidence (D57) -> PR #25 (`5da14d0`).
+- Layer D round 2 results (D56) -> PR #26 (`2e194d4`).
+- Round 2 decisions (D58, D60), AH21H052 check (D59) -> PR #27 (`6b056b3`).
 
 ## CI fix log
 
