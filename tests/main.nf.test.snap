@@ -4,7 +4,7 @@
             [
                 "BF_ILLUMINA_PE\tWARN",
                 "BROKEN_FASTQ\tFAIL",
-                "CONTRADICTION\tWARN",
+                "CONTRADICTION\tFAIL",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
                 "ILLUMINA_BAM\tFAIL",
@@ -17,7 +17,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-21T23:58:59.341325",
+        "timestamp": "2026-10-22T10:38:57.79203",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -28,7 +28,7 @@
             [
                 "BF_ILLUMINA_PE\tWARN",
                 "BROKEN_FASTQ\tFAIL",
-                "CONTRADICTION\tWARN",
+                "CONTRADICTION\tFAIL",
                 "ECE107_NOVASEQ\tPASS",
                 "ECE107_R10\tPASS",
                 "ILLUMINA_BAM\tFAIL",
@@ -55,7 +55,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-21T23:57:26.84026",
+        "timestamp": "2026-10-22T10:36:56.59005",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

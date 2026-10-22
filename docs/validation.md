@@ -362,6 +362,46 @@ second confirming signal is required for high when read names are missing;
   truncated files became FAIL rows while the batch finished, and exactly
   10,000 reads, on the limit, passed.
 
+### Decisions after round 2 (2026-10-22, D58)
+
+Made by the user on Claude's recommendation, after seeing the results. Round
+2 therefore cannot test them, and **round 2 stays recorded as failing layer A
+as registered.**
+
+1. **SRR28793840 corrected to DNBSEQ** in
+   [`adjudications.tsv`](../validation/adjudications.tsv): an MGI flowcell
+   name in every read, in this run and a sibling run, is a fact about the
+   file that no Illumina instrument produces.
+2. **SRR14318705 not corrected**: the submitter's own description says
+   "BGISEQ sequencing", so it stays a wrong call.
+3. **Binned quality alone gives at most medium confidence** (it was the only
+   signal behind the SRR14318705 error). The other cures listed above came
+   to the same thing: without read names, no second signal is available.
+
+Re-scored with detection re-run under the new rule
+([`layer_A_D58.tsv`](../validation/outcomes/round2/layer_A_D58.tsv)). The
+re-run was checked first: the old code reproduces all 115 published calls
+exactly. Panel samples declare no platform, so only high-confidence
+Illumina/ONT calls are routed to QC.
+
+| | As registered | After D58 |
+|---|---|---|
+| Wrong at high confidence | 2 | **0** |
+| Unhandled platform routed to QC | 1 | **0** of 26 |
+| Correct at high confidence (handled platforms) | 72 / 90 | **65 / 89** |
+
+The cost is the 7 correct Illumina calls that rested on binned quality alone:
+they are now medium, so UNCERTAIN unless the platform is declared.
+SRR14318705 becomes "wrong, medium": not routed, UNCERTAIN.
+
+**Found by the change, not yet decided:** the test-profile sample
+`CONTRADICTION` (Illumina reads declared `ont`) is now called Illumina at
+medium confidence, and D2 routes medium calls by the declared platform, so
+the Illumina reads go through nanopore QC and FAIL on read N50. Before D58 a
+high-confidence call overrode the label (WARN, "review"). The verdict is
+safe; the reason is misleading. Recommended: a medium call that contradicts
+the declaration should not route (UNCERTAIN, review).
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
@@ -526,14 +566,23 @@ database reports far longer trace tails on Illumina (18-36 species per
 sample, against 4-9 on Standard-8; nanopore is similar on both, 38-95), so
 without the floor more pure Illumina samples would have warned.
 
-**Not explained yet: the strain mixture on nanopore, full database.** 30%
-of a second *E. coli* strain (AH21H052) should look like pure *E. coli*,
-and on Standard-8 it does (0.0% off-target). On the full database, 6.4% of
-species-level reads are called *K. pneumoniae*, so the sample WARNs and the
-expected limit is not seen. The Illumina reads of the same mixture show
-2.1%. Possible causes, not tested: *Klebsiella* reads in the AH21H052
-nanopore source run, or a plasmid shared with *Klebsiella* that only the
-full database can place. It is reported, not explained away.
+**The strain mixture on nanopore, full database: a database effect, not
+contamination.** 30% of a second *E. coli* strain (AH21H052) should look
+like pure *E. coli*, and on Standard-8 it does (0.0% off-target). On the
+full database, 6.4% of species-level reads are called *K. pneumoniae*, so
+the sample WARNs and the expected limit is not seen. Checked on the Mac
+(D59): the AH21H052 nanopore reads (byte-identical to those used on ISCA)
+were mapped competitively against AH21H052's own complete genome
+(GCF_051563005.1) and *K. pneumoniae* HS11286 (GCF_000240185.1, chromosome
+and plasmids). Of the 3,600 reads in the mixture, 3,362 fit their own
+genome best (median identity 94.6%, 97.6% of each read aligned); only 5
+(0.14%) align well to *K. pneumoniae*. 6.4% would need about a fifth of the
+AH21H052 reads. So the source is not contaminated: the full database
+assigns genuine *E. coli* reads of this lineage to *K. pneumoniae*, most
+likely through a reference genome filed under *K. pneumoniae* that holds
+*E. coli* sequence. Confirming which reads, and so which lineage, needs
+Kraken2's per-read calls on ISCA
+([`per_read_kraken2.sh`](../validation/layer_D/per_read_kraken2.sh)).
 
 **What this means for use:** with the full database, the screen's host
 estimates are dependable on both platforms and its species estimates are
