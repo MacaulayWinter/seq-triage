@@ -20,10 +20,11 @@
                 "PACBIO_UBAM\tWARN",
                 "SC2_ILLUMINA\tFAIL",
                 "SC2_ONT\tWARN",
+                "SC_10X\tWARN",
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-22T22:45:47.362134",
+        "timestamp": "2026-10-23T00:06:44.94762",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -50,6 +51,7 @@
                 "PACBIO_UBAM\tWARN",
                 "SC2_ILLUMINA\tFAIL",
                 "SC2_ONT\tWARN",
+                "SC_10X\tWARN",
                 "SIM_ONT_Q40\tWARN"
             ],
             [
@@ -69,7 +71,7 @@
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-22T22:42:48.262491",
+        "timestamp": "2026-10-23T00:04:15.15576",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

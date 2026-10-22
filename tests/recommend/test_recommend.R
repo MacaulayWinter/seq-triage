@@ -46,11 +46,16 @@ DIR_ONT       | WARN      | detected  | ont      | isolate    | isolate    | med
 HUMAN_WGS     | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Homo sapiens (99.0%)                                   |     | nf-core/sarek
 LANES_HUMAN   | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Homo sapiens (99.0%)                                   |     | nf-core/sarek
 YEAST_ISOLATE | WARN      | detected  | illumina | isolate    | uncertain  | uncertain | dna      |                  | Escherichia coli (60.0%)                               |     | none
+SC_10X        | PASS      | detected  | illumina |            | uncertain  | uncertain |          | BARCODE_READ     |                                                        |     | nf-core/scrnaseq
+METHYL_WGBS   | PASS      | detected  | illumina |            | uncertain  | uncertain | dna      | BISULFITE        |                                                        |     | nf-core/methylseq
+INTERLEAVED_ISO | PASS    | detected  | illumina | isolate    | isolate    | high      | dna      | INTERLEAVED      | Escherichia coli (99.0%)                               |     | none
+INDEX_MATE_ISO | WARN     | detected  | illumina | isolate    | isolate    | high      | dna      | INDEX_READ_AS_MATE | Escherichia coli (99.0%)                             |     | none
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
                    declared_type = cases$decl_type, detected_type = cases$det_type, type_confidence = cases$conf,
                    declared_molecule = cases$molecule, detection_flags = cases$flags,
+                   detected_layout = ifelse(cases$sample == "INTERLEAVED_ISO", "interleaved", "paired"),
                    declared_target = ifelse(cases$sample %in% c("HUMAN_WGS", "LANES_HUMAN"), "9606", ""))
 has_dom <- !is.na(cases$dominant)
 viral   <- grepl("coronavirus|Betacoronavirus|Orthorubulavirus", cases$dominant)
@@ -115,6 +120,9 @@ res <- rbind(res, data.frame(case = "LANES_NOT_IN_AMPLISEQ", got = as.character(
 sk <- read.csv(file.path(out, "sarek", "samplesheet.csv"), colClasses = "character")
 res <- rbind(res, data.frame(case = "SAREK_LANES", got = paste(sk$lane[sk$sample == "LANES_HUMAN"], collapse = ","), expected = "L1,L2"))
 res <- rbind(res, data.frame(case = "SAREK_UNIQUE_ENTRIES", got = as.character(!anyDuplicated(sk[, c("patient", "sample", "lane")])), expected = "TRUE"))
+for (k in list(c("scrnaseq", "fasta"), c("scrnaseq", "gtf"), c("methylseq", "fasta")))
+  res <- rbind(res, data.frame(case = sprintf("FILL_IN_%s_%s", k[1], k[2]), got = if (fill(k[1], k[2])) "FILL_IN" else "set", expected = "FILL_IN"))
+res <- rbind(res, data.frame(case = "SC_10X_ASSUMES_RNA", got = as.character(grepl("RNA assumed", rec$reason[rec$sample == "SC_10X"])), expected = "TRUE"))
 res <- rbind(res, data.frame(case = "FILL_IN_sarek_tools", got = if (fill("sarek", "tools")) "FILL_IN" else "set", expected = "FILL_IN"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))

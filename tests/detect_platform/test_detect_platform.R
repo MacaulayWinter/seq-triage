@@ -32,7 +32,9 @@ HEADERS <- list(
   # Element with a NUMERIC run name: matches the Illumina pattern too, so
   # this checks Element is recognised first.
   element   = function(n, mate) sprintf("@AV224102:1234:2404432094:1:10102:%d:0011 %d:N:0:ACGT", seq_len(n), mate),
-  renamed   = function(n, mate) sprintf("@other%d/%d", seq_len(n), mate)
+  renamed   = function(n, mate) sprintf("@other%d/%d", seq_len(n), mate),
+  # D78: both mates in one file, one after the other (n even).
+  interleaved = function(n, mate) sprintf("@A00611:237:H5335DRX5:2:2101:%d:1000 %d:N:0:ACGT", rep(seq_len(n / 2), each = 2), rep(1:2, n / 2))
 )
 # Quality alphabets: binned (NovaSeq, 4 values), full range, placeholder (1 value)
 QUAL <- list(binned = c("F", ":", ",", "#"), full = intToUtf8(35:74, multiple = TRUE), placeholder = "I")
@@ -40,7 +42,9 @@ LENGTHS <- list(
   illumina    = function(n) sample(c(rep(151, 9), 150), n, replace = TRUE),
   ont         = function(n) pmax(100, round(rlnorm(n, log(4000), 1))),
   pacbio      = function(n) round(rnorm(n, 18000, 1500)),
-  middle      = function(n) sample(300:800, n, replace = TRUE)          # fits neither platform
+  middle      = function(n) sample(300:800, n, replace = TRUE),         # fits neither platform
+  index       = function(n) rep(8, n),                                  # D78: an I1 index read
+  barcode     = function(n) rep(28, n)                                  # D78: 10x cell barcode + UMI
 )
 
 # WHAT IT DOES  Writes one FASTQ and returns its seqkit-style stats row.
@@ -49,7 +53,12 @@ ADAPTER_SEQ <- c(ont = "AATGTACTTCGTTCAGTTACGTATTGCT", illumina = "AGATCGGAAGAGC
 make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna", adapter = NULL) {
   len <- LENGTHS[[lengths]](n)
   hdr <- HEADERS[[header]](n, mate)
-  bases <- if (alphabet == "rna") c("A", "C", "G", "U") else c("A", "C", "G", "T")
+  # bisulfite (D78): unmethylated C read as T, so (almost) no C on this strand
+  # bisulfite_plant: C kept at ~6% (as a real Panax WGBS run); at_rich: 10% C
+  # and 10% G, a very AT-rich genome, which must NOT count as bisulfite.
+  bases <- switch(alphabet, rna = c("A", "C", "G", "U"), bisulfite = c("A", "G", "T", "T"),
+                  bisulfite_plant = c("A", "C", rep("G", 3), rep("T", 11)), at_rich = c(rep("A", 4), "C", "G", rep("T", 4)),
+                  c("A", "C", "G", "T"))
   seq <- vapply(len, function(l) paste(sample(bases, l, TRUE), collapse = ""), "")
   # adapter = "group@fraction": put that adapter at the start of a share of reads
   if (!is.null(adapter) && n) {
@@ -106,6 +115,13 @@ HIFI_NARROW_CCS      | 200:pacbio:plain:full         |                          
 ALIGNER_ONLY         | 500:illumina:plain:full       |                                | illumina  | single    | medium     |                      | minimap2,samtools
 PACBIO_LIMA_ONLY     | 200:ont:plain:full            |                                | pacbio    | single    | high       | PLATFORM_NOT_HANDLED | lima
 SOFTWARE_DISAGREES   | 500:ont:plain:full            |                                | ont       | single    | medium     | SIGNALS_DISAGREE     | dorado,ccs
+INDEX_ONLY           | 500:index:casava:binned       |                                | uncertain | single    | uncertain  | INDEX_READS
+TENX_BARCODE_R1      | 500:barcode:casava:binned     | 500:illumina:casava:binned     | illumina  | paired    | high       | BARCODE_READ
+INDEX_AS_MATE        | 500:illumina:casava:binned    | 500:index:casava:binned        | illumina  | paired    | high       | INDEX_READ_AS_MATE
+BISULFITE_PAIRED     | 500:illumina:casava:binned:bisulfite | 500:illumina:casava:binned | illumina | paired | high       | BISULFITE
+BISULFITE_PLANT      | 500:illumina:casava:binned:bisulfite_plant |                    | illumina  | single    | high       | BISULFITE
+AT_RICH_NOT_BS       | 500:illumina:casava:binned:at_rich |                            | illumina  | single    | high       |
+INTERLEAVED_FILE     | 500:illumina:interleaved:binned |                              | illumina  | interleaved | high     | INTERLEAVED
 ")
 cases$programs[is.na(cases$programs)] <- ""
 

@@ -43,6 +43,7 @@ dir.create(out, recursive = TRUE, showWarnings = FALSE)
 SARSCOV2 <- c("Severe acute respiratory syndrome coronavirus 2", "Severe acute respiratory syndrome-related coronavirus",
               "Betacoronavirus pandemicum")
 has <- function(x) !is.na(x) & nzchar(x)
+`%|%` <- function(a, b) ifelse(is.na(a), b, a)
 in_list <- function(value, list) value %in% strsplit(list, ",")[[1]]
 
 # WHAT IT DOES  Decides for one sample. RETURNS list(rule = row of rules or
@@ -65,8 +66,13 @@ decide <- function(s, row) {
   if (!has(platform)) return(none("Platform not confirmed by the reads."))
   type <- if (has(s$declared_type) && s$declared_type %in% c("isolate", "metagenome", "amplicon")) s$declared_type
           else if (has(s$detected_type) && s$type_confidence %in% "high") s$detected_type else NA
+  # D78: the library's structure, read from the reads, decides the kind of
+  # analysis before the isolate / metagenome / amplicon question does.
+  if ("BARCODE_READ" %in% flags) type <- "single_cell"
+  if ("BISULFITE" %in% flags)    type <- "methylation"
   if (!has(type)) return(none("Sample type not declared and not detected with high confidence: declare sample_type."))
-  molecule <- if (has(s$declared_molecule)) s$declared_molecule else "dna"
+  # Single-cell libraries are almost always RNA (D78); otherwise DNA is assumed.
+  molecule <- if (has(s$declared_molecule)) s$declared_molecule else if (type == "single_cell") "rna" else "dna"
   dom <- mets$value[mets$sample == s$sample & mets$metric == "dominant_species"]
   vir <- suppressWarnings(as.numeric(sub("%", "", mets$value[mets$sample == s$sample & mets$metric == "viral_fraction"]))) / 100
   bac <- suppressWarnings(as.numeric(sub("%", "", mets$value[mets$sample == s$sample & mets$metric == "bacterial_fraction"]))) / 100
@@ -95,9 +101,15 @@ decide <- function(s, row) {
   fits <- fits[!(rules$pipeline[fits] == "ampliseq" & nrow(row) > 1)]
   if (length(fits) == 0 && nrow(row) > 1 && type == "amplicon" && !target %in% c("sarscov2", "virus"))
     return(none("Several files for one sample: nf-core/ampliseq takes one row per sample, so merge the files first (cat), then use nf-core/ampliseq."))
+  # D78: the files as given cannot go to the next pipeline as they are.
+  if (length(fits) && s$detected_layout %in% "interleaved")
+    return(none(sprintf("Interleaved FASTQ (both mates in one file): split it into R1 and R2 first (e.g. seqtk seq -1 and seqtk seq -2, or reformat.sh in= out1= out2=), then use nf-core/%s %s.",
+                        rules$pipeline[fits[1]], rules$version[fits[1]])))
+  if ("INDEX_READ_AS_MATE" %in% flags)
+    return(none("fastq_2 looks like an index read, not R2: fix the samplesheet first."))
   if (length(fits)) {
-    note <- c(if (!has(s$declared_molecule)) "molecule not declared, so DNA assumed" else NULL,
-              if (!has(s$declared_type)) sprintf("sample type %s detected from the reads", type) else NULL)
+    note <- c(if (!has(s$declared_molecule)) sprintf("molecule not declared, so %s assumed", toupper(molecule)) else NULL,
+              if (!has(s$declared_type)) sprintf("%s detected from the reads", c(single_cell = "single-cell library", methylation = "methylation library")[type] %|% sprintf("sample type %s", type)) else NULL)
     return(list(rule = rules[fits[1], ], reason = paste(c(rules$note[fits[1]], if (length(note)) sprintf("(%s)", paste(note, collapse = "; "))), collapse = " ")))
   }
   # Known gaps, said plainly.
@@ -159,6 +171,8 @@ sheet_row <- function(fmt, r) {
     rnaseq       = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2), strandedness = "auto"),
     # sarek (D76): one row per lane, lanes distinct (its uniqueEntries:
     # patient + sample + lane); patient = the sample ID.
+    scrnaseq     = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),
+    methylseq    = data.frame(sample = r$sample, fastq_1 = f1, fastq_2 = blank(f2)),
     sarek        = data.frame(patient = r$sample, sample = r$sample, lane = sprintf("L%d", seq_len(nrow(r$row))),
                               fastq_1 = f1, fastq_2 = blank(f2)),
     stop("unknown samplesheet format: ", fmt))

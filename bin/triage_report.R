@@ -71,6 +71,9 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected, reason
                                   if (!is.na(declared)) sprintf(" (declared: %s)", declared) else "")))
   }
   if (routed_by == "none")   return(c("UNCERTAIN", "Platform could not be determined from the reads, and none was declared. No QC was run."))
+  # D78: only index or barcode reads were given.
+  if (routed_by == "index_reads")
+    return(c("UNCERTAIN", sprintf("Only index or barcode reads were given (%s). Give the sample's read files (R1, R2) instead; no QC was run.", reasons)))
   # D64: only PacBio HiFi is QC'd; a declaration alone cannot route PacBio.
   if (routed_by == "pacbio_not_hifi")
     return(c("UNCERTAIN", "Declared PacBio, but the reads do not show PacBio HiFi markers (read names ending /ccs, or a BAM written by ccs). seq-triage QCs PacBio HiFi only, so no QC was run."))
@@ -99,6 +102,13 @@ lift <- hdr_conflict & d$ceiling == "PASS"
 d$ceiling[lift] <- "WARN"
 d$verdict_reason[lift] <- paste(d$verdict_reason[lift],
   "But the BAM header names a different platform from the samplesheet. Review this sample.")
+
+# D78: an index read given as fastq_2 means the samplesheet is probably
+# wrong (R2 missing, or I1 given in its place): at most WARN, review.
+idx_mate <- grepl("INDEX_READ_AS_MATE", ifelse(is.na(d$detection_flags), "", d$detection_flags))
+d$ceiling[idx_mate & d$ceiling == "PASS"] <- "WARN"
+d$verdict_reason[idx_mate] <- paste(d$verdict_reason[idx_mate],
+  "fastq_2 looks like an index read, not R2, so QC used fastq_1 only. Review the samplesheet.")
 
 # Molecule check: reads written with U are RNA (direct-RNA basecalls). If the
 # sheet says dna, the metadata contradicts the reads, so cap at WARN. The
@@ -316,12 +326,17 @@ judge_sample <- function(s) {
         if (!is.na(fail) && value > fail) "FAIL" else if (!is.na(warn) && value > warn) "WARN" else "PASS"
       } else "info"
     if (g$metric == "host_fraction" && human_target && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
+    # D78: bisulfite-converted reads (C read as T) classify poorly, so the
+    # screen's contamination numbers are not judged.
+    bisulfite <- "BISULFITE" %in% flags && g$metric %in% c("host_fraction", "off_target_fraction")
+    if (bisulfite && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
     note <- switch(result,
       not_available  = if (g$metric == "target_fraction") (if (is.na(s$declared_target)) "no target_taxid declared"
                                                            else "not computed: no reads were classified at all")
                        else if (g$source_tool == SCREEN_TOOL && !is.null(contam$species_note)) contam$species_note
                        else sprintf("not reported by %s", g$source_tool),
-      exempt         = if (g$metric == "host_fraction" && human_target) "not judged: human is the declared target"
+      exempt         = if (bisulfite) "not judged: bisulfite-converted reads cannot be classified reliably"
+                       else if (g$metric == "host_fraction" && human_target) "not judged: human is the declared target"
                        else sprintf("not judged: %s library", exempt[1]),
       not_meaningful = "not judged: quality scores are a placeholder (every base the same)",
       "")
@@ -395,6 +410,12 @@ TYPE_META_MAX_GENUS <- 0.50            # metagenome HIGH needs the top genus und
 classify_type <- function(s) {
   out <- function(type, conf, why, amplicon_judged) list(type = type, conf = conf, why = why, amplicon_judged = amplicon_judged)
   if (!s$route %in% QC_ROUTES) return(out("uncertain", "uncertain", "not assessed: the sample was not sent to QC.", FALSE))
+  # D78: library kinds the isolate / metagenome / amplicon question does not fit.
+  lib_flags <- if (is.na(s$detection_flags)) character(0) else strsplit(s$detection_flags, ",")[[1]]
+  if ("BARCODE_READ" %in% lib_flags)
+    return(out("uncertain", "uncertain", "A single-cell library (cell-barcode R1): isolate, metagenome or amplicon does not describe it.", FALSE))
+  if ("BISULFITE" %in% lib_flags)
+    return(out("uncertain", "uncertain", "A bisulfite / EM-seq methylation library: converted reads cannot show the composition reliably.", FALSE))
   short <- s$route %in% SHORT_ROUTES
   amp <- "unknown"; amp_note <- "Nanopore and PacBio reads start with adapter sequence, so an amplicon library cannot be recognised from them."
   if (short) {

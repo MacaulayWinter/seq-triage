@@ -54,6 +54,13 @@ All notable changes to seq-triage. Versions follow
   recommended nf-core/sarek 3.10.0; bacass only when most classified reads
   are bacterial.
 
+- Library structure from the reads (D78): index-only reads (`INDEX_READS`,
+  not QC'd), 10x-style single-cell (`BARCODE_READ`: QC on R2, next pipeline
+  nf-core/scrnaseq 4.2.0), an index read given as R2
+  (`INDEX_READ_AS_MATE`), bisulfite/EM-seq (`BISULFITE`: contamination not
+  judged, next pipeline nf-core/methylseq 4.2.0), interleaved FASTQ
+  (`INTERLEAVED`: split into R1/R2 before QC, local `DEINTERLEAVE`).
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short

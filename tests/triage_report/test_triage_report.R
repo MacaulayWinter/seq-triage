@@ -208,6 +208,15 @@ cases <- list(
        verdict = "FAIL", check = c(off_target_fraction = "FAIL"), expect_flag = "TARGET_NOT_DOMINANT"),
   list(id = "TARGET_OK",           route = "illumina", start = 0.01, type = "isolate", target = "562", screen = TRUE,
        verdict = "PASS", check = c(off_target_fraction = "PASS", target_fraction = "info")),
+  # D78: library structure from the reads.
+  list(id = "INDEX_READS_ONLY",    route = "unrouted", routed_by = "index_reads", detected = "uncertain", confidence = "uncertain",
+       flags = "INDEX_READS", verdict = "UNCERTAIN"),
+  list(id = "INDEX_AS_MATE",       route = "illumina", flags = "INDEX_READ_AS_MATE", verdict = "WARN"),
+  list(id = "BISULFITE_LIB",       route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META, flags = "BISULFITE",
+       verdict = "PASS", check = c(host_fraction = "exempt", off_target_fraction = "exempt"), expect_type = "uncertain uncertain"),
+  # A single-cell R2 can start at few places; it is still not an "amplicon".
+  list(id = "SINGLE_CELL_LIB",     route = "illumina", start = 0.30, flags = "BARCODE_READ", verdict = "PASS",
+       expect_type = "uncertain uncertain"),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
