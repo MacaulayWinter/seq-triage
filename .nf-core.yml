@@ -7,6 +7,11 @@
 # way; the reason is given next to it (CLAUDE.md D53).
 repository_type: pipeline
 nf_core_version: 4.1.0
+# The pipeline's version, which nf-core's release lint (--release) compares
+# with manifest.version; seq-triage was not generated from the nf-core
+# template, so this is the only template field it records (D63).
+template:
+  version: 0.1.0
 lint:
   files_exist:
     # nf-core organisation files: community templates, logos, Dockstore,
@@ -69,6 +74,9 @@ lint:
   # Test data is pinned by commit in conf/test.config and tests/nextflow.config
   # (D30), and the pipeline test snapshots each tool's version from
   # software_versions.tsv rather than a versions.yml file (D46).
+  # Release mode's form of the custom_config check above: site settings stay
+  # out of this repository (D42).
+  included_configs: false
   nf_test_content: false
   multiqc_config: false
   # The hyphen in seq-triage is the repository's name.
