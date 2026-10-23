@@ -390,7 +390,7 @@ a later round tests it. Full write-up: [docs/validation.md](docs/validation.md).
 | Layer D, rounds 1-2 | Contamination estimates on mixtures with known answers | 13 mixtures x 2 platforms, 2 databases | host DNA right in every case; **all-samples pass mark not met** (best: 22/24 with the full database) |
 | Layer E | Sample type: isolate / metagenome / amplicon | 57 runs | **failed: 4 wrong at high confidence** (fragmented viral amplicons; a mostly-unclassified soil metagenome); led to D67 |
 | Layer E round 2 | D67 on unseen studies | 49 runs | **failed: 7 wrong at high**, all true isolates called metagenome or amplicon (D67's own target held: nothing wrongly called isolate); led to D73 |
-| Layer E round 3 | D73 on unseen studies | 50 runs | pre-registered |
+| Layer E round 3 | D73 on unseen studies | 50 runs | **failed: 4 wrong at high** (3 archaea, 1 phage); D73 prevented 6 others, and cost 6 correct metagenomes their high confidence |
 
 Along the way validation found: a silent failure in a dependency (seqkit
 reports success on a truncated gzip), two runs whose ENA instrument labels
@@ -413,6 +413,10 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
   contamination, and depth of coverage (which needs a genome size) is not
   reported. Single-cell, bisulfite, Hi-C and ChIP/ATAC libraries are not
   recognised. Long-read amplicons cannot be recognised from the reads.
+- **Sample type:** an organism the Kraken2 database knows poorly (archaea,
+  novel bacteria, some phages) can be called a metagenome at high
+  confidence: its reads scatter across many species and genera (layer E
+  rounds 2 and 3). Declare `sample_type` when you know it.
 - **Contamination:** species level only (another strain of the same species
   is invisible); same-genus contamination is under-estimated on short reads;
   estimates depend on the Kraken2 database (see layer D).
@@ -425,7 +429,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D83), including every rule that validation overturned and every CI
+(D1-D84), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

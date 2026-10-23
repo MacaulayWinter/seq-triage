@@ -712,6 +712,45 @@ used (layer A rounds 1-3, layer E rounds 1-2 excluded).
   D73 moved to medium (its cost), from the genus share in the results;
   wrong medium calls.
 
+## Results: layer E round 3 (2026-10-23)
+
+50 runs on the HPC with Standard-8, commit `e0c88fc` (D73 in; the reasons
+quote the genus share). Tables:
+[`validation/outcomes/layer_E_round3/`](../validation/outcomes/layer_E_round3/);
+all 99 fetched files have checksums (the D73 fix to `fetch_panel.sh`).
+
+**Pass mark NOT met: 4 wrong at high confidence (mark: 0).** Recorded as
+failed.
+
+| Stratum | Correct, high | Correct, medium | Uncertain | Wrong, medium | **Wrong, high** |
+|---|---|---|---|---|---|
+| Phage isolates (8) | 0 | 2 | 1 | 4 | **1** |
+| Archaeal isolates (6) | 1 | 0 | 1 | 1 | **3** |
+| Bacterial isolates (12) | 10 | 1 | 0 | 1 | 0 |
+| Food metagenomes (8) | 3 | 4 | 1 | 0 | 0 |
+| Bioreactor metagenomes (6) | 4 | 1 | 1 | 0 | 0 |
+| Gut metagenomes (6) | 3 | 2 | 1 | 0 | 0 |
+| 16S amplicons (4) | 4 | 0 | 0 | 0 | 0 |
+
+**What D73 did.** It moved 12 metagenome calls from high to medium: 6 were
+wrong (4 phages, 1 archaeon, 1 bacterial isolate), so without D73 this
+round would have had 10 wrong at high, not 4; and 6 were right (4 food, 1
+gut, 1 bioreactor metagenome: communities dominated by one genus), which
+is the cost the round was designed to measure.
+
+**What D73 does not catch.** The 4 remaining errors (3 archaea: *Halococcus*,
+*Methanobacterium*, *Methanolinea*; 1 *Rhodobacter* phage) were called
+metagenome with the top genus at only 16-43%: Standard-8 knows these
+organisms so poorly that their reads scatter across GENERA, not only
+sister species. This is the same failure as round 2's SRR10176048. A
+signal that could catch it (one genome has a narrow per-read GC
+distribution; a community a wide one) was looked at only through FastQC's
+per-sequence GC check, which does not separate them (true metagenomes often
+pass it, true isolates often warn); a direct per-read GC spread would need
+its own design and calibration. **No rule was changed after this round.**
+The limit is stated in the README: an organism the Kraken2 database knows
+poorly can be called a metagenome at high confidence.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,
