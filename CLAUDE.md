@@ -251,7 +251,7 @@ Findings:
 
 ## Status
 
-**Current state (2026-10-23):** v0.2.0 prepared (D85). repo public, `main`
+**Current state (2026-10-23):** v0.2.0 released (D85; tag on `0081a08`); `main` is 0.3.0dev. repo public, `main`
 protected. Built and merged overnight, each through green CI: D77 (DNBSEQ/Element test data),
 D78 (library structure: index reads, 10x single-cell, bisulfite, interleaved), D79 (FASTA reads;
 raw inputs named), D80 (genome size, depth of coverage), D81 (rRNA screen), D82 (analysis menu:
