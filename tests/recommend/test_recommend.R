@@ -51,6 +51,10 @@ METHYL_WGBS   | PASS      | detected  | illumina |            | uncertain  | unc
 INTERLEAVED_ISO | PASS    | detected  | illumina | isolate    | isolate    | high      | dna      | INTERLEAVED      | Escherichia coli (99.0%)                               |     | none
 INDEX_MATE_ISO | WARN     | detected  | illumina | isolate    | isolate    | high      | dna      | INDEX_READ_AS_MATE | Escherichia coli (99.0%)                             |     | none
 FASTA_READS   | WARN      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | none
+HYB_ILM       | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+HYB_ONT       | PASS      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (98.0%)                               |     | nf-core/bacass
+HYB_BAD_ILM   | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+HYB_BAD_ONT   | PASS      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Klebsiella pneumoniae (97.0%)                          |     | nf-core/bacass
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
@@ -78,6 +82,10 @@ lanes$fastq_1 <- sub("_R1", "_L002_R1", lanes$fastq_1); lanes$fastq_2 <- sub("_R
 sheet <- rbind(sheet, lanes)
 sheet[sheet$sample == "DIR_ONT", c("fastq_1", "fastq_dir")] <- c("", "/data/fastq_pass/barcode01")
 sheet[sheet$sample == "FASTA_READS", c("fastq_1", "fastq_2")] <- c("/data/FASTA_READS_R1.fasta.gz", "/data/FASTA_READS_R2.fasta.gz")
+# D83: groups. A short + long pair of one E. coli (G1); a pair that looks like
+# two species (G2); an RNA and a DNA metagenome of one sample (G3).
+sheet$group <- c(HYB_ILM = "G1", HYB_ONT = "G1", HYB_BAD_ILM = "G2", HYB_BAD_ONT = "G2", META_RNA = "G3", ILM_META = "G3")[sheet$sample]
+sheet$group[is.na(sheet$group)] <- ""
 wt(summ, file.path(tmp, "summary.tsv")); wt(mets, file.path(tmp, "metrics.tsv"))
 write.csv(sheet, file.path(tmp, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 unlink(out, recursive = TRUE)
@@ -145,7 +153,7 @@ for (k in list(c("ILM_ISOLATE", "Genome assembly and annotation", "not now"),   
                c("ILM_META", "Taxonomic profiling", "ready"),
                c("ELEMENT_META", "Taxonomic profiling", "not now"),
                c("ILM_RNA", "Differential expression", "not now"),                          # replicates unseen
-               c("META_RNA", "Activity vs abundance (RNA/DNA ratio)", "possible"),          # DNA metagenomes in batch
+               c("META_RNA", "Activity vs abundance (RNA/DNA ratio)", "ready"),             # paired by group G3 (D83)
                c("SC_10X", "Single-cell expression (cell barcodes, UMI counts)", "ready"),
                c("METHYL_WGBS", "DNA methylation calling", "ready"),
                c("ILM_SC2", "Viral consensus, variants and lineage", "ready"),
@@ -155,6 +163,14 @@ for (k in list(c("ILM_ISOLATE", "Genome assembly and annotation", "not now"),   
   res <- rbind(res, data.frame(case = sprintf("MENU_%s_%s", k[1], substr(gsub("[^A-Za-z]", "", k[2]), 1, 18)), got = st(k[1], k[2]), expected = k[3]))
 res <- rbind(res, data.frame(case = "MENU_EVERY_SAMPLE", got = as.character(all(summ$sample %in% am$sample)), expected = "TRUE"))
 res <- rbind(res, data.frame(case = "MENU_MARKDOWN", got = as.character(file.exists(file.path(out, "analyses.md"))), expected = "TRUE"))
+hy <- read.csv(file.path(out, "bacass_hybrid", "samplesheet.csv"), colClasses = "character")
+res <- rbind(res, data.frame(case = "HYBRID_ONE_ROW", got = paste(hy$ID, basename(hy$R1), basename(hy$LongFastQ)), expected = "G1 HYB_ILM_R1.fastq.gz HYB_ONT_R1.fastq.gz"))
+res <- rbind(res, data.frame(case = "HYBRID_RULES", got = paste(rec$rule[match(c("HYB_ILM", "HYB_ONT", "HYB_BAD_ILM", "HYB_BAD_ONT"), rec$sample)], collapse = ","),
+                             expected = "bacass_hybrid,bacass_hybrid,bacass_short,bacass_long"))
+res <- rbind(res, data.frame(case = "HYBRID_PARAM", got = as.character(any(readLines(file.path(out, "bacass_hybrid", "params.yaml")) == "assembly_type: hybrid")), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "HYBRID_MISMATCH_SAID", got = as.character(grepl("different organisms", rec$reason[rec$sample == "HYB_BAD_ILM"])), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "MENU_HYBRID_PLASMIDS", got = st("HYB_ILM", "Plasmids and mobile genetic elements"), expected = "ready"))
+res <- rbind(res, data.frame(case = "MENU_RNA_DNA_PAIRED", got = st("META_RNA", "Activity vs abundance (RNA/DNA ratio)"), expected = "ready"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")

@@ -31,7 +31,7 @@ if (length(args) != 5) stop("Usage: recommend.R <triage_summary.tsv> <triage_met
 rt   <- function(f) read.delim(f, colClasses = "character", na.strings = "", quote = "", check.names = FALSE)
 summ <- rt(args[1]); mets <- rt(args[2]); rules <- rt(args[4]); out <- args[5]
 sheet <- read.csv(args[3], colClasses = "character", na.strings = "", check.names = FALSE, strip.white = TRUE)
-for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir")) if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "group")) if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 sheet$sample <- trimws(sheet$sample)
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 
@@ -148,6 +148,37 @@ rows <- lapply(seq_len(nrow(summ)), function(i) {
        rule = d$rule, reason = d$reason)
 })
 
+# D83: samples of one isolate sequenced on a short- and a long-read platform
+# (same samplesheet `group`) are assembled together: one bacass hybrid row
+# (R1, R2 and the long reads), which resolves plasmids and repeats. Only
+# when both are ready for bacass on their own and look like the same
+# organism (same most common species, when the screen ran).
+group_of <- function(id) { g <- sheet$group[sheet$sample == id]; if (length(g) && has(g[1])) g[1] else NA_character_ }
+hybrid_rule <- rules[rules$rule == "bacass_short", ][1, ]
+hybrid_rule$rule <- "bacass_hybrid"; hybrid_rule$format <- "bacass_hybrid"; hybrid_rule$params <- "assembly_type=hybrid"
+hybrid_rule$note <- "Hybrid assembly of short and long reads of one isolate: long reads span repeats and close plasmids, short reads correct errors."
+hybrids <- list()
+for (g in unique(na.omit(vapply(rows, function(r) group_of(r$sample), "")))) {
+  idx   <- which(vapply(rows, function(r) group_of(r$sample) %in% g, TRUE))
+  short <- idx[vapply(rows[idx], function(r) !is.null(r$rule) && r$rule$rule == "bacass_short", TRUE)]
+  long  <- idx[vapply(rows[idx], function(r) !is.null(r$rule) && r$rule$rule == "bacass_long", TRUE)]
+  if (length(short) != 1 || length(long) != 1) next
+  # One samplesheet row each: bacass merges repeated rows of one ID, which
+  # would repeat the long reads once per short-read lane.
+  if (nrow(rows[[short]]$row) != 1 || nrow(rows[[long]]$row) != 1) next
+  sp <- vapply(c(short, long), function(i) { v <- mets$value[mets$sample == rows[[i]]$sample & mets$metric == "dominant_species"]
+                                              if (length(v) && has(v[1])) sub(" \\(.*$", "", v[1]) else NA_character_ }, "")
+  if (all(!is.na(sp)) && sp[1] != sp[2]) {
+    for (i in c(short, long)) rows[[i]]$reason <- paste(rows[[i]]$reason, sprintf("(group %s: the short- and long-read samples look like different organisms, %s and %s, so no hybrid assembly is advised)", g, sp[1], sp[2]))
+    next
+  }
+  for (i in c(short, long)) {
+    rows[[i]]$rule   <- hybrid_rule
+    rows[[i]]$reason <- sprintf("%s (group %s: %s short reads + %s long reads)", hybrid_rule$note, g, rows[[short]]$sample, rows[[long]]$sample)
+  }
+  hybrids[[g]] <- list(short = rows[[short]], long = rows[[long]])
+}
+
 rec <- data.frame(
   sample   = vapply(rows, `[[`, "", "sample"),
   pipeline = vapply(rows, function(r) if (is.null(r$rule)) "none" else paste0("nf-core/", r$rule$pipeline), ""),
@@ -190,7 +221,10 @@ for (rl in unique(rec$rule[rec$pipeline != "none"])) {
   sel  <- Filter(function(r) !is.null(r$rule) && r$rule$rule == rl, rows)
   rule <- sel[[1]]$rule
   dir  <- file.path(out, rl); dir.create(dir, showWarnings = FALSE)
-  ss <- do.call(rbind, lapply(sel, function(r) sheet_row(r$rule$format, r)))
+  ss <- if (rl == "bacass_hybrid")
+          do.call(rbind, lapply(names(hybrids), function(g) data.frame(ID = g, R1 = NAv(hybrids[[g]]$short$row$fastq_1[1]),
+                  R2 = NAv(hybrids[[g]]$short$row$fastq_2[1]), LongFastQ = NAv(hybrids[[g]]$long$row$fastq_1[1]), Fast5 = "NA", GenomeSize = "NA")))
+        else do.call(rbind, lapply(sel, function(r) sheet_row(r$rule$format, r)))
   write.csv(ss, file.path(dir, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
 
   fixed <- if (has(rule$params)) strsplit(rule$params, ";")[[1]] else character(0)
@@ -287,8 +321,14 @@ menu_for <- function(s) {
                  "From the assembly (e.g. fastANI, mlst), or read-based typing at lower depth."),
             row_(id, "AMR and virulence genes", if (asm_status == "ready") "ready" else if (asm_status == "possible") "possible" else "not now", "nf-core/funcscan 4.0.0 (on the assembly)",
                  if (asm_status == "ready") "On the assembled contigs (AMRFinderPlus, RGI, ABRicate)." else "Needs an assembly; with thin data genes split across contigs can be missed."),
-            row_(id, "Plasmids and mobile genetic elements", if (long && asm_status == "ready") "ready" else if (asm_status == "not now") "not now" else "possible", "",
-                 if (long) "Long reads can close plasmids and resolve where mobile elements sit." else "Short reads fragment plasmids and repeats; long reads of the same isolate (hybrid assembly, bacass hybrid) resolve them."),
+            {
+              g <- group_of(id); hyb <- !is.na(g) && g %in% names(hybrids)
+              row_(id, "Plasmids and mobile genetic elements", if (hyb || (long && asm_status == "ready")) "ready" else if (asm_status == "not now") "not now" else "possible",
+                   if (hyb) "nf-core/bacass 2.6.1 (hybrid)" else "",
+                   if (hyb) sprintf("Short and long reads of this isolate (group %s): a hybrid assembly closes plasmids and places mobile elements.", g)
+                   else if (long) "Long reads can close plasmids and resolve where mobile elements sit."
+                   else "Short reads fragment plasmids and repeats; long reads of the same isolate (give both the same group) allow a hybrid assembly that resolves them.")
+            },
             row_(id, "Comparative genomics (pangenome, core-genome phylogeny)", if (same >= 3) "ready" else "not now", "",
                  if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp) else sprintf("Needs several isolates of one species; this batch has %d of %s.", same, if (has(sp)) sp else "this species")))
     },
@@ -318,8 +358,14 @@ menu_for <- function(s) {
       row_(id, "Differential expression", "not now", "nf-core/rnaseq 3.27.0, then DESeq2 / edgeR", "Needs biological replicates (2-3 or more per condition), which the reads cannot show.")),
     metatranscriptome = rbind(
       row_(id, "De novo metatranscriptome (genes, expression)", "possible", "nf-core/metatdenovo 1.4.1", paste0("Assembles and quantifies community transcripts.", rrna_note)),
-      row_(id, "Activity vs abundance (RNA/DNA ratio)", if (n_of("metagenome") >= 1) "possible" else "not now", "",
-           if (n_of("metagenome") >= 1) "This batch also has DNA metagenomes: pair each RNA sample with the DNA of the same sample." else "Needs a matched DNA metagenome of the same sample.")),
+      {
+        g <- group_of(id)
+        mates <- if (is.na(g)) character(0) else names(kinds)[kinds == "metagenome" & vapply(names(kinds), group_of, "") %in% g]
+        row_(id, "Activity vs abundance (RNA/DNA ratio)", if (length(mates)) "ready" else if (n_of("metagenome") >= 1) "possible" else "not now", "",
+             if (length(mates)) sprintf("Matched DNA metagenome in group %s: %s.", g, paste(mates, collapse = ", "))
+             else if (n_of("metagenome") >= 1) "This batch also has DNA metagenomes: give each RNA sample and the DNA of the same sample one group to pair them."
+             else "Needs a matched DNA metagenome of the same sample.")
+      }),
     single_cell = row_(id, "Single-cell expression (cell barcodes, UMI counts)", "ready", "nf-core/scrnaseq 4.2.0", "Needs the reference genome and annotation."),
     methylation = row_(id, "DNA methylation calling", "ready", "nf-core/methylseq 4.2.0", "Needs the reference genome; say whether the library is WGBS, EM-seq or RRBS."),
     row_(id, "any", "not now", "", "No analyses set up for this kind of sample yet."))
