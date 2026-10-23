@@ -12,6 +12,7 @@
                 "ECE107_R10\tPASS",
                 "ELEMENT_ISOLATE\tWARN",
                 "HIFI_PLAIN_FASTQ\tFAIL",
+                "HUMAN_RNASEQ\tWARN",
                 "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
@@ -24,7 +25,7 @@
                 "SIM_ONT_Q40\tWARN"
             ]
         ],
-        "timestamp": "2026-10-23T00:06:44.94762",
+        "timestamp": "2026-10-23T01:12:38.840504",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"
@@ -43,6 +44,7 @@
                 "ECE107_R10\tPASS",
                 "ELEMENT_ISOLATE\tWARN",
                 "HIFI_PLAIN_FASTQ\tFAIL",
+                "HUMAN_RNASEQ\tWARN",
                 "HUMAN_WGS\tFAIL",
                 "ILLUMINA_BAM\tFAIL",
                 "ILLUMINA_SE\tWARN",
@@ -68,10 +70,11 @@
                 "pigz\t2.8",
                 "samtools\t1.24",
                 "seqkit\t2.13.0",
+                "sortmerna\t4.3.7",
                 "untar\t1.34"
             ]
         ],
-        "timestamp": "2026-10-23T00:04:15.15576",
+        "timestamp": "2026-10-23T01:10:19.698325",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.2"

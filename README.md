@@ -303,6 +303,7 @@ single-end.
 | `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
 | `integrity/` | Whether each file was readable and well-formed FASTQ. A damaged file gets a FAIL row saying exactly what is wrong, and the other samples still finish |
 | `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
+| `recommendations/analyses.md` | **What can be done with each sample** (D82): every analysis the data supports (assembly, typing, AMR, plasmids, comparative genomics, profiling, binning, resistome, expression, single-cell, methylation, variant calling), each marked ready, possible (with the caveat) or not now (with what is missing: depth, reads, replicates, more samples, a declaration), and the nf-core pipeline where one exists. Also as `analyses.tsv`. |
 | `recommendations/` | The next nf-core pipeline for each ready sample (`recommendations.tsv`: a pipeline and pinned version, or the reason there is none), and one folder per rule (e.g. `bacass_short/`) with a `samplesheet.csv` in that pipeline's own format, a `params.yaml` and a `README.md` with the command. Values only you know (primers, databases, reference) are never guessed: the pipeline will not run until you add them |
 | `pipeline_info/` | Software versions actually used, run timeline, resource report, workflow diagram (`pipeline_dag.html`) |
 
@@ -423,7 +424,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D81), including every rule that validation overturned and every CI
+(D1-D82), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

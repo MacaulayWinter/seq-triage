@@ -76,6 +76,13 @@ files_ok <- all(vapply(dirs, function(d) all(file.exists(file.path(res, "recomme
 check("every sample has a recommendation or a reason", setequal(rec$sample, summary$sample) && all(!is.na(rec$reason)) && files_ok,
       sprintf("%d rows for %d samples; pipelines: %s", nrow(rec), nrow(summary), paste(dirs, collapse = ", ")))
 
+# 8. Analysis menu (D82): every sample, each line with a known status and a reason.
+am_f <- file.path(res, "recommendations", "analyses.tsv")
+am   <- if (file.exists(am_f)) read_tsv(am_f) else data.frame(sample = character(0), status = character(0), reason = character(0))
+check("every sample has an analysis menu", setequal(am$sample, summary$sample) && all(am$status %in% c("ready", "possible", "not now")) &&
+        all(!is.na(am$reason)) && file.exists(file.path(res, "recommendations", "analyses.md")),
+      sprintf("%d menu lines for %d samples (%d ready, %d possible)", nrow(am), length(unique(am$sample)), sum(am$status == "ready"), sum(am$status == "possible")))
+
 n_fail <- sum(results == "FAIL")
 cat(sprintf("\n%d / %d checks passed\n", length(results) - n_fail, length(results)))
 if (n_fail > 0) quit(status = 1)
