@@ -230,6 +230,8 @@ cases <- list(
        verdict = "PASS", expect_depth = "not computed: RNA (expression, not genome coverage)"),
   list(id = "DEPTH_NO_SIZE",       route = "illumina", type = "isolate",
        verdict = "PASS", expect_depth = "no genome size: declare genome_size or target_taxid (or run the contamination screen)"),
+  # D85: RNA reads that start unevenly are not proof of an amplicon.
+  list(id = "RNA_UNEVEN_STARTS",    route = "illumina", start = 0.30, molecule = "rna", verdict = "PASS", expect_type = "amplicon medium"),
   # D81: rRNA share of RNA samples.
   list(id = "RRNA_DEPLETED",       route = "illumina", molecule = "rna", rrna = 0.05, verdict = "PASS", check = c(rrna_fraction = "PASS")),
   list(id = "RRNA_FAILED_DEPLETION", route = "illumina", molecule = "rna", rrna = 0.82, verdict = "FAIL", hint = TRUE, check = c(rrna_fraction = "FAIL")),  # +hint: a 16S amplicon looks like this

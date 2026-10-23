@@ -35,6 +35,16 @@ Exact versions used in a run are in `pipeline_info/software_versions.tsv`.
 - **Bracken**: Lu J, Breitwieser FP, Thielen P, Salzberg SL. (2017) Bracken:
   estimating species abundance in metagenomics data. *PeerJ Computer Science*.
   [doi:10.7717/peerj-cs.104](https://doi.org/10.7717/peerj-cs.104)
+- **SAMtools**: Danecek P, et al. (2021) Twelve years of SAMtools and
+  BCFtools. *GigaScience*.
+  [doi:10.1093/gigascience/giab008](https://doi.org/10.1093/gigascience/giab008)
+- **SortMeRNA**: Kopylova E, Noé L, Touzet H. (2012) SortMeRNA: fast and
+  accurate filtering of ribosomal RNAs in metatranscriptomic data.
+  *Bioinformatics*.
+  [doi:10.1093/bioinformatics/bts611](https://doi.org/10.1093/bioinformatics/bts611)
+- **NCBI genome size table**: expected genome sizes per species, from NCBI's
+  genome size check (`genomes/ASSEMBLY_REPORTS/species_genome_size.txt`),
+  used for the depth-of-coverage estimate.
 - **R**: R Core Team. R: A language and environment for statistical
   computing. R Foundation for Statistical Computing, Vienna, Austria.
   [r-project.org](https://www.r-project.org/)

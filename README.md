@@ -4,14 +4,16 @@
 [![CI](https://github.com/MacaulayWinter/seq-triage/actions/workflows/ci.yml/badge.svg)](https://github.com/MacaulayWinter/seq-triage/actions/workflows/ci.yml)
 
 A Nextflow DSL2 pipeline that inspects incoming sequencing data before any
-analysis starts. It validates the sample metadata, works out from the reads
-themselves which platform produced them, routes each sample to the right QC,
-and writes a plain-language summary that says which samples are ready and why.
+analysis starts. From the reads themselves it works out what they are
+(platform, layout, library structure, isolate / metagenome / amplicon,
+contamination, rRNA share, depth), checks that against the sample
+metadata, runs the right QC, and writes a plain-language report: which
+samples are ready and why, and **what can be done with each one next**,
+with the nf-core pipeline and a ready-to-fill samplesheet.
 
-> **Status:** v0.1.0 released (2026-10-22); v0.2 in development on `main`.
-> Every change is tested end to end in CI. Validated in pre-registered rounds
-> on public data it was not tuned on, failures included: see
-> [Validation](#validation).
+> **Status:** v0.2.0. Every change is tested end to end in CI. Validated in
+> pre-registered rounds on public data it was not tuned on, failures
+> included: see [Validation](#validation).
 
 **Quick start** (needs [conda](https://conda-forge.org/download/) and
 [Docker](https://www.docker.com/)):
@@ -24,10 +26,13 @@ nextflow run main.nf -profile test,docker --outdir results   # Apple Silicon: te
 
 Then open `results/triage_summary.md`. For your own data, see [Usage](#usage).
 
-**What it reads:** FASTQ (plain, `.gz`, `.bz2`, `.xz`, `.zst`), BAM, SAM and
-CRAM; single or paired. **Platforms QC'd:** Illumina, MGI/DNBSEQ, Element,
-Oxford Nanopore and PacBio HiFi; other platforms are named and left
-UNCERTAIN rather than guessed.
+**What it reads:** FASTQ (plain, `.gz`, `.bz2`, `.xz`, `.zst`), FASTA reads,
+BAM, SAM and CRAM; single, paired or interleaved; one file or several per
+sample (lanes, a nanopore barcode folder). **Platforms QC'd:** Illumina,
+MGI/DNBSEQ, Element, Oxford Nanopore and PacBio HiFi; other platforms are
+named and left UNCERTAIN rather than guessed. **Libraries recognised from
+the reads:** isolate, metagenome, amplicon, 10x single-cell, bisulfite /
+EM-seq; human and other targets via `target_taxid`.
 
 ## Why
 
@@ -44,13 +49,17 @@ says "uncertain" rather than guessing.
 ## How it works
 
 ```
-samplesheet ─► validate (nf-schema) ─┬─► read statistics (seqkit) ─► detect platform
-                                     └─► screen metadata ───────────► flag inconsistencies
-                                                    ▼
-                     route each sample by confidence and agreement
-                 Illumina ─► fastp + FastQC        ONT ─► NanoPlot
-                                                    ▼
-                         MultiQC  +  triage summary report
+samplesheet ─► validate (nf-schema; rows of one sample must agree) ─► screen metadata
+     │
+     ▼  per file: convert to .fastq.gz (BAM/SAM/CRAM, FASTA, .bz2/.xz/.zst) ─► integrity check
+     ▼  per lane: read statistics (seqkit) ─► detect platform, layout, library structure
+     ▼  combine lanes ─► route by confidence and agreement with the metadata
+     ▼  merge lanes / split interleaved ─► QC
+            short reads (Illumina, MGI/DNBSEQ, Element): fastp + FastQC
+            long reads (nanopore, PacBio HiFi): NanoPlot
+     ▼  optional screens: Kraken2 + Bracken (contamination, sample type), SortMeRNA (rRNA)
+     ▼  triage report: verdicts, explained metrics, sample type, depth   + MultiQC
+     ▼  next steps: nf-core pipeline + samplesheet per sample, and the analysis menu
 ```
 
 | Detection | Declared metadata | QC routed by | Best possible verdict |
@@ -77,8 +86,9 @@ widely. Independent evidence then sets the confidence:
 - **quality values**: NovaSeq and NextSeq use only a handful of distinct scores.
 
 PacBio, MGI/DNBSEQ and Element are recognised by their read names (and
-PacBio and MGI by their adapters) and reported by name, without QC.
-Illumina adapters never raise confidence, because Element and MGI
+PacBio and MGI by their adapters). MGI/DNBSEQ and Element get the same
+short-read QC as Illumina; PacBio is QC'd only as HiFi. Illumina adapters
+never raise confidence, because Element and MGI
 instruments can sequence converted Illumina libraries. The rules and their
 calibration are in CLAUDE.md (D33, D40); how well they work on data they
 were not tuned on is in [docs/validation.md](docs/validation.md).
@@ -135,9 +145,9 @@ nextflow run main.nf -profile docker --input samplesheet.csv --outdir results
 nextflow run main.nf -profile docker,arm64 --input samplesheet.csv --outdir results
 ```
 
-seqkit, fastp, FastQC, MultiQC and the R steps then run natively. NanoPlot,
-Kraken2, Bracken and untar have no Apple Silicon images yet, so they still
-run under Rosetta emulation. Enable it first: Docker Desktop → Settings →
+seqkit, fastp, FastQC, MultiQC, samtools and the R steps then run natively.
+NanoPlot, Kraken2, Bracken, untar, SortMeRNA and the file-merging step have
+no Apple Silicon images yet, so they still run under Rosetta emulation. Enable it first: Docker Desktop → Settings →
 General → *Use Rosetta for x86_64/amd64 emulation on Apple Silicon*. Put
 `arm64` after `docker`.
 
@@ -313,40 +323,49 @@ Verdicts:
 - **PASS:** the reads confirm the metadata and every QC number is within its limits.
 - **WARN:** usable, but something needs a look; the report says what.
 - **FAIL:** too little or too poor data to use.
-- **UNCERTAIN:** the platform could not be established, so no QC was run.
+- **UNCERTAIN:** something only you can settle: the platform could not be
+  established, the reads contradict the metadata, only index reads were
+  given, or a sample is mostly human with no `target_taxid`. The reason
+  says which; no verdict is guessed.
 
 ## Testing
 
-The `test` profile runs the whole pipeline on ten small public samples
-(~130 MB), pinned by commit. Eight come from
-[nf-core/test-datasets](https://github.com/nf-core/test-datasets): a
-simulated Illumina pair, real ONT amplicon reads, simulated ONT reads with
-placeholder quality, Illumina reads mislabelled as ONT, a sample with no
-metadata, single-end Illumina, a tiny real Illumina SARS-CoV-2 amplicon pair (so the
-contamination screen's species step runs), and PacBio HiFi reads, which seq-triage must
-report as *uncertain* rather than force into a platform. Two come from
+The `test` profile runs the whole pipeline on 21 small public samples,
+pinned by commit, each with a known correct answer. From
+[nf-core/test-datasets](https://github.com/nf-core/test-datasets): simulated
+and real Illumina and nanopore reads, Illumina reads mislabelled as ONT, a
+sample with no metadata, a malformed FASTQ, aligned BAM, unaligned PacBio
+HiFi BAM, plain FASTQ, CRAM, two lanes of one sample, human DNA and RNA-seq
+reads, and real 10x Genomics single-cell reads. From
 [seq-triage-test-data](https://github.com/MacaulayWinter/seq-triage-test-data):
-real NovaSeq and R10.4.1 nanopore reads of one *E. coli* isolate, subsampled
-from ENA and large enough to pass every threshold. Each sample has a known
-correct answer.
+real NovaSeq and R10.4.1 nanopore reads of one *E. coli* isolate (linked as
+one `group`, so the hybrid-assembly advice runs), and real MGI/DNBSEQ and
+Element isolates. The test Kraken2 database and rRNA reference are tiny
+stand-ins: they test the plumbing, not accuracy (that is what
+[Validation](#validation) is for).
 
 ```bash
-nextflow run main.nf -profile test,docker --outdir results              # Linux
-nextflow run main.nf -profile test,docker,emulate_amd64 --outdir results # Apple Silicon
+nextflow run main.nf -profile test,docker --outdir results         # Linux
+nextflow run main.nf -profile test,docker,arm64 --outdir results   # Apple Silicon
 Rscript tests/e2e/check_test_profile.R results
 ```
 
 The check confirms that every sample got a verdict, that each verdict matches
 `tests/e2e/expected_verdicts.tsv`, that no reads were copied into `results/`,
 that every tool's version was recorded, that every sample sent to QC has
-judged metrics, and that MultiQC read every tool's output.
+judged metrics, that MultiQC read every tool's output, that every sample has
+a next-pipeline recommendation or a reason, and that every sample has an
+analysis menu.
 
 Unit tests, each on synthetic inputs built inside the test (no data needed):
 
 ```bash
-Rscript tests/screen_metadata/test_screen_metadata.R   # metadata screen
-Rscript tests/detect_platform/test_detect_platform.R   # platform detection rules
-Rscript tests/triage_report/test_triage_report.R       # QC limits and verdicts
+Rscript tests/screen_metadata/test_screen_metadata.R     # metadata screen
+Rscript tests/detect_platform/test_detect_platform.R     # platform and library detection
+Rscript tests/combine_detection/test_combine_detection.R # combining the lanes of a sample
+Rscript tests/triage_report/test_triage_report.R         # QC limits, verdicts, type, depth
+Rscript tests/recommend/test_recommend.R                 # next pipelines and the analysis menu
+bash tests/normalise/test_normalise.sh                   # format conversion (in the samtools image)
 ```
 
 **nf-test**, Nextflow's own testing framework (as used by nf-core), tests
@@ -403,16 +422,17 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
 - **Platforms:** PacBio CLR, Ion Torrent, Ultima and older platforms are not
   QC'd. Without read names, an MGI or Element run can only be called a
   short-read platform at medium confidence.
-- **Inputs not yet handled:** interleaved FASTQ, index/barcode reads, FASTA
-  reads, raw signal (FAST5/POD5) and BCL run folders. Several files per
-  sample are handled (D75), but the next-pipeline recommendation cannot
-  write a samplesheet for a `fastq_dir` folder or for nf-core/ampliseq with
-  several files (it says to merge first).
+- **Inputs:** raw signal (FAST5/POD5), BCL run folders and SRA files are
+  named and refused with the conversion to do first. Index (I1/I2) files
+  are recognised but not used. The next-pipeline samplesheet cannot be
+  written for a `fastq_dir` folder, for nf-core/ampliseq with several files
+  per sample, or for interleaved or FASTA reads (the advice says what to do
+  first).
 - **Sample kinds:** human and other eukaryotic samples need `target_taxid`
   (D76); a eukaryote missing from the Kraken2 database cannot be checked for
-  contamination, and depth of coverage (which needs a genome size) is not
-  reported. Single-cell, bisulfite, Hi-C and ChIP/ATAC libraries are not
-  recognised. Long-read amplicons cannot be recognised from the reads.
+  contamination. Plate-based single-cell (Smart-seq), Hi-C and ChIP/ATAC
+  libraries are not recognised; RRBS and EM-seq cannot be told from WGBS.
+  Long-read amplicons cannot be recognised from the reads.
 - **Sample type:** an organism the Kraken2 database knows poorly (archaea,
   novel bacteria, some phages) can be called a metagenome at high
   confidence: its reads scatter across many species and genera (layer E
@@ -429,7 +449,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D84), including every rule that validation overturned and every CI
+(D1-D85), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
@@ -445,21 +465,27 @@ failure and how it was fixed.
 - [x] Triage summary report: QC metrics judged and explained, `molecule` column for RNA
 - [x] `-profile test` on small public data, run in GitHub Actions
 - [x] Validation round 1: 40 public runs + 29 damaged samples, all pass marks met
-- [x] PacBio, MGI/DNBSEQ and Element recognised and named (no QC yet)
+- [x] PacBio, MGI/DNBSEQ and Element recognised and named
 - [x] Validation round 2 (115 runs, whole-ENA draw) and round 3 (54 runs, testing the rule round 2 led to)
 
-**v0.2** (in progress)
+**v0.2.0**
 
-- BAM/uBAM input (current nanopore and PacBio data is delivered as BAM): **built** (D55); SAM and CRAM **built** (D69)
-- Plain, `.bz2`, `.xz` and `.zst` FASTQ: **built** (D69)
-- QC for MGI/DNBSEQ and Element: **built** (D69)
-- QC for PacBio HiFi: **built** (D64); PacBio CLR stays recognised, not QC'd
-- rRNA fraction for metatranscriptomes
-- Isolate vs metagenome vs amplicon classification: **built** (D65); layer E
-  validation running
-- Host and contaminant screen: **built** (D41), validated as layer D
-- Recommendation of the right downstream nf-core pipeline, with a
-  ready-to-run samplesheet and parameters file: **built** (D66)
+- [x] BAM, SAM and CRAM input; plain, `.bz2`, `.xz`, `.zst` and FASTA reads (D55, D69, D79)
+- [x] Several files per sample: lanes and nanopore barcode folders (D75)
+- [x] QC for MGI/DNBSEQ, Element and PacBio HiFi (D64, D69)
+- [x] Library structure from the reads: index, 10x single-cell, bisulfite, interleaved (D78)
+- [x] Isolate / metagenome / amplicon from the reads, validated in layer E rounds 1-3 (D65-D74, D84)
+- [x] Contamination screen, validated as layer D (D41); human and other targets (D76)
+- [x] rRNA share of RNA samples (D81); genome size and depth of coverage (D80)
+- [x] Next nf-core pipeline with a ready-to-fill samplesheet (D66), and the analysis menu (D82)
+- [x] Linked samples: hybrid assembly, RNA/DNA pairs (D83)
+
+**Next**
+
+- A per-read GC-spread signal for isolates the database knows poorly (layer E rounds 2-3)
+- QC for declared Ion Torrent samples
+- A validation round for the library-structure, depth and rRNA rules (D78-D81)
+- Strain-level contamination
 
 ## Data policy
 
