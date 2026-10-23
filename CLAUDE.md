@@ -249,29 +249,28 @@ Findings:
 
 ## Status
 
-**Current state (2026-10-22, evening):** repo **public** (D72), `main` protected (all 7 CI
-checks required). v0.1.0 released (D63); `main` is 0.2.0dev. CI runs only what a PR changes
-(D71); Actions minutes are free now the repo is public.
-- Validation: rounds 1 and 3 of layer A met their marks; round 2 failed layer A as registered
-  (D54; D58 then held on unseen data in round 3, D62). Layer D: pass mark not met on either
-  database (D56). Layer E failed (D67); **layer E round 2 failed (D73)**: D67 held, a new
-  failure (isolates called metagenome) led to D73, which is post hoc.
-- v0.2 built: PacBio HiFi QC (D64), sample type (D65, D67, D70, D73), downstream recommendation
-  (D66), input formats and DNBSEQ/Element QC (D69).
-- ISCA: Claude never acts on the HPC. ISCA submits use the user's `sbatchm` alias (one mail
-  at end or failure); the address is never in the repo (guard's private list).
+**Current state (2026-10-23, early morning; autonomous night session):** repo public, `main`
+protected. Built and merged overnight, each through green CI: D77 (DNBSEQ/Element test data),
+D78 (library structure: index reads, 10x single-cell, bisulfite, interleaved), D79 (FASTA reads;
+raw inputs named), D80 (genome size, depth of coverage), D81 (rRNA screen), D82 (analysis menu:
+what can be done with each sample), D83 (linked samples: hybrid assembly, RNA/DNA pairs). Each
+new rule is provisional and recorded with what it was checked against; none has a pre-registered
+validation round yet.
+- Validation: layer E round 3 (D74) running on ISCA as job 2703408 on commit `e0c88fc`
+  (resubmitted after an rsync copied newer code mid-run; job 2703402 cancelled).
+- **Mac disk full** (2026-10-23 ~01:15): ~1 GB free after deleting Claude's scratch run folders;
+  Docker Desktop's disk is read-only until Docker is restarted. Local pipeline runs and nf-test
+  are impossible until then; CI is unaffected.
 
 **Next:**
-1. Layer E round 3: pre-register a round that tests D73 (novel isolates, phages,
-   single-genus-dominated metagenomes such as blooms), studies unseen by every earlier round.
-2. Round 2's two remaining wrong-high runs checked (2026-10-22, `docs/validation.md`): SRR10176048 is
-   one genome unknown to the database (single GC peak), a real failure; SRR23446558 is mostly one
-   amplified molecule (both mates at fixed starts), so its ENA label looks wrong: adjudication is the
-   user's call. Idea for later: per-read GC spread as an isolate-vs-community signal.
-3. Blind-spot inventory (user, 2026-10-22: cover every raw-read input): several files per
-   sample built (D75); human/eukaryotic samples built (D76); then the rest; rRNA fraction;
-   strain-level contamination.
-4. DNBSEQ/Element test data added (D77).
+1. Restart Docker Desktop and free disk (the user's call); then check D83's test-profile run
+   locally (CI ran it).
+2. Score layer E round 3 when ISCA finishes (scp the results; `score_layer_E.R` needs only R).
+3. Proposed, not built: Ion Torrent QC for a declared Ion Torrent sample (archived Ion Torrent
+   reads carry no name markers: 5 real runs, lengths 25-504, one with placeholder quality), with
+   its own quality limits and a WARN cap; validation rounds for D78-D83's new rules.
+4. Blind-spot inventory: remaining items are Hi-C/ChIP/ATAC (need a reference), long-read
+   amplicons, PacBio CLR QC, strain-level contamination.
 5. Weekend: one-page interview walkthrough.
 
 **How to run things (notes for future sessions):**
