@@ -4,6 +4,10 @@ All notable changes to seq-triage. Versions follow
 [semantic versioning](https://semver.org/); each entry names the decisions
 (`D` numbers) recorded in [CLAUDE.md](CLAUDE.md).
 
+## v0.3.0dev (unreleased)
+
+Nothing yet.
+
 ## v0.2.0 (2026-10-23)
 
 seq-triage now reads almost any raw-read input, recognises what kind of
