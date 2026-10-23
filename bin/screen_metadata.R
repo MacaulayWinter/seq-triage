@@ -102,7 +102,7 @@ MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size")) {
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size", "group")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -136,7 +136,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size")) {
+for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size", "group")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))

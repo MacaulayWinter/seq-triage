@@ -88,6 +88,11 @@
                 "minimum": 1000,
                 "pattern": "^((?i)[0-9]+(\\.[0-9]+)?\\s*[kmg]?(b|bp)?|(?i)(na|n/a|nan|null|none|missing|\\.|-|--))$",
                 "errorMessage": "genome_size must be the expected genome size in bases, as a number (5200000) or with k, m or g (5.2m, 3g), or left blank. Used only for the depth-of-coverage estimate."
+            },
+            "group": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+                "errorMessage": "group must start with a letter or digit and contain only letters, digits, '.', '_' or '-'. Give the same group to samples of one isolate or biological sample sequenced separately (short and long reads of one isolate; RNA and DNA of one metagenome)."
             }
         },
         "oneOf": [

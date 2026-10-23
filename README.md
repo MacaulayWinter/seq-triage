@@ -272,6 +272,7 @@ screen and the sample type judge the whole sample.
 | `sample_type` | no | `isolate`, `metagenome`, `amplicon` or `unknown`. Amplicon samples are not judged on read N50 or duplication, which amplicon libraries fail by design. |
 | `target_taxid` | no | The NCBI taxonomy ID of the organism the sample is meant to be: `9606` human, `4932` *S. cerevisiae*, `10090` mouse, `562` *E. coli*. A number, not a name, because names change between database versions. With the contamination screen on, it sets what counts as off-target (anything that is not the target), reports `target_fraction`, and flags a target that is not the most common species (`TARGET_NOT_DOMINANT`, at most WARN) or that no read was classified to (`TARGET_NOT_SEEN`: contamination cannot be judged, at most WARN; Standard-8 holds no eukaryote but human, so use e.g. PlusPF for fungi). With `9606`, human reads are the sample, not contamination. With no target declared, a sample whose classified reads are at least half human is UNCERTAIN (`HOST_DOMINANT`): a human sample, or one swamped by human DNA, which only you can say. |
 | `genome_size` | no | Expected genome size in bases (`5200000`, `5.2m`, `3g`), for the depth-of-coverage estimate. Without it, the NCBI expected size of the declared `target_taxid`, or of the most common species, is used (`assets/species_genome_size.tsv`, NCBI `species_genome_size.txt`). Depth is information only, reported for one organism's DNA; it feeds the next-pipeline advice (under 30x: an assembly will be fragmented). |
+| `group` | no | Samples of one isolate or biological sample sequenced separately share a group: short and long reads of one isolate (the advice becomes one nf-core/bacass **hybrid** assembly, which closes plasmids), or the RNA and DNA of one metagenome (activity vs abundance becomes ready). Each sample is still QC'd on its own. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
 
 **Library structure is read from the reads** (D78), whatever was declared:
@@ -424,7 +425,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D82), including every rule that validation overturned and every CI
+(D1-D83), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

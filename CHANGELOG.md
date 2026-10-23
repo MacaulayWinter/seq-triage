@@ -84,6 +84,11 @@ All notable changes to seq-triage. Versions follow
   kind), naming nf-core/bacass, funcscan, taxprofiler, mag, ampliseq,
   viralrecon, rnaseq, metatdenovo, scrnaseq, methylseq or sarek.
 
+- Linked samples (D83): optional `group` column. A short- and a long-read
+  isolate in one group get one nf-core/bacass hybrid samplesheet row
+  (unless they look like different species); an RNA and a DNA metagenome in
+  one group make the RNA/DNA (activity vs abundance) analysis ready.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short
