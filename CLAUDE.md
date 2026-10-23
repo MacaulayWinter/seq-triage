@@ -366,3 +366,23 @@ Every automatic CI fix is recorded here in plain language: what failed, why, wha
   new snapshot.
 - *How verified:* the nf-test passes locally, and all six CI jobs passed on the
   next push (`8cfbf41`).
+
+**4. 2026-10-23, PR #51, job "End-to-end, conda".**
+- *What failed:* SortMeRNA's index step stopped with exit status 132,
+  "Illegal instruction (core dumped)", once and again on the retry, so the
+  conda test run stopped.
+- *Why:* "Illegal instruction" means the program used a processor
+  instruction the machine does not have. The nf-core recipe asks conda for
+  `sortmerna=4.3.7` without a build, so conda installs the newest build of
+  4.3.7 (conda-forge has rebuilt it several times since 2025), while the
+  container holds one fixed build, `py313h71a826f_1`, which ran fine under
+  Docker and even under Rosetta on the Mac. GitHub's machines vary, so the
+  same job passed in PR #48 and failed here. The pipeline code was right;
+  the conda environment did not match the container.
+- *What changed:* the recipe pins the container's exact build,
+  `conda-forge::sortmerna=4.3.7=py313h71a826f_1`, recorded as an nf-core
+  patch (`modules/nf-core/sortmerna/sortmerna.diff`, in `modules.json`), so
+  a module update reapplies it. Same approach as fix #1 (NanoPlot).
+- *How verified:* the pinned build solves for linux-64 (conda dry run), and
+  the conda CI job is re-run on this PR.
+

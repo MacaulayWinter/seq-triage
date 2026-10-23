@@ -4,4 +4,7 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - conda-forge::sortmerna=4.3.7
+  # Pinned to the exact build in the module's container (seq-triage CI fix #4,
+  # D85): a newer conda-forge build of 4.3.7 stopped with 'Illegal
+  # instruction' (exit 132) on a GitHub runner.
+  - conda-forge::sortmerna=4.3.7=py313h71a826f_1
