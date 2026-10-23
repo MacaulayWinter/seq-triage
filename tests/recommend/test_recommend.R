@@ -130,6 +130,31 @@ res <- rbind(res, data.frame(case = "SC_10X_ASSUMES_RNA", got = as.character(gre
 res <- rbind(res, data.frame(case = "FILL_IN_sarek_tools", got = if (fill("sarek", "tools")) "FILL_IN" else "set", expected = "FILL_IN"))
 res <- rbind(res, data.frame(case = "DEPTH_THIN_NOTE", got = as.character(grepl("about 8x: below 30x", rec$reason[rec$sample == "ILM_ISOLATE"])), expected = "TRUE"))
 res <- rbind(res, data.frame(case = "DEPTH_OK_NOTE", got = as.character(grepl("depth about 64x", rec$reason[rec$sample == "DNB_ISOLATE"]) && !grepl("below", rec$reason[rec$sample == "DNB_ISOLATE"])), expected = "TRUE"))
+# D82: the analysis menu.
+am <- read.delim(file.path(out, "analyses.tsv"), colClasses = "character", na.strings = "")
+st <- function(id, analysis) { v <- am$status[am$sample == id & am$analysis == analysis]; if (length(v)) v[1] else "missing" }
+for (k in list(c("ILM_ISOLATE", "Genome assembly and annotation", "not now"),               # 8x: too thin
+               c("DNB_ISOLATE", "Genome assembly and annotation", "ready"),                 # 64x
+               c("DNB_ISOLATE", "AMR and virulence genes", "ready"),
+               c("ONT_ISOLATE", "Plasmids and mobile genetic elements", "possible"),        # long reads, depth unknown
+               c("DNB_ISOLATE", "Plasmids and mobile genetic elements", "possible"),        # short reads: hybrid advised
+               c("DNB_ISOLATE", "Comparative genomics (pangenome, core-genome phylogeny)", "ready"),  # several E. coli
+               c("YEAST_ISOLATE", "Genome assembly and annotation", "not now"),             # not bacterial
+               c("HUMAN_WGS", "Germline variant calling", "possible"),
+               c("HUMAN_WGS", "Somatic variant calling", "not now"),
+               c("ILM_META", "Taxonomic profiling", "ready"),
+               c("ELEMENT_META", "Taxonomic profiling", "not now"),
+               c("ILM_RNA", "Differential expression", "not now"),                          # replicates unseen
+               c("META_RNA", "Activity vs abundance (RNA/DNA ratio)", "possible"),          # DNA metagenomes in batch
+               c("SC_10X", "Single-cell expression (cell barcodes, UMI counts)", "ready"),
+               c("METHYL_WGBS", "DNA methylation calling", "ready"),
+               c("ILM_SC2", "Viral consensus, variants and lineage", "ready"),
+               c("ILM_MUMPS", "Viral consensus and variants", "not now"),
+               c("FAILED", "any", "not now"),
+               c("NO_TYPE", "any", "not now")))
+  res <- rbind(res, data.frame(case = sprintf("MENU_%s_%s", k[1], substr(gsub("[^A-Za-z]", "", k[2]), 1, 18)), got = st(k[1], k[2]), expected = k[3]))
+res <- rbind(res, data.frame(case = "MENU_EVERY_SAMPLE", got = as.character(all(summ$sample %in% am$sample)), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "MENU_MARKDOWN", got = as.character(file.exists(file.path(out, "analyses.md"))), expected = "TRUE"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")

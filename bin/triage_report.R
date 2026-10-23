@@ -295,7 +295,9 @@ judge_sample <- function(s) {
   human_target <- s$declared_target %in% c(HOST_TAXID, HOST_GENUS_TAXID)
 
   applies <- which(vapply(strsplit(guide$applies_to, ","), function(a) tag %in% a, TRUE) &
-                   (SCREEN_ON | guide$source_tool != SCREEN_TOOL) & guide$source_tool != "computed")
+                   (SCREEN_ON | guide$source_tool != SCREEN_TOOL) & guide$source_tool != "computed" &
+                   # D81: the rRNA share only for RNA samples (or where SortMeRNA ran).
+                   (guide$source_tool != "SortMeRNA" | any(rows$tool == "SortMeRNA") | s$declared_molecule %in% "rna"))
   out <- lapply(applies, function(j) {
     g      <- guide[j, ]
     trows  <- rows[rows$tool == g$source_tool, ]
@@ -337,7 +339,8 @@ judge_sample <- function(s) {
     bisulfite <- "BISULFITE" %in% flags && g$metric %in% c("host_fraction", "off_target_fraction")
     if (bisulfite && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
     note <- switch(result,
-      not_available  = if (g$metric == "target_fraction") (if (is.na(s$declared_target)) "no target_taxid declared"
+      not_available  = if (g$source_tool == "SortMeRNA") "not screened: give --rrna_db (an rRNA reference) to measure it"
+                       else if (g$metric == "target_fraction") (if (is.na(s$declared_target)) "no target_taxid declared"
                                                            else "not computed: no reads were classified at all")
                        else if (g$source_tool == SCREEN_TOOL && !is.null(contam$species_note)) contam$species_note
                        else sprintf("not reported by %s", g$source_tool),

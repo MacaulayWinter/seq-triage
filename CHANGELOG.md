@@ -73,6 +73,17 @@ All notable changes to seq-triage. Versions follow
   organism's DNA only; never judged. bacass and sarek advice states the depth
   and warns when it is thin.
 
+- rRNA screen (D81): with `--rrna_db` (an rRNA FASTA or manifest), RNA
+  samples are classified by SortMeRNA 4.3.7 (nf-core module; index built
+  once) and judged on the new metric `rrna_fraction` (warn > 25%, fail
+  > 75%, provisional; not judged for amplicons).
+
+- Analysis menu (D82): `recommendations/analyses.md` and `.tsv` list, per
+  sample, the analyses its data supports, each ready / possible / not now
+  with the reason (depth, read count, replicates, batch size, library
+  kind), naming nf-core/bacass, funcscan, taxprofiler, mag, ampliseq,
+  viralrecon, rnaseq, metatdenovo, scrnaseq, methylseq or sarek.
+
 ### Changed
 
 - A contradiction between detected and declared platform (D60) is now short

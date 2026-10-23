@@ -219,3 +219,120 @@ for (rl in unique(rec$rule[rec$pipeline != "none"])) {
 }
 message(sprintf("Recommendations: %d of %d samples have a next pipeline (%s).", sum(rec$pipeline != "none"), nrow(rec),
                 paste(unique(rec$pipeline[rec$pipeline != "none"]), collapse = ", ")))
+
+
+# Analysis menu (D82) ------------------------------------------------------------
+# WHAT IT DOES  For every sample, the analyses its data can support next, each
+#               with a status and the reason, so the user sees the options and
+#               what is missing, not only one pipeline:
+#                 ready     the data supports it now
+#                 possible  it can be run, with the caveat given
+#                 not now   something is missing (more data, more samples,
+#                           a declaration); the reason says what
+#               Decided from what the triage found (type, molecule, platform,
+#               library structure, depth, rRNA share, target) and from the
+#               whole batch (comparative analyses need several samples).
+#               Limits are provisional and stated in each reason.
+# WRITES        <outdir>/analyses.tsv and <outdir>/analyses.md
+metric <- function(sample, name) {
+  v <- mets$value[mets$sample == sample & mets$metric == name]
+  if (length(v)) v[1] else NA_character_
+}
+num_of <- function(x) suppressWarnings(as.numeric(gsub("[,x%]", "", x)))
+dom_species <- function(sample) { v <- metric(sample, "dominant_species"); if (has(v)) sub(" \\(.*$", "", v) else NA_character_ }
+SHORT <- c("illumina", "dnbseq", "element"); LONG <- c("ont", "pacbio")
+kind_of <- function(s) {
+  fl <- if (has(s$detection_flags)) strsplit(s$detection_flags, ",")[[1]] else character(0)
+  if ("BARCODE_READ" %in% fl) return("single_cell")
+  if ("BISULFITE" %in% fl)    return("methylation")
+  t <- if (has(s$declared_type) && s$declared_type %in% c("isolate", "metagenome", "amplicon")) s$declared_type
+       else if (has(s$detected_type) && s$type_confidence %in% c("high", "medium")) s$detected_type else NA
+  mol <- if (has(s$declared_molecule)) s$declared_molecule else "dna"
+  if (is.na(t)) return(NA_character_)
+  if (t == "isolate" && "declared_target" %in% names(s) && s$declared_target %in% c("9606", "9605")) return(if (mol == "rna") "rna_isolate" else "human")
+  if (mol == "rna") return(if (t == "metagenome") "metatranscriptome" else if (t == "isolate") "rna_isolate" else "amplicon")
+  t
+}
+ready_samples <- summ[summ$verdict %in% c("PASS", "WARN"), ]
+kinds <- setNames(vapply(seq_len(nrow(ready_samples)), function(i) kind_of(ready_samples[i, ]) %|% "", ""), ready_samples$sample)
+iso_species <- vapply(names(kinds)[kinds == "isolate"], dom_species, "")
+row_ <- function(sample, analysis, status, pipeline, reason) data.frame(sample = sample, analysis = analysis, status = status, pipeline = pipeline, reason = reason)
+menu_for <- function(s) {
+  id <- s$sample
+  if (!s$verdict %in% c("PASS", "WARN"))
+    return(row_(id, "any", "not now", "", sprintf("Verdict is %s: resolve the triage findings first.", s$verdict)))
+  k <- kind_of(s)
+  platform <- switch(s$routed_by, detected = s$detected_platform, declared = s$declared_platform, s$detected_platform)
+  long <- platform %in% LONG
+  depth <- num_of(metric(id, "depth_of_coverage"))
+  reads <- num_of(metric(id, if (long) "number_of_reads" else "total_reads"))
+  rrna  <- num_of(metric(id, "rrna_fraction"))
+  bac   <- num_of(metric(id, "bacterial_fraction"))
+  n_of  <- function(kind) sum(kinds == kind)
+  if (is.na(k))
+    return(row_(id, "any", "not now", "", "Sample type not known (not declared, and not detected with confidence): declare sample_type to see the analyses it supports."))
+  rrna_note <- if (!is.na(rrna) && rrna > 25) sprintf(" rRNA is %.0f%% of reads, so fewer reads describe genes; sequence deeper or improve depletion.", rrna) else ""
+  switch(k,
+    isolate = {
+      sp <- dom_species(id); same <- if (has(sp)) sum(iso_species == sp, na.rm = TRUE) else 0
+      non_bact <- !is.na(bac) && bac < 50
+      asm_status <- if (non_bact) "not now" else if (is.na(depth)) "possible" else if (depth >= 30) "ready" else if (depth >= 10) "possible" else "not now"
+      asm_why <- if (non_bact) "Most classified reads are not bacterial; no assembler for non-bacterial genomes is set up here."
+                 else if (is.na(depth)) "Depth unknown: declare genome_size (or target_taxid) to check it is enough (30x or more)."
+                 else if (depth >= 30) sprintf("Depth about %.0fx: enough for de novo assembly.", depth)
+                 else if (depth >= 10) sprintf("Depth about %.0fx: an assembly will be fragmented (30x or more is better).", depth)
+                 else sprintf("Depth about %.0fx: too thin for de novo assembly; sequence more (30x or more).", depth)
+      rbind(row_(id, "Genome assembly and annotation", asm_status, sprintf("nf-core/bacass 2.6.1 (%s)", if (long) "long" else "short"), asm_why),
+            row_(id, "Species confirmation and typing (ANI, MLST)", if (asm_status == "not now" && !non_bact && !is.na(depth) && depth >= 5) "possible" else asm_status, "",
+                 "From the assembly (e.g. fastANI, mlst), or read-based typing at lower depth."),
+            row_(id, "AMR and virulence genes", if (asm_status == "ready") "ready" else if (asm_status == "possible") "possible" else "not now", "nf-core/funcscan 4.0.0 (on the assembly)",
+                 if (asm_status == "ready") "On the assembled contigs (AMRFinderPlus, RGI, ABRicate)." else "Needs an assembly; with thin data genes split across contigs can be missed."),
+            row_(id, "Plasmids and mobile genetic elements", if (long && asm_status == "ready") "ready" else if (asm_status == "not now") "not now" else "possible", "",
+                 if (long) "Long reads can close plasmids and resolve where mobile elements sit." else "Short reads fragment plasmids and repeats; long reads of the same isolate (hybrid assembly, bacass hybrid) resolve them."),
+            row_(id, "Comparative genomics (pangenome, core-genome phylogeny)", if (same >= 3) "ready" else "not now", "",
+                 if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp) else sprintf("Needs several isolates of one species; this batch has %d of %s.", same, if (has(sp)) sp else "this species")))
+    },
+    human = rbind(
+      row_(id, "Germline variant calling", if (is.na(depth)) "possible" else if (depth >= 20) "ready" else if (depth >= 10) "possible" else "not now", "nf-core/sarek 3.10.0",
+           if (is.na(depth)) "Depth unknown." else sprintf("Depth about %.1fx (20x or more is the usual minimum for germline calls).", depth)),
+      row_(id, "Somatic variant calling", "not now", "nf-core/sarek 3.10.0", "Needs a matched normal sample, which the reads cannot show; declare tumour/normal in sarek's samplesheet.")),
+    metagenome = rbind(
+      row_(id, "Taxonomic profiling", if (platform == "element") "not now" else "ready", "nf-core/taxprofiler 2.0.1",
+           if (platform == "element") "taxprofiler does not list Element as a platform." else "Read-based profiles (Kraken2, MetaPhlAn and others)."),
+      row_(id, "Assembly and binning (MAGs)", if (is.na(reads)) "possible" else if (reads >= 5e6) "ready" else if (reads >= 1e6) "possible" else "not now", "nf-core/mag 5.5.0",
+           if (is.na(reads)) "Read count unknown." else sprintf("%s reads: binning needs millions (5 million or more is a usual minimum; deeper for diverse communities).", format(reads, big.mark = ","))),
+      row_(id, "Resistome (antimicrobial resistance genes)", "possible", "nf-core/funcscan 4.0.0 (on MAG contigs)", "Contig-based after assembly, or read-based mapping to a resistance database; read-based is more sensitive at low depth."),
+      row_(id, "Diversity across samples (alpha, beta, differential abundance)", if (n_of("metagenome") >= 3) "ready" else "not now", "",
+           sprintf("Needs several metagenomes; this batch has %d.", n_of("metagenome")))),
+    amplicon = {
+      dom <- metric(id, "dominant_species"); vir <- num_of(metric(id, "viral_fraction"))
+      sc2 <- has(dom) && any(startsWith(dom, SARSCOV2))
+      if (sc2) row_(id, "Viral consensus, variants and lineage", if (platform %in% SHORT) "ready" else "possible", "nf-core/viralrecon 3.0.0", "SARS-CoV-2 amplicons: needs the primer scheme.")
+      else if (!is.na(vir) && vir >= 50) row_(id, "Viral consensus and variants", "not now", "", "A viral amplicon other than SARS-CoV-2: no pipeline set up here.")
+      else rbind(row_(id, "Marker-gene analysis (ASVs, taxonomy)", if (platform %in% SHORT) "ready" else "not now", "nf-core/ampliseq 2.18.0",
+                      if (platform %in% SHORT) "Needs the primer sequences." else "Long-read amplicons: no pipeline set up here."),
+                 row_(id, "Diversity across samples", if (n_of("amplicon") >= 3) "ready" else "not now", "", sprintf("Needs several amplicon samples; this batch has %d.", n_of("amplicon"))))
+    },
+    rna_isolate = rbind(
+      row_(id, "Expression quantification", if (platform %in% SHORT) "ready" else "possible", "nf-core/rnaseq 3.27.0", paste0("Needs the reference genome and annotation.", rrna_note)),
+      row_(id, "Differential expression", "not now", "nf-core/rnaseq 3.27.0, then DESeq2 / edgeR", "Needs biological replicates (2-3 or more per condition), which the reads cannot show.")),
+    metatranscriptome = rbind(
+      row_(id, "De novo metatranscriptome (genes, expression)", "possible", "nf-core/metatdenovo 1.4.1", paste0("Assembles and quantifies community transcripts.", rrna_note)),
+      row_(id, "Activity vs abundance (RNA/DNA ratio)", if (n_of("metagenome") >= 1) "possible" else "not now", "",
+           if (n_of("metagenome") >= 1) "This batch also has DNA metagenomes: pair each RNA sample with the DNA of the same sample." else "Needs a matched DNA metagenome of the same sample.")),
+    single_cell = row_(id, "Single-cell expression (cell barcodes, UMI counts)", "ready", "nf-core/scrnaseq 4.2.0", "Needs the reference genome and annotation."),
+    methylation = row_(id, "DNA methylation calling", "ready", "nf-core/methylseq 4.2.0", "Needs the reference genome; say whether the library is WGBS, EM-seq or RRBS."),
+    row_(id, "any", "not now", "", "No analyses set up for this kind of sample yet."))
+}
+menu <- do.call(rbind, lapply(seq_len(nrow(summ)), function(i) menu_for(summ[i, ])))
+write.table(menu, file.path(out, "analyses.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
+md <- c("# What can be done with each sample", "",
+        "From seq-triage's findings (D82). **ready**: the data supports it now; **possible**: it can be run, with the caveat given; **not now**: something is missing, and the reason says what. Limits are provisional.", "")
+for (id in unique(menu$sample)) {
+  m <- menu[menu$sample == id, ]
+  md <- c(md, sprintf("## %s", id), "", "| Analysis | Status | Pipeline | Why |", "|---|---|---|---|",
+          sprintf("| %s | %s | %s | %s |", m$analysis, m$status, ifelse(nzchar(m$pipeline), m$pipeline, "-"), m$reason), "")
+}
+writeLines(md, file.path(out, "analyses.md"))
+message(sprintf("Analysis menu: %d analyses ready, %d possible, %d not now, over %d samples.",
+                sum(menu$status == "ready"), sum(menu$status == "possible"), sum(menu$status == "not now"), length(unique(menu$sample))))

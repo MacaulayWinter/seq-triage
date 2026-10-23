@@ -230,6 +230,11 @@ cases <- list(
        verdict = "PASS", expect_depth = "not computed: RNA (expression, not genome coverage)"),
   list(id = "DEPTH_NO_SIZE",       route = "illumina", type = "isolate",
        verdict = "PASS", expect_depth = "no genome size: declare genome_size or target_taxid (or run the contamination screen)"),
+  # D81: rRNA share of RNA samples.
+  list(id = "RRNA_DEPLETED",       route = "illumina", molecule = "rna", rrna = 0.05, verdict = "PASS", check = c(rrna_fraction = "PASS")),
+  list(id = "RRNA_FAILED_DEPLETION", route = "illumina", molecule = "rna", rrna = 0.82, verdict = "FAIL", hint = TRUE, check = c(rrna_fraction = "FAIL")),  # +hint: a 16S amplicon looks like this
+  list(id = "RRNA_NOT_SCREENED",   route = "illumina", molecule = "rna", verdict = "PASS", check = c(rrna_fraction = "not_available")),
+  list(id = "RRNA_16S_AMPLICON",   route = "illumina", molecule = "rna", type = "amplicon", rrna = 0.97, verdict = "PASS", check = c(rrna_fraction = "exempt")),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
@@ -273,6 +278,8 @@ build <- function(cases, dir) {
         field = c("Per base sequence content", "Overrepresented sequences", "Per sequence GC content"), value = st)
     }
     if (route %in% c("ont", "pacbio")) qc[[paste0(cs$id, "n")]] <- add("NanoPlot", NANO_OK, cs$nano)
+    # D81: an rRNA share from SortMeRNA (rrna = the fraction).
+    if (!is.null(cs$rrna)) qc[[paste0(cs$id, "r")]] <- data.frame(sample = cs$id, tool = "SortMeRNA", file = "f", field = "rrna_fraction", value = format(cs$rrna))
     if (isTRUE(cs$screen)) {
       kr <- add("Kraken2", KRAKEN_OK, cs$kraken)
       if (!is.null(cs$kraken) && any(names(cs$kraken) != "U|0|unclassified")) {
