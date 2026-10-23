@@ -1,0 +1,21 @@
+Changes in component 'nf-core/sortmerna'
+Changes in 'sortmerna/environment.yml':
+--- modules/nf-core/sortmerna/environment.yml
++++ modules/nf-core/sortmerna/environment.yml
+@@ -4,4 +4,7 @@
+   - conda-forge
+   - bioconda
+ dependencies:
+-  - conda-forge::sortmerna=4.3.7
++  # Pinned to the exact build in the module's container (seq-triage CI fix #4,
++  # D85): a newer conda-forge build of 4.3.7 stopped with 'Illegal
++  # instruction' (exit 132) on a GitHub runner.
++  - conda-forge::sortmerna=4.3.7=py313h71a826f_1
+
+'modules/nf-core/sortmerna/meta.yml' is unchanged
+'modules/nf-core/sortmerna/main.nf' is unchanged
+'modules/nf-core/sortmerna/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/sortmerna/tests/premade_index.config' is unchanged
+'modules/nf-core/sortmerna/tests/main.nf.test' is unchanged
+'modules/nf-core/sortmerna/tests/indexing_only.config' is unchanged
+************************************************************

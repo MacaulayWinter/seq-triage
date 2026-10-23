@@ -4,7 +4,12 @@ All notable changes to seq-triage. Versions follow
 [semantic versioning](https://semver.org/); each entry names the decisions
 (`D` numbers) recorded in [CLAUDE.md](CLAUDE.md).
 
-## v0.2.0dev (unreleased)
+## v0.2.0 (2026-10-23)
+
+seq-triage now reads almost any raw-read input, recognises what kind of
+library it is, and ends with what can be done with each sample. Every rule
+added here is provisional, recorded in CLAUDE.md with what it was checked
+against.
 
 ### Added
 
@@ -91,6 +96,11 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- For declared RNA, uneven read starts give at most "amplicon, medium"
+  (RNA libraries start unevenly; found on the test RNA-seq reads, D85).
+- The report opens with where to find the analysis menu and shows each
+  sample's type (D85).
+
 - A contradiction between detected and declared platform (D60) is now short
   reads vs long reads: a medium "illumina" call no longer contradicts a
   declared MGI or Element sample (D69).
@@ -110,6 +120,28 @@ All notable changes to seq-triage. Versions follow
   report it as R1, so it never fired on real data. Now matched by taxid (D70).
 - `validation/fetch_panel.sh` kept no checksums when a re-run reused files
   (D73).
+
+### Validation ([docs/validation.md](docs/validation.md))
+
+- Layer E (sample type), rounds 1-3: each **failed as registered** (4, 7 and
+  4 wrong at high confidence). Each round's failures led to a rule (D67,
+  D73) that the next round tested on unseen studies: D67 held (nothing
+  wrongly called isolate since), D73 prevented 6 errors in round 3 and cost
+  6 correct metagenomes their high confidence. The remaining errors are
+  organisms the Kraken2 database knows poorly (archaea, some phages),
+  stated as a limit; no rule was changed after round 3.
+- Layer D round 2 (contamination): pass mark not met on either database
+  (Standard-8 20/24, full Standard 22/24); host DNA right in every case.
+- The library-structure, depth and rRNA rules (D78-D81) were checked on
+  real reads (192 ordinary files for false positives; real 10x, WGBS and
+  RNA runs) but have no pre-registered round yet.
+
+### Known limitations
+
+- An organism the database knows poorly can be called a metagenome at high
+  confidence; declare `sample_type` when you know it.
+- Ion Torrent, PacBio CLR and Ultima are named but not QC'd.
+- Contamination is species-level only.
 
 ## v0.1.0 (2026-10-22)
 

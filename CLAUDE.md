@@ -3,7 +3,7 @@
 > **What this file is:** the public development log of seq-triage, kept as
 > it was built with Claude Code (an AI coding assistant). Claude reads it at
 > the start of every session; people can read it to see why each design
-> choice was made. The **decisions log** (D1-D84) records every decision with
+> choice was made. The **decisions log** (D1-D85) records every decision with
 > its reason, including the rules validation overturned; the **CI fix log**
 > records every CI failure and how it was fixed. It mentions the HPC cluster
 > the validation ran on by name only: no accounts, usernames or paths.
@@ -167,6 +167,7 @@ samplesheet ─► nf-schema ─► ch_samples [meta, reads]
 | D82 | **Analysis menu: what can be done with each sample** (autonomous build, 2026-10-23; the user's stated end goal: "advise on what analyses could likely be run"; the analyses follow the downstream parts of the user's R_Bible: metagenomics, metatranscriptomics, comparative WGS, resistome, MGE compartments). `bin/recommend.R` also writes `analyses.tsv` / `analyses.md`: per sample, each analysis with status **ready** / **possible** (caveat) / **not now** (what is missing) and the pipeline. Kinds from the triage (library flags first, then declared or detected type at high/medium confidence, molecule, human target). Isolates: assembly (bacass; depth >= 30x ready, 10-30x possible, < 10x not now, unknown possible; not bacterial -> not now), typing, AMR/virulence (nf-core/funcscan 4.0.0, 2026-06-27, on the assembly), plasmids/MGEs (long reads ready; short reads: hybrid advised), comparative genomics (>= 3 isolates of one species in the batch). Human DNA: germline (sarek; 20x), somatic (needs a matched normal). Metagenomes: profiling (taxprofiler; not Element), assembly/binning (nf-core/mag 5.5.0; >= 5 M reads ready, 1-5 M possible), resistome, diversity (>= 3 metagenomes). Amplicons: ampliseq / viralrecon / none for other viruses. RNA: expression (rnaseq), differential expression (not now: replicates are not visible in reads), metatranscriptome (nf-core/metatdenovo **1.4.1**, 2026-09-15; 2.0.0 is a 16-day-old major release, skipped per D30's caution), activity vs abundance (needs a matched DNA metagenome). Single-cell (scrnaseq), methylation (methylseq). rRNA share over 25% adds a caveat. Verdict not PASS/WARN, or unknown type -> one "not now" line saying what to fix. All limits provisional and stated in each reason. Tests: recommendation 82/82 (21 new menu checks); e2e gains check 8 (every sample has a menu, statuses valid, reasons present). With D81: test profile 129 tasks, e2e 8/8; lint 177/0; nf-test 13/13, pipeline snapshots gain only `HUMAN_RNASEQ WARN` and `sortmerna 4.3.7`. | Triage is only useful if it ends in what the data can and cannot answer, and why. |
 | D83 | **Linked samples: `group`** (autonomous build, 2026-10-23; for hybrid assembly and plasmid/MGE work, and for metatranscriptome activity vs abundance). New optional samplesheet column `group` (ID-like; rows of one sample must agree; not in meta, so no cache change; the screen output is unchanged). Each sample is QC'd on its own; only the advice joins them. Recommendation: within a group, exactly one sample ready for bacass short and one for bacass long, each a single samplesheet row (bacass merges repeated rows, which would repeat the long reads per lane), and the same most common species when the screen ran -> both get rule `bacass_hybrid`: one samplesheet row (ID = group, R1/R2 from the short sample, LongFastQ from the long one), `assembly_type: hybrid`. Different species -> no hybrid, and both reasons say why. Menu: a hybrid group makes "Plasmids and mobile genetic elements" ready; an RNA metagenome with a DNA metagenome in its group makes "Activity vs abundance" ready (naming the pair); without groups, it says to declare one. Test profile: `ECE107_NOVASEQ` and `ECE107_R10` (the same isolate on both platforms, chosen for this in D31) share `group = ECE107`. Tests: recommendation 93/93 (11 new: hybrid pair, mismatched pair, RNA/DNA pair) + schema 9/9 (the hybrid samplesheet validates against bacass's schema); screen 26/26. **Not run locally:** the Mac's disk filled during the test-profile run (Docker went read-only), so this PR's end-to-end check is CI's. | Short and long reads of one isolate, or RNA and DNA of one sample, answer questions neither answers alone. |
 | D84 | **Layer E round 3 results** (D74; ISCA job 2703408, commit `e0c88fc`, Standard-8). **FAILED as registered: 4 wrong at high** (3 archaeal isolates, 1 *Rhodobacter* phage; all called metagenome with the top genus at 16-43%). D73 moved 12 calls to medium: 6 prevented errors (4 phages, 1 archaeon, 1 bacterial isolate), 6 correct metagenomes lost high (4 food, 1 gut, 1 bioreactor; the measured cost). Bacterial isolates 10/12 correct high, 16S 4/4, no metagenome wrongly called isolate. FastQC's per-sequence GC check examined as a possible signal and rejected (does not separate isolates from metagenomes on rounds 2 and 3); a direct per-read GC spread is future work. **No rule changed**; the limit is in the README's known limitations. Checksums present for all 99 fetched files. Infra on the way (2026-10-23): the Mac's disk filled overnight; Claude deleted its own scratch run folders, force-restarted the hung Docker backend (user asked Claude to handle Docker) and removed 6 duplicate or unreferenced seq-triage images (re-pullable); 11 GB free afterwards. | A failed round that shows where a rule stops working is a result; the next fix needs its own design and data. |
+| D85 | **Release polish for v0.2.0** (user, 2026-10-23: "wrap up the pipeline so it's a version with no rough edges"). (1) **Rule fix found in the polish run:** the test profile's human RNA-seq reads were called "amplicon, high" (read-start share over 20%: a few highly expressed transcripts give many reads with one start). For declared `molecule = rna`, read starts now give at most **amplicon, medium** (conservative: only lowers confidence; no validation round declared RNA, so no recorded result changes); the analysis menu no longer opens the amplicon menu on a medium amplicon call (it asks for `sample_type`). Report test 80/80 (1 new). (2) Report: an opening "What next" line pointing to `recommendations/analyses.md`; says when the rRNA screen ran; a Type column (declared type wins, else the detected type with confidence). Menu: "species not known" instead of "0 of this species". (3) README rewritten where stale (opening, inputs, pipeline diagram, MGI/Element now QC'd, emulated images, verdict UNCERTAIN, testing section with all six unit suites and 21 test samples, known limitations, roadmap: v0.2.0 done, next items). Metric guide: four "v0.1 does not have the genome size" caveats now point to depth_of_coverage. CITATIONS: SAMtools (missing since D55), SortMeRNA (D81), NCBI genome size table (DOIs checked via Crossref). (4) Version 0.2.0 (`manifest.version`, `.nf-core.yml`), CHANGELOG v0.2.0 entry with the validation summary and known limitations. Checks: all unit suites (26, 46, 6, 80, 93, 16), test profile 129 tasks e2e 8/8 (real ECE107 hybrid samplesheet valid for bacass), lint in release mode 178/0. | A release is what a stranger reads first: the text must match the pipeline, and the test data must not show a wrong confident call. |
 | D30 | **Pin everything external by immutable reference:** test data by nf-core/test-datasets commit (`76179c1c`), R image by digest (`rocker/r-ver:4.5.2@sha256:fd4ccdd3...`), GitHub Actions by commit SHA (tag in a comment), Miniforge installer `26.7.2-0`, Nextflow via `NXF_VER`. Avoid releases younger than about two weeks (upload-artifact v7.0.1 chosen over v7.0.2, which was 13 days old). | Tags and branches can move; commits and digests cannot. SHA-pinned actions also close a known supply-chain risk. |
 
 ## Test data findings (2026-10-20, inspected with seqkit 2.13.0)
@@ -250,7 +251,7 @@ Findings:
 
 ## Status
 
-**Current state (2026-10-23, early morning; autonomous night session):** repo public, `main`
+**Current state (2026-10-23):** v0.2.0 prepared (D85). repo public, `main`
 protected. Built and merged overnight, each through green CI: D77 (DNBSEQ/Element test data),
 D78 (library structure: index reads, 10x single-cell, bisulfite, interleaved), D79 (FASTA reads;
 raw inputs named), D80 (genome size, depth of coverage), D81 (rRNA screen), D82 (analysis menu:
@@ -365,3 +366,23 @@ Every automatic CI fix is recorded here in plain language: what failed, why, wha
   new snapshot.
 - *How verified:* the nf-test passes locally, and all six CI jobs passed on the
   next push (`8cfbf41`).
+
+**4. 2026-10-23, PR #51, job "End-to-end, conda".**
+- *What failed:* SortMeRNA's index step stopped with exit status 132,
+  "Illegal instruction (core dumped)", once and again on the retry, so the
+  conda test run stopped.
+- *Why:* "Illegal instruction" means the program used a processor
+  instruction the machine does not have. The nf-core recipe asks conda for
+  `sortmerna=4.3.7` without a build, so conda installs the newest build of
+  4.3.7 (conda-forge has rebuilt it several times since 2025), while the
+  container holds one fixed build, `py313h71a826f_1`, which ran fine under
+  Docker and even under Rosetta on the Mac. GitHub's machines vary, so the
+  same job passed in PR #48 and failed here. The pipeline code was right;
+  the conda environment did not match the container.
+- *What changed:* the recipe pins the container's exact build,
+  `conda-forge::sortmerna=4.3.7=py313h71a826f_1`, recorded as an nf-core
+  patch (`modules/nf-core/sortmerna/sortmerna.diff`, in `modules.json`), so
+  a module update reapplies it. Same approach as fix #1 (NanoPlot).
+- *How verified:* the pinned build solves for linux-64 (conda dry run), and
+  the conda CI job is re-run on this PR.
+

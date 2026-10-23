@@ -280,7 +280,10 @@ kind_of <- function(s) {
   if ("BARCODE_READ" %in% fl) return("single_cell")
   if ("BISULFITE" %in% fl)    return("methylation")
   t <- if (has(s$declared_type) && s$declared_type %in% c("isolate", "metagenome", "amplicon")) s$declared_type
-       else if (has(s$detected_type) && s$type_confidence %in% c("high", "medium")) s$detected_type else NA
+       # A medium "amplicon" means the reads cannot settle it (long reads,
+       # RNA with uneven starts, D85), so it does not open the amplicon menu.
+       else if (has(s$detected_type) && (s$type_confidence %in% "high" ||
+                (s$type_confidence %in% "medium" && s$detected_type != "amplicon"))) s$detected_type else NA
   mol <- if (has(s$declared_molecule)) s$declared_molecule else "dna"
   if (is.na(t)) return(NA_character_)
   if (t == "isolate" && "declared_target" %in% names(s) && s$declared_target %in% c("9606", "9605")) return(if (mol == "rna") "rna_isolate" else "human")
@@ -330,7 +333,9 @@ menu_for <- function(s) {
                    else "Short reads fragment plasmids and repeats; long reads of the same isolate (give both the same group) allow a hybrid assembly that resolves them.")
             },
             row_(id, "Comparative genomics (pangenome, core-genome phylogeny)", if (same >= 3) "ready" else "not now", "",
-                 if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp) else sprintf("Needs several isolates of one species; this batch has %d of %s.", same, if (has(sp)) sp else "this species")))
+                 if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp)
+                 else if (!has(sp)) "Needs several isolates of one species; the species is not known here (turn on the contamination screen to name it)."
+                 else sprintf("Needs several isolates of one species; this batch has %d of %s.", same, sp)))
     },
     human = rbind(
       row_(id, "Germline variant calling", if (is.na(depth)) "possible" else if (depth >= 20) "ready" else if (depth >= 10) "possible" else "not now", "nf-core/sarek 3.10.0",

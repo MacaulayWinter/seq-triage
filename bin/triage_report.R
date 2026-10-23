@@ -69,7 +69,7 @@ ceiling_for <- function(route, routed_by, confidence, declared, detected, reason
     return(c("UNCERTAIN", "Long (nanopore-type) reads were given as two files. Nanopore reads are never paired, so the samplesheet is probably wrong. No QC was run."))
   if (routed_by == "unsupported") {
     name <- c(pacbio = "PacBio", dnbseq = "MGI/DNBSEQ", element = "Element AVITI")[detected]
-    return(c("UNCERTAIN", sprintf("Reads come from %s%s. seq-triage v0.1 has no QC for this platform, so no QC was run.",
+    return(c("UNCERTAIN", sprintf("Reads come from %s%s. seq-triage has no QC for this platform, so no QC was run.",
                                   if (is.na(name)) detected else name,
                                   if (!is.na(declared)) sprintf(" (declared: %s)", declared) else "")))
   }
@@ -434,6 +434,11 @@ classify_type <- function(s) {
       amp_note <- sprintf("Too few reads (%s) to judge whether reads start at primers.", if (is.na(n)) "?" else format(n, big.mark = ","))
     } else {
       pct <- sprintf("%.0f%% of reads start with one of 10 sequences", 100 * st)
+      # D85: RNA libraries start unevenly (a few highly expressed transcripts
+      # give many reads with the same start), so for declared RNA the read
+      # starts cannot PROVE an amplicon: at most medium.
+      if (st >= TYPE_START_AMPLICON && s$declared_molecule %in% "rna")
+        return(out("amplicon", "medium", sprintf("%s, as amplicon reads do; but RNA libraries also start unevenly (highly expressed transcripts), so this is not proof of an amplicon.", pct), TRUE))
       if (st >= TYPE_START_AMPLICON)
         return(out("amplicon", "high", sprintf("%s: amplicon reads start at their primers.", pct), TRUE))
       if (st >= TYPE_START_RANDOM)
@@ -722,12 +727,20 @@ md <- c(
   "A sample can only PASS when its reads confirm its metadata and every QC number is within its limits.",
   if (SCREEN_ON) "The contamination screen ran (Kraken2): host and contaminant fractions are judged below." else
     "The contamination screen did not run (no Kraken2 database was given): host DNA and contaminants were not checked.",
+  if (any(qc$tool == "SortMeRNA")) "The rRNA screen ran (SortMeRNA) on RNA samples: their rRNA share is judged below.",
   "QC numbers can lower a verdict but never raise it. The limits are provisional defaults; see",
   "*How to read these numbers* at the end.", "",
-  "| Sample | Verdict | Declared | Detected | Confidence | QC | Metadata flags |",
-  "|---|---|---|---|---|---|---|",
-  sprintf("| %s | **%s** | %s | %s | %s | %s | %s |", d$sample, d$verdict, show(d$declared_platform),
-          show(d$detected_platform), show(d$confidence), show(d$qc_result), show(d$n_flags)), "",
+  "**What next:** `recommendations/analyses.md` lists, for each sample, the analyses its data supports",
+  "(ready, possible or not now, with the reason) and the nf-core pipeline to run.", "",
+  "| Sample | Verdict | Declared | Detected | Confidence | Type | QC | Metadata flags |",
+  "|---|---|---|---|---|---|---|---|",
+  sprintf("| %s | **%s** | %s | %s | %s | %s | %s | %s |", d$sample, d$verdict, show(d$declared_platform),
+          show(d$detected_platform), show(d$confidence),
+          # The type used for the judgement: declared wins; otherwise the
+          # call from the reads, with its confidence.
+          ifelse(d$declared_type %in% c("isolate", "metagenome", "amplicon"), sprintf("%s (declared)", d$declared_type),
+                 ifelse(d$detected_type == "uncertain", "-", sprintf("%s (%s)", d$detected_type, d$type_confidence))),
+          show(d$qc_result), show(d$n_flags)), "",
   "## Per-sample detail", "",
   unlist(lapply(seq_len(nrow(d)), function(i) c(
     sprintf("### %s: %s", d$sample[i], d$verdict[i]), "",
