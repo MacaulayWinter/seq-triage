@@ -45,7 +45,7 @@ fi
 if ! err=$(samtools fastq "${refopt[@]}" "$bam" 2>&1 >/dev/null); then
     first=$(printf '%s\n' "$err" | grep -m1 -E 'E::|ERROR|error|Failed' | sed 's/\t/ /g')
     case $bam in
-        *.cram) if printf '%s' "$err" | grep -qiE 'reference|fai'; then
+        *.cram) if grep -qiE 'reference|fai' <<< "$err"; then
                     printf '%s\tunreadable\t%s\n' "$(basename "$bam")" \
                         "CRAM reference not found: give the reference it was written against with --cram_fasta (samtools could not fetch it from EBI's registry either)" >> "$out"
                     exit 0
