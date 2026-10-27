@@ -55,6 +55,8 @@ HYB_ILM       | PASS      | detected  | illumina | isolate    | isolate    | hig
 HYB_ONT       | PASS      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Escherichia coli (98.0%)                               |     | nf-core/bacass
 HYB_BAD_ILM   | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
 HYB_BAD_ONT   | PASS      | detected  | ont      | isolate    | isolate    | medium    | dna      |                  | Klebsiella pneumoniae (97.0%)                          |     | nf-core/bacass
+ELEMENT_ISOLATE | PASS    | detected  | element  | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | nf-core/bacass
+PLAIN_FQ_ISO  | PASS      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | none
 ")
 summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = cases$routed_by,
                    detected_platform = cases$platform, declared_platform = cases$platform,
@@ -82,6 +84,7 @@ lanes$fastq_1 <- sub("_R1", "_L002_R1", lanes$fastq_1); lanes$fastq_2 <- sub("_R
 sheet <- rbind(sheet, lanes)
 sheet[sheet$sample == "DIR_ONT", c("fastq_1", "fastq_dir")] <- c("", "/data/fastq_pass/barcode01")
 sheet[sheet$sample == "FASTA_READS", c("fastq_1", "fastq_2")] <- c("/data/FASTA_READS_R1.fasta.gz", "/data/FASTA_READS_R2.fasta.gz")
+sheet[sheet$sample == "PLAIN_FQ_ISO", c("fastq_1", "fastq_2")] <- c("/data/PLAIN_FQ_ISO_R1.fastq", "/data/PLAIN_FQ_ISO_R2.fastq")
 # D83: groups. A short + long pair of one E. coli (G1); a pair that looks like
 # two species (G2); an RNA and a DNA metagenome of one sample (G3).
 sheet$group <- c(HYB_ILM = "G1", HYB_ONT = "G1", HYB_BAD_ILM = "G2", HYB_BAD_ONT = "G2", META_RNA = "G3", ILM_META = "G3")[sheet$sample]
@@ -171,6 +174,30 @@ res <- rbind(res, data.frame(case = "HYBRID_PARAM", got = as.character(any(readL
 res <- rbind(res, data.frame(case = "HYBRID_MISMATCH_SAID", got = as.character(grepl("different organisms", rec$reason[rec$sample == "HYB_BAD_ILM"])), expected = "TRUE"))
 res <- rbind(res, data.frame(case = "MENU_HYBRID_PLASMIDS", got = st("HYB_ILM", "Plasmids and mobile genetic elements"), expected = "ready"))
 res <- rbind(res, data.frame(case = "MENU_RNA_DNA_PAIRED", got = st("META_RNA", "Activity vs abundance (RNA/DNA ratio)"), expected = "ready"))
+# D89: one pathogensurveillance folder for the batch's isolates, never a
+# sample's own next step.
+psd <- file.path(out, "pathogensurveillance")
+res <- rbind(res, data.frame(case = "PS_FILES", got = if (all(file.exists(file.path(psd, c("samplesheet.csv", "params.yaml", "README.md"))))) "3 files" else "missing", expected = "3 files"))
+ps <- read.csv(file.path(psd, "samplesheet.csv"), colClasses = "character", na.strings = "")
+res <- rbind(res, data.frame(case = "PS_SAMPLES", got = paste(sort(ps$sample_id), collapse = ","),
+                             expected = "DNB_ISOLATE,HYB_BAD_ILM,HYB_BAD_ONT,HYB_ILM,HYB_ONT,ILM_ISOLATE,ONT_ISOLATE"))  # not lanes, Element, plain FASTQ
+pv <- function(id, col) { v <- ps[[col]][ps$sample_id == id]; if (length(v) && !is.na(v)) v else "" }
+for (k in list(c("DNB_ISOLATE", "sequence_type", "bgiseq"), c("ONT_ISOLATE", "sequence_type", "nanopore"),
+               c("ILM_ISOLATE", "sequence_type", "illumina"), c("ONT_ISOLATE", "path_2", ""),
+               c("HYB_BAD_ONT", "report_group_ids", "Klebsiella pneumoniae"), c("HYB_ILM", "description", "group G1")))
+  res <- rbind(res, data.frame(case = sprintf("PS_%s_%s", k[1], k[2]), got = pv(k[1], k[2]), expected = k[3]))
+rd <- readLines(file.path(psd, "README.md"))
+for (k in list(c("LANES_ISOLATE", "several files"), c("ELEMENT_ISOLATE", "element is not one")))
+  res <- rbind(res, data.frame(case = sprintf("PS_LEFT_OUT_%s", k[1]), got = as.character(any(grepl(k[1], rd) & grepl(k[2], rd))), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "PS_NOT_A_SAMPLE_RULE", got = as.character(!any(rec$rule %in% "pathogensurveillance")), expected = "TRUE"))
+res <- rbind(res, data.frame(case = "PS_NO_LIVE_FILL_IN", got = as.character(!any(grepl("FILL_IN", readLines(file.path(psd, "params.yaml"))))), expected = "TRUE"))
+pp <- function(id) { v <- am$pipeline[am$sample == id & am$analysis == "Comparative genomics (pangenome, core-genome phylogeny)"]; if (length(v) && !is.na(v)) v else "" }
+res <- rbind(res, data.frame(case = "PS_MENU_READY", got = paste(st("DNB_ISOLATE", "Comparative genomics (pangenome, core-genome phylogeny)"), pp("DNB_ISOLATE")),
+                             expected = "ready nf-core/pathogensurveillance 1.1.0"))
+res <- rbind(res, data.frame(case = "PS_MENU_ONE_ISOLATE", got = paste(st("HYB_BAD_ONT", "Comparative genomics (pangenome, core-genome phylogeny)"), pp("HYB_BAD_ONT")),
+                             expected = "possible nf-core/pathogensurveillance 1.1.0"))  # the only K. pneumoniae
+res <- rbind(res, data.frame(case = "PS_MENU_LEFT_OUT", got = pp("ELEMENT_ISOLATE"), expected = ""))
+res <- rbind(res, data.frame(case = "NOT_GZIPPED_SAID", got = as.character(grepl("not gzipped", rec$reason[rec$sample == "PLAIN_FQ_ISO"])), expected = "TRUE"))
 # A reason is always given.
 res <- rbind(res, data.frame(case = "EVERY_ROW_HAS_A_REASON", got = if (all(nzchar(rec$reason))) "yes" else "no", expected = "yes"))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")

@@ -56,6 +56,13 @@ decide <- function(s, row) {
     return(none(sprintf("Verdict is %s: resolve the triage findings first.", s$verdict)))
   if (any(grepl("\\.(fa|fasta|fna)(\\.(gz|bz2|xz|zst))?$", c(row$fastq_1, row$fastq_2))))
     return(none("Reads given as FASTA (no quality values): the downstream pipelines take FASTQ; convert or obtain the FASTQ first."))
+  # D89: the downstream pipelines' schemas take gzipped FASTQ only (checked
+  # at every pinned commit; rnaseq alone also takes plain .fastq). seq-triage
+  # converts other compressions for itself (D69), but the samplesheet written
+  # here points at the user's own files, which would be rejected.
+  fq <- c(row$fastq_1, row$fastq_2); fq <- fq[has(fq)]
+  if (length(fq) && !all(grepl("\\.f(ast)?q\\.gz$", fq)))
+    return(none("Reads not gzipped (plain, .bz2, .xz or .zst): the downstream pipelines take .fastq.gz; compress them first (gzip or bgzip), then point the samplesheet at the new files."))
   if (any(has(row$fastq_dir)))
     return(none("Reads given as a folder (fastq_dir): list the files in the next pipeline's samplesheet, one row each, or merge them first."))
   if (any(has(row$bam)))
@@ -251,6 +258,59 @@ for (rl in unique(rec$rule[rec$pipeline != "none"])) {
               "File paths in `samplesheet.csv` are copied from your seq-triage samplesheet; if they are relative, run from the same folder or make them absolute.")
   writeLines(readme, file.path(dir, "README.md"))
 }
+
+# Comparative genomics of the batch (D89) ------------------------------------
+# WHAT IT DOES  Writes one nf-core/pathogensurveillance folder for the whole
+#               batch: every isolate ready for assembly (bacass, above) that
+#               its samplesheet can take. It is not any sample's next step;
+#               recommendations.tsv is unchanged. The analysis menu points to
+#               it. Report groups are the most common species, so each species
+#               gets its own report; samples of one `group` (D83) are the same
+#               isolate and say so in `description`.
+# LEAVES OUT    (checked in its schema_input.json and usage.md at the pinned
+#               commit) platforms it does not list (Element); samples in
+#               several files (one source of reads per sample ID); files that
+#               are not gzipped FASTQ. Each is named in the README.
+ps_rule <- rules[rules$rule == "pathogensurveillance", , drop = FALSE]
+PS_TYPE <- c(illumina = "illumina", dnbseq = "bgiseq", ont = "nanopore")
+ps_why_not <- function(r) {
+  if (is.null(r$rule) || r$rule$pipeline != "bacass") return(NA_character_)
+  if (!r$platform %in% names(PS_TYPE)) return(sprintf("%s is not one of its sequencing types", r$platform))
+  if (nrow(r$row) != 1) return("several files for one sample (it takes one source of reads per sample): merge them first")
+  if (!all(grepl("\\.f(ast)?q\\.gz$", na.omit(c(r$row$fastq_1, r$row$fastq_2))))) return("it takes gzipped FASTQ (.fastq.gz or .fq.gz)")
+  ""
+}
+ps_reason <- setNames(vapply(rows, ps_why_not, ""), vapply(rows, `[[`, "", "sample"))
+ps_ids <- names(ps_reason)[ps_reason %in% ""]
+if (nrow(ps_rule) && length(ps_ids)) {
+  dir <- file.path(out, "pathogensurveillance"); dir.create(dir, showWarnings = FALSE)
+  sel <- Filter(function(r) r$sample %in% ps_ids, rows)
+  ss <- do.call(rbind, lapply(sel, function(r) {
+    sp <- mets$value[mets$sample == r$sample & mets$metric == "dominant_species"]
+    sp <- if (length(sp) && has(sp[1])) sub(" \\(.*$", "", sp[1]) else NA; g <- group_of(r$sample)
+    data.frame(sample_id = r$sample, path = r$row$fastq_1, path_2 = blank(r$row$fastq_2), sequence_type = PS_TYPE[[r$platform]],
+               report_group_ids = if (has(sp)) gsub("[^A-Za-z0-9_ -]", "_", sp) else "",
+               description = if (has(g)) sprintf("group %s", g) else "")
+  }))
+  write.csv(ss, file.path(dir, "samplesheet.csv"), row.names = FALSE, quote = FALSE)
+  writeLines(c(sprintf("# nf-core/pathogensurveillance %s, written by seq-triage (recommend.R, D89).", ps_rule$version),
+               "input: samplesheet.csv",
+               "# By default it downloads the light Bakta database (~2 GB) on every run without -resume.",
+               "# If you have one already, set it here instead:",
+               "# bakta_db: <folder>"), file.path(dir, "params.yaml"))
+  left <- ps_reason[!ps_reason %in% "" & !is.na(ps_reason)]
+  writeLines(c(sprintf("# nf-core/pathogensurveillance %s", ps_rule$version), "",
+               sprintf("Written by seq-triage for %d isolate(s) of this batch: %s.", length(ps_ids), paste(ps_ids, collapse = ", ")), "",
+               ps_rule$note, "",
+               "Samples are grouped into reports by their most common species (report_group_ids). Two samples that share a `group` are the same isolate on two platforms, so both appear in the tree.", "",
+               if (length(left)) c("Left out (ready for assembly, but this pipeline cannot take them as they are):", "",
+                                   sprintf("- %s: %s", names(left), left), "") else NULL,
+               "Run from this folder:", "", "```bash",
+               sprintf("nextflow run nf-core/pathogensurveillance -r %s -profile <docker|singularity|conda> -params-file params.yaml --outdir results", ps_rule$version),
+               "```", "",
+               "File paths in `samplesheet.csv` are copied from your seq-triage samplesheet; if they are relative, run from the same folder or make them absolute."),
+             file.path(dir, "README.md"))
+}
 message(sprintf("Recommendations: %d of %d samples have a next pipeline (%s).", sum(rec$pipeline != "none"), nrow(rec),
                 paste(unique(rec$pipeline[rec$pipeline != "none"]), collapse = ", ")))
 
@@ -332,10 +392,19 @@ menu_for <- function(s) {
                    else if (long) "Long reads can close plasmids and resolve where mobile elements sit."
                    else "Short reads fragment plasmids and repeats; long reads of the same isolate (give both the same group) allow a hybrid assembly that resolves them.")
             },
-            row_(id, "Comparative genomics (pangenome, core-genome phylogeny)", if (same >= 3) "ready" else "not now", "",
-                 if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp)
-                 else if (!has(sp)) "Needs several isolates of one species; the species is not known here (turn on the contamination screen to name it)."
-                 else sprintf("Needs several isolates of one species; this batch has %d of %s.", same, sp)))
+            {
+              # D89: pathogensurveillance places even one isolate among public
+              # reference genomes, so a single isolate it can take is "possible".
+              ps <- id %in% ps_ids
+              batch <- if (same >= 3) sprintf("%d isolates of %s in this batch.", same, sp)
+                       else if (!has(sp)) "A comparison within the batch needs several isolates of one species; the species is not known here (turn on the contamination screen to name it)."
+                       else sprintf("A comparison within the batch needs several isolates of one species; this batch has %d of %s.", same, sp)
+              why_not <- ps_reason[[id]]
+              row_(id, "Comparative genomics (pangenome, core-genome phylogeny)", if (same >= 3) "ready" else if (ps) "possible" else "not now",
+                   if (ps) sprintf("nf-core/pathogensurveillance %s", ps_rule$version) else "",
+                   trimws(paste(batch, if (ps) "nf-core/pathogensurveillance identifies each isolate and places it among public reference genomes (folder pathogensurveillance/)."
+                                else if (has(why_not)) sprintf("Not in the pathogensurveillance samplesheet: %s.", why_not) else "")))
+            })
     },
     human = rbind(
       row_(id, "Germline variant calling", if (is.na(depth)) "possible" else if (depth >= 20) "ready" else if (depth >= 10) "possible" else "not now", "nf-core/sarek 3.10.0",
