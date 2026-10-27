@@ -48,7 +48,7 @@ truth for their versions, and they could drift apart.
 Each nf-core module declares its own container, pinned to an exact version
 tag, never `latest`. Most current nf-core modules use Seqera community images
 (e.g. `community.wave.seqera.io/library/fastp:1.4.0--df415eab5e33cb11`); NanoPlot
-still uses BioContainers (`quay.io/biocontainers/nanoplot:1.47.0--pyhdfd78af_0`).
+still uses BioContainers (`quay.io/biocontainers/nanoplot:1.48.0--pyhdfd78af_1`).
 `nf-core modules install` records each module's git commit in `modules.json`,
 so the module code and its container version are frozen together.
 
@@ -56,8 +56,8 @@ so the module code and its container version are frozen together.
 |---|---|---|
 | seqkit | 2.13.0 | `8fff8cfa10` |
 | fastp | 1.4.0 | `1e31555fd8` |
-| FastQC | 0.13.0 | `18eb358065` |
-| NanoPlot | 1.47.0 | `cc4d441624` |
+| FastQC | 0.13.0 | `2c2d159951` |
+| NanoPlot | 1.48.0 | `c50a9a357d` |
 | MultiQC | 1.35 | `98403d15b0` |
 | Kraken2 (contamination screen) | 2.1.6 | `d67d33d592` |
 | Bracken (contamination screen) | **3.0.1 reported** (container tagged `bracken:3.1`; see below) | `6d46786420` |

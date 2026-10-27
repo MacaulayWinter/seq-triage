@@ -20,6 +20,9 @@ All notable changes to seq-triage. Versions follow
 - CI lint fails on any pipeline lint warning or failure, but no longer on a
   newer nf-core release of a module, which is taken as its own reviewed
   change (D86). FastQC module updated (whitespace only).
+- NanoPlot 1.47.0 -> 1.48.0 (nf-core module `c50a9a357d`, D88). Its conda
+  recipe stays pinned to the container's plotting libraries, now plotly
+  6.9.0, python-kaleido 1.3.0 and Python 3.14 (CI fix #1).
 
 ## v0.2.0 (2026-10-23)
 
