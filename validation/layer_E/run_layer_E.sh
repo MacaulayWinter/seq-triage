@@ -36,6 +36,8 @@ if [[ "$PROFILE" == *conda* ]]; then
 fi
 
 echo "== 1. Fetch panel reads"
+# EXTRA_ARGS: further pipeline options, e.g. layer E round 4's rRNA reference
+# (D87): EXTRA_ARGS="--rrna_db <SortMeRNA database URL>".
 # PANEL: which round's panel (default layer E; round 2, D68:
 # PANEL=validation/outcomes/layer_E_round2/panel.tsv).
 PANEL=$(realpath "${PANEL:-$repo/validation/outcomes/layer_E/panel.tsv}")
@@ -45,7 +47,7 @@ DECLARE=ena bash "$repo/validation/fetch_panel.sh" "$PANEL" "$work/panel"
 echo "== 2. Run seq-triage"
 # Own launch folder, so -resume cannot pick up another run (layer D, D50).
 ( cd "$work" && nextflow run "$repo/main.nf" -profile "$PROFILE" -c "$settings" \
-    --input "$work/panel/samplesheet.csv" --outdir "$work/results" -w "$work/nf-work" -resume )
+    --input "$work/panel/samplesheet.csv" --outdir "$work/results" -w "$work/nf-work" -resume ${EXTRA_ARGS:-} )
 
 echo "== 3. Record the database"
 db=$(sed -n "s/^[[:space:]]*params\.kraken2_db[[:space:]]*=[[:space:]]*['\"]\([^'\"]*\)['\"].*/\1/p" "$settings")

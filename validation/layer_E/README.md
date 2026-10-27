@@ -51,6 +51,21 @@ cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round2/panel.tsv sbatch -p 
 Score on your Mac with `validation/outcomes/layer_E_round2/panel.tsv` and
 `~/seqtriage_layer_E_r2/layer_E_results.tgz`.
 
+## Round 4 (D87)
+
+Tests D86 and the library-structure rules. Same steps, with the round 4
+panel and SortMeRNA's rRNA database. On the HPC:
+
+```bash
+cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round4/panel.tsv EXTRA_ARGS="--rrna_db https://github.com/sortmerna/sortmerna/releases/download/v7.0.0/smr_v4.3_fast_db.fasta.gz" sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_E/run_layer_E.sh validation/layer_D/settings.config ~/seqtriage_layer_E_r4
+```
+
+Score on your Mac:
+
+```bash
+Rscript validation/layer_E/score_layer_E_round4.R validation/outcomes/layer_E_round4/panel.tsv ~/seqtriage-scratch/validation/layer_E_r4_results layer_E_r4
+```
+
 ## Round 3 (D74)
 
 Tests D73. Same steps, with the round 3 panel. On the HPC:
