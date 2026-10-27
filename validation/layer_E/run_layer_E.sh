@@ -30,7 +30,9 @@ echo "seq-triage layer E | profile: $PROFILE | work: $work | commit: $(git -C "$
 
 if [[ "$PROFILE" == *conda* ]]; then
     eval "$(conda shell.bash hook)"
-    conda env list | grep -q '^seq-triage-dev ' || conda env create -f "$repo/environment.yml"
+    # Not `conda env list | grep -q`: grep -q stops at the first match, conda then
+    # fails with a broken pipe, and under pipefail the env looks missing (D91).
+    grep -q '^seq-triage-dev ' <<< "$(conda env list)" || conda env create -f "$repo/environment.yml"
     conda activate seq-triage-dev
     export NXF_CONDA_CACHEDIR=${NXF_CONDA_CACHEDIR:-$work/conda-envs}
 fi

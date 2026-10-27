@@ -37,8 +37,10 @@ echo "seq-triage layer D | design: $DESIGN | profile: $PROFILE | work: $work | c
 # R environment for the mixture builder. Created on first use.
 if [[ "$PROFILE" == *conda* ]]; then
     eval "$(conda shell.bash hook)"
-    conda env list | grep -q '^seq-triage-dev ' || conda env create -f "$repo/environment.yml"
-    conda env list | grep -q '^seq-triage-validation ' || conda env create -f "$repo/validation/layer_D/environment.yml"
+    # Not `conda env list | grep -q`: grep -q stops at the first match, conda then
+    # fails with a broken pipe, and under pipefail the env looks missing (D91).
+    grep -q '^seq-triage-dev ' <<< "$(conda env list)" || conda env create -f "$repo/environment.yml"
+    grep -q '^seq-triage-validation ' <<< "$(conda env list)" || conda env create -f "$repo/validation/layer_D/environment.yml"
     conda activate seq-triage-validation
     RSCRIPT=$(command -v Rscript)
     conda activate seq-triage-dev

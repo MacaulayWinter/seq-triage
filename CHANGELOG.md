@@ -22,6 +22,8 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Fixed (D91): the HPC validation scripts could decide an existing conda
+  environment was missing (a broken pipe under `pipefail`) and stop at start.
 - Fixed (D90): no-signal poly-G reads (70% G, little C) were flagged as a
   bisulfite library. The flag now also needs the converted base (T, or A on
   the other strand) to be the commonest.
