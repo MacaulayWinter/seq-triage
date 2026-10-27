@@ -22,6 +22,9 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Fixed (D90): no-signal poly-G reads (70% G, little C) were flagged as a
+  bisulfite library. The flag now also needs the converted base (T, or A on
+  the other strand) to be the commonest.
 - Fixed (D89): a sample given as uncompressed, .bz2, .xz or .zst FASTQ was
   recommended a pipeline whose samplesheet schema rejects those files; it now
   gets the reason (compress first) instead.

@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 #*******************************************************************************
-# score_layer_E_round4.R: score layer E round 4 against its pre-registered
-#                         pass marks (CLAUDE.md D87)
+# score_layer_E_round4.R: score layer E round 4 (D87) or round 5 (D90)
+#                         against its pre-registered pass marks
 #
 # PASS MARKS    A. Sample type: zero wrong calls at high confidence (every
 #                  stratum whose type_truth is not "none").
@@ -38,7 +38,8 @@ false_flag <- (has_flag("BISULFITE") & !bs_stratum) | (has_flag("BARCODE_READ") 
 
 # C. bisulfite sensitivity
 n_bs <- sum(bs_stratum); hit_bs <- sum(bs_stratum & has_flag("BISULFITE"))
-need_bs <- if (n_bs >= 8) 7 else ceiling(0.875 * n_bs)
+# 87.5% of the bisulfite runs fetched: 7 of 8 (round 4), 13 of 14 (round 5, D90).
+need_bs <- ceiling(0.875 * n_bs)
 
 # Reported
 rrna <- mets[mets$metric == "rrna_fraction", c("sample", "value", "result")]
@@ -61,4 +62,15 @@ cat(sprintf("\nReported: BARCODE_READ on %d of %d single-cell runs (only 10x-sty
 cat(sprintf("Reported: D86 held %d correct metagenome call(s) at medium, and %d wrong one(s)\n",
             sum(d86 & typed & grepl("^correct", m$outcome)), sum(d86 & typed & grepl("^WRONG", m$outcome))))
 cat(sprintf("Reported: rRNA share measured on %d RNA sample(s); see %s_rrna.tsv\n", sum(rrna$result != "not_available"), args[3]))
+# D. Round 5 only (D90): the fix must meet the case it fixes. Runs with GC
+# content of 75% or more stand in for no-signal (poly-G) reads; fewer than
+# 2 of them among the tiny two-colour runs means the fix was not tested on
+# fresh data, so the round is INCONCLUSIVE (not a pass) and more are drawn.
+tiny <- grepl("TINY_2COLOUR", m$stratum)
+if (any(tiny)) {
+  gc <- suppressWarnings(as.numeric(sub("%", "", mets$value[match(paste(m$sample, "gc_content"), paste(mets$sample, mets$metric))])))
+  n_polyg <- sum(tiny & !is.na(gc) & gc >= 75)
+  cat(sprintf("D. G-dominated (GC >= 75%%) tiny two-colour runs: %d (mark 2) -> %s\n", n_polyg, if (n_polyg >= 2) "PASS" else "INCONCLUSIVE"))
+  if (n_polyg < 2) quit(status = 2)
+}
 if (any(wrong_high) || any(false_flag) || n_bs == 0 || hit_bs < need_bs) quit(status = 1)
