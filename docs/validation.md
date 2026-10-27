@@ -783,6 +783,37 @@ were examined. The one remaining round 3 error (*Methanobacterium*, k-mer
 0.33, GC 0.074, only 5 Mb of reads) is inside the community range on both.
 A pre-registered round must still confirm the rule on unseen studies.
 
+## Layer E round 4: testing D86 and the library-structure rules (pre-registered 2026-10-27)
+
+Fixed before the panel was drawn (CLAUDE.md D87). D86 was calibrated on
+layer E rounds 1-3 and the library-structure, rRNA and RNA-start rules
+(D78, D81, D85) were checked only on reads seen while building them, so this
+round tests them on studies no earlier round used (layer A rounds 1-3 and
+layer E rounds 1-3 excluded).
+
+- **Strata (74 runs, all Illumina;
+  [`strata.psv`](../validation/layer_E/round4/strata.psv)):** archaeal
+  isolates 10, phage isolates 8, bacterial isolates 8 (control), food
+  metagenomes 6 and environmental metagenomes 6 (D86's cost), gut
+  metagenomes 4, 16S amplicons 4, metatranscriptomes 6 and bacterial
+  RNA-seq 6 (declared `molecule = rna`), Bisulfite-Seq 8, single-cell
+  (transcriptomic) 8.
+- **Draw, run and truth** as layer E: whole-pool draw, one run per study,
+  platforms declared from ENA, `sample_type` not declared, Standard-8 on
+  the HPC; this round also gives SortMeRNA's fast database
+  (`smr_v4.3_fast_db`, release v7.0.0) as `--rrna_db`. Type truth from ENA's
+  library records; bisulfite and single-cell runs are not scored for type.
+- **Pass marks:**
+  - **A.** Zero wrong sample-type calls at high confidence.
+  - **B.** No `BISULFITE` or `BARCODE_READ` flag outside the bisulfite and
+    single-cell strata, and no `INDEX_READS` or `INTERLEAVED` flag anywhere.
+  - **C.** `BISULFITE` on at least 7 of the 8 bisulfite runs.
+- **Reported:** `BARCODE_READ` on the single-cell runs (only 10x-style
+  libraries have a barcode read, so plate-based ones legitimately lack it);
+  the rRNA share of the RNA strata; how many correct metagenome calls D86
+  held at medium (its cost).
+- **Scorer:** [`score_layer_E_round4.R`](../validation/layer_E/score_layer_E_round4.R).
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

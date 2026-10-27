@@ -1,0 +1,12 @@
+stratum|truth|type_truth|query|from|to|n|sample_type|molecule
+E4_ILM_ISOLATE_ARCHAEA|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND tax_tree(2157)|2019-01-01|2025-06-30|10||dna
+E4_ILM_ISOLATE_PHAGE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND tax_tree(2731619)|2019-01-01|2025-06-30|8||dna
+E4_ILM_ISOLATE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND BACTERIA|2024-01-01|2025-06-30|8||dna
+E4_ILM_METAGENOME_FOOD|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(870726)|2021-01-01|2025-06-30|6||dna
+E4_ILM_METAGENOME_ENV|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND (tax_eq(410658) OR tax_eq(408172) OR tax_eq(449393))|2023-01-01|2025-06-30|6||dna
+E4_ILM_METAGENOME_GUT|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="METAGENOMIC" AND tax_eq(408170)|2024-01-01|2025-06-30|4||dna
+E4_ILM_AMPLICON_16S|illumina|amplicon|instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"|2024-01-01|2025-06-30|4||dna
+E4_ILM_METATRANSCRIPTOME|illumina|metagenome|instrument_platform="ILLUMINA" AND library_strategy="RNA-Seq" AND library_source="METATRANSCRIPTOMIC"|2022-01-01|2025-06-30|6||rna
+E4_ILM_RNASEQ_BACTERIA|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="RNA-Seq" AND library_source="TRANSCRIPTOMIC" AND BACTERIA|2022-01-01|2025-06-30|6||rna
+E4_ILM_BISULFITE|illumina|none|instrument_platform="ILLUMINA" AND library_strategy="Bisulfite-Seq" AND library_layout="PAIRED"|2023-01-01|2025-06-30|8||dna
+E4_ILM_SINGLE_CELL|illumina|none|instrument_platform="ILLUMINA" AND library_source="TRANSCRIPTOMIC SINGLE CELL" AND library_layout="PAIRED"|2023-01-01|2025-06-30|8||rna
