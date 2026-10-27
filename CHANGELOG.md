@@ -8,6 +8,11 @@ All notable changes to seq-triage. Versions follow
 
 ### Added
 
+- Comparative genomics across the batch (D89): `recommendations/pathogensurveillance/`
+  is one nf-core/pathogensurveillance 1.1.0 samplesheet of every isolate ready
+  for assembly (Element, several-file and non-gzipped samples left out, each
+  named); the analysis menu's comparative-genomics row points to it, and a
+  single isolate is "possible" (placed among public reference genomes).
 - One genome or many, from the reads alone (D86): detection measures k-mer
   recurrence and per-read GC spread (new information metrics
   `kmer_repeat_share` and `gc_spread`). A short-read metagenome call is high
@@ -17,6 +22,9 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Fixed (D89): a sample given as uncompressed, .bz2, .xz or .zst FASTQ was
+  recommended a pipeline whose samplesheet schema rejects those files; it now
+  gets the reason (compress first) instead.
 - CI lint fails on any pipeline lint warning or failure, but no longer on a
   newer nf-core release of a module, which is taken as its own reviewed
   change (D86). FastQC module updated (whitespace only).
