@@ -67,6 +67,12 @@ BIO_MIN        <- 50     # the other mate of a barcode or index read
 # Checked on real reads: rice WGBS R1 3.3% C, Panax WGBS R1 6.2% C (plants
 # keep more C: non-CpG methylation), against 192 ordinary real files whose
 # lowest C or G share is 13.4% (C and G within a factor of 2 in every one).
+# A third condition (D90): the converted base must be the commonest of the
+# four, T where C is lost and A where G is lost, as conversion makes it. A
+# NovaSeq no-signal run (70% G, 10% C) met the first two (layer E round 4,
+# ERR12863916). Checked on the first 2,000 reads of all 1,030 files of every
+# validation run: it keeps every bisulfite run flagged and drops both false
+# flags (that run, and a metagenome R2 with little G but T enriched).
 BISULFITE_MAX   <- 0.10
 BISULFITE_RATIO <- 0.50
 INTERLEAVED_MIN <- 0.9   # share of probed record pairs with the same read name
@@ -388,12 +394,14 @@ bio <- if ("BARCODE_READ" %in% flags) 2 else 1
 km <- kmer_redundancy(reads[bio])
 evidence$gc_excess <- gc_excess_of(probes[[bio]]$seq)
 evidence$kmer_repeated <- km$rep; evidence$kmer_bases <- km$bases; evidence$kmer_genome_mb <- km$mb
-c_frac <- base_frac(probes[[bio]]$seq, "C"); g_frac <- base_frac(probes[[bio]]$seq, "G")
+fr <- vapply(c("A", "C", "G", "T"), function(b) base_frac(probes[[bio]]$seq, b), 0)
+c_frac <- fr[["C"]]; g_frac <- fr[["G"]]
 if (!is.na(c_frac) && min(c_frac, g_frac) < BISULFITE_MAX &&
-    min(c_frac, g_frac) < BISULFITE_RATIO * max(c_frac, g_frac)) {
+    min(c_frac, g_frac) < BISULFITE_RATIO * max(c_frac, g_frac) &&
+    fr[[if (c_frac < g_frac) "T" else "A"]] == max(fr)) {
   flags <- c(flags, "BISULFITE")
-  why   <- c(why, sprintf("Only %.1f%% of bases are C and %.1f%% G in %s: one strand has lost its C, as bisulfite or EM-seq conversion does, so this looks like a methylation library. Converted reads cannot be classified reliably, so contamination is not judged.",
-                          100 * c_frac, 100 * g_frac, if (bio == 2) "R2" else "the reads"))
+  why   <- c(why, sprintf("Only %.1f%% of bases are C and %.1f%% G in %s, and the converted base (%s) is the commonest: one strand has lost its C, as bisulfite or EM-seq conversion does, so this looks like a methylation library. Converted reads cannot be classified reliably, so contamination is not judged.",
+                          100 * c_frac, 100 * g_frac, if (bio == 2) "R2" else "the reads", if (c_frac < g_frac) "T" else "A"))
 }
 interleaved <- FALSE
 if (n_files == 1 && max_ln[1] <= SHORT_MAX) {

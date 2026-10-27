@@ -56,7 +56,13 @@ make_fastq <- function(path, n, lengths, header, qual, mate = 1, alphabet = "dna
   # bisulfite (D78): unmethylated C read as T, so (almost) no C on this strand
   # bisulfite_plant: C kept at ~6% (as a real Panax WGBS run); at_rich: 10% C
   # and 10% G, a very AT-rich genome, which must NOT count as bisulfite.
+  # D90: bisulfite_ga: the other strand (G read as A, so A is commonest);
+  # poly_g: a NovaSeq no-signal run (70% G, as layer E round 4's ERR12863916);
+  # low_g_t_rich: little G but T, not A, enriched (a real metagenome R2,
+  # SRR25730285). Neither of the last two is bisulfite.
   bases <- switch(alphabet, rna = c("A", "C", "G", "U"), bisulfite = c("A", "G", "T", "T"),
+                  bisulfite_ga = c("A", "A", "C", "T"), poly_g = c("A", "C", rep("G", 7), "T"),
+                  low_g_t_rich = c("A", rep("C", 3), "G", rep("T", 5)),
                   bisulfite_plant = c("A", "C", rep("G", 3), rep("T", 11)), at_rich = c(rep("A", 4), "C", "G", rep("T", 4)),
                   c("A", "C", "G", "T"))
   seq <- vapply(len, function(l) paste(sample(bases, l, TRUE), collapse = ""), "")
@@ -121,6 +127,9 @@ INDEX_AS_MATE        | 500:illumina:casava:binned    | 500:index:casava:binned  
 BISULFITE_PAIRED     | 500:illumina:casava:binned:bisulfite | 500:illumina:casava:binned | illumina | paired | high       | BISULFITE
 BISULFITE_PLANT      | 500:illumina:casava:binned:bisulfite_plant |                    | illumina  | single    | high       | BISULFITE
 AT_RICH_NOT_BS       | 500:illumina:casava:binned:at_rich |                            | illumina  | single    | high       |
+BISULFITE_GA_STRAND  | 500:illumina:casava:binned:bisulfite_ga |                       | illumina  | single    | high       | BISULFITE
+POLY_G_NOT_BS        | 500:illumina:casava:binned:poly_g |                             | illumina  | single    | high       |
+LOW_G_T_RICH_NOT_BS  | 500:illumina:casava:binned:low_g_t_rich |                       | illumina  | single    | high       |
 INTERLEAVED_FILE     | 500:illumina:interleaved:binned |                              | illumina  | interleaved | high     | INTERLEAVED
 ")
 cases$programs[is.na(cases$programs)] <- ""
