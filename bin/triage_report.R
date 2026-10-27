@@ -401,7 +401,7 @@ if (is.null(metrics)) {
 #               counts (look-alike groups combined, human excluded, 1% floor).
 #               Provisional limits from layer D pure cultures (top species
 #               97-99%) and mixtures (30% contamination -> ~70%).
-for (col in c("start_share", "probe_reads")) if (!col %in% names(d)) d[[col]] <- NA_character_
+for (col in c("start_share", "probe_reads", "gc_excess", "kmer_repeated", "kmer_bases", "kmer_genome_mb")) if (!col %in% names(d)) d[[col]] <- NA_character_
 TYPE_MIN_PROBE      <- 1000   # probed reads needed to judge read starts
 TYPE_START_AMPLICON <- 0.20
 TYPE_START_RANDOM   <- 0.05
@@ -414,7 +414,13 @@ TYPE_VIRAL_DOMINANT <- 0.50            # virus-dominated: isolate at most medium
                                        # genomes are usually amplified; fragmented amplicons
                                        # do not start at primers: layer E SARS-CoV-2)
 # D73 (decided after layer E round 2, so a later round must test it):
-TYPE_META_MAX_GENUS <- 0.50            # metagenome HIGH needs the top genus under 50%
+TYPE_META_MAX_GENUS <- 0.50
+# D86 (thresholds chosen on layer E rounds 1-2, tested on round 3; a later
+# round must confirm): a metagenome call is high only when the reads
+# themselves, with no database, look like many genomes.
+TYPE_META_MAX_KMER   <- 0.49    # share of sampled 21-mers seen twice: below this
+TYPE_META_MIN_GC     <- 0.054   # excess per-read GC spread: at least this
+TYPE_META_MIN_KBASES <- 5e6     # bases examined for the k-mer check: at least this            # metagenome HIGH needs the top genus under 50%
                                        # (round 2: metagenomes <= 37%; phages and poorly-known
                                        # isolates split over sister species 72-100%)
 classify_type <- function(s) {
@@ -479,7 +485,19 @@ classify_type <- function(s) {
       if (gs >= TYPE_META_MAX_GENUS)
         return(out("metagenome", "medium", sprintf("Many species: %s, but one genus (%s) holds %.0f%% of genus-level reads: one organism the database knows only through related species (e.g. a new phage) looks like this. %s",
                                                    comp, co$top_genus, 100 * gs, amp_note), TRUE))
-      return(out("metagenome", "high", sprintf("Many organisms: %s; the most common genus holds %.0f%%. %s", comp, 100 * gs, amp_note), TRUE))
+      kr <- suppressWarnings(as.numeric(s$kmer_repeated)); kb <- suppressWarnings(as.numeric(s$kmer_bases))
+      gx <- suppressWarnings(as.numeric(s$gc_excess))
+      if (is.na(kr) || is.na(kb) || is.na(gx) || kb < TYPE_META_MIN_KBASES)
+        return(out("metagenome", "medium", sprintf("Many species: %s, but too little sequence (%s bases; %s needed) to check from the reads alone that they come from many genomes. %s",
+                                                   comp, if (is.na(kb)) "?" else format(kb, big.mark = ","), format(TYPE_META_MIN_KBASES, big.mark = ",", scientific = FALSE), amp_note), TRUE))
+      if (kr >= TYPE_META_MAX_KMER)
+        return(out("metagenome", "medium", sprintf("Many species: %s, but %.0f%% of sampled k-mers recur in the reads, as one genome's reads do (a community's rarely do): an organism the database knows only through relatives looks like this. %s",
+                                                   comp, 100 * kr, amp_note), TRUE))
+      if (gx < TYPE_META_MIN_GC)
+        return(out("metagenome", "medium", sprintf("Many species: %s, but the reads share a narrow GC range (excess spread %.3f), as one genome's reads do. %s",
+                                                   comp, gx, amp_note), TRUE))
+      return(out("metagenome", "high", sprintf("Many organisms: %s; the most common genus holds %.0f%%, and the reads themselves look like many genomes (%.0f%% of k-mers recur, GC spread %.3f). %s",
+                                               comp, 100 * gs, 100 * kr, gx, amp_note), TRUE))
     }
     return(out("metagenome", "medium", sprintf("Many organisms: %s. %s It could also be an amplicon (e.g. 16S) of a community.", comp, amp_note), FALSE))
   }
@@ -551,6 +569,19 @@ if (!is.na(gi_size) && !is.na(gi_depth)) for (i in seq_len(nrow(d))) {
     gi = c(gi_size, gi_depth))
 }
 if (length(depth_rows)) metrics <- rbind(metrics, do.call(rbind, depth_rows))
+
+# D86: the two one-genome-or-many measures, as information.
+gi_k <- match("kmer_repeat_share", guide$metric); gi_g <- match("gc_spread", guide$metric)
+if (!is.na(gi_k) && !is.na(gi_g)) for (i in seq_len(nrow(d))) {
+  if (!d$route[i] %in% QC_ROUTES) next
+  kr <- suppressWarnings(as.numeric(d$kmer_repeated[i])); gx <- suppressWarnings(as.numeric(d$gc_excess[i]))
+  kb <- suppressWarnings(as.numeric(d$kmer_bases[i]))
+  metrics <- rbind(metrics, data.frame(sample = d$sample[i], metric = c("kmer_repeat_share", "gc_spread"),
+    value = c(if (is.na(kr)) "" else format_value(kr, "fraction"), if (is.na(gx)) "" else format(round(gx, 3))),
+    unit = c("fraction", "number"), warn = "", fail = "", result = ifelse(is.na(c(kr, gx)), "not_available", "info"),
+    note = c(if (is.na(kb)) "" else sprintf("of sampled 21-mers in %s bases", format_value(kb, "bp")), "excess SD of per-read GC beyond chance"),
+    gi = c(gi_k, gi_g)))
+}
 
 
 # 3c. Target organism (D76) --------------------------------------------------------

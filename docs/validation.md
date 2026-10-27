@@ -751,6 +751,38 @@ its own design and calibration. **No rule was changed after this round.**
 The limit is stated in the README: an organism the Kraken2 database knows
 poorly can be called a metagenome at high confidence.
 
+## Calibration after layer E round 3: one genome or many (D86)
+
+Layer E's remaining errors were organisms the database knows poorly, whose
+reads scatter over many species and genera. Two measures from the reads
+alone, with no database, were tested on the reads of all three layer E
+rounds (computed on the HPC with `validation/layer_E/gc_spread.sh` and
+`kmer_redundancy.py`; tables in
+[`validation/outcomes/layer_E_calibration_D86/`](../validation/outcomes/layer_E_calibration_D86/)):
+
+- **GC spread:** the SD of per-read GC beyond what chance gives for reads
+  that long. Short reads: true isolates median 0.043, true metagenomes
+  median 0.088.
+- **k-mer redundancy:** the share of a fixed sample of 21-mers, in up to
+  10 Mb of reads, seen at least twice. Short reads: true isolates median
+  0.53, true metagenomes median 0.15.
+
+**Held-out test.** Thresholds were chosen on rounds 1-2 only (the midpoint
+of each gap between correct high metagenomes and isolates wrongly called
+metagenome), then applied to round 3, which they never saw:
+
+| Round 3 (held out) | Rule today | GC spread only | k-mer only | Both (D86) |
+|---|---|---|---|---|
+| Wrong at high | 4 | 3 | 2 | **1** |
+| Correct high metagenomes kept | 10/10 | 10/10 | 10/10 | **10/10** |
+
+GC spread alone was rejected as too weak (it fixes only the phage). The rule
+adopted (D86) uses both: a short-read metagenome call is high only when
+k-mer redundancy is below 0.49, GC spread at least 0.054, and at least 5 Mb
+were examined. The one remaining round 3 error (*Methanobacterium*, k-mer
+0.33, GC 0.074, only 5 Mb of reads) is inside the community range on both.
+A pre-registered round must still confirm the rule on unseen studies.
+
 ## Layer D: contamination screen accuracy
 
 Mixtures built on purpose, so the true contamination is known. Full design,

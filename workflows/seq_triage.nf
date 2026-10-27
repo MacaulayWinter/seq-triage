@@ -461,6 +461,11 @@ workflow SEQ_TRIAGE {
                 // Read-start concentration for the sample-type call (D65).
                 start_share          : blankToNull(det.start_share),
                 probe_reads          : blankToNull(det.probe_reads),
+                // One genome or many, from the reads alone (D86).
+                gc_excess            : blankToNull(det.gc_excess),
+                kmer_repeated        : blankToNull(det.kmer_repeated),
+                kmer_bases           : blankToNull(det.kmer_bases),
+                kmer_genome_mb       : blankToNull(det.kmer_genome_mb),
             ]
             [ routeSample(merged), reads ]
         }
@@ -587,7 +592,8 @@ workflow SEQ_TRIAGE {
     //    meta, one line per sample, sorted so the file is reproducible.
     def cols = [ 'id', 'single_end', 'n_files', 'n_reads', 'detected_platform', 'detected_layout',
                  'confidence', 'detection_flags', 'reasons', 'route', 'routed_by',
-                 'declared_platform', 'declared_from', 'start_share', 'probe_reads' ]
+                 'declared_platform', 'declared_from', 'start_share', 'probe_reads',
+                 'gc_excess', 'kmer_repeated', 'kmer_bases', 'kmer_genome_mb' ]
     ch_samples_tsv = ch_triaged
         .map { meta, _reads -> cols.collect { c -> meta[c] == null ? '' : meta[c].toString() }.join('\t') }
         .collectFile(name: 'samples.tsv', seed: (['sample'] + cols.drop(1)).join('\t'), newLine: true, sort: true)

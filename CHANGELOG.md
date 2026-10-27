@@ -6,7 +6,20 @@ All notable changes to seq-triage. Versions follow
 
 ## v0.3.0dev (unreleased)
 
-Nothing yet.
+### Added
+
+- One genome or many, from the reads alone (D86): detection measures k-mer
+  recurrence and per-read GC spread (new information metrics
+  `kmer_repeat_share` and `gc_spread`). A short-read metagenome call is high
+  confidence only when both say "many genomes" and at least 5 Mb was
+  examined; on held-out data this removed 3 of 4 wrong high calls without
+  losing a correct one.
+
+### Changed
+
+- CI lint fails on any pipeline lint warning or failure, but no longer on a
+  newer nf-core release of a module, which is taken as its own reviewed
+  change (D86). FastQC module updated (whitespace only).
 
 ## v0.2.0 (2026-10-23)
 

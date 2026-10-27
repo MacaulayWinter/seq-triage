@@ -75,4 +75,13 @@ for (col in c("max_len", "length_spread", "header_evidence", "quality_values", "
   out[[col]] <- paste(ifelse(is.na(lanes[[col]]), "", lanes[[col]]), collapse = " / ")
 out$start_share <- if (any(ok)) format(sum(start[ok] * probe[ok]) / sum(probe[ok]), digits = 4) else ""
 out$probe_reads <- if (any(ok)) format(sum(probe[ok]), scientific = FALSE) else ""
+# D86: the one-genome measures, averaged over lanes weighted by the bases
+# each examined; k-mer bases add up.
+kb <- num(lanes$kmer_bases); kr <- num(lanes$kmer_repeated); gx <- num(lanes$gc_excess)
+w  <- !is.na(kb) & kb > 0
+wavg <- function(v) { u <- w & !is.na(v); if (any(u)) format(round(sum(v[u] * kb[u]) / sum(kb[u]), 4)) else "" }
+out$gc_excess      <- wavg(gx)
+out$kmer_repeated  <- wavg(kr)
+out$kmer_bases     <- if (any(w)) format(sum(kb[w]), scientific = FALSE) else ""
+out$kmer_genome_mb <- wavg(num(lanes$kmer_genome_mb))
 write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
