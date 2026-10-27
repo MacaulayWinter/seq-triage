@@ -209,10 +209,13 @@ jobs:
           # which also checks the versions agree (nf-core convention; D63).
           version=$(sed -n "s/^ *version *= *'\([^']*\)'.*/\1/p" nextflow.config | head -1)
           echo "manifest.version: $version"
-          case $version in
-              *dev) nf-core pipelines lint --dir . --fail-warned ;;
-              *)    nf-core pipelines lint --dir . --fail-warned --release ;;
-          esac
+          # Any failure stops the job (lint's own exit code); any PIPELINE
+          # warning stops it too (read from lint's JSON report). A newer
+          # nf-core release of a module is not a failure: modules are updated
+          # on purpose, as their own reviewed change (D30, D86).
+          release=""; case $version in *dev) ;; *) release="--release" ;; esac
+          nf-core pipelines lint --dir . $release --json lint.json
+          python3 -c "import json, sys; d = json.load(open('lint.json')); w = d['tests_warned']; print('pipeline lint warnings:', len(w)); [print('  ', t) for t in w]; sys.exit(1 if w else 0)"
 
       # Every samplesheet recommend.R writes must pass that pipeline's OWN
       # schema, fetched at the pinned commit (D66). jsonschema comes with the

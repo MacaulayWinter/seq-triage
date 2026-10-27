@@ -166,6 +166,33 @@ start_case <- function(id, primed) {
   system2("Rscript", c("--vanilla", "bin/detect_platform.R", id, stats, out, path))
   as.numeric(read.delim(out, colClasses = "character")$start_share)
 }
+# D86: one genome or many. Reads (150 bp, both strands) from one 100 kb
+# genome must show recurring k-mers and narrow GC; reads from 200 genomes of
+# 50 kb with GC 30-70% must show few recurring k-mers and wide GC.
+genome_case <- function(id, n_genomes, size, gc_range) {
+  set.seed(86)
+  gcs <- seq(gc_range[1], gc_range[2], length.out = n_genomes)
+  genomes <- vapply(gcs, function(g) paste(sample(c("A", "C", "G", "T"), size, TRUE, prob = c(1 - g, g, g, 1 - g) / 2), collapse = ""), "")
+  n <- 20000; which_g <- sample(n_genomes, n, TRUE); pos <- sample(size - 150, n, TRUE)
+  reads <- substring(genomes[which_g], pos, pos + 149)
+  flip <- runif(n) < 0.5
+  reads[flip] <- vapply(strsplit(chartr("ACGT", "TGCA", reads[flip]), NULL), function(v) paste(rev(v), collapse = ""), "")
+  path <- file.path(tmp, paste0(id, "_R1.fastq.gz")); con <- gzfile(path, "w")
+  writeLines(c(rbind(sprintf("@A00611:237:H5335DRX5:2:2101:%d:1000 1:N:0:ACGT", seq_len(n)), reads, "+", strrep("F", 150))), con); close(con)
+  stats <- file.path(tmp, paste0(id, ".stats.tsv"))
+  writeLines(c("file\tnum_seqs\tmax_len\tQ1\tQ2\tQ3", sprintf("%s\t%d\t150\t150\t150\t150", basename(path), n)), stats)
+  out <- file.path(tmp, paste0(id, ".detection.tsv"))
+  system2("Rscript", c("--vanilla", "bin/detect_platform.R", id, stats, out, path))
+  d <- read.delim(out, colClasses = "character")
+  c(kmer = as.numeric(d$kmer_repeated), gc = as.numeric(d$gc_excess))
+}
+one <- genome_case("ONE_GENOME", 1, 100000, c(0.5, 0.5))
+many <- genome_case("COMMUNITY", 200, 50000, c(0.3, 0.7))
+res <- rbind(res, data.frame(case = c("ONE_GENOME_KMERS_RECUR", "ONE_GENOME_NARROW_GC", "COMMUNITY_KMERS_RARE", "COMMUNITY_WIDE_GC"),
+  got = c(if (one[["kmer"]] > 0.8) "> 0.8" else sprintf("%.3f", one[["kmer"]]), if (one[["gc"]] < 0.02) "< 0.02" else sprintf("%.3f", one[["gc"]]),
+          if (many[["kmer"]] < 0.2) "< 0.2" else sprintf("%.3f", many[["kmer"]]), if (many[["gc"]] > 0.07) "> 0.07" else sprintf("%.3f", many[["gc"]])),
+  expected = c("> 0.8", "< 0.02", "< 0.2", "> 0.07"), stringsAsFactors = FALSE))
+
 st_primed <- start_case("START_PRIMED", TRUE); st_random <- start_case("START_RANDOM", FALSE)
 ok_p <- !is.na(st_primed) && st_primed > 0.45 && st_primed < 0.55
 ok_r <- !is.na(st_random) && st_random < 0.05

@@ -259,6 +259,11 @@ write_result <- function(platform, layout, confidence, evidence = list()) {
     adapters          = paste(evidence$adapters, collapse = ";"),
     start_share       = paste(evidence$start_share, collapse = ";"),
     probe_reads       = paste(evidence$probe_reads, collapse = ";"),
+    # D86: one genome or many, from the reads alone (no database).
+    gc_excess         = paste(evidence$gc_excess, collapse = ";"),
+    kmer_repeated     = paste(evidence$kmer_repeated, collapse = ";"),
+    kmer_bases        = paste(evidence$kmer_bases, collapse = ";"),
+    kmer_genome_mb    = paste(evidence$kmer_genome_mb, collapse = ";"),
     stringsAsFactors  = FALSE
   )
   write.table(out, out_tsv, sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -302,6 +307,57 @@ start_share <- function(seq) {
 evidence <- list(max_len = max_ln, spread = spread, header = hdr_ev, n_q = q_n, u = u_bases,
                  start_share = start_share(probes[[1]]$seq), probe_reads = length(probes[[1]]$seq),
                  adapters = vapply(ad_frac, function(f) paste(sprintf("%s=%.3f", names(f), f), collapse = ","), ""))
+# One genome or many (D86) ------------------------------------------------------
+# Two measures from the reads alone, so they work for organisms no database
+# knows (layer E's remaining errors). Both mirror the calibration scripts in
+# validation/layer_E/ exactly, so their thresholds carry over.
+#  GC spread: the SD of per-read GC beyond what chance gives for reads that
+#    long. One genome's reads share a narrow GC range; a community's spread.
+#  k-mer redundancy: of a fixed sample of 21-mers (canonical, starting ACG,
+#    ~1 in 32) in up to KMER_BUDGET bases, the share seen at least twice.
+#    One genome of a few Mb is covered more than once, so k-mers recur; a
+#    community's hundreds of Mb are not.
+KMER_K <- 21; KMER_BUDGET <- 1e7
+gc_excess_of <- function(seq) {
+  s <- seq[nchar(seq) >= 50]
+  if (length(s) < 200) return(NA_real_)
+  L <- nchar(s); gc <- nchar(gsub("[^GCgc]", "", s)) / L
+  ex <- var(gc) - mean(gc * (1 - gc) / L)
+  round(if (ex > 0) sqrt(ex) else 0, 4)
+}
+revcomp_vec <- function(x) vapply(strsplit(chartr("ACGT", "TGCA", x), NULL, fixed = TRUE),
+                                  function(v) paste(rev(v), collapse = ""), "")
+kmer_redundancy <- function(path) {
+  con <- gzfile(path, "r"); on.exit(close(con))
+  keys <- character(0); used <- 0
+  repeat {
+    x <- readLines(con, n = 40000, warn = FALSE)
+    if (!length(x)) break
+    sq <- toupper(x[seq(2, length(x), by = 4)])
+    sq <- sq[nchar(sq) >= KMER_K]
+    if (!length(sq)) next
+    cs <- cumsum(as.numeric(nchar(sq)))
+    if (used + cs[length(cs)] > KMER_BUDGET) sq <- sq[seq_len(max(1, which(used + cs >= KMER_BUDGET)[1]))]
+    used <- used + sum(nchar(sq))
+    for (pat in c("(?=ACG)", "(?=CGT)")) {
+      hits <- gregexpr(pat, sq, perl = TRUE)
+      st <- unlist(lapply(seq_along(sq), function(i) { h <- hits[[i]]; if (h[1] < 0) integer(0) else h }))
+      rd <- rep(seq_along(sq), vapply(hits, function(h) if (h[1] < 0) 0L else length(h), 0L))
+      if (pat == "(?=CGT)") st <- st + 3L - KMER_K
+      ok <- st >= 1 & st + KMER_K - 1 <= nchar(sq[rd])
+      km <- substring(sq[rd[ok]], st[ok], st[ok] + KMER_K - 1)
+      km <- km[!grepl("[^ACGT]", km)]
+      if (!length(km)) next
+      rc <- revcomp_vec(km)
+      keys <- c(keys, if (pat == "(?=ACG)") km[km <= rc] else rc[rc < km])
+    }
+    if (used >= KMER_BUDGET) break
+  }
+  if (!length(keys)) return(list(rep = NA_real_, bases = used, mb = NA_real_))
+  tab <- table(keys)
+  list(rep = round(mean(tab >= 2), 4), bases = used, mb = round(sum(tab >= 2) * 32 / 1e6, 2))
+}
+
 # Library structure (D78) -----------------------------------------------------
 base_frac <- function(seq, b) {
   n <- sum(nchar(seq))
@@ -328,6 +384,10 @@ if (n_files == 2 && lib_short[1] && max_ln[2] >= BIO_MIN) {
                           max_ln[2]))
 }
 bio <- if ("BARCODE_READ" %in% flags) 2 else 1
+# D86: measured on the biological read (R2 of a single-cell library).
+km <- kmer_redundancy(reads[bio])
+evidence$gc_excess <- gc_excess_of(probes[[bio]]$seq)
+evidence$kmer_repeated <- km$rep; evidence$kmer_bases <- km$bases; evidence$kmer_genome_mb <- km$mb
 c_frac <- base_frac(probes[[bio]]$seq, "C"); g_frac <- base_frac(probes[[bio]]$seq, "G")
 if (!is.na(c_frac) && min(c_frac, g_frac) < BISULFITE_MAX &&
     min(c_frac, g_frac) < BISULFITE_RATIO * max(c_frac, g_frac)) {

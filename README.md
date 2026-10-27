@@ -434,9 +434,12 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
   libraries are not recognised; RRBS and EM-seq cannot be told from WGBS.
   Long-read amplicons cannot be recognised from the reads.
 - **Sample type:** an organism the Kraken2 database knows poorly (archaea,
-  novel bacteria, some phages) can be called a metagenome at high
-  confidence: its reads scatter across many species and genera (layer E
-  rounds 2 and 3). Declare `sample_type` when you know it.
+  novel bacteria, some phages) can look like a metagenome: its reads scatter
+  across many species and genera. Since D86 a metagenome call is high only
+  when the reads themselves (k-mer recurrence and GC spread, no database)
+  also look like many genomes; on held-out data this removed 3 of 4 such
+  errors, but it is not yet confirmed by a pre-registered round. Declare
+  `sample_type` when you know it.
 - **Contamination:** species level only (another strain of the same species
   is invisible); same-genus contamination is under-estimated on short reads;
   estimates depend on the Kraken2 database (see layer D).
@@ -449,7 +452,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D85), including every rule that validation overturned and every CI
+(D1-D86), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap

@@ -237,6 +237,15 @@ cases <- list(
   list(id = "RRNA_FAILED_DEPLETION", route = "illumina", molecule = "rna", rrna = 0.82, verdict = "FAIL", hint = TRUE, check = c(rrna_fraction = "FAIL")),  # +hint: a 16S amplicon looks like this
   list(id = "RRNA_NOT_SCREENED",   route = "illumina", molecule = "rna", verdict = "PASS", check = c(rrna_fraction = "not_available")),
   list(id = "RRNA_16S_AMPLICON",   route = "illumina", molecule = "rna", type = "amplicon", rrna = 0.97, verdict = "PASS", check = c(rrna_fraction = "exempt")),
+  # D86: a metagenome call is high only when the reads look like many genomes.
+  list(id = "META_KMERS_RECUR",    route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META, krep = "0.65",
+       verdict = "PASS", expect_type = "metagenome medium"),        # an archaeon the database scatters
+  list(id = "META_NARROW_GC",      route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META, gcx = "0.029",
+       verdict = "PASS", expect_type = "metagenome medium"),        # a phage
+  list(id = "META_TOO_LITTLE_SEQ", route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META, kbases = "2500000",
+       verdict = "PASS", expect_type = "metagenome medium"),
+  list(id = "META_ALL_AGREE",      route = "illumina", start = 0.01, type = "metagenome", screen = TRUE, kraken = META, krep = "0.10", gcx = "0.11",
+       verdict = "PASS", expect_type = "metagenome high", check = c(kmer_repeat_share = "info", gc_spread = "info")),
   # D69: MGI/DNBSEQ and Element are QC'd like Illumina (fastp, own guide rows).
   list(id = "DNBSEQ_GOOD",       route = "dnbseq", declared = "dnbseq", verdict = "PASS", check = c(q30_rate = "PASS")),
   list(id = "ELEMENT_LOW_READS", route = "element", declared = "element", fastp = c("summary.after_filtering.total_reads" = 50000),
@@ -266,7 +275,12 @@ build <- function(cases, dir) {
       declared_platform = if (!is.null(cs$hdr_declared)) cs$hdr_declared else declared,
       declared_from = if (!is.null(cs$declared_from)) cs$declared_from else if (!is.na(declared)) "samplesheet" else NA,
       start_share = if (is.null(cs$start)) NA else cs$start,
-      probe_reads = if (is.null(cs$start)) NA else if (is.null(cs$probe)) 2000 else cs$probe)
+      probe_reads = if (is.null(cs$start)) NA else if (is.null(cs$probe)) 2000 else cs$probe,
+      # D86: one genome or many; defaults look like a community.
+      gc_excess = if (is.null(cs$gcx)) "0.09" else cs$gcx,
+      kmer_repeated = if (is.null(cs$krep)) "0.15" else cs$krep,
+      kmer_bases = if (is.null(cs$kbases)) "7500000" else cs$kbases,
+      kmer_genome_mb = "1.0")
     add <- function(tool, base, over) {
       v <- base; if (length(over)) v[names(over)] <- over
       v <- v[!is.na(v)]

@@ -3,11 +3,13 @@
 # sample row. Run from the repository root:
 #   Rscript tests/combine_detection/test_combine_detection.R
 lane <- function(platform = "illumina", conf = "high", layout = "paired", flags = "", reads = 50000,
-                 files = 2, start = "0.02", probe = "2000", why = "Short, uniform reads with Illumina read names.") {
+                 files = 2, start = "0.02", probe = "2000", why = "Short, uniform reads with Illumina read names.",
+                 gcx = "0.05", krep = "0.50", kb = "10000000") {
   data.frame(sample = "x", n_files = files, n_reads = reads, detected_platform = platform, detected_layout = layout,
              confidence = conf, detection_flags = flags, reasons = why, max_len = "151;151", length_spread = "0;0",
              header_evidence = "illumina;illumina", quality_values = "4;4", u_bases = "0;0", adapters = "",
-             start_share = start, probe_reads = probe, stringsAsFactors = FALSE)
+             start_share = start, probe_reads = probe, gc_excess = gcx, kmer_repeated = krep, kmer_bases = kb,
+             kmer_genome_mb = "2.0", stringsAsFactors = FALSE)
 }
 run <- function(lanes) {
   dir <- tempfile(); dir.create(dir)
@@ -37,6 +39,9 @@ cases <- list(
   list(id = "BROKEN_PAIR", lanes = list(lane(), lane(layout = "uncertain", conf = "low", flags = "MATE_COUNT_MISMATCH")),
        check = function(r) r$detected_platform == "illumina" && r$confidence == "low" && r$detected_layout == "uncertain" &&
          has_flag(r, "MATE_COUNT_MISMATCH") && grepl("do not agree on the layout", r$reasons)),
+  # D86: the one-genome measures are averaged over lanes by bases examined.
+  list(id = "ONE_GENOME_MEASURES", lanes = list(lane(gcx = "0.04", krep = "0.60", kb = "10000000"), lane(gcx = "0.10", krep = "0.30", kb = "5000000")),
+       check = function(r) abs(as.numeric(r$kmer_repeated) - 0.5) < 1e-9 && abs(as.numeric(r$gc_excess) - 0.06) < 1e-9 && r$kmer_bases == "15000000"),
   list(id = "THREE_SINGLE_FILES", lanes = list(lane("ont", layout = "single", files = 1, start = "", probe = ""),
                                                lane("ont", layout = "single", files = 1, start = "", probe = ""),
                                                lane("ont", layout = "single", files = 1, start = "", probe = "")),
