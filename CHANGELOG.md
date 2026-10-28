@@ -26,6 +26,9 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Fixed (D94): `validation/fetch_panel.sh` now fetches runs by role (panel,
+  then backup) instead of file order, so a panel with other rows (screened
+  out) fetches the right runs. Earlier panels fetch the same runs as before.
 - Fixed (D92): platform detection hung (hours, then a time-limit kill) on a
   FASTQ of chromosome-length records, such as an assembly uploaded as reads.
   Records are now read at most 1 Mb long and probing stops at 100 Mb.

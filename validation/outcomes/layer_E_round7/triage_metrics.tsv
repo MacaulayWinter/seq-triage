@@ -1,0 +1,193 @@
+sample	metric	value	unit	warn	fail	result	note
+E7_ILM_TINY_G_ERR13101882	total_reads	238	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_ERR13101882	q30_rate	62.3%	fraction	75.0%	70.0%	FAIL	
+E7_ILM_TINY_G_ERR13101882	passed_filter_pct	5.7%	fraction	90.0%	70.0%	FAIL	
+E7_ILM_TINY_G_ERR13101882	duplication_rate	0.10%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR13101882	adapter_trimmed_pct	0.43%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR13101882	gc_content	79.3%	fraction			info	
+E7_ILM_TINY_G_ERR13101882	insert_size_peak	31	bp			info	
+E7_ILM_TINY_G_ERR13101882	mean_read_length	95	bp			info	
+E7_ILM_TINY_G_ERR13101882	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR13101882	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR13101882	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR13101882	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR14724199	total_reads	3,340	reads	100,000	1,000	WARN	
+E7_ILM_TINY_G_SRR14724199	q30_rate	82.3%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR14724199	passed_filter_pct	93.3%	fraction	90.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR14724199	duplication_rate	37.9%	fraction	30.0%		WARN	
+E7_ILM_TINY_G_SRR14724199	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E7_ILM_TINY_G_SRR14724199	gc_content	68.5%	fraction			info	
+E7_ILM_TINY_G_SRR14724199	insert_size_peak		bp			not_available	not reported by fastp
+E7_ILM_TINY_G_SRR14724199	mean_read_length	151	bp			info	
+E7_ILM_TINY_G_SRR14724199	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_SRR14724199	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR14724199	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_SRR14724199	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR10603082	total_reads	4,543	reads	100,000	1,000	WARN	
+E7_ILM_TINY_G_SRR10603082	q30_rate	95.5%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR10603082	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR10603082	duplication_rate	92.1%	fraction	30.0%		WARN	
+E7_ILM_TINY_G_SRR10603082	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E7_ILM_TINY_G_SRR10603082	gc_content	93.6%	fraction			info	
+E7_ILM_TINY_G_SRR10603082	insert_size_peak		bp			not_available	not reported by fastp
+E7_ILM_TINY_G_SRR10603082	mean_read_length	54	bp			info	
+E7_ILM_TINY_G_SRR10603082	n_base_rate	0.08%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_SRR10603082	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR10603082	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_SRR10603082	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR9439056	total_reads	152	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_ERR9439056	q30_rate	80.6%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_ERR9439056	passed_filter_pct	87.4%	fraction	90.0%	70.0%	WARN	
+E7_ILM_TINY_G_ERR9439056	duplication_rate	2.3%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR9439056	adapter_trimmed_pct	9.2%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR9439056	gc_content	72.2%	fraction			info	
+E7_ILM_TINY_G_ERR9439056	insert_size_peak	143	bp			info	
+E7_ILM_TINY_G_ERR9439056	mean_read_length	147	bp			info	
+E7_ILM_TINY_G_ERR9439056	n_base_rate	0.05%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR9439056	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR9439056	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR9439056	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_DRR612610	total_reads	810	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_DRR612610	q30_rate	89.1%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_DRR612610	passed_filter_pct	96.7%	fraction	90.0%	70.0%	PASS	
+E7_ILM_TINY_G_DRR612610	duplication_rate	35.8%	fraction	30.0%		WARN	
+E7_ILM_TINY_G_DRR612610	adapter_trimmed_pct	15.8%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_DRR612610	gc_content	76.4%	fraction			info	
+E7_ILM_TINY_G_DRR612610	insert_size_peak	194	bp			info	
+E7_ILM_TINY_G_DRR612610	mean_read_length	136	bp			info	
+E7_ILM_TINY_G_DRR612610	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_DRR612610	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_DRR612610	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_DRR612610	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR15047347	total_reads	576	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_SRR15047347	q30_rate	89.1%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR15047347	passed_filter_pct	86.2%	fraction	90.0%	70.0%	WARN	
+E7_ILM_TINY_G_SRR15047347	duplication_rate	38.3%	fraction	30.0%		WARN	
+E7_ILM_TINY_G_SRR15047347	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_SRR15047347	gc_content	82.8%	fraction			info	
+E7_ILM_TINY_G_SRR15047347	insert_size_peak	151	bp			info	
+E7_ILM_TINY_G_SRR15047347	mean_read_length	148	bp			info	
+E7_ILM_TINY_G_SRR15047347	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_SRR15047347	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR15047347	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_SRR15047347	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR12030325	total_reads	3,088	reads	100,000	1,000	WARN	
+E7_ILM_TINY_G_ERR12030325	q30_rate	84.5%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_ERR12030325	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+E7_ILM_TINY_G_ERR12030325	duplication_rate	55.6%	fraction	30.0%		WARN	
+E7_ILM_TINY_G_ERR12030325	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E7_ILM_TINY_G_ERR12030325	gc_content	70.4%	fraction			info	
+E7_ILM_TINY_G_ERR12030325	insert_size_peak		bp			not_available	not reported by fastp
+E7_ILM_TINY_G_ERR12030325	mean_read_length	150	bp			info	
+E7_ILM_TINY_G_ERR12030325	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR12030325	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR12030325	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR12030325	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR11506838	total_reads	82	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_ERR11506838	q30_rate	73.3%	fraction	75.0%	70.0%	WARN	
+E7_ILM_TINY_G_ERR11506838	passed_filter_pct	23.3%	fraction	90.0%	70.0%	FAIL	
+E7_ILM_TINY_G_ERR11506838	duplication_rate	0.57%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR11506838	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR11506838	gc_content	77.1%	fraction			info	
+E7_ILM_TINY_G_ERR11506838	insert_size_peak	214	bp			info	
+E7_ILM_TINY_G_ERR11506838	mean_read_length	151	bp			info	
+E7_ILM_TINY_G_ERR11506838	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR11506838	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR11506838	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR11506838	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR11206769	total_reads	6,976	reads	100,000	1,000	WARN	
+E7_ILM_TINY_G_SRR11206769	q30_rate	80.3%	fraction	75.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR11206769	passed_filter_pct	99.0%	fraction	90.0%	70.0%	PASS	
+E7_ILM_TINY_G_SRR11206769	duplication_rate	4.9%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_SRR11206769	adapter_trimmed_pct	10.4%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_SRR11206769	gc_content	72.4%	fraction			info	
+E7_ILM_TINY_G_SRR11206769	insert_size_peak	53	bp			info	
+E7_ILM_TINY_G_SRR11206769	mean_read_length	135	bp			info	
+E7_ILM_TINY_G_SRR11206769	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_SRR11206769	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR11206769	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_SRR11206769	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR21627907	total_reads	1,276	reads	100,000	1,000	WARN	
+E7_ILM_TINY_G_SRR21627907	q30_rate	70.0%	fraction	75.0%	70.0%	WARN	
+E7_ILM_TINY_G_SRR21627907	passed_filter_pct	89.2%	fraction	90.0%	70.0%	WARN	
+E7_ILM_TINY_G_SRR21627907	duplication_rate	0.14%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_SRR21627907	adapter_trimmed_pct	0.14%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_SRR21627907	gc_content	72.3%	fraction			info	
+E7_ILM_TINY_G_SRR21627907	insert_size_peak	114	bp			info	
+E7_ILM_TINY_G_SRR21627907	mean_read_length	150	bp			info	
+E7_ILM_TINY_G_SRR21627907	n_base_rate	0.26%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_SRR21627907	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_SRR21627907	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_SRR21627907	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR7337702	total_reads	116	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_ERR7337702	q30_rate	70.1%	fraction	75.0%	70.0%	WARN	
+E7_ILM_TINY_G_ERR7337702	passed_filter_pct	42.0%	fraction	90.0%	70.0%	FAIL	
+E7_ILM_TINY_G_ERR7337702	duplication_rate	0.00%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR7337702	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR7337702	gc_content	83.6%	fraction			info	
+E7_ILM_TINY_G_ERR7337702	insert_size_peak	0	bp			info	
+E7_ILM_TINY_G_ERR7337702	mean_read_length	151	bp			info	
+E7_ILM_TINY_G_ERR7337702	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR7337702	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR7337702	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR7337702	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR12247418	total_reads	604	reads	100,000	1,000	FAIL	
+E7_ILM_TINY_G_ERR12247418	q30_rate	70.1%	fraction	75.0%	70.0%	WARN	
+E7_ILM_TINY_G_ERR12247418	passed_filter_pct	26.8%	fraction	90.0%	70.0%	FAIL	
+E7_ILM_TINY_G_ERR12247418	duplication_rate	0.09%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR12247418	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E7_ILM_TINY_G_ERR12247418	gc_content	83.5%	fraction			info	
+E7_ILM_TINY_G_ERR12247418	insert_size_peak	239	bp			info	
+E7_ILM_TINY_G_ERR12247418	mean_read_length	151	bp			info	
+E7_ILM_TINY_G_ERR12247418	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E7_ILM_TINY_G_ERR12247418	fastqc_per_base_sequence_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR12247418	fastqc_overrepresented_sequences	FAIL	status			info	
+E7_ILM_TINY_G_ERR12247418	fastqc_per_sequence_gc_content	FAIL	status			info	
+E7_ILM_TINY_G_ERR13101882	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR13101882	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR14724199	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR14724199	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR10603082	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR10603082	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR9439056	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR9439056	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_DRR612610	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_DRR612610	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_SRR15047347	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_SRR15047347	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR12030325	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR12030325	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR11506838	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR11506838	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_SRR11206769	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR11206769	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_SRR21627907	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_SRR21627907	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR7337702	genome_size		bp			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR7337702	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E7_ILM_TINY_G_ERR12247418	genome_size		bp			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR12247418	depth_of_coverage		depth			not_available	not computed: not a single genome
+E7_ILM_TINY_G_ERR13101882	kmer_repeat_share	21.9%	fraction			info	of sampled 21-mers in 210,686 bases
+E7_ILM_TINY_G_ERR13101882	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_SRR14724199	kmer_repeat_share	21.7%	fraction			info	of sampled 21-mers in 540,580 bases
+E7_ILM_TINY_G_SRR14724199	gc_spread	0.065	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_SRR10603082	kmer_repeat_share	40.4%	fraction			info	of sampled 21-mers in 253,697 bases
+E7_ILM_TINY_G_SRR10603082	gc_spread	0.175	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_ERR9439056	kmer_repeat_share	19.6%	fraction			info	of sampled 21-mers in 13,137 bases
+E7_ILM_TINY_G_ERR9439056	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_DRR612610	kmer_repeat_share	60.3%	fraction			info	of sampled 21-mers in 63,269 bases
+E7_ILM_TINY_G_DRR612610	gc_spread	0.128	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_SRR15047347	kmer_repeat_share	16.3%	fraction			info	of sampled 21-mers in 49,432 bases
+E7_ILM_TINY_G_SRR15047347	gc_spread	0.039	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_ERR12030325	kmer_repeat_share	33.7%	fraction			info	of sampled 21-mers in 470,100 bases
+E7_ILM_TINY_G_ERR12030325	gc_spread	0.06	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_ERR11506838	kmer_repeat_share	24.0%	fraction			info	of sampled 21-mers in 26,576 bases
+E7_ILM_TINY_G_ERR11506838	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_SRR11206769	kmer_repeat_share	16.2%	fraction			info	of sampled 21-mers in 507,600 bases
+E7_ILM_TINY_G_SRR11206769	gc_spread	0.044	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_SRR21627907	kmer_repeat_share	26.3%	fraction			info	of sampled 21-mers in 107,965 bases
+E7_ILM_TINY_G_SRR21627907	gc_spread	0.051	number			info	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_ERR7337702	kmer_repeat_share	30.9%	fraction			info	of sampled 21-mers in 20,838 bases
+E7_ILM_TINY_G_ERR7337702	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E7_ILM_TINY_G_ERR12247418	kmer_repeat_share	28.3%	fraction			info	of sampled 21-mers in 170,026 bases
+E7_ILM_TINY_G_ERR12247418	gc_spread	0	number			info	excess SD of per-read GC beyond chance
