@@ -1,0 +1,2 @@
+stratum|truth|type_truth|query|from|to|n|sample_type|molecule
+E7_ILM_TINY_POOL2|illumina|none|instrument_platform="ILLUMINA" AND (instrument_model="Illumina NovaSeq 6000" OR instrument_model="Illumina NovaSeq X" OR instrument_model="Illumina NovaSeq X Plus" OR instrument_model="NextSeq 2000" OR instrument_model="NextSeq 500" OR instrument_model="NextSeq 550") AND library_source="GENOMIC" AND NOT library_strategy="Bisulfite-Seq" AND read_count>=50 AND read_count<5000|2019-01-01|2025-06-30|470||dna
