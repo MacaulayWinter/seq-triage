@@ -30,6 +30,7 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 5) stop("Usage: recommend.R <triage_summary.tsv> <triage_metrics.tsv> <samplesheet.csv> <downstream_pipelines.tsv> <outdir>")
 rt   <- function(f) read.delim(f, colClasses = "character", na.strings = "", quote = "", check.names = FALSE)
 summ <- rt(args[1]); mets <- rt(args[2]); rules <- rt(args[4]); out <- args[5]
+if (!"declared_library" %in% names(summ)) summ$declared_library <- NA_character_   # summaries before D93
 sheet <- read.csv(args[3], colClasses = "character", na.strings = "", check.names = FALSE, strip.white = TRUE)
 for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "group")) if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 sheet$sample <- trimws(sheet$sample)
@@ -78,7 +79,7 @@ decide <- function(s, row) {
   # D78: the library's structure, read from the reads, decides the kind of
   # analysis before the isolate / metagenome / amplicon question does.
   if ("BARCODE_READ" %in% flags) type <- "single_cell"
-  if ("BISULFITE" %in% flags)    type <- "methylation"
+  if ("BISULFITE" %in% flags || s$declared_library %in% "bisulfite") type <- "methylation"   # D93: or declared
   if (!has(type)) return(none("Sample type not declared and not detected with high confidence: declare sample_type."))
   # Single-cell libraries are almost always RNA (D78); otherwise DNA is assumed.
   molecule <- if (has(s$declared_molecule)) s$declared_molecule else if (type == "single_cell") "rna" else "dna"
@@ -338,7 +339,7 @@ SHORT <- c("illumina", "dnbseq", "element"); LONG <- c("ont", "pacbio")
 kind_of <- function(s) {
   fl <- if (has(s$detection_flags)) strsplit(s$detection_flags, ",")[[1]] else character(0)
   if ("BARCODE_READ" %in% fl) return("single_cell")
-  if ("BISULFITE" %in% fl)    return("methylation")
+  if ("BISULFITE" %in% fl || s$declared_library %in% "bisulfite") return("methylation")
   t <- if (has(s$declared_type) && s$declared_type %in% c("isolate", "metagenome", "amplicon")) s$declared_type
        # A medium "amplicon" means the reads cannot settle it (long reads,
        # RNA with uneven starts, D85), so it does not open the amplicon menu.

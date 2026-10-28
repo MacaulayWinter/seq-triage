@@ -48,6 +48,7 @@ LANES_HUMAN   | PASS      | detected  | illumina | isolate    | isolate    | hig
 YEAST_ISOLATE | WARN      | detected  | illumina | isolate    | uncertain  | uncertain | dna      |                  | Escherichia coli (60.0%)                               |     | none
 SC_10X        | PASS      | detected  | illumina |            | uncertain  | uncertain |          | BARCODE_READ     |                                                        |     | nf-core/scrnaseq
 METHYL_WGBS   | PASS      | detected  | illumina |            | uncertain  | uncertain | dna      | BISULFITE        |                                                        |     | nf-core/methylseq
+METHYL_DECLARED | PASS    | detected  | illumina |            | uncertain  | uncertain | dna      |                  |                                                        |     | nf-core/methylseq
 INTERLEAVED_ISO | PASS    | detected  | illumina | isolate    | isolate    | high      | dna      | INTERLEAVED      | Escherichia coli (99.0%)                               |     | none
 INDEX_MATE_ISO | WARN     | detected  | illumina | isolate    | isolate    | high      | dna      | INDEX_READ_AS_MATE | Escherichia coli (99.0%)                             |     | none
 FASTA_READS   | WARN      | detected  | illumina | isolate    | isolate    | high      | dna      |                  | Escherichia coli (99.0%)                               |     | none
@@ -63,7 +64,9 @@ summ <- data.frame(sample = cases$sample, verdict = cases$verdict, routed_by = c
                    declared_type = cases$decl_type, detected_type = cases$det_type, type_confidence = cases$conf,
                    declared_molecule = cases$molecule, detection_flags = cases$flags,
                    detected_layout = ifelse(cases$sample == "INTERLEAVED_ISO", "interleaved", "paired"),
-                   declared_target = ifelse(cases$sample %in% c("HUMAN_WGS", "LANES_HUMAN"), "9606", ""))
+                   declared_target = ifelse(cases$sample %in% c("HUMAN_WGS", "LANES_HUMAN"), "9606", ""),
+                   # D93: declared, with no conversion visible in the reads.
+                   declared_library = ifelse(cases$sample == "METHYL_DECLARED", "bisulfite", ""))
 has_dom <- !is.na(cases$dominant)
 viral   <- grepl("coronavirus|Betacoronavirus|Orthorubulavirus", cases$dominant)
 mets <- rbind(data.frame(sample = cases$sample[has_dom], metric = "dominant_species", value = cases$dominant[has_dom]),
@@ -159,6 +162,7 @@ for (k in list(c("ILM_ISOLATE", "Genome assembly and annotation", "not now"),   
                c("META_RNA", "Activity vs abundance (RNA/DNA ratio)", "ready"),             # paired by group G3 (D83)
                c("SC_10X", "Single-cell expression (cell barcodes, UMI counts)", "ready"),
                c("METHYL_WGBS", "DNA methylation calling", "ready"),
+               c("METHYL_DECLARED", "DNA methylation calling", "ready"),             # D93: declared, not seen
                c("ILM_SC2", "Viral consensus, variants and lineage", "ready"),
                c("ILM_MUMPS", "Viral consensus and variants", "not now"),
                c("FAILED", "any", "not now"),

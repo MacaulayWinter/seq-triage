@@ -214,6 +214,12 @@ cases <- list(
   list(id = "INDEX_AS_MATE",       route = "illumina", flags = "INDEX_READ_AS_MATE", verdict = "WARN"),
   list(id = "BISULFITE_LIB",       route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META, flags = "BISULFITE",
        verdict = "PASS", check = c(host_fraction = "exempt", off_target_fraction = "exempt"), expect_type = "uncertain uncertain"),
+  # D93: declared, though the reads show no conversion: treated as declared.
+  list(id = "BISULFITE_DECLARED", route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META, library = "bisulfite",
+       verdict = "PASS", check = c(host_fraction = "exempt", off_target_fraction = "exempt"), expect_type = "uncertain uncertain"),
+  # ... and the same reads with nothing declared: contamination is judged.
+  list(id = "BISULFITE_NOT_DECLARED", route = "illumina", start = 0.01, type = "isolate", screen = TRUE, kraken = META,
+       verdict = "FAIL", check = c(host_fraction = "PASS", off_target_fraction = "FAIL")),  # converted reads look like off-target
   # A single-cell R2 can start at few places; it is still not an "amplicon".
   list(id = "SINGLE_CELL_LIB",     route = "illumina", start = 0.30, flags = "BARCODE_READ", verdict = "PASS",
        expect_type = "uncertain uncertain"),
@@ -264,7 +270,8 @@ build <- function(cases, dir) {
     declared <- if ("declared" %in% names(cs)) cs$declared else if (route %in% c("illumina", "dnbseq", "element", "ont", "pacbio")) route else NA
     screen[[cs$id]] <- data.frame(sample = cs$id, declared_platform_raw = declared, declared_platform = declared,
       declared_type = if (is.null(cs$type)) NA else cs$type,
-      declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule, n_flags = "0", flags = NA,
+      declared_molecule = if (is.null(cs$molecule)) NA else cs$molecule,
+      declared_library = if (is.null(cs$library)) NA else cs$library, n_flags = "0", flags = NA,
       declared_target = if (is.null(cs$target)) NA else cs$target,
       declared_genome_size = if (is.null(cs$gsize)) NA else cs$gsize)
     samples[[cs$id]] <- data.frame(sample = cs$id, single_end = "false", n_files = "1", n_reads = "1000",

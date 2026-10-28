@@ -1,0 +1,1797 @@
+sample	metric	value	unit	warn	fail	result	note
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	total_reads	99,884	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	q30_rate	95.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	duplication_rate	0.08%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	adapter_trimmed_pct	0.12%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	gc_content	35.3%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	insert_size_peak	374	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	mean_read_length	241	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	unclassified_fraction	1.0%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	bacterial_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	dominant_species	Saccharolobus islandicus (99.9% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	top_species	Saccharolobus islandicus 99.9%; Saccharolobus shibatae 0.1%; 1 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	total_reads	31,126	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	q30_rate	85.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	passed_filter_pct	97.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	duplication_rate	0.09%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	adapter_trimmed_pct	0.21%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	gc_content	57.4%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	insert_size_peak	505	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	mean_read_length	298	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	host_fraction	0.09%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	off_target_fraction	69.8%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	unclassified_fraction	2.9%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	viral_fraction	0.01%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	bacterial_fraction	82.7%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	dominant_species	Paenibacillus mucilaginosus (19.8% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	top_species	Paenibacillus mucilaginosus 19.8%; Methanothrix thermoacetophila 19.3%; Leptolyngbya sp. 7M 7.3%; 30 trace species under 1% each, 10.3% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	total_reads	99,452	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	q30_rate	91.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	adapter_trimmed_pct	8.2%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	gc_content	30.8%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	insert_size_peak	494	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	mean_read_length	294	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	unclassified_fraction	0.62%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	bacterial_fraction	0.20%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	dominant_species	Methanobrevibacter smithii (99.7% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	top_species	Methanobrevibacter smithii 99.7%; Methanobrevibacter intestini 0.1%; Phascolarctobacterium faecium 0.0%; 5 trace species under 1% each, 0.3% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	total_reads	98,768	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	q30_rate	93.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	passed_filter_pct	98.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	duplication_rate	11.2%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	adapter_trimmed_pct	0.70%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	gc_content	67.1%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	insert_size_peak	266	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	mean_read_length	150	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	unclassified_fraction	4.4%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	bacterial_fraction	0.05%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	dominant_species	Halobacterium salinarum (99.0% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	top_species	Halobacterium salinarum 99.0%; Halobacterium sp. MBLA0001 0.4%; Halobacterium sp. BOL4-2 0.3%; 6 trace species under 1% each, 1.0% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	total_reads	99,578	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	q30_rate	92.9%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	duplication_rate	11.4%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	adapter_trimmed_pct	1.8%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	gc_content	42.0%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	insert_size_peak	231	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	unclassified_fraction	2.9%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	bacterial_fraction	0.01%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	dominant_species	Thermococcus barophilus (99.9% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	top_species	Thermococcus barophilus 99.9%; Thermococcus sp. SY098 0.1%; Thermococcus paralvinellae 0.0%; 2 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	total_reads	99,320	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	q30_rate	94.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	adapter_trimmed_pct	0.03%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	gc_content	48.8%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	insert_size_peak	82	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	mean_read_length	89	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	off_target_fraction	63.6%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	unclassified_fraction	99.1%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	bacterial_fraction	9.7%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	dominant_species	Methanolobus sp. WCC5 (36.4% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	top_species	Methanolobus sp. WCC5 36.4%; Methanolobus zinderi 29.7%; Methanolobus sp. WCC4 12.8%	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	total_reads	97,338	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	q30_rate	91.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	passed_filter_pct	97.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	duplication_rate	0.11%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	adapter_trimmed_pct	0.13%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	gc_content	64.9%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	insert_size_peak	268	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	mean_read_length	146	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	unclassified_fraction	5.6%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	bacterial_fraction	0.07%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	dominant_species	Haloferax volcanii (99.6% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	top_species	Haloferax volcanii 99.6%; Haloferax sp. Atlit-48N 0.2%; Haloferax denitrificans 0.2%; 3 trace species under 1% each, 0.4% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	total_reads	99,982	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	q30_rate	82.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	adapter_trimmed_pct	0.98%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	gc_content	62.4%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	insert_size_peak	485	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	mean_read_length	296	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	off_target_fraction	12.7%	fraction	5.0%	20.0%	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	unclassified_fraction	30.7%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	bacterial_fraction	1.4%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	dominant_species	Methanoculleus chikugoensis (87.2% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	top_species	Methanoculleus chikugoensis 87.2%; Methanoculleus bourgensis 9.7%; Methanoculleus receptaculi 3.0%; 2 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	total_reads	99,966	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	q30_rate	85.9%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	adapter_trimmed_pct	0.02%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	gc_content	61.1%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	insert_size_peak	419	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	mean_read_length	259	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	off_target_fraction	72.9%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	unclassified_fraction	94.8%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	bacterial_fraction	28.9%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	dominant_species	Methanoculleus bourgensis (26.2% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	top_species	Methanoculleus bourgensis 26.2%; Methanoculleus chikugoensis 22.5%; Methanoculleus receptaculi 15.9%; 1 trace species under 1% each, 0.9% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	total_reads	49,382	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	q30_rate	92.2%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	passed_filter_pct	98.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	duplication_rate	5.8%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	adapter_trimmed_pct	1.4%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	gc_content	64.8%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	unclassified_fraction	24.1%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	bacterial_fraction	0.08%	fraction			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	dominant_species	Haloferax volcanii (99.8% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	top_species	Haloferax volcanii 99.8%; Haloferax gibbonsii 0.1%; Haloferax denitrificans 0.1%; 2 trace species under 1% each, 0.2% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	total_reads	4,370	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	q30_rate	95.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	passed_filter_pct	97.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	duplication_rate	0.09%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	adapter_trimmed_pct	0.04%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	gc_content	62.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	insert_size_peak	411	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	mean_read_length	245	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_PHAGE_SRR32425597	unclassified_fraction	96.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	viral_fraction	69.8%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR32425597	bacterial_fraction	26.7%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR32425597	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_PHAGE_SRR32425597	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_PHAGE_SRR31168271	total_reads	97,960	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	q30_rate	96.8%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	passed_filter_pct	98.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	duplication_rate	7.5%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	adapter_trimmed_pct	1.7%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	gc_content	54.0%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	insert_size_peak	266	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	host_fraction	0.21%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	off_target_fraction	58.1%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	unclassified_fraction	16.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	viral_fraction	99.7%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR31168271	bacterial_fraction	0.06%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	dominant_species	Drulisvirus KpV71 (39.2% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR31168271	top_species	Drulisvirus KpV71 39.2%; Drulisvirus K244 38.2%; Drulisvirus KpV475 5.7%; 6 trace species under 1% each, 2.6% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	total_reads	99,188	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	q30_rate	94.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	passed_filter_pct	99.2%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	duplication_rate	0.95%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	adapter_trimmed_pct	0.14%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	gc_content	64.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	insert_size_peak	211	bp			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	mean_read_length	142	bp			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	n_base_rate	0.05%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	unclassified_fraction	6.0%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	viral_fraction	99.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_ERR5548200	bacterial_fraction	0.24%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	dominant_species	Bosavirus bosa (99.9% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_ERR5548200	top_species	Bosavirus bosa 99.9%; Xanthomonas albilineans 0.1%; 1 trace species under 1% each, 0.1% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	total_reads	99,526	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	q30_rate	94.8%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	duplication_rate	7.3%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	adapter_trimmed_pct	0.22%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	gc_content	40.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	insert_size_peak	260	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	off_target_fraction	35.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	unclassified_fraction	2.9%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	viral_fraction	66.9%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR23345330	bacterial_fraction	32.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	dominant_species	Tequatrovirus T4 (62.8% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR23345330	top_species	Tequatrovirus T4 62.8%; Escherichia coli / Shigella 32.9%; Tequatrovirus deeone 1.2%; 3 trace species under 1% each, 2.0% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	total_reads	89,592	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	q30_rate	80.5%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	passed_filter_pct	89.6%	fraction	90.0%	70.0%	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	duplication_rate	0.13%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	adapter_trimmed_pct	15.7%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	gc_content	64.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	insert_size_peak	338	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	mean_read_length	239	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	host_fraction	0.04%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	off_target_fraction	67.2%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	unclassified_fraction	95.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	viral_fraction	0.05%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR12575333	bacterial_fraction	58.1%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	dominant_species	Mycobacterium canetti (32.8% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR12575333	top_species	Mycobacterium canetti 32.8%; Streptomyces sp. NBC_00827 9.7%; Pseudomonas simiae 8.3%	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	total_reads	94,102	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	passed_filter_pct	94.1%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	duplication_rate	0.67%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	adapter_trimmed_pct	1.5%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	gc_content	47.5%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	insert_size_peak	238	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	mean_read_length	150	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	off_target_fraction	12.2%	fraction	5.0%	20.0%	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	unclassified_fraction	3.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	viral_fraction	99.4%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR15212571	bacterial_fraction	0.13%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	dominant_species	Otagovirus psa397 (86.5% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR15212571	top_species	Otagovirus psa397 86.5%; Otagovirus Psa374 5.1%; Otagovirus psa300 2.2%; 5 trace species under 1% each, 1.3% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	total_reads	99,590	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	q30_rate	90.2%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	duplication_rate	3.4%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	adapter_trimmed_pct	20.6%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	gc_content	36.4%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	insert_size_peak	158	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	mean_read_length	140	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	host_fraction	0.55%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	off_target_fraction	57.1%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	unclassified_fraction	14.6%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	viral_fraction	81.9%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR24918832	bacterial_fraction	16.8%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	dominant_species	Kochikohdavirus ECP3 (41.1% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR24918832	top_species	Kochikohdavirus ECP3 41.1%; Kochikohdavirus EFLK1 29.5%; Enterococcus faecalis 15.5%; 11 trace species under 1% each, 1.8% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	total_reads	99,706	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_ISOLATE_PHAGE_SRR24689464	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	duplication_rate	0.61%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	adapter_trimmed_pct	5.7%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	gc_content	49.8%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	insert_size_peak	300	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	mean_read_length	266	bp			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	off_target_fraction	88.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	unclassified_fraction	22.5%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	viral_fraction	99.7%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_PHAGE_SRR24689464	bacterial_fraction	0.21%	fraction			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	dominant_species	Kayfunavirus F (10.4% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_PHAGE_SRR24689464	top_species	Kayfunavirus F 10.4%; Kayfunavirus SFPH2 10.3%; Kayfunavirus PE31 9.5%; 4 trace species under 1% each, 1.0% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ERR12875129	total_reads	99,346	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ERR12875129	q30_rate	93.9%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR12875129	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR12875129	duplication_rate	0.08%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR12875129	adapter_trimmed_pct	0.29%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR12875129	gc_content	50.1%	fraction			info	
+E4_ILM_ISOLATE_ERR12875129	insert_size_peak	123	bp			info	
+E4_ILM_ISOLATE_ERR12875129	mean_read_length	163	bp			info	
+E4_ILM_ISOLATE_ERR12875129	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ERR12875129	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ERR12875129	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ERR12875129	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ERR12875129	host_fraction	0.23%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ERR12875129	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ERR12875129	unclassified_fraction	15.2%	fraction			info	
+E4_ILM_ISOLATE_ERR12875129	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ERR12875129	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ERR12875129	bacterial_fraction	99.6%	fraction			info	
+E4_ILM_ISOLATE_ERR12875129	dominant_species	Limosilactobacillus fermentum (95.0% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ERR12875129	top_species	Limosilactobacillus fermentum 95.0%; Bradyrhizobium elkanii 0.7%; Bradyrhizobium sp. SK17 0.4%; 30 trace species under 1% each, 5.0% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_DRR628137	total_reads	87,850	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_DRR628137	q30_rate	93.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_DRR628137	passed_filter_pct	87.8%	fraction	90.0%	70.0%	WARN	
+E4_ILM_ISOLATE_DRR628137	duplication_rate	4.2%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_DRR628137	adapter_trimmed_pct	13.6%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_DRR628137	gc_content	50.7%	fraction			info	
+E4_ILM_ISOLATE_DRR628137	insert_size_peak	267	bp			info	
+E4_ILM_ISOLATE_DRR628137	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_DRR628137	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_DRR628137	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_DRR628137	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_ISOLATE_DRR628137	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_DRR628137	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_DRR628137	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_DRR628137	unclassified_fraction	13.9%	fraction			info	
+E4_ILM_ISOLATE_DRR628137	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_DRR628137	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_DRR628137	bacterial_fraction	95.9%	fraction			info	
+E4_ILM_ISOLATE_DRR628137	dominant_species	Escherichia coli / Shigella (99.7% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_DRR628137	top_species	Escherichia coli / Shigella 99.7%; Escherichia albertii 0.1%; Escherichia fergusonii 0.1%; 5 trace species under 1% each, 0.3% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ERR11894484	total_reads	97,376	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ERR11894484	q30_rate	87.7%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR11894484	passed_filter_pct	97.4%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR11894484	duplication_rate	0.09%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR11894484	adapter_trimmed_pct	0.25%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR11894484	gc_content	51.6%	fraction			info	
+E4_ILM_ISOLATE_ERR11894484	insert_size_peak	356	bp			info	
+E4_ILM_ISOLATE_ERR11894484	mean_read_length	230	bp			info	
+E4_ILM_ISOLATE_ERR11894484	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ERR11894484	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_ERR11894484	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_ISOLATE_ERR11894484	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ERR11894484	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ERR11894484	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_ERR11894484	unclassified_fraction	2.9%	fraction			info	
+E4_ILM_ISOLATE_ERR11894484	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ERR11894484	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ERR11894484	bacterial_fraction	98.4%	fraction			info	
+E4_ILM_ISOLATE_ERR11894484	dominant_species	Escherichia coli / Shigella (99.1% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ERR11894484	top_species	Escherichia coli / Shigella 99.1%; Salmonella enterica 0.6%; Escherichia fergusonii 0.1%; 6 trace species under 1% each, 0.9% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ERR14887079	total_reads	98,360	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ERR14887079	q30_rate	84.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR14887079	passed_filter_pct	98.4%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR14887079	duplication_rate	0.09%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR14887079	adapter_trimmed_pct	67.7%	fraction	30.0%		WARN	
+E4_ILM_ISOLATE_ERR14887079	gc_content	43.9%	fraction			info	
+E4_ILM_ISOLATE_ERR14887079	insert_size_peak	162	bp			info	
+E4_ILM_ISOLATE_ERR14887079	mean_read_length	187	bp			info	
+E4_ILM_ISOLATE_ERR14887079	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ERR14887079	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ERR14887079	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_ERR14887079	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_ERR14887079	host_fraction	7.3%	fraction	1.0%	10.0%	WARN	
+E4_ILM_ISOLATE_ERR14887079	off_target_fraction	9.8%	fraction	5.0%	20.0%	WARN	
+E4_ILM_ISOLATE_ERR14887079	unclassified_fraction	22.4%	fraction			info	
+E4_ILM_ISOLATE_ERR14887079	viral_fraction	0.01%	fraction			info	
+E4_ILM_ISOLATE_ERR14887079	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ERR14887079	bacterial_fraction	89.1%	fraction			info	
+E4_ILM_ISOLATE_ERR14887079	dominant_species	Terribacillus aidingensis (88.2% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ERR14887079	top_species	Terribacillus aidingensis 88.2%; Xanthomonas euvesicatoria 5.6%; Terribacillus saccharophilus 3.1%; 4 trace species under 1% each, 1.9% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_SRR31950426	total_reads	99,330	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_SRR31950426	q30_rate	95.8%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_SRR31950426	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_SRR31950426	duplication_rate	9.4%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_SRR31950426	adapter_trimmed_pct	0.27%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_SRR31950426	gc_content	39.2%	fraction			info	
+E4_ILM_ISOLATE_SRR31950426	insert_size_peak	268	bp			info	
+E4_ILM_ISOLATE_SRR31950426	mean_read_length	146	bp			info	
+E4_ILM_ISOLATE_SRR31950426	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_SRR31950426	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_SRR31950426	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_SRR31950426	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_SRR31950426	host_fraction	0.04%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_SRR31950426	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_SRR31950426	unclassified_fraction	4.9%	fraction			info	
+E4_ILM_ISOLATE_SRR31950426	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_SRR31950426	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_SRR31950426	bacterial_fraction	99.3%	fraction			info	
+E4_ILM_ISOLATE_SRR31950426	dominant_species	Acinetobacter baumannii (99.0% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_SRR31950426	top_species	Acinetobacter baumannii 99.0%; Acinetobacter pittii 0.6%; Acinetobacter seifertii 0.2%; 3 trace species under 1% each, 1.0% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_SRR30128509	total_reads	98,970	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_SRR30128509	q30_rate	95.7%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_SRR30128509	passed_filter_pct	99.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_SRR30128509	duplication_rate	11.8%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_SRR30128509	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_SRR30128509	gc_content	51.9%	fraction			info	
+E4_ILM_ISOLATE_SRR30128509	insert_size_peak	265	bp			info	
+E4_ILM_ISOLATE_SRR30128509	mean_read_length	149	bp			info	
+E4_ILM_ISOLATE_SRR30128509	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_SRR30128509	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_SRR30128509	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_ISOLATE_SRR30128509	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_ISOLATE_SRR30128509	host_fraction	0.04%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_SRR30128509	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_ISOLATE_SRR30128509	unclassified_fraction	3.2%	fraction			info	
+E4_ILM_ISOLATE_SRR30128509	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_SRR30128509	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_SRR30128509	bacterial_fraction	99.9%	fraction			info	
+E4_ILM_ISOLATE_SRR30128509	dominant_species	Salmonella enterica (99.5% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_SRR30128509	top_species	Salmonella enterica 99.5%; Salmonella bongori 0.5%; 1 trace species under 1% each, 0.5% in total (not counted as off-target)	label			info	
+E4_ILM_ISOLATE_ERR12863916	total_reads	26	reads	100,000	1,000	FAIL	
+E4_ILM_ISOLATE_ERR12863916	q30_rate	66.0%	fraction	75.0%	70.0%	FAIL	
+E4_ILM_ISOLATE_ERR12863916	passed_filter_pct	20.3%	fraction	90.0%	70.0%	FAIL	
+E4_ILM_ISOLATE_ERR12863916	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR12863916	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR12863916	gc_content	85.2%	fraction			info	
+E4_ILM_ISOLATE_ERR12863916	insert_size_peak	0	bp			info	
+E4_ILM_ISOLATE_ERR12863916	mean_read_length	151	bp			info	
+E4_ILM_ISOLATE_ERR12863916	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ERR12863916	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_ISOLATE_ERR12863916	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_ISOLATE_ERR12863916	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_ERR12863916	host_fraction	10.9%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_ISOLATE_ERR12863916	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_ERR12863916	unclassified_fraction	89.1%	fraction			info	
+E4_ILM_ISOLATE_ERR12863916	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ERR12863916	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ERR12863916	bacterial_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ERR12863916	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_ERR12863916	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_ERR13341294	total_reads	98,972	reads	100,000	1,000	WARN	
+E4_ILM_ISOLATE_ERR13341294	q30_rate	93.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR13341294	passed_filter_pct	99.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_ISOLATE_ERR13341294	duplication_rate	24.4%	fraction	30.0%		PASS	
+E4_ILM_ISOLATE_ERR13341294	adapter_trimmed_pct	37.1%	fraction	30.0%		WARN	
+E4_ILM_ISOLATE_ERR13341294	gc_content	48.1%	fraction			info	
+E4_ILM_ISOLATE_ERR13341294	insert_size_peak	163	bp			info	
+E4_ILM_ISOLATE_ERR13341294	mean_read_length	140	bp			info	
+E4_ILM_ISOLATE_ERR13341294	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_ISOLATE_ERR13341294	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_ISOLATE_ERR13341294	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_ISOLATE_ERR13341294	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_ISOLATE_ERR13341294	host_fraction	0.11%	fraction	1.0%	10.0%	PASS	
+E4_ILM_ISOLATE_ERR13341294	off_target_fraction	14.7%	fraction	5.0%	20.0%	WARN	
+E4_ILM_ISOLATE_ERR13341294	unclassified_fraction	9.5%	fraction			info	
+E4_ILM_ISOLATE_ERR13341294	viral_fraction	0.00%	fraction			info	
+E4_ILM_ISOLATE_ERR13341294	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_ISOLATE_ERR13341294	bacterial_fraction	83.2%	fraction			info	
+E4_ILM_ISOLATE_ERR13341294	dominant_species	Bacteroides uniformis (83.5% of species-level reads, Bracken)	label			info	
+E4_ILM_ISOLATE_ERR13341294	top_species	Bacteroides uniformis 83.5%; Xanthomonas euvesicatoria 13.5%; Bacteroides sp. A1C1 1.2%; 10 trace species under 1% each, 1.7% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	total_reads	98,750	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_FOOD_SRR30872240	q30_rate	91.7%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	passed_filter_pct	98.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	duplication_rate	7.4%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	adapter_trimmed_pct	0.12%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	gc_content	51.4%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	insert_size_peak	267	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	mean_read_length	149	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR30872240	off_target_fraction	65.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_SRR30872240	unclassified_fraction	22.2%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	viral_fraction	0.17%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_SRR30872240	bacterial_fraction	99.7%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	dominant_species	Pseudomonas fragi (17.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR30872240	top_species	Pseudomonas fragi 17.7%; Pseudomonas bubulae 12.8%; Brochothrix thermosphacta 7.4%; 66 trace species under 1% each, 16.7% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	total_reads	99,446	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_FOOD_ERR10736390	q30_rate	93.7%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	duplication_rate	8.7%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	adapter_trimmed_pct	0.13%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	gc_content	43.9%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	insert_size_peak	268	bp			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	mean_read_length	149	bp			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR10736390	off_target_fraction	70.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_ERR10736390	unclassified_fraction	73.8%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	viral_fraction	0.00%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_ERR10736390	bacterial_fraction	99.8%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	dominant_species	Halomonas casei (13.2% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_ERR10736390	top_species	Halomonas casei 13.2%; Psychrobacter sp. KH172YL61 11.2%; Psychrobacter sp. van23A 5.0%; 40 trace species under 1% each, 16.6% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	total_reads	99,800	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_FOOD_SRR24676580	q30_rate	95.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	duplication_rate	0.00%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	adapter_trimmed_pct	3.7%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	gc_content	45.6%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	insert_size_peak	268	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	mean_read_length	149	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	host_fraction	0.23%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR24676580	off_target_fraction	58.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_SRR24676580	unclassified_fraction	96.6%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	viral_fraction	0.65%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_SRR24676580	bacterial_fraction	92.2%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	dominant_species	Lentibacillus daqui (41.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR24676580	top_species	Lentibacillus daqui 41.7%; Kroppenstedtia eburnea 33.3%; Pediococcus acidilactici 11.6%	label			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	total_reads	100,000	reads	100,000	1,000	PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	q30_rate	92.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	duplication_rate	1.8%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	gc_content	45.7%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	insert_size_peak	200	bp			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	mean_read_length	144	bp			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_ERR13763359	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	host_fraction	1.1%	fraction	1.0%	10.0%	WARN	
+E4_ILM_METAGENOME_FOOD_ERR13763359	off_target_fraction	68.6%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_ERR13763359	unclassified_fraction	96.7%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	viral_fraction	0.55%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_ERR13763359	bacterial_fraction	64.8%	fraction			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	dominant_species	Lactobacillus amylovorus (31.4% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_ERR13763359	top_species	Lactobacillus amylovorus 31.4%; Pantoea agglomerans 26.3%; Kosakonia cowanii 12.1%	label			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	total_reads	94,330	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_FOOD_SRR27593225	q30_rate	87.8%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	passed_filter_pct	94.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	duplication_rate	0.34%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	adapter_trimmed_pct	22.5%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	gc_content	41.6%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	insert_size_peak	176	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	mean_read_length	140	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	host_fraction	0.30%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR27593225	off_target_fraction	73.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_SRR27593225	unclassified_fraction	47.0%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	viral_fraction	0.02%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_SRR27593225	bacterial_fraction	99.1%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	dominant_species	Lentilactobacillus laojiaonis (19.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR27593225	top_species	Lentilactobacillus laojiaonis 19.7%; Limosilactobacillus fermentum 14.5%; Pediococcus pentosaceus 12.7%; 37 trace species under 1% each, 6.6% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	total_reads	99,506	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_FOOD_SRR14018896	q30_rate	92.2%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	duplication_rate	1.8%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	adapter_trimmed_pct	0.06%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	gc_content	47.1%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	insert_size_peak	264	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	host_fraction	0.07%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_FOOD_SRR14018896	off_target_fraction	39.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_FOOD_SRR14018896	unclassified_fraction	68.2%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	viral_fraction	0.01%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_FOOD_SRR14018896	bacterial_fraction	99.6%	fraction			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	dominant_species	Lacticaseibacillus paracasei (55.3% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_FOOD_SRR14018896	top_species	Lacticaseibacillus paracasei 55.3%; Lactiplantibacillus xiangfangensis 26.2%; Gluconobacter oxydans 7.7%; 19 trace species under 1% each, 5.4% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	total_reads	100,000	reads	100,000	1,000	PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METAGENOME_ENV_SRR24887497	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	duplication_rate	5.8%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	adapter_trimmed_pct	0.43%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	gc_content	64.3%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	insert_size_peak	270	bp			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	host_fraction	0.10%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR24887497	off_target_fraction	75.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR24887497	unclassified_fraction	92.6%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	viral_fraction	0.00%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR24887497	bacterial_fraction	98.1%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	dominant_species	Pseudonocardia sp. Cha107L01 (24.3% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR24887497	top_species	Pseudonocardia sp. Cha107L01 24.3%; Bradyrhizobium erythrophlei 14.2%; Bradyrhizobium lablabi 11.6%	label			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	total_reads	100,000	reads	100,000	1,000	PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METAGENOME_ENV_SRR28085310	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	duplication_rate	8.2%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	adapter_trimmed_pct	0.11%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	gc_content	66.2%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	insert_size_peak	265	bp			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	host_fraction	0.07%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR28085310	off_target_fraction	73.9%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR28085310	unclassified_fraction	91.3%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	viral_fraction	0.00%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR28085310	bacterial_fraction	98.4%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	dominant_species	Streptomyces incarnatus (26.1% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR28085310	top_species	Streptomyces incarnatus 26.1%; Bradyrhizobium lablabi 11.4%; Mesorhizobium huakuii 9.7%	label			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	total_reads	99,528	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_ENV_SRR26457511	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METAGENOME_ENV_SRR26457511	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26457511	duplication_rate	6.6%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR26457511	adapter_trimmed_pct	2.6%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR26457511	gc_content	65.1%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	insert_size_peak	116	bp			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	mean_read_length	149	bp			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26457511	fastqc_per_base_sequence_content	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26457511	off_target_fraction	65.5%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR26457511	unclassified_fraction	94.4%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	viral_fraction	0.04%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR26457511	bacterial_fraction	97.7%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	dominant_species	Bradyrhizobium sp. 170 (34.5% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR26457511	top_species	Bradyrhizobium sp. 170 34.5%; Conexibacter woesei 28.4%; Bradyrhizobium sp. 200 21.6%	label			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	total_reads	99,784	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_ENV_SRR17244159	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	duplication_rate	2.7%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	adapter_trimmed_pct	9.6%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	gc_content	39.0%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	insert_size_peak	224	bp			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	mean_read_length	147	bp			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	host_fraction	0.13%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR17244159	off_target_fraction	66.8%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR17244159	unclassified_fraction	79.6%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	viral_fraction	0.03%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR17244159	bacterial_fraction	99.1%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	dominant_species	Marinomonas sp. PE14-40 (20.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR17244159	top_species	Marinomonas sp. PE14-40 20.7%; Paraglaciecola sp. T6c 17.7%; Burkholderia dolosa 7.3%; 26 trace species under 1% each, 12.5% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	total_reads	99,578	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_ENV_SRR32288193	q30_rate	97.2%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	duplication_rate	5.4%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	adapter_trimmed_pct	0.16%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	gc_content	45.8%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	insert_size_peak	245	bp			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	host_fraction	0.25%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR32288193	off_target_fraction	53.0%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR32288193	unclassified_fraction	78.4%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	viral_fraction	0.99%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR32288193	bacterial_fraction	97.8%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	dominant_species	Cognatishimia activa (36.6% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR32288193	top_species	Cognatishimia activa 36.6%; Alteromonas macleodii 33.2%; Alteromonas sp. OM2203 5.9%; 21 trace species under 1% each, 10.4% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	total_reads	98,880	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_ENV_SRR26075151	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METAGENOME_ENV_SRR26075151	passed_filter_pct	98.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26075151	duplication_rate	7.7%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR26075151	adapter_trimmed_pct	2.3%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_ENV_SRR26075151	gc_content	66.3%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	insert_size_peak	271	bp			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26075151	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	host_fraction	0.26%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_ENV_SRR26075151	off_target_fraction	80.0%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_ENV_SRR26075151	unclassified_fraction	93.6%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	viral_fraction	0.03%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_ENV_SRR26075151	bacterial_fraction	95.3%	fraction			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	dominant_species	Bradyrhizobium sp. 200 (20.0% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_ENV_SRR26075151	top_species	Bradyrhizobium sp. 200 20.0%; Bradyrhizobium sp. 170 18.6%; Bradyrhizobium sp. McL0615 17.9%	label			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	total_reads	100,000	reads	100,000	1,000	PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	q30_rate	95.9%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	duplication_rate	2.4%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	gc_content	44.4%	fraction			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	insert_size_peak	243	bp			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	mean_read_length	150	bp			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	fastqc_per_base_sequence_content	PASS	status			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_GUT_ERR14372527	off_target_fraction	68.5%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_GUT_ERR14372527	unclassified_fraction	45.7%	fraction			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	viral_fraction	0.11%	fraction			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_GUT_ERR14372527	bacterial_fraction	99.7%	fraction			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	dominant_species	Bacteroides uniformis (15.0% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_GUT_ERR14372527	top_species	Bacteroides uniformis 15.0%; Phocaeicola dorei 13.0%; Bacteroides caccae 8.6%; 74 trace species under 1% each, 16.6% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	total_reads	100,000	reads	100,000	1,000	PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	q30_rate	92.1%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	duplication_rate	2.3%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	adapter_trimmed_pct	0.35%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	gc_content	45.0%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	insert_size_peak	229	bp			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	mean_read_length	145	bp			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR33028408	off_target_fraction	49.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_GUT_SRR33028408	unclassified_fraction	52.8%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	viral_fraction	7.4%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_GUT_SRR33028408	bacterial_fraction	92.6%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	dominant_species	Segatella copri (24.0% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_GUT_SRR33028408	top_species	Segatella copri 24.0%; Roseburia faecis 7.7%; Wujia chipingensis 7.1%; 85 trace species under 1% each, 26.7% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	total_reads	99,674	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_GUT_SRR27589796	q30_rate	95.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR27589796	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR27589796	duplication_rate	0.03%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_SRR27589796	adapter_trimmed_pct	31.2%	fraction	30.0%		WARN	
+E4_ILM_METAGENOME_GUT_SRR27589796	gc_content	46.5%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	insert_size_peak	90	bp			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	mean_read_length	112	bp			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	n_base_rate	0.11%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR27589796	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR27589796	off_target_fraction	46.8%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_GUT_SRR27589796	unclassified_fraction	22.5%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	viral_fraction	0.05%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_GUT_SRR27589796	bacterial_fraction	94.1%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	dominant_species	Phocaeicola vulgatus (43.5% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_GUT_SRR27589796	top_species	Phocaeicola vulgatus 43.5%; Escherichia coli / Shigella 13.3%; Bacteroides ovatus 10.1%; 43 trace species under 1% each, 9.7% in total (not counted as off-target)	label			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	total_reads	99,194	reads	100,000	1,000	WARN	
+E4_ILM_METAGENOME_GUT_SRR32682501	q30_rate	88.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	passed_filter_pct	99.2%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	duplication_rate	4.9%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	adapter_trimmed_pct	4.0%	fraction	30.0%		PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	gc_content	44.4%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	insert_size_peak	253	bp			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	mean_read_length	149	bp			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	host_fraction	0.19%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METAGENOME_GUT_SRR32682501	off_target_fraction	69.1%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METAGENOME_GUT_SRR32682501	unclassified_fraction	11.2%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	viral_fraction	0.00%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METAGENOME_GUT_SRR32682501	bacterial_fraction	99.5%	fraction			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	dominant_species	Phocaeicola vulgatus (22.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METAGENOME_GUT_SRR32682501	top_species	Phocaeicola vulgatus 22.7%; Escherichia coli / Shigella 15.6%; Bacteroides thetaiotaomicron 12.6%; 37 trace species under 1% each, 8.2% in total (not counted as off-target)	label			info	
+E4_ILM_AMPLICON_16S_SRR33905217	total_reads	99,604	reads	100,000	1,000	WARN	
+E4_ILM_AMPLICON_16S_SRR33905217	q30_rate	94.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR33905217	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR33905217	duplication_rate	49.1%	fraction	30.0%		WARN	
+E4_ILM_AMPLICON_16S_SRR33905217	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR33905217	gc_content	57.3%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR33905217	insert_size_peak	404	bp			info	
+E4_ILM_AMPLICON_16S_SRR33905217	mean_read_length	230	bp			info	
+E4_ILM_AMPLICON_16S_SRR33905217	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR33905217	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR33905217	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR33905217	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR33905217	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR33905217	off_target_fraction	50.8%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_AMPLICON_16S_SRR33905217	unclassified_fraction	2.3%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR33905217	viral_fraction	0.00%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR33905217	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_AMPLICON_16S_SRR33905217	bacterial_fraction	91.1%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR33905217	dominant_species	Bacillus subtilis (16.5% of species-level reads, Bracken)	label			info	
+E4_ILM_AMPLICON_16S_SRR33905217	top_species	Bacillus subtilis 16.5%; Conexibacter sp. S30A1 10.4%; Luteitalea pratensis 5.1%; 114 trace species under 1% each, 32.7% in total (not counted as off-target)	label			info	
+E4_ILM_AMPLICON_16S_SRR19534765	total_reads	97,956	reads	100,000	1,000	WARN	
+E4_ILM_AMPLICON_16S_SRR19534765	q30_rate	78.1%	fraction	75.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	passed_filter_pct	98.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	duplication_rate	12.3%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	adapter_trimmed_pct	0.11%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	gc_content	52.6%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR19534765	insert_size_peak	465	bp			info	
+E4_ILM_AMPLICON_16S_SRR19534765	mean_read_length	300	bp			info	
+E4_ILM_AMPLICON_16S_SRR19534765	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR19534765	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR19534765	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR19534765	host_fraction	0.20%	fraction	1.0%	10.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR19534765	off_target_fraction	32.6%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_AMPLICON_16S_SRR19534765	unclassified_fraction	0.46%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR19534765	viral_fraction	0.00%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR19534765	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_AMPLICON_16S_SRR19534765	bacterial_fraction	99.8%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR19534765	dominant_species	Streptococcus thermophilus (53.3% of species-level reads, Bracken)	label			info	
+E4_ILM_AMPLICON_16S_SRR19534765	top_species	Streptococcus thermophilus 53.3%; Staphylococcus aureus 7.7%; Bacillus thuringiensis 2.3%; 49 trace species under 1% each, 14.0% in total (not counted as off-target)	label			info	
+E4_ILM_AMPLICON_16S_SRR28377248	total_reads	24,340	reads	100,000	1,000	WARN	
+E4_ILM_AMPLICON_16S_SRR28377248	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_AMPLICON_16S_SRR28377248	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR28377248	duplication_rate	41.5%	fraction	30.0%		WARN	
+E4_ILM_AMPLICON_16S_SRR28377248	adapter_trimmed_pct	0.02%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR28377248	gc_content	51.1%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR28377248	insert_size_peak	300	bp			info	
+E4_ILM_AMPLICON_16S_SRR28377248	mean_read_length	250	bp			info	
+E4_ILM_AMPLICON_16S_SRR28377248	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR28377248	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR28377248	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR28377248	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR28377248	host_fraction	0.57%	fraction	1.0%	10.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR28377248	off_target_fraction	25.3%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_AMPLICON_16S_SRR28377248	unclassified_fraction	16.7%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR28377248	viral_fraction	0.00%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR28377248	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_AMPLICON_16S_SRR28377248	bacterial_fraction	98.1%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR28377248	dominant_species	Salmonella enterica (67.8% of species-level reads, Bracken)	label			info	
+E4_ILM_AMPLICON_16S_SRR28377248	top_species	Salmonella enterica 67.8%; Escherichia coli / Shigella 13.1%; Bacillus velezensis 7.5%; 21 trace species under 1% each, 6.9% in total (not counted as off-target)	label			info	
+E4_ILM_AMPLICON_16S_SRR32610635	total_reads	91,534	reads	100,000	1,000	WARN	
+E4_ILM_AMPLICON_16S_SRR32610635	q30_rate	85.5%	fraction	75.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	passed_filter_pct	91.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	duplication_rate	26.1%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	adapter_trimmed_pct	26.0%	fraction	30.0%		PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	gc_content	54.1%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR32610635	insert_size_peak	374	bp			info	
+E4_ILM_AMPLICON_16S_SRR32610635	mean_read_length	274	bp			info	
+E4_ILM_AMPLICON_16S_SRR32610635	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR32610635	fastqc_overrepresented_sequences	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR32610635	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_AMPLICON_16S_SRR32610635	host_fraction	0.60%	fraction	1.0%	10.0%	PASS	
+E4_ILM_AMPLICON_16S_SRR32610635	off_target_fraction	57.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_AMPLICON_16S_SRR32610635	unclassified_fraction	38.4%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR32610635	viral_fraction	0.00%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR32610635	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_AMPLICON_16S_SRR32610635	bacterial_fraction	96.5%	fraction			info	
+E4_ILM_AMPLICON_16S_SRR32610635	dominant_species	Burkholderia cepacia (32.6% of species-level reads, Bracken)	label			info	
+E4_ILM_AMPLICON_16S_SRR32610635	top_species	Burkholderia cepacia 32.6%; Bradyrhizobium canariense 7.4%; Ideonella dechloratans 6.1%; 40 trace species under 1% each, 9.7% in total (not counted as off-target)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	total_reads	96	reads	100,000	1,000	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	q30_rate	95.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	duplication_rate	6.2%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_SRR18576379	adapter_trimmed_pct	100.0%	fraction	30.0%		WARN	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	gc_content	48.3%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	insert_size_peak	44	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	mean_read_length	71	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR18576379	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR18576379	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_METATRANSCRIPTOME_SRR18576379	unclassified_fraction	91.7%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	viral_fraction	0.00%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_SRR18576379	bacterial_fraction	100.0%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	rrna_fraction	89.6%	fraction	25.0%	75.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR18576379	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_METATRANSCRIPTOME_SRR18576379	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_METATRANSCRIPTOME_ERR7425627	total_reads	97,470	reads	100,000	1,000	WARN	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	q30_rate	93.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	passed_filter_pct	97.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	duplication_rate	6.1%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_ERR7425627	adapter_trimmed_pct	27.5%	fraction	30.0%		PASS	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	gc_content	51.8%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	insert_size_peak	139	bp			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	mean_read_length	139	bp			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_ERR7425627	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_ERR7425627	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	host_fraction	0.22%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	off_target_fraction	50.7%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	unclassified_fraction	38.2%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	viral_fraction	0.01%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_ERR7425627	bacterial_fraction	92.3%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	rrna_fraction	79.6%	fraction	25.0%	75.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	dominant_species	Xanthomonas euvesicatoria (43.2% of species-level reads, Bracken)	label			info	
+E4_ILM_METATRANSCRIPTOME_ERR7425627	top_species	Xanthomonas euvesicatoria 43.2%; Streptomyces sp. T12 16.4%; Salmonella enterica 10.6%; 20 trace species under 1% each, 6.2% in total (not counted as off-target)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	total_reads	99,478	reads	100,000	1,000	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	q30_rate	95.8%	fraction	75.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	duplication_rate	29.1%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_SRR18712154	adapter_trimmed_pct	22.3%	fraction	30.0%		PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	gc_content	47.7%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	insert_size_peak	166	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	mean_read_length	145	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR18712154	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR18712154	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	host_fraction	0.04%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	off_target_fraction	10.4%	fraction	5.0%	20.0%	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	unclassified_fraction	5.6%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	viral_fraction	0.00%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_SRR18712154	bacterial_fraction	99.6%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	rrna_fraction	93.9%	fraction	25.0%	75.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	dominant_species	Clostridium acetobutylicum (88.9% of species-level reads, Bracken)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR18712154	top_species	Clostridium acetobutylicum 88.9%; Clostridium perfringens 3.8%; Xanthomonas euvesicatoria 3.7%; 3 trace species under 1% each, 0.8% in total (not counted as off-target)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	total_reads	99,646	reads	100,000	1,000	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METATRANSCRIPTOME_SRR28365014	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	duplication_rate	16.6%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_SRR28365014	adapter_trimmed_pct	55.9%	fraction	30.0%		WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	gc_content	54.7%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	insert_size_peak	129	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	mean_read_length	134	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR28365014	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR28365014	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	host_fraction	0.57%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	off_target_fraction	66.6%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	unclassified_fraction	84.0%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	viral_fraction	0.45%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_SRR28365014	bacterial_fraction	94.3%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	rrna_fraction	64.7%	fraction	25.0%	75.0%	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	dominant_species	Xanthomonas euvesicatoria (17.7% of species-level reads, Bracken)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365014	top_species	Xanthomonas euvesicatoria 17.7%; Mycobacterium canetti 10.1%; Frigoriglobus tundricola 8.6%; 30 trace species under 1% each, 15.7% in total (not counted as off-target)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	total_reads	99,908	reads	100,000	1,000	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METATRANSCRIPTOME_SRR24706644	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	duplication_rate	6.5%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_SRR24706644	adapter_trimmed_pct	39.5%	fraction	30.0%		WARN	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	gc_content	50.3%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	insert_size_peak	143	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	mean_read_length	137	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR24706644	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR24706644	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	off_target_fraction	56.2%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	unclassified_fraction	14.6%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	viral_fraction	0.00%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_SRR24706644	bacterial_fraction	98.8%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	rrna_fraction	98.7%	fraction	25.0%	75.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	dominant_species	Xanthomonas euvesicatoria (25.2% of species-level reads, Bracken)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR24706644	top_species	Xanthomonas euvesicatoria 25.2%; Aliarcobacter faecis 14.4%; Arcobacter acticola 12.7%; 77 trace species under 1% each, 18.6% in total (not counted as off-target)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	total_reads	99,892	reads	100,000	1,000	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_METATRANSCRIPTOME_SRR28365009	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	duplication_rate	16.1%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_METATRANSCRIPTOME_SRR28365009	adapter_trimmed_pct	47.5%	fraction	30.0%		WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	gc_content	53.9%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	insert_size_peak	129	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	mean_read_length	138	bp			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR28365009	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_METATRANSCRIPTOME_SRR28365009	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	host_fraction	0.14%	fraction	1.0%	10.0%	PASS	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	off_target_fraction	64.2%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	unclassified_fraction	87.7%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	viral_fraction	0.39%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_METATRANSCRIPTOME_SRR28365009	bacterial_fraction	95.8%	fraction			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	rrna_fraction	53.6%	fraction	25.0%	75.0%	WARN	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	dominant_species	Xanthomonas euvesicatoria (24.2% of species-level reads, Bracken)	label			info	
+E4_ILM_METATRANSCRIPTOME_SRR28365009	top_species	Xanthomonas euvesicatoria 24.2%; Mycobacterium canetti 13.7%; Bradyrhizobium canariense 6.7%; 18 trace species under 1% each, 11.6% in total (not counted as off-target)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	total_reads	98,330	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	passed_filter_pct	98.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	duplication_rate	23.7%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	adapter_trimmed_pct	5.6%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	gc_content	49.8%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	insert_size_peak	116	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	mean_read_length	74	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	n_base_rate	0.23%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	host_fraction	2.6%	fraction	1.0%	10.0%	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	unclassified_fraction	63.8%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	viral_fraction	0.01%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	bacterial_fraction	92.8%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	rrna_fraction	66.9%	fraction	25.0%	75.0%	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	dominant_species	Mycobacterium tuberculosis (100.0% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	top_species	Mycobacterium tuberculosis 100.0%	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	total_reads	99,418	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	q30_rate	98.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	duplication_rate	15.7%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	adapter_trimmed_pct	3.8%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	gc_content	42.0%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	insert_size_peak	265	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	mean_read_length	148	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	host_fraction	0.18%	fraction	1.0%	10.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	off_target_fraction	13.7%	fraction	5.0%	20.0%	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	unclassified_fraction	4.1%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	viral_fraction	0.00%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	bacterial_fraction	99.5%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	rrna_fraction	3.6%	fraction	25.0%	75.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	dominant_species	Acinetobacter baumannii (85.3% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	top_species	Acinetobacter baumannii 85.3%; Acinetobacter nosocomialis 13.7%; Acinetobacter pittii 0.6%; 3 trace species under 1% each, 1.0% in total (not counted as off-target)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	total_reads	99,576	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	q30_rate	95.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	duplication_rate	26.1%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	adapter_trimmed_pct	0.36%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	gc_content	53.3%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	insert_size_peak	269	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	mean_read_length	149	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	fastqc_per_base_sequence_content	WARN	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	unclassified_fraction	2.4%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	viral_fraction	0.00%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	bacterial_fraction	74.1%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	rrna_fraction	2.2%	fraction	25.0%	75.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	dominant_species	Escherichia coli / Shigella (100.0% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	top_species	Escherichia coli / Shigella 100.0%; Escherichia albertii 0.0%; 1 trace species under 1% each, 0.0% in total (not counted as off-target)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	total_reads	99,562	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	q30_rate	94.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	duplication_rate	16.3%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	adapter_trimmed_pct	13.4%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	gc_content	58.5%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	insert_size_peak	219	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	mean_read_length	145	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	host_fraction	0.09%	fraction	1.0%	10.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	off_target_fraction	1.2%	fraction	5.0%	20.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	unclassified_fraction	17.3%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	viral_fraction	4.3%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	bacterial_fraction	94.3%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	rrna_fraction	13.1%	fraction	25.0%	75.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	dominant_species	Pseudomonas aeruginosa (97.2% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	top_species	Pseudomonas aeruginosa 97.2%; Phikmvvirus phiKMV 1.2%; Phikmvvirus LKD16 0.4%; 8 trace species under 1% each, 1.6% in total (not counted as off-target)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	total_reads	49,008	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	q30_rate	96.2%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	passed_filter_pct	98.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	duplication_rate	43.6%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	adapter_trimmed_pct	2.4%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	gc_content	34.0%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	mean_read_length	99	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	off_target_fraction	1.0%	fraction	5.0%	20.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	unclassified_fraction	48.0%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	viral_fraction	0.00%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	bacterial_fraction	99.9%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	rrna_fraction	6.7%	fraction	25.0%	75.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	dominant_species	Clostridioides difficile (99.0% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	top_species	Clostridioides difficile 99.0%; Clostridioides sp. ES-S-0054-01 1.0%	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	total_reads	43,266	reads	100,000	1,000	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	q30_rate	92.1%	fraction	75.0%	70.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	passed_filter_pct	86.5%	fraction	90.0%	70.0%	WARN	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	duplication_rate	85.3%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	adapter_trimmed_pct	13.1%	fraction	30.0%		PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	gc_content	54.3%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	mean_read_length	65	bp			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	unclassified_fraction	51.7%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	viral_fraction	0.00%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	bacterial_fraction	100.0%	fraction			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	rrna_fraction	0.03%	fraction	25.0%	75.0%	PASS	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	dominant_species	Escherichia coli / Shigella (100.0% of species-level reads, Bracken)	label			info	
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	top_species	Escherichia coli / Shigella 100.0%	label			info	
+E4_ILM_BISULFITE_SRR26452318	total_reads	98,912	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR26452318	q30_rate	86.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR26452318	passed_filter_pct	98.9%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR26452318	duplication_rate	0.53%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26452318	adapter_trimmed_pct	3.1%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26452318	gc_content	25.1%	fraction			info	
+E4_ILM_BISULFITE_SRR26452318	insert_size_peak	267	bp			info	
+E4_ILM_BISULFITE_SRR26452318	mean_read_length	149	bp			info	
+E4_ILM_BISULFITE_SRR26452318	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR26452318	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR26452318	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR26452318	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_BISULFITE_SRR26452318	host_fraction	3.0%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR26452318	off_target_fraction	39.0%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR26452318	unclassified_fraction	96.3%	fraction			info	
+E4_ILM_BISULFITE_SRR26452318	viral_fraction	0.11%	fraction			info	
+E4_ILM_BISULFITE_SRR26452318	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR26452318	bacterial_fraction	15.6%	fraction			info	
+E4_ILM_BISULFITE_SRR26452318	dominant_species	Xanthomonas euvesicatoria (61.0% of species-level reads, Bracken)	label			info	
+E4_ILM_BISULFITE_SRR26452318	top_species	Xanthomonas euvesicatoria 61.0%; Curtobacterium flaccumfaciens 39.0%	label			info	
+E4_ILM_BISULFITE_SRR15829020	total_reads	99,460	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR15829020	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR15829020	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR15829020	duplication_rate	1.3%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR15829020	adapter_trimmed_pct	13.3%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR15829020	gc_content	19.6%	fraction			info	
+E4_ILM_BISULFITE_SRR15829020	insert_size_peak	169	bp			info	
+E4_ILM_BISULFITE_SRR15829020	mean_read_length	98	bp			info	
+E4_ILM_BISULFITE_SRR15829020	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR15829020	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR15829020	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_BISULFITE_SRR15829020	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_BISULFITE_SRR15829020	host_fraction	3.9%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR15829020	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR15829020	unclassified_fraction	95.9%	fraction			info	
+E4_ILM_BISULFITE_SRR15829020	viral_fraction	0.05%	fraction			info	
+E4_ILM_BISULFITE_SRR15829020	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR15829020	bacterial_fraction	5.5%	fraction			info	
+E4_ILM_BISULFITE_SRR15829020	dominant_species	Xanthomonas euvesicatoria (100.0% of species-level reads, Bracken)	label			info	
+E4_ILM_BISULFITE_SRR15829020	top_species	Xanthomonas euvesicatoria 100.0%	label			info	
+E4_ILM_BISULFITE_SRR24067506	total_reads	99,742	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR24067506	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR24067506	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR24067506	duplication_rate	6.0%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR24067506	adapter_trimmed_pct	5.5%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR24067506	gc_content	20.8%	fraction			info	
+E4_ILM_BISULFITE_SRR24067506	insert_size_peak	269	bp			info	
+E4_ILM_BISULFITE_SRR24067506	mean_read_length	148	bp			info	
+E4_ILM_BISULFITE_SRR24067506	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR24067506	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR24067506	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR24067506	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_BISULFITE_SRR24067506	host_fraction	1.6%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR24067506	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR24067506	unclassified_fraction	98.0%	fraction			info	
+E4_ILM_BISULFITE_SRR24067506	viral_fraction	0.20%	fraction			info	
+E4_ILM_BISULFITE_SRR24067506	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR24067506	bacterial_fraction	13.1%	fraction			info	
+E4_ILM_BISULFITE_SRR24067506	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR24067506	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR16915506	total_reads	99,842	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR16915506	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_BISULFITE_SRR16915506	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR16915506	duplication_rate	3.8%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR16915506	adapter_trimmed_pct	5.8%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR16915506	gc_content	22.7%	fraction			info	
+E4_ILM_BISULFITE_SRR16915506	insert_size_peak	257	bp			info	
+E4_ILM_BISULFITE_SRR16915506	mean_read_length	148	bp			info	
+E4_ILM_BISULFITE_SRR16915506	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR16915506	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR16915506	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR16915506	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_BISULFITE_SRR16915506	host_fraction	2.3%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR16915506	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR16915506	unclassified_fraction	97.2%	fraction			info	
+E4_ILM_BISULFITE_SRR16915506	viral_fraction	0.28%	fraction			info	
+E4_ILM_BISULFITE_SRR16915506	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR16915506	bacterial_fraction	14.6%	fraction			info	
+E4_ILM_BISULFITE_SRR16915506	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR16915506	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR26311476	total_reads	99,698	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR26311476	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_BISULFITE_SRR26311476	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR26311476	duplication_rate	0.01%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26311476	adapter_trimmed_pct	6.5%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26311476	gc_content	42.1%	fraction			info	
+E4_ILM_BISULFITE_SRR26311476	insert_size_peak	198	bp			info	
+E4_ILM_BISULFITE_SRR26311476	mean_read_length	149	bp			info	
+E4_ILM_BISULFITE_SRR26311476	n_base_rate	0.02%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR26311476	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR26311476	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR26311476	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR26311476	host_fraction	0.26%	fraction	1.0%	10.0%	PASS	
+E4_ILM_BISULFITE_SRR26311476	off_target_fraction	2.7%	fraction	5.0%	20.0%	PASS	
+E4_ILM_BISULFITE_SRR26311476	unclassified_fraction	35.0%	fraction			info	
+E4_ILM_BISULFITE_SRR26311476	viral_fraction	1.2%	fraction			info	
+E4_ILM_BISULFITE_SRR26311476	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR26311476	bacterial_fraction	97.2%	fraction			info	
+E4_ILM_BISULFITE_SRR26311476	dominant_species	Escherichia coli / Shigella (94.6% of species-level reads, Bracken)	label			info	
+E4_ILM_BISULFITE_SRR26311476	top_species	Escherichia coli / Shigella 94.6%; Salmonella enterica 1.5%; Alphabaculovirus aucalifornicae 1.2%; 10 trace species under 1% each, 2.7% in total (not counted as off-target)	label			info	
+E4_ILM_BISULFITE_SRR26385661	total_reads	99,986	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR26385661	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR26385661	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR26385661	duplication_rate	6.1%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26385661	adapter_trimmed_pct	0.40%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR26385661	gc_content	32.7%	fraction			info	
+E4_ILM_BISULFITE_SRR26385661	insert_size_peak	150	bp			info	
+E4_ILM_BISULFITE_SRR26385661	mean_read_length	127	bp			info	
+E4_ILM_BISULFITE_SRR26385661	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR26385661	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR26385661	fastqc_overrepresented_sequences	WARN	status			info	
+E4_ILM_BISULFITE_SRR26385661	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_BISULFITE_SRR26385661	host_fraction	0.79%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR26385661	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR26385661	unclassified_fraction	98.7%	fraction			info	
+E4_ILM_BISULFITE_SRR26385661	viral_fraction	0.31%	fraction			info	
+E4_ILM_BISULFITE_SRR26385661	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR26385661	bacterial_fraction	34.0%	fraction			info	
+E4_ILM_BISULFITE_SRR26385661	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR26385661	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR24829770	total_reads	99,988	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR24829770	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_BISULFITE_SRR24829770	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR24829770	duplication_rate	2.7%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR24829770	adapter_trimmed_pct	15.4%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR24829770	gc_content	26.5%	fraction			info	
+E4_ILM_BISULFITE_SRR24829770	insert_size_peak	184	bp			info	
+E4_ILM_BISULFITE_SRR24829770	mean_read_length	142	bp			info	
+E4_ILM_BISULFITE_SRR24829770	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR24829770	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR24829770	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR24829770	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_BISULFITE_SRR24829770	host_fraction	3.0%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR24829770	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR24829770	unclassified_fraction	96.4%	fraction			info	
+E4_ILM_BISULFITE_SRR24829770	viral_fraction	0.06%	fraction			info	
+E4_ILM_BISULFITE_SRR24829770	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR24829770	bacterial_fraction	14.7%	fraction			info	
+E4_ILM_BISULFITE_SRR24829770	dominant_species	Xanthomonas euvesicatoria (100.0% of species-level reads, Bracken)	label			info	
+E4_ILM_BISULFITE_SRR24829770	top_species	Xanthomonas euvesicatoria 100.0%	label			info	
+E4_ILM_BISULFITE_SRR14016669	total_reads	98,720	reads	100,000	1,000	WARN	
+E4_ILM_BISULFITE_SRR14016669	q30_rate	87.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR14016669	passed_filter_pct	98.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_BISULFITE_SRR14016669	duplication_rate	2.7%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR14016669	adapter_trimmed_pct	7.5%	fraction	30.0%		PASS	
+E4_ILM_BISULFITE_SRR14016669	gc_content	21.7%	fraction			info	
+E4_ILM_BISULFITE_SRR14016669	insert_size_peak	262	bp			info	
+E4_ILM_BISULFITE_SRR14016669	mean_read_length	148	bp			info	
+E4_ILM_BISULFITE_SRR14016669	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_BISULFITE_SRR14016669	fastqc_per_base_sequence_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR14016669	fastqc_overrepresented_sequences	PASS	status			info	
+E4_ILM_BISULFITE_SRR14016669	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_BISULFITE_SRR14016669	host_fraction	1.9%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E4_ILM_BISULFITE_SRR14016669	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR14016669	unclassified_fraction	97.8%	fraction			info	
+E4_ILM_BISULFITE_SRR14016669	viral_fraction	0.09%	fraction			info	
+E4_ILM_BISULFITE_SRR14016669	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_BISULFITE_SRR14016669	bacterial_fraction	12.9%	fraction			info	
+E4_ILM_BISULFITE_SRR14016669	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_BISULFITE_SRR14016669	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_SINGLE_CELL_SRR33156650	total_reads	90,178	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR33156650	q30_rate	92.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR33156650	passed_filter_pct	90.2%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR33156650	duplication_rate	0.69%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR33156650	adapter_trimmed_pct	36.2%	fraction	30.0%		WARN	
+E4_ILM_SINGLE_CELL_SRR33156650	gc_content	48.0%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR33156650	insert_size_peak	174	bp			info	
+E4_ILM_SINGLE_CELL_SRR33156650	mean_read_length	128	bp			info	
+E4_ILM_SINGLE_CELL_SRR33156650	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR33156650	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR33156650	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR33156650	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_SINGLE_CELL_SRR33156650	host_fraction	7.7%	fraction	1.0%	10.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR33156650	off_target_fraction	22.5%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_SINGLE_CELL_SRR33156650	unclassified_fraction	73.9%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR33156650	viral_fraction	0.02%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR33156650	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR33156650	bacterial_fraction	68.6%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR33156650	rrna_fraction	25.3%	fraction	25.0%	75.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR33156650	dominant_species	Staphylococcus aureus (74.5% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR33156650	top_species	Staphylococcus aureus 74.5%; Bifidobacterium pseudolongum 7.1%; Burkholderia dolosa 5.7%; 8 trace species under 1% each, 3.0% in total (not counted as off-target)	label			info	
+E4_ILM_SINGLE_CELL_SRR31095750	total_reads	92,022	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR31095750	q30_rate	76.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31095750	passed_filter_pct	92.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31095750	duplication_rate	0.18%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR31095750	adapter_trimmed_pct	15.5%	fraction	30.0%		PASS	
+E4_ILM_SINGLE_CELL_SRR31095750	gc_content	29.1%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31095750	insert_size_peak	172	bp			info	
+E4_ILM_SINGLE_CELL_SRR31095750	mean_read_length	146	bp			info	
+E4_ILM_SINGLE_CELL_SRR31095750	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31095750	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31095750	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31095750	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_SINGLE_CELL_SRR31095750	host_fraction	28.1%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR31095750	off_target_fraction	52.8%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_SINGLE_CELL_SRR31095750	unclassified_fraction	69.1%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31095750	viral_fraction	0.03%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31095750	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR31095750	bacterial_fraction	4.5%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31095750	rrna_fraction	62.3%	fraction	25.0%	75.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR31095750	dominant_species	Escherichia coli / Shigella (47.2% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR31095750	top_species	Escherichia coli / Shigella 47.2%; Vibrio anguillarum 25.1%; Wolbachia endosymbiont (group A) of Lypha dubia 9.3%	label			info	
+E4_ILM_SINGLE_CELL_SRR31377041	total_reads	96,286	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR31377041	q30_rate	89.3%	fraction	75.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31377041	passed_filter_pct	96.3%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31377041	duplication_rate	1.6%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR31377041	adapter_trimmed_pct	1.3%	fraction	30.0%		PASS	
+E4_ILM_SINGLE_CELL_SRR31377041	gc_content	54.7%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31377041	insert_size_peak	270	bp			info	
+E4_ILM_SINGLE_CELL_SRR31377041	mean_read_length	150	bp			info	
+E4_ILM_SINGLE_CELL_SRR31377041	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31377041	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31377041	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31377041	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_SINGLE_CELL_SRR31377041	host_fraction	6.7%	fraction	1.0%	10.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR31377041	off_target_fraction	19.5%	fraction	5.0%	20.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR31377041	unclassified_fraction	73.5%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31377041	viral_fraction	1.2%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31377041	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR31377041	bacterial_fraction	32.0%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31377041	rrna_fraction	23.1%	fraction	25.0%	75.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31377041	dominant_species	Staphylococcus aureus (79.0% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR31377041	top_species	Staphylococcus aureus 79.0%; Vibrio parahaemolyticus 8.9%; Klebsiella pneumoniae 8.1%; 3 trace species under 1% each, 1.5% in total (not counted as off-target)	label			info	
+E4_ILM_SINGLE_CELL_SRR31667454	total_reads	49,598	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR31667454	q30_rate	95.4%	fraction	75.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31667454	passed_filter_pct	99.2%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31667454	duplication_rate	43.4%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR31667454	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E4_ILM_SINGLE_CELL_SRR31667454	gc_content	43.8%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31667454	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_SINGLE_CELL_SRR31667454	mean_read_length	90	bp			info	
+E4_ILM_SINGLE_CELL_SRR31667454	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31667454	fastqc_per_base_sequence_content	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31667454	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR31667454	fastqc_per_sequence_gc_content	PASS	status			info	
+E4_ILM_SINGLE_CELL_SRR31667454	host_fraction	0.88%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR31667454	off_target_fraction	17.6%	fraction	5.0%	20.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR31667454	unclassified_fraction	98.8%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31667454	viral_fraction	0.17%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31667454	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR31667454	bacterial_fraction	14.5%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR31667454	rrna_fraction	4.3%	fraction	25.0%	75.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR31667454	dominant_species	Staphylococcus aureus (82.4% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR31667454	top_species	Staphylococcus aureus 82.4%; Klebsiella pneumoniae 17.6%	label			info	
+E4_ILM_SINGLE_CELL_SRR28159416	total_reads	99,686	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR28159416	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_SINGLE_CELL_SRR28159416	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR28159416	duplication_rate	0.00%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR28159416	adapter_trimmed_pct	2.4%	fraction	30.0%		PASS	
+E4_ILM_SINGLE_CELL_SRR28159416	gc_content	42.6%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR28159416	insert_size_peak	200	bp			info	
+E4_ILM_SINGLE_CELL_SRR28159416	mean_read_length	149	bp			info	
+E4_ILM_SINGLE_CELL_SRR28159416	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR28159416	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR28159416	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR28159416	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_SINGLE_CELL_SRR28159416	host_fraction	6.3%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR28159416	off_target_fraction	20.0%	fraction	5.0%	20.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR28159416	unclassified_fraction	90.5%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR28159416	viral_fraction	0.88%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR28159416	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR28159416	bacterial_fraction	23.3%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR28159416	rrna_fraction	12.0%	fraction	25.0%	75.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR28159416	dominant_species	Staphylococcus aureus (79.1% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR28159416	top_species	Staphylococcus aureus 79.1%; Klebsiella pneumoniae 20.0%; Brevundimonas albigilva 1.0%; 1 trace species under 1% each, 1.0% in total (not counted as off-target)	label			info	
+E4_ILM_SINGLE_CELL_SRR23455274	total_reads	99,998	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR23455274	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_SINGLE_CELL_SRR23455274	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR23455274	duplication_rate	2.3%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR23455274	adapter_trimmed_pct	58.1%	fraction	30.0%		WARN	
+E4_ILM_SINGLE_CELL_SRR23455274	gc_content	45.9%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR23455274	insert_size_peak	88	bp			info	
+E4_ILM_SINGLE_CELL_SRR23455274	mean_read_length	123	bp			info	
+E4_ILM_SINGLE_CELL_SRR23455274	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR23455274	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR23455274	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR23455274	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_SINGLE_CELL_SRR23455274	host_fraction	8.6%	fraction	1.0%	10.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR23455274	off_target_fraction	48.6%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_SINGLE_CELL_SRR23455274	unclassified_fraction	58.1%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR23455274	viral_fraction	0.02%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR23455274	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR23455274	bacterial_fraction	56.1%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR23455274	rrna_fraction	32.2%	fraction	25.0%	75.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR23455274	dominant_species	Klebsiella pneumoniae (49.9% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR23455274	top_species	Klebsiella pneumoniae 49.9%; Staphylococcus aureus 33.8%; Streptomyces sp. ICC1 6.0%; 7 trace species under 1% each, 1.5% in total (not counted as off-target)	label			info	
+E4_ILM_SINGLE_CELL_SRR24757995	total_reads	50,000	reads	100,000	1,000	WARN	
+E4_ILM_SINGLE_CELL_SRR24757995	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E4_ILM_SINGLE_CELL_SRR24757995	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR24757995	duplication_rate	15.0%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR24757995	adapter_trimmed_pct	1.3%	fraction	30.0%		PASS	
+E4_ILM_SINGLE_CELL_SRR24757995	gc_content	48.6%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR24757995	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_SINGLE_CELL_SRR24757995	mean_read_length	89	bp			info	
+E4_ILM_SINGLE_CELL_SRR24757995	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR24757995	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR24757995	fastqc_overrepresented_sequences	WARN	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR24757995	fastqc_per_sequence_gc_content	WARN	status			info	
+E4_ILM_SINGLE_CELL_SRR24757995	host_fraction	0.81%	fraction	1.0%	10.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR24757995	off_target_fraction	31.2%	fraction	5.0%	20.0%	FAIL	
+E4_ILM_SINGLE_CELL_SRR24757995	unclassified_fraction	97.1%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR24757995	viral_fraction	2.4%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR24757995	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR24757995	bacterial_fraction	22.8%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR24757995	rrna_fraction	12.7%	fraction	25.0%	75.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR24757995	dominant_species	Staphylococcus aureus (68.8% of species-level reads, Bracken)	label			info	
+E4_ILM_SINGLE_CELL_SRR24757995	top_species	Staphylococcus aureus 68.8%; Klebsiella pneumoniae 21.7%; Curtobacterium flaccumfaciens 5.8%	label			info	
+E4_ILM_SINGLE_CELL_SRR25145998	total_reads	11	reads	100,000	1,000	FAIL	
+E4_ILM_SINGLE_CELL_SRR25145998	q30_rate	77.6%	fraction	75.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR25145998	passed_filter_pct	91.7%	fraction	90.0%	70.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR25145998	duplication_rate	8.3%	fraction	30.0%		exempt	not judged: rna library
+E4_ILM_SINGLE_CELL_SRR25145998	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E4_ILM_SINGLE_CELL_SRR25145998	gc_content	47.7%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR25145998	insert_size_peak		bp			not_available	not reported by fastp
+E4_ILM_SINGLE_CELL_SRR25145998	mean_read_length	131	bp			info	
+E4_ILM_SINGLE_CELL_SRR25145998	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E4_ILM_SINGLE_CELL_SRR25145998	fastqc_per_base_sequence_content	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR25145998	fastqc_overrepresented_sequences	FAIL	status			info	known false alarm for rna libraries
+E4_ILM_SINGLE_CELL_SRR25145998	fastqc_per_sequence_gc_content	FAIL	status			info	
+E4_ILM_SINGLE_CELL_SRR25145998	host_fraction	16.7%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR25145998	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_SINGLE_CELL_SRR25145998	unclassified_fraction	83.3%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR25145998	viral_fraction	0.00%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR25145998	target_fraction		fraction			not_available	no target_taxid declared
+E4_ILM_SINGLE_CELL_SRR25145998	bacterial_fraction	0.00%	fraction			info	
+E4_ILM_SINGLE_CELL_SRR25145998	rrna_fraction	75.0%	fraction	25.0%	75.0%	WARN	
+E4_ILM_SINGLE_CELL_SRR25145998	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_SINGLE_CELL_SRR25145998	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	genome_size	2,641,405	bp			info	NCBI expected size for Saccharolobus islandicus
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	depth_of_coverage	9.1x	depth			info	24,162,793 bases / 2,641,405
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	genome_size	1,709,758	bp			info	NCBI expected size for Methanobrevibacter smithii
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	depth_of_coverage	17.5x	depth			info	29,960,012 bases / 1,709,758
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	genome_size	2,469,128	bp			info	NCBI expected size for Halobacterium salinarum
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	depth_of_coverage	6.1x	depth			info	15,100,000 bases / 2,469,128
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	genome_size		bp			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	depth_of_coverage		depth			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	genome_size	3,784,795	bp			info	NCBI expected size for Haloferax volcanii
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	depth_of_coverage	3.9x	depth			info	14,681,054 bases / 3,784,795
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	genome_size	3,784,795	bp			info	NCBI expected size for Haloferax volcanii
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	depth_of_coverage	2.0x	depth			info	7,525,082 bases / 3,784,795
+E4_ILM_ISOLATE_PHAGE_SRR32425597	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_PHAGE_SRR32425597	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_PHAGE_SRR31168271	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR31168271	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_ERR5548200	genome_size		bp			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E4_ILM_ISOLATE_PHAGE_ERR5548200	depth_of_coverage		depth			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E4_ILM_ISOLATE_PHAGE_SRR23345330	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_PHAGE_SRR23345330	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_PHAGE_SRR12575333	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR12575333	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR15212571	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR15212571	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR24918832	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR24918832	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR24689464	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_PHAGE_SRR24689464	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_ISOLATE_ERR12875129	genome_size	2,000,856	bp			info	NCBI expected size for Limosilactobacillus fermentum
+E4_ILM_ISOLATE_ERR12875129	depth_of_coverage	8.2x	depth			info	16,453,353 bases / 2,000,856
+E4_ILM_ISOLATE_DRR628137	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_DRR628137	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ERR11894484	genome_size	5,150,000	bp			info	NCBI expected size for Escherichia coli / Shigella
+E4_ILM_ISOLATE_ERR11894484	depth_of_coverage	4.5x	depth			info	23,046,758 bases / 5,150,000
+E4_ILM_ISOLATE_ERR14887079	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ERR14887079	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_SRR31950426	genome_size	3,950,000	bp			info	NCBI expected size for Acinetobacter baumannii
+E4_ILM_ISOLATE_SRR31950426	depth_of_coverage	3.7x	depth			info	14,634,797 bases / 3,950,000
+E4_ILM_ISOLATE_SRR30128509	genome_size	5,050,000	bp			info	NCBI expected size for Salmonella enterica
+E4_ILM_ISOLATE_SRR30128509	depth_of_coverage	3.0x	depth			info	14,926,281 bases / 5,050,000
+E4_ILM_ISOLATE_ERR12863916	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ERR12863916	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ERR13341294	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_ISOLATE_ERR13341294	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_METAGENOME_FOOD_SRR30872240	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR30872240	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_ERR10736390	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_ERR10736390	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR24676580	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR24676580	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_ERR13763359	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_ERR13763359	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR27593225	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR27593225	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR14018896	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_FOOD_SRR14018896	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR24887497	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR24887497	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR28085310	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR28085310	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR26457511	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR26457511	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR17244159	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR17244159	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR32288193	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR32288193	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR26075151	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_ENV_SRR26075151	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_ERR14372527	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_ERR14372527	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR33028408	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR33028408	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR27589796	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR27589796	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR32682501	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_METAGENOME_GUT_SRR32682501	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR33905217	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR33905217	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR19534765	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR19534765	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR28377248	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR28377248	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR32610635	genome_size		bp			not_available	not computed: not a single genome
+E4_ILM_AMPLICON_16S_SRR32610635	depth_of_coverage		depth			not_available	not computed: not a single genome
+E4_ILM_METATRANSCRIPTOME_SRR18576379	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR18576379	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_ERR7425627	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_ERR7425627	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR18712154	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR18712154	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR28365014	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR28365014	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR24706644	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR24706644	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR28365009	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_METATRANSCRIPTOME_SRR28365009	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_BISULFITE_SRR26452318	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR26452318	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR15829020	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR15829020	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR24067506	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR24067506	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR16915506	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR16915506	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR26311476	genome_size	5,150,000	bp			info	NCBI expected size for Escherichia coli / Shigella
+E4_ILM_BISULFITE_SRR26311476	depth_of_coverage	2.9x	depth			info	15,063,530 bases / 5,150,000
+E4_ILM_BISULFITE_SRR26385661	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR26385661	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR24829770	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR24829770	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR14016669	genome_size		bp			not_available	not computed: not known to be one organism
+E4_ILM_BISULFITE_SRR14016669	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E4_ILM_SINGLE_CELL_SRR33156650	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR33156650	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31095750	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31095750	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31377041	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31377041	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31667454	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR31667454	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR28159416	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR28159416	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR23455274	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR23455274	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR24757995	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR24757995	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR25145998	genome_size		bp			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_SINGLE_CELL_SRR25145998	depth_of_coverage		depth			not_available	not computed: RNA (expression, not genome coverage)
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	kmer_repeat_share	84.9%	fraction			info	of sampled 21-mers in 10,000,244 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR33657381	gc_spread	0.037	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	kmer_repeat_share	30.7%	fraction			info	of sampled 21-mers in 4,736,683 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR7445587	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	kmer_repeat_share	75.1%	fraction			info	of sampled 21-mers in 10,000,290 bases
+E4_ILM_ISOLATE_ARCHAEA_DRR307096	gc_spread	0.046	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	kmer_repeat_share	70.5%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR12168528	gc_spread	0.058	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	kmer_repeat_share	75.6%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR32699167	gc_spread	0.035	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	kmer_repeat_share	51.0%	fraction			info	of sampled 21-mers in 4,500,000 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR21709318	gc_spread	0.053	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	kmer_repeat_share	55.1%	fraction			info	of sampled 21-mers in 7,339,636 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR13178387	gc_spread	0.062	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	kmer_repeat_share	85.5%	fraction			info	of sampled 21-mers in 10,000,122 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR21730149	gc_spread	0.061	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	kmer_repeat_share	74.1%	fraction			info	of sampled 21-mers in 10,000,169 bases
+E4_ILM_ISOLATE_ARCHAEA_SRR21764307	gc_spread	0.059	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	kmer_repeat_share	52.7%	fraction			info	of sampled 21-mers in 7,525,082 bases
+E4_ILM_ISOLATE_ARCHAEA_ERR10676984	gc_spread	0.067	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR32425597	kmer_repeat_share	81.6%	fraction			info	of sampled 21-mers in 549,155 bases
+E4_ILM_ISOLATE_PHAGE_SRR32425597	gc_spread	0.039	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR31168271	kmer_repeat_share	28.0%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_ISOLATE_PHAGE_SRR31168271	gc_spread	0.04	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_ERR5548200	kmer_repeat_share	42.0%	fraction			info	of sampled 21-mers in 7,134,523 bases
+E4_ILM_ISOLATE_PHAGE_ERR5548200	gc_spread	0.017	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR23345330	kmer_repeat_share	29.1%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_ISOLATE_PHAGE_SRR23345330	gc_spread	0.088	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR12575333	kmer_repeat_share	23.6%	fraction			info	of sampled 21-mers in 10,000,000 bases
+E4_ILM_ISOLATE_PHAGE_SRR12575333	gc_spread	0.042	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR15212571	kmer_repeat_share	55.9%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_ISOLATE_PHAGE_SRR15212571	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR24918832	kmer_repeat_share	24.7%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_ISOLATE_PHAGE_SRR24918832	gc_spread	0.048	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_PHAGE_SRR24689464	kmer_repeat_share	20.6%	fraction			info	of sampled 21-mers in 10,000,117 bases
+E4_ILM_ISOLATE_PHAGE_SRR24689464	gc_spread	0.026	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ERR12875129	kmer_repeat_share	52.4%	fraction			info	of sampled 21-mers in 8,223,296 bases
+E4_ILM_ISOLATE_ERR12875129	gc_spread	0.079	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_DRR628137	kmer_repeat_share	39.5%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_ISOLATE_DRR628137	gc_spread	0.054	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ERR11894484	kmer_repeat_share	45.9%	fraction			info	of sampled 21-mers in 10,000,071 bases
+E4_ILM_ISOLATE_ERR11894484	gc_spread	0.047	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ERR14887079	kmer_repeat_share	42.7%	fraction			info	of sampled 21-mers in 10,000,088 bases
+E4_ILM_ISOLATE_ERR14887079	gc_spread	0.087	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_SRR31950426	kmer_repeat_share	54.4%	fraction			info	of sampled 21-mers in 7,317,588 bases
+E4_ILM_ISOLATE_SRR31950426	gc_spread	0.047	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_SRR30128509	kmer_repeat_share	49.0%	fraction			info	of sampled 21-mers in 7,463,159 bases
+E4_ILM_ISOLATE_SRR30128509	gc_spread	0.056	number			info	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ERR12863916	kmer_repeat_share	34.2%	fraction			info	of sampled 21-mers in 9,664 bases
+E4_ILM_ISOLATE_ERR12863916	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E4_ILM_ISOLATE_ERR13341294	kmer_repeat_share	42.4%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_ISOLATE_ERR13341294	gc_spread	0.043	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_SRR30872240	kmer_repeat_share	16.9%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_METAGENOME_FOOD_SRR30872240	gc_spread	0.098	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_ERR10736390	kmer_repeat_share	27.1%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_METAGENOME_FOOD_ERR10736390	gc_spread	0.081	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_SRR24676580	kmer_repeat_share	7.6%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_METAGENOME_FOOD_SRR24676580	gc_spread	0.089	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_ERR13763359	kmer_repeat_share	13.3%	fraction			info	of sampled 21-mers in 7,241,759 bases
+E4_ILM_METAGENOME_FOOD_ERR13763359	gc_spread	0.091	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_SRR27593225	kmer_repeat_share	7.0%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_FOOD_SRR27593225	gc_spread	0.105	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_FOOD_SRR14018896	kmer_repeat_share	13.2%	fraction			info	of sampled 21-mers in 7,518,535 bases
+E4_ILM_METAGENOME_FOOD_SRR14018896	gc_spread	0.087	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR24887497	kmer_repeat_share	8.3%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_ENV_SRR24887497	gc_spread	0.074	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR28085310	kmer_repeat_share	12.7%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_ENV_SRR28085310	gc_spread	0.077	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR26457511	kmer_repeat_share	9.9%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_ENV_SRR26457511	gc_spread	0.086	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR17244159	kmer_repeat_share	11.2%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_ENV_SRR17244159	gc_spread	0.082	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR32288193	kmer_repeat_share	8.6%	fraction			info	of sampled 21-mers in 7,513,085 bases
+E4_ILM_METAGENOME_ENV_SRR32288193	gc_spread	0.117	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_ENV_SRR26075151	kmer_repeat_share	9.3%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METAGENOME_ENV_SRR26075151	gc_spread	0.052	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_GUT_ERR14372527	kmer_repeat_share	6.0%	fraction			info	of sampled 21-mers in 7,519,972 bases
+E4_ILM_METAGENOME_GUT_ERR14372527	gc_spread	0.107	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_GUT_SRR33028408	kmer_repeat_share	10.1%	fraction			info	of sampled 21-mers in 7,279,634 bases
+E4_ILM_METAGENOME_GUT_SRR33028408	gc_spread	0.109	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_GUT_SRR27589796	kmer_repeat_share	7.5%	fraction			info	of sampled 21-mers in 6,300,000 bases
+E4_ILM_METAGENOME_GUT_SRR27589796	gc_spread	0.055	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METAGENOME_GUT_SRR32682501	kmer_repeat_share	18.6%	fraction			info	of sampled 21-mers in 7,528,466 bases
+E4_ILM_METAGENOME_GUT_SRR32682501	gc_spread	0.073	number			info	excess SD of per-read GC beyond chance
+E4_ILM_AMPLICON_16S_SRR33905217	kmer_repeat_share	46.7%	fraction			info	of sampled 21-mers in 10,000,214 bases
+E4_ILM_AMPLICON_16S_SRR33905217	gc_spread	0.007	number			info	excess SD of per-read GC beyond chance
+E4_ILM_AMPLICON_16S_SRR19534765	kmer_repeat_share	25.5%	fraction			info	of sampled 21-mers in 10,000,123 bases
+E4_ILM_AMPLICON_16S_SRR19534765	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E4_ILM_AMPLICON_16S_SRR28377248	kmer_repeat_share	9.6%	fraction			info	of sampled 21-mers in 3,054,670 bases
+E4_ILM_AMPLICON_16S_SRR28377248	gc_spread	0.034	number			info	excess SD of per-read GC beyond chance
+E4_ILM_AMPLICON_16S_SRR32610635	kmer_repeat_share	19.1%	fraction			info	of sampled 21-mers in 10,000,123 bases
+E4_ILM_AMPLICON_16S_SRR32610635	gc_spread	0.048	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_SRR18576379	kmer_repeat_share	77.1%	fraction			info	of sampled 21-mers in 7,008 bases
+E4_ILM_METATRANSCRIPTOME_SRR18576379	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_ERR7425627	kmer_repeat_share	18.3%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_METATRANSCRIPTOME_ERR7425627	gc_spread	0.056	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_SRR18712154	kmer_repeat_share	33.1%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METATRANSCRIPTOME_SRR18712154	gc_spread	0.036	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_SRR28365014	kmer_repeat_share	32.0%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METATRANSCRIPTOME_SRR28365014	gc_spread	0.076	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_SRR24706644	kmer_repeat_share	31.6%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METATRANSCRIPTOME_SRR24706644	gc_spread	0.03	number			info	excess SD of per-read GC beyond chance
+E4_ILM_METATRANSCRIPTOME_SRR28365009	kmer_repeat_share	29.3%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_METATRANSCRIPTOME_SRR28365009	gc_spread	0.092	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	kmer_repeat_share	8.9%	fraction			info	of sampled 21-mers in 3,721,855 bases
+E4_ILM_RNASEQ_BACTERIA_SRR20673768	gc_spread	0.168	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	kmer_repeat_share	53.0%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_RNASEQ_BACTERIA_SRR34093132	gc_spread	0.059	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	kmer_repeat_share	53.7%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_RNASEQ_BACTERIA_SRR24207401	gc_spread	0.024	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	kmer_repeat_share	30.9%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_RNASEQ_BACTERIA_SRR32886501	gc_spread	0.044	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	kmer_repeat_share	47.8%	fraction			info	of sampled 21-mers in 4,963,461 bases
+E4_ILM_RNASEQ_BACTERIA_SRR18465503	gc_spread	0.051	number			info	excess SD of per-read GC beyond chance
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	kmer_repeat_share	40.3%	fraction			info	of sampled 21-mers in 3,300,000 bases
+E4_ILM_RNASEQ_BACTERIA_SRR30529229	gc_spread	0.062	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR26452318	kmer_repeat_share	6.3%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_BISULFITE_SRR26452318	gc_spread	0.074	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR15829020	kmer_repeat_share	27.7%	fraction			info	of sampled 21-mers in 5,050,000 bases
+E4_ILM_BISULFITE_SRR15829020	gc_spread	0.053	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR24067506	kmer_repeat_share	19.6%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_BISULFITE_SRR24067506	gc_spread	0.064	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR16915506	kmer_repeat_share	19.1%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_BISULFITE_SRR16915506	gc_spread	0.086	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR26311476	kmer_repeat_share	19.6%	fraction			info	of sampled 21-mers in 7,532,914 bases
+E4_ILM_BISULFITE_SRR26311476	gc_spread	0.096	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR26385661	kmer_repeat_share	15.8%	fraction			info	of sampled 21-mers in 6,373,456 bases
+E4_ILM_BISULFITE_SRR26385661	gc_spread	0.069	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR24829770	kmer_repeat_share	10.1%	fraction			info	of sampled 21-mers in 7,234,842 bases
+E4_ILM_BISULFITE_SRR24829770	gc_spread	0.062	number			info	excess SD of per-read GC beyond chance
+E4_ILM_BISULFITE_SRR14016669	kmer_repeat_share	9.0%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_BISULFITE_SRR14016669	gc_spread	0.066	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR33156650	kmer_repeat_share	27.1%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_SINGLE_CELL_SRR33156650	gc_spread	0.099	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR31095750	kmer_repeat_share	6.8%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_SINGLE_CELL_SRR31095750	gc_spread	0.086	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR31377041	kmer_repeat_share	17.1%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_SINGLE_CELL_SRR31377041	gc_spread	0.081	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR31667454	kmer_repeat_share	47.2%	fraction			info	of sampled 21-mers in 4,500,000 bases
+E4_ILM_SINGLE_CELL_SRR31667454	gc_spread	0.105	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR28159416	kmer_repeat_share	3.6%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E4_ILM_SINGLE_CELL_SRR28159416	gc_spread	0.102	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR23455274	kmer_repeat_share	25.0%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E4_ILM_SINGLE_CELL_SRR23455274	gc_spread	0.122	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR24757995	kmer_repeat_share	22.8%	fraction			info	of sampled 21-mers in 4,500,000 bases
+E4_ILM_SINGLE_CELL_SRR24757995	gc_spread	0.122	number			info	excess SD of per-read GC beyond chance
+E4_ILM_SINGLE_CELL_SRR25145998	kmer_repeat_share	23.8%	fraction			info	of sampled 21-mers in 1,572 bases
+E4_ILM_SINGLE_CELL_SRR25145998	gc_spread		number			not_available	excess SD of per-read GC beyond chance

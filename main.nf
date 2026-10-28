@@ -93,7 +93,7 @@ workflow {
         } else if (rs.collect { row -> row[2] ? 'paired' : 'single' }.unique().size() > 1) {
             problems << "${id}: some rows are paired (fastq_2 given) and some are not"
         }
-        [ declared_platform: 'platform', declared_type: 'sample_type', declared_molecule: 'molecule' ].each { key, column ->
+        [ declared_platform: 'platform', declared_type: 'sample_type', declared_molecule: 'molecule', declared_library: 'library' ].each { key, column ->
             def values = rs.collect { row -> declaredValue(row[0][key]) }.unique()
             if (values.size() > 1) {
                 problems << "${id}: rows disagree on ${column} (${values.collect { v -> v ?: 'blank' }.join(', ')})"

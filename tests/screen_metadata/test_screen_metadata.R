@@ -11,6 +11,7 @@
 # Exits non-zero if any sample differs, so CI can use it.
 
 here     <- "tests/screen_metadata"
+`%|%` <- function(a, b) if (length(a) && !is.na(a[1])) a[1] else b
 out_tsv  <- tempfile(fileext = ".tsv")
 status   <- system2("Rscript", c("--vanilla", "bin/screen_metadata.R",
                                  file.path(here, "samplesheet.csv"), out_tsv))
@@ -32,6 +33,10 @@ res <- data.frame(
   expected = ifelse(is.na(exp$expected), "", exp$expected),
   stringsAsFactors = FALSE
 )
+# D93: every name for a methylation library is read as "bisulfite".
+for (k in c("LIB_BS", "LIB_WGBS"))
+  res <- rbind(res, data.frame(sample = paste0(k, "_declared_library"), got = got$declared_library[got$sample == k] %|% "",
+                               expected = "bisulfite", stringsAsFactors = FALSE))
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")
 print(res, row.names = FALSE, right = FALSE)
 

@@ -94,6 +94,10 @@ PLATFORM_SYNONYMS <- c(illumina = "illumina", ont = "ont", nanopore = "ont", pac
 TYPE_SYNONYMS     <- c(isolate = "isolate", metagenome = "metagenome",
                        amplicon = "amplicon", unknown = "unknown")
 MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
+# D93: every name for a methylation library reads as "bisulfite" (EM-seq and
+# PBAT included: the triage treats them alike, and nf-core/methylseq takes them).
+LIBRARY_SYNONYMS <- c(bisulfite = "bisulfite", bisulphite = "bisulfite", wgbs = "bisulfite", rrbs = "bisulfite",
+                      pbat = "bisulfite", "em-seq" = "bisulfite", emseq = "bisulfite", methylation = "bisulfite")
 
 
 # Read ---------------------------------------------------------------------------
@@ -102,7 +106,7 @@ MOLECULE_SYNONYMS <- c(dna = "dna", rna = "rna")
 # visible as text so it can be flagged, instead of silently becoming missing.
 sheet <- read.csv(in_csv, colClasses = "character", na.strings = "",
                   check.names = FALSE, strip.white = FALSE)
-for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size", "group")) {
+for (col in c("fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "library", "target_taxid", "genome_size", "group")) {
   if (!col %in% names(sheet)) sheet[[col]] <- NA_character_
 }
 n <- nrow(sheet)
@@ -121,11 +125,13 @@ add_flag <- function(rows, code, msg) {
 plat <- normalise_vocab(sheet$platform,    PLATFORM_SYNONYMS)
 type <- normalise_vocab(sheet$sample_type, TYPE_SYNONYMS)
 mol  <- normalise_vocab(sheet$molecule,    MOLECULE_SYNONYMS)
+lib  <- normalise_vocab(sheet$library,     LIBRARY_SYNONYMS)
 
 # Values that needed interpreting: report them, never hide them.
 for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
                list(name = "sample_type", raw = sheet$sample_type, norm = type),
-               list(name = "molecule",    raw = sheet$molecule,    norm = mol))) {
+               list(name = "molecule",    raw = sheet$molecule,    norm = mol),
+               list(name = "library",     raw = sheet$library,     norm = lib))) {
   r <- which(f$norm$tier == "empty_token")
   add_flag(r, "EMPTY_TOKEN", sprintf("%s '%s' treated as not declared", f$name, f$raw[r]))
   r <- which(f$norm$tier == "normalised")
@@ -136,7 +142,7 @@ for (f in list(list(name = "platform",    raw = sheet$platform,    norm = plat),
 # validation (tested 2026-10-20), so this flag is the only record that the
 # value was changed. It is also a sign the sheet was hand-edited or exported
 # from a spreadsheet.
-for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "target_taxid", "genome_size", "group")) {
+for (col in c("sample", "fastq_1", "fastq_2", "bam", "fastq_dir", "platform", "sample_type", "molecule", "library", "target_taxid", "genome_size", "group")) {
   v <- sheet[[col]]
   r <- which(!is.na(v) & v != trimws(v))
   add_flag(r, "WHITESPACE", sprintf("%s has leading or trailing spaces", rep(col, length(r))))
@@ -223,7 +229,7 @@ add_flag(r, "LAYOUT_CONFLICT", rep("platform declared as ONT but two FASTQ files
 # sample written as " B" would silently drop out of the join. The WHITESPACE
 # flag above still records that the raw value had spaces.
 # One row per SAMPLE (D75): the rows of a several-file sample agree on
-# platform, type and molecule (main.nf stops otherwise), so the first row
+# platform, type, molecule and library (main.nf stops otherwise), so the first row
 # speaks for them; their flags are pooled, each once.
 first <- !duplicated(id_trim)
 pooled <- lapply(id_trim[first], function(id) unique(unlist(flags[id_trim == id])))
@@ -238,6 +244,9 @@ out <- data.frame(
   declared_molecule_raw  = sheet$molecule[first],
   declared_molecule      = mol$value[first],
   molecule_tier          = mol$tier[first],
+  declared_library_raw   = sheet$library[first],
+  declared_library       = lib$value[first],
+  library_tier           = lib$tier[first],
   # D76: the organism the sample is meant to be, as an NCBI taxid (the
   # schema already checked it is a whole number or an empty token).
   declared_target        = ifelse(is.na(sheet$target_taxid) | is_empty_token(sheet$target_taxid), NA_character_,
