@@ -8,6 +8,10 @@ All notable changes to seq-triage. Versions follow
 
 ### Added
 
+- Samplesheet column `library` (D93): declare `bisulfite` (or WGBS, RRBS,
+  PBAT, EM-seq) for a methylation library. It is treated as one even when the
+  reads show no conversion, which validation found in about 1 in 6 ENA
+  bisulfite runs; the report says when that happens.
 - Comparative genomics across the batch (D89): `recommendations/pathogensurveillance/`
   is one nf-core/pathogensurveillance 1.1.0 samplesheet of every isolate ready
   for assembly (Element, several-file and non-gzipped samples left out, each

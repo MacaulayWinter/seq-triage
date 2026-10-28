@@ -284,6 +284,7 @@ screen and the sample type judge the whole sample.
 | `genome_size` | no | Expected genome size in bases (`5200000`, `5.2m`, `3g`), for the depth-of-coverage estimate. Without it, the NCBI expected size of the declared `target_taxid`, or of the most common species, is used (`assets/species_genome_size.tsv`, NCBI `species_genome_size.txt`). Depth is information only, reported for one organism's DNA; it feeds the next-pipeline advice (under 30x: an assembly will be fragmented). |
 | `group` | no | Samples of one isolate or biological sample sequenced separately share a group: short and long reads of one isolate (the advice becomes one nf-core/bacass **hybrid** assembly, which closes plasmids), or the RNA and DNA of one metagenome (activity vs abundance becomes ready). Each sample is still QC'd on its own. |
 | `molecule` | no | `dna` or `rna`. Use `rna` for RNA-seq, metatranscriptomes and direct RNA, even though Illumina RNA reads are cDNA. RNA samples are not judged on duplication, and FastQC's base-content and overrepresented-sequence modules are marked as known false alarms. RNA mostly cannot be detected from the reads, so it must be declared; direct-RNA reads written with U are flagged if `molecule` says `dna`. |
+| `library` | no | `bisulfite` for a methylation library (`wgbs`, `rrbs`, `pbat`, `em-seq` and `methylation` are read as it). The reads show a bisulfite library only when its conversion is visible in them; in validation that was 19 of 23 ENA bisulfite runs (D93), so declare it when you know. A declared library is treated like a detected one: contamination is not judged and the next pipeline is nf-core/methylseq. If the reads show no conversion, the report says so. |
 
 **Library structure is read from the reads** (D78), whatever was declared:
 
@@ -292,7 +293,7 @@ screen and the sample type judge the whole sample.
 | Every read 30 bp or shorter | `INDEX_READS` | Index or barcode reads, not the sample's DNA: no QC, UNCERTAIN, give R1/R2 instead. |
 | R1 30 bp or shorter, R2 longer | `BARCODE_READ` | A 10x Genomics-style single-cell library (cell barcode + UMI in R1): QC on R2; next pipeline nf-core/scrnaseq. |
 | fastq_2 30 bp or shorter, fastq_1 longer | `INDEX_READ_AS_MATE` | An index (I1) read given as R2: QC on fastq_1 only, at most WARN. |
-| One strand with little C (or G): under 10% and under half of the other base | `BISULFITE` | A bisulfite or EM-seq methylation library: contamination not judged; next pipeline nf-core/methylseq. |
+| One strand with little C (or G), and the converted base (T, or A) the commonest: under 10% and under half of the other base | `BISULFITE` | A bisulfite or EM-seq methylation library whose conversion shows in the reads: contamination not judged; next pipeline nf-core/methylseq. Some bisulfite runs show no conversion, so declare `library` if you know it. |
 | One file whose consecutive reads share a name | `INTERLEAVED` | Both mates in one file: split into R1 and R2 before QC (never published). |
 
 Plate-based single-cell (Smart-seq) has no barcode read, so it looks like

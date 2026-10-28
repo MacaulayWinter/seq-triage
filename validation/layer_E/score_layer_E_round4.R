@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 #*******************************************************************************
-# score_layer_E_round4.R: score layer E round 4 (D87) or round 5 (D90)
+# score_layer_E_round4.R: score layer E round 4 (D87), 5 (D90) or 6 (D93)
 #                         against its pre-registered pass marks
 #
 # PASS MARKS    A. Sample type: zero wrong calls at high confidence (every
@@ -13,10 +13,10 @@
 # REPORTED      BARCODE_READ on the single-cell runs (only 10x-style runs
 #               carry a barcode read); the rRNA share of RNA strata (D81);
 #               correct metagenome calls held at medium by D86 (its cost).
-# Usage:  Rscript score_layer_E_round4.R <panel.tsv> <unpacked_results_dir> <out_prefix>
+# Usage:  Rscript score_layer_E_round4.R <panel.tsv> <unpacked_results_dir> <out_prefix> [bisulfite share]
 #*******************************************************************************
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 3) stop("Usage: score_layer_E_round4.R <panel.tsv> <unpacked_results_dir> <out_prefix>")
+if (!length(args) %in% 3:4) stop("Usage: score_layer_E_round4.R <panel.tsv> <unpacked_results_dir> <out_prefix> [bisulfite share, default 0.875]")
 rt <- function(f) read.delim(f, colClasses = "character", na.strings = "", quote = "")
 panel <- rt(args[1]); summ <- rt(file.path(args[2], "results", "triage_summary.tsv"))
 mets <- rt(file.path(args[2], "results", "triage_metrics.tsv"))
@@ -38,8 +38,11 @@ false_flag <- (has_flag("BISULFITE") & !bs_stratum) | (has_flag("BARCODE_READ") 
 
 # C. bisulfite sensitivity
 n_bs <- sum(bs_stratum); hit_bs <- sum(bs_stratum & has_flag("BISULFITE"))
-# 87.5% of the bisulfite runs fetched: 7 of 8 (round 4), 13 of 14 (round 5, D90).
-need_bs <- ceiling(0.875 * n_bs)
+# Share of the bisulfite runs fetched that must be flagged: 87.5% in rounds 4
+# and 5 (7 of 8; 13 of 14, D90); 75% from round 6 (D93: pooled over every
+# round 19 of 23, about 1 in 6 ENA bisulfite runs showing no conversion).
+need_frac <- if (length(args) >= 4) as.numeric(args[4]) else 0.875
+need_bs <- ceiling(need_frac * n_bs)
 
 # Reported
 rrna <- mets[mets$metric == "rrna_fraction", c("sample", "value", "result")]

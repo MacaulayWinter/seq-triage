@@ -70,6 +70,14 @@
                 "pattern": "(?i)^(dna|rna|na|n/a|nan|null|none|missing|\\.|-|--)$",
                 "errorMessage": "molecule must be dna or rna (case does not matter), or left blank. Use rna for RNA-seq, metatranscriptomes and direct RNA, even when the reads are cDNA."
             },
+            "library": {
+                "type": "string",
+                "meta": [
+                    "declared_library"
+                ],
+                "pattern": "(?i)^(bisulfite|bisulphite|wgbs|rrbs|pbat|em-seq|emseq|methylation|na|n/a|nan|null|none|missing|\\.|-|--)$",
+                "errorMessage": "library must be bisulfite (also accepted: bisulphite, wgbs, rrbs, pbat, em-seq, methylation), or left blank. Declare it for a methylation library: the reads alone show it only when conversion is visible in them (D93)."
+            },
             "target_taxid": {
                 "type": [
                     "integer",

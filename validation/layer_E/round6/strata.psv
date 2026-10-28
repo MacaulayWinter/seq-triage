@@ -1,0 +1,6 @@
+stratum|truth|type_truth|query|from|to|n|sample_type|molecule
+E6_ILM_BISULFITE|illumina|none|instrument_platform="ILLUMINA" AND library_strategy="Bisulfite-Seq" AND library_layout="PAIRED"|2021-01-01|2025-06-30|14||dna
+E6_ILM_BISULFITE_SINGLE|illumina|none|instrument_platform="ILLUMINA" AND library_strategy="Bisulfite-Seq" AND library_layout="SINGLE"|2019-01-01|2025-06-30|6||dna
+E6_ILM_TINY_2COLOUR|illumina|none|instrument_platform="ILLUMINA" AND (instrument_model="Illumina NovaSeq 6000" OR instrument_model="Illumina NovaSeq X" OR instrument_model="Illumina NovaSeq X Plus" OR instrument_model="NextSeq 2000" OR instrument_model="NextSeq 500" OR instrument_model="NextSeq 550") AND library_source="GENOMIC" AND read_count>=50 AND read_count<5000|2021-01-01|2025-06-30|24||dna
+E6_ILM_ISOLATE|illumina|isolate|instrument_platform="ILLUMINA" AND library_strategy="WGS" AND library_source="GENOMIC" AND BACTERIA|2023-01-01|2025-06-30|6||dna
+E6_ILM_AMPLICON_16S|illumina|amplicon|instrument_platform="ILLUMINA" AND library_strategy="AMPLICON" AND library_source="METAGENOMIC"|2023-01-01|2025-06-30|4||dna

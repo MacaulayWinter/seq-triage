@@ -48,6 +48,7 @@ d <- merge(screen, samples, by = "sample", all = TRUE, sort = FALSE,
            suffixes = c("", ".pipeline"))
 d <- d[match(screen$sample, d$sample), ]   # keep samplesheet order
 if (!"declared_molecule" %in% names(d)) d$declared_molecule <- NA_character_
+if (!"declared_library" %in% names(d))  d$declared_library  <- NA_character_
 if (!"declared_target" %in% names(d))   d$declared_target   <- NA_character_
 if (!"declared_genome_size" %in% names(d)) d$declared_genome_size <- NA_character_
 # BAM input (D55): with no platform in the samplesheet, the workflow may take
@@ -336,7 +337,8 @@ judge_sample <- function(s) {
     if (g$metric == "host_fraction" && human_target && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
     # D78: bisulfite-converted reads (C read as T) classify poorly, so the
     # screen's contamination numbers are not judged.
-    bisulfite <- "BISULFITE" %in% flags && g$metric %in% c("host_fraction", "off_target_fraction")
+    # D93: or declared, since conversion is not always visible in the reads.
+    bisulfite <- ("BISULFITE" %in% flags || s$declared_library %in% "bisulfite") && g$metric %in% c("host_fraction", "off_target_fraction")
     if (bisulfite && result %in% c("PASS", "WARN", "FAIL")) result <- "exempt"
     note <- switch(result,
       not_available  = if (g$source_tool == "SortMeRNA") "not screened: give --rrna_db (an rRNA reference) to measure it"
@@ -432,6 +434,10 @@ classify_type <- function(s) {
     return(out("uncertain", "uncertain", "A single-cell library (cell-barcode R1): isolate, metagenome or amplicon does not describe it.", FALSE))
   if ("BISULFITE" %in% lib_flags)
     return(out("uncertain", "uncertain", "A bisulfite / EM-seq methylation library: converted reads cannot show the composition reliably.", FALSE))
+  # D93: declared, but the reads show no conversion. Treated as declared (the
+  # reads of about 1 in 6 ENA bisulfite runs show none), and said so.
+  if (s$declared_library %in% "bisulfite")
+    return(out("uncertain", "uncertain", "Declared a bisulfite / EM-seq methylation library, but the reads show no conversion (C and G are not depleted): conversion may be low, or the library may not be what was declared. Treated as declared.", FALSE))
   short <- s$route %in% SHORT_ROUTES
   amp <- "unknown"; amp_note <- "Nanopore and PacBio reads start with adapter sequence, so an amplicon library cannot be recognised from them."
   if (short) {
@@ -701,7 +707,7 @@ for (i in seq_len(nrow(d))) {
 cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hint",
           "declared_platform", "declared_platform_raw", "detected_platform", "detected_layout",
           "confidence", "route", "routed_by", "n_files", "n_reads", "declared_type",
-          "declared_molecule", "n_flags", "flags", "detection_flags", "reasons",
+          "declared_molecule", "declared_library", "n_flags", "flags", "detection_flags", "reasons",
           "detected_type", "type_confidence", "type_reason", "declared_target")
 write.table(d[, cols], paste0(prefix, "_summary.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 write.table(metrics[, setdiff(names(metrics), "gi")], paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
@@ -781,6 +787,7 @@ md <- c(
     paste0("- Detection (", show(d$confidence[i]), " confidence): ", show(d$reasons[i])),
     if (!SCREEN_ON && d$route[i] %in% QC_ROUTES) "- Contamination: not screened (no Kraken2 database was given).",
     if (!is.na(d$detection_flags[i])) paste0("- Detection flags: ", gsub(",", ", ", d$detection_flags[i], fixed = TRUE)),
+    if (d$declared_library[i] %in% "bisulfite") "- Declared library: bisulfite / EM-seq (methylation)",
     sprintf("- Sample type (from the reads): %s%s. %s", d$detected_type[i],
             if (d$type_confidence[i] %in% c("high", "medium")) sprintf(", %s confidence", d$type_confidence[i]) else "",
             d$type_reason[i]),

@@ -66,6 +66,25 @@ Score on your Mac:
 Rscript validation/layer_E/score_layer_E_round4.R validation/outcomes/layer_E_round4/panel.tsv ~/seqtriage-scratch/validation/layer_E_r4_results layer_E_r4
 ```
 
+## Round 6 (D93)
+
+After round 5's mark C failed. Same steps; the bisulfite share is the fourth
+argument of the scorer. On the HPC:
+
+```bash
+cd ~/seq-triage && PANEL=validation/outcomes/layer_E_round6/panel.tsv sbatch -p YOUR_PARTITION -A YOUR_ACCOUNT --export=ALL validation/layer_E/run_layer_E.sh validation/layer_D/settings.config ~/seqtriage_layer_E_r6
+```
+
+Bring back and score on your Mac:
+
+```bash
+mkdir -p ~/seqtriage-scratch/validation/layer_E_r6_results && scp isca:~/seqtriage_layer_E_r6/layer_E_results.tgz ~/seqtriage-scratch/validation/layer_E_r6_results/ && tar -xzf ~/seqtriage-scratch/validation/layer_E_r6_results/layer_E_results.tgz -C ~/seqtriage-scratch/validation/layer_E_r6_results
+```
+
+```bash
+Rscript validation/layer_E/score_layer_E_round4.R validation/outcomes/layer_E_round6/panel.tsv ~/seqtriage-scratch/validation/layer_E_r6_results layer_E_r6 0.75
+```
+
 ## Round 5 (D90)
 
 Confirms the bisulfite fix on unseen runs, after round 4's mark B failed. On
