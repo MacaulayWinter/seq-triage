@@ -1,0 +1,1201 @@
+sample	metric	value	unit	warn	fail	result	note
+E6_ILM_BISULFITE_SRR22953761	total_reads	99,136	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR22953761	q30_rate	88.8%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR22953761	passed_filter_pct	99.1%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR22953761	duplication_rate	4.9%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR22953761	adapter_trimmed_pct	7.8%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR22953761	gc_content	23.2%	fraction			info	
+E6_ILM_BISULFITE_SRR22953761	insert_size_peak	268	bp			info	
+E6_ILM_BISULFITE_SRR22953761	mean_read_length	148	bp			info	
+E6_ILM_BISULFITE_SRR22953761	n_base_rate	0.03%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR22953761	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR22953761	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SRR22953761	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SRR22953761	host_fraction	3.6%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR22953761	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR22953761	unclassified_fraction	96.0%	fraction			info	
+E6_ILM_BISULFITE_SRR22953761	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SRR22953761	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR22953761	bacterial_fraction	7.3%	fraction			info	
+E6_ILM_BISULFITE_SRR22953761	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR22953761	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR8568291	total_reads	96,500	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR8568291	q30_rate	77.5%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR8568291	passed_filter_pct	96.5%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR8568291	duplication_rate	0.33%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR8568291	adapter_trimmed_pct	21.0%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR8568291	gc_content	22.7%	fraction			info	
+E6_ILM_BISULFITE_SRR8568291	insert_size_peak	150	bp			info	
+E6_ILM_BISULFITE_SRR8568291	mean_read_length	145	bp			info	
+E6_ILM_BISULFITE_SRR8568291	n_base_rate	0.09%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR8568291	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR8568291	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SRR8568291	fastqc_per_sequence_gc_content	PASS	status			info	
+E6_ILM_BISULFITE_SRR8568291	host_fraction	2.9%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR8568291	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR8568291	unclassified_fraction	96.6%	fraction			info	
+E6_ILM_BISULFITE_SRR8568291	viral_fraction	0.18%	fraction			info	
+E6_ILM_BISULFITE_SRR8568291	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR8568291	bacterial_fraction	11.6%	fraction			info	
+E6_ILM_BISULFITE_SRR8568291	dominant_species	Curtobacterium flaccumfaciens (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SRR8568291	top_species	Curtobacterium flaccumfaciens 100.0%	label			info	
+E6_ILM_BISULFITE_SRR30628922	total_reads	98,994	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR30628922	q30_rate	96.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR30628922	passed_filter_pct	99.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR30628922	duplication_rate	1.3%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR30628922	adapter_trimmed_pct	3.4%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR30628922	gc_content	21.7%	fraction			info	
+E6_ILM_BISULFITE_SRR30628922	insert_size_peak	236	bp			info	
+E6_ILM_BISULFITE_SRR30628922	mean_read_length	150	bp			info	
+E6_ILM_BISULFITE_SRR30628922	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR30628922	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR30628922	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SRR30628922	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SRR30628922	host_fraction	1.6%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR30628922	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR30628922	unclassified_fraction	97.3%	fraction			info	
+E6_ILM_BISULFITE_SRR30628922	viral_fraction	0.23%	fraction			info	
+E6_ILM_BISULFITE_SRR30628922	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR30628922	bacterial_fraction	28.3%	fraction			info	
+E6_ILM_BISULFITE_SRR30628922	dominant_species	Xanthomonas euvesicatoria (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SRR30628922	top_species	Xanthomonas euvesicatoria 100.0%	label			info	
+E6_ILM_BISULFITE_SRR23821573	total_reads	99,374	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR23821573	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_BISULFITE_SRR23821573	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR23821573	duplication_rate	3.8%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR23821573	adapter_trimmed_pct	6.5%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR23821573	gc_content	23.0%	fraction			info	
+E6_ILM_BISULFITE_SRR23821573	insert_size_peak	268	bp			info	
+E6_ILM_BISULFITE_SRR23821573	mean_read_length	148	bp			info	
+E6_ILM_BISULFITE_SRR23821573	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR23821573	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR23821573	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_BISULFITE_SRR23821573	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR23821573	host_fraction	1.6%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR23821573	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR23821573	unclassified_fraction	96.7%	fraction			info	
+E6_ILM_BISULFITE_SRR23821573	viral_fraction	0.12%	fraction			info	
+E6_ILM_BISULFITE_SRR23821573	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR23821573	bacterial_fraction	6.5%	fraction			info	
+E6_ILM_BISULFITE_SRR23821573	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR23821573	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR13455166	total_reads	99,740	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR13455166	q30_rate	90.8%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR13455166	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR13455166	duplication_rate	0.65%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR13455166	adapter_trimmed_pct	13.2%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR13455166	gc_content	21.8%	fraction			info	
+E6_ILM_BISULFITE_SRR13455166	insert_size_peak	202	bp			info	
+E6_ILM_BISULFITE_SRR13455166	mean_read_length	120	bp			info	
+E6_ILM_BISULFITE_SRR13455166	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR13455166	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR13455166	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SRR13455166	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SRR13455166	host_fraction	1.9%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR13455166	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR13455166	unclassified_fraction	97.1%	fraction			info	
+E6_ILM_BISULFITE_SRR13455166	viral_fraction	0.07%	fraction			info	
+E6_ILM_BISULFITE_SRR13455166	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR13455166	bacterial_fraction	7.4%	fraction			info	
+E6_ILM_BISULFITE_SRR13455166	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR13455166	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR33380330	total_reads	99,178	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR33380330	q30_rate	92.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR33380330	passed_filter_pct	99.2%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR33380330	duplication_rate	22.2%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR33380330	adapter_trimmed_pct	10.0%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR33380330	gc_content	24.3%	fraction			info	
+E6_ILM_BISULFITE_SRR33380330	insert_size_peak	206	bp			info	
+E6_ILM_BISULFITE_SRR33380330	mean_read_length	146	bp			info	
+E6_ILM_BISULFITE_SRR33380330	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR33380330	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR33380330	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SRR33380330	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SRR33380330	host_fraction	4.3%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR33380330	off_target_fraction	10.1%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR33380330	unclassified_fraction	95.1%	fraction			info	
+E6_ILM_BISULFITE_SRR33380330	viral_fraction	0.08%	fraction			info	
+E6_ILM_BISULFITE_SRR33380330	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR33380330	bacterial_fraction	10.7%	fraction			info	
+E6_ILM_BISULFITE_SRR33380330	dominant_species	Xanthomonas euvesicatoria (89.9% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SRR33380330	top_species	Xanthomonas euvesicatoria 89.9%; Curtobacterium flaccumfaciens 10.1%	label			info	
+E6_ILM_BISULFITE_SRR23627495	total_reads	94,268	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR23627495	q30_rate	88.4%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR23627495	passed_filter_pct	94.3%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR23627495	duplication_rate	2.0%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR23627495	adapter_trimmed_pct	14.8%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR23627495	gc_content	26.7%	fraction			info	
+E6_ILM_BISULFITE_SRR23627495	insert_size_peak	202	bp			info	
+E6_ILM_BISULFITE_SRR23627495	mean_read_length	145	bp			info	
+E6_ILM_BISULFITE_SRR23627495	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR23627495	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR23627495	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_BISULFITE_SRR23627495	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR23627495	host_fraction	1.2%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR23627495	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR23627495	unclassified_fraction	84.1%	fraction			info	
+E6_ILM_BISULFITE_SRR23627495	viral_fraction	0.16%	fraction			info	
+E6_ILM_BISULFITE_SRR23627495	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR23627495	bacterial_fraction	14.2%	fraction			info	
+E6_ILM_BISULFITE_SRR23627495	dominant_species	Xanthomonas euvesicatoria (99.2% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SRR23627495	top_species	Xanthomonas euvesicatoria 99.2%; Mycobacterium canetti 0.6%; Buchnera aphidicola 0.2%; 2 trace species under 1% each, 0.8% in total (not counted as off-target)	label			info	
+E6_ILM_BISULFITE_SRR21981277	total_reads	98,500	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR21981277	q30_rate	90.2%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR21981277	passed_filter_pct	98.5%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR21981277	duplication_rate	3.1%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR21981277	adapter_trimmed_pct	34.6%	fraction	30.0%		WARN	
+E6_ILM_BISULFITE_SRR21981277	gc_content	23.3%	fraction			info	
+E6_ILM_BISULFITE_SRR21981277	insert_size_peak	153	bp			info	
+E6_ILM_BISULFITE_SRR21981277	mean_read_length	136	bp			info	
+E6_ILM_BISULFITE_SRR21981277	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR21981277	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR21981277	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_BISULFITE_SRR21981277	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SRR21981277	host_fraction	4.1%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR21981277	off_target_fraction	9.4%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR21981277	unclassified_fraction	83.9%	fraction			info	
+E6_ILM_BISULFITE_SRR21981277	viral_fraction	0.05%	fraction			info	
+E6_ILM_BISULFITE_SRR21981277	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR21981277	bacterial_fraction	47.0%	fraction			info	
+E6_ILM_BISULFITE_SRR21981277	dominant_species	Xanthomonas euvesicatoria (89.7% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SRR21981277	top_species	Xanthomonas euvesicatoria 89.7%; Mycobacterium canetti 6.2%; Bdellovibrio bacteriovorus 3.2%; 1 trace species under 1% each, 0.8% in total (not counted as off-target)	label			info	
+E6_ILM_BISULFITE_ERR13999027	total_reads	97,176	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_ERR13999027	q30_rate	90.7%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_ERR13999027	passed_filter_pct	97.2%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_ERR13999027	duplication_rate	4.0%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_ERR13999027	adapter_trimmed_pct	45.8%	fraction	30.0%		WARN	
+E6_ILM_BISULFITE_ERR13999027	gc_content	25.6%	fraction			info	
+E6_ILM_BISULFITE_ERR13999027	insert_size_peak	110	bp			info	
+E6_ILM_BISULFITE_ERR13999027	mean_read_length	125	bp			info	
+E6_ILM_BISULFITE_ERR13999027	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_ERR13999027	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_ERR13999027	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_BISULFITE_ERR13999027	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_BISULFITE_ERR13999027	host_fraction	5.4%	fraction	1.0%	10.0%	WARN	
+E6_ILM_BISULFITE_ERR13999027	off_target_fraction	5.3%	fraction	5.0%	20.0%	WARN	
+E6_ILM_BISULFITE_ERR13999027	unclassified_fraction	78.6%	fraction			info	
+E6_ILM_BISULFITE_ERR13999027	viral_fraction	0.20%	fraction			info	
+E6_ILM_BISULFITE_ERR13999027	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_ERR13999027	bacterial_fraction	23.2%	fraction			info	
+E6_ILM_BISULFITE_ERR13999027	dominant_species	Xanthomonas euvesicatoria (93.9% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_ERR13999027	top_species	Xanthomonas euvesicatoria 93.9%; Mycobacterium canetti 5.3%; Bdellovibrio bacteriovorus 0.4%; 3 trace species under 1% each, 0.8% in total (not counted as off-target)	label			info	
+E6_ILM_BISULFITE_SRR24202375	total_reads	98,684	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SRR24202375	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR24202375	passed_filter_pct	98.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SRR24202375	duplication_rate	20.4%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR24202375	adapter_trimmed_pct	12.3%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SRR24202375	gc_content	25.6%	fraction			info	
+E6_ILM_BISULFITE_SRR24202375	insert_size_peak	242	bp			info	
+E6_ILM_BISULFITE_SRR24202375	mean_read_length	145	bp			info	
+E6_ILM_BISULFITE_SRR24202375	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SRR24202375	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR24202375	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_BISULFITE_SRR24202375	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_BISULFITE_SRR24202375	host_fraction	4.4%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SRR24202375	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR24202375	unclassified_fraction	94.8%	fraction			info	
+E6_ILM_BISULFITE_SRR24202375	viral_fraction	0.19%	fraction			info	
+E6_ILM_BISULFITE_SRR24202375	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SRR24202375	bacterial_fraction	12.9%	fraction			info	
+E6_ILM_BISULFITE_SRR24202375	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SRR24202375	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR9136308	total_reads	48,344	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	q30_rate	92.9%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	passed_filter_pct	96.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	duplication_rate	14.9%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	adapter_trimmed_pct	5.4%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	gc_content	31.4%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_SRR9136308	mean_read_length	80	bp			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	host_fraction	0.19%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_SRR9136308	off_target_fraction	0.00%	fraction	5.0%	20.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_SRR9136308	unclassified_fraction	97.9%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	viral_fraction	0.19%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR9136308	bacterial_fraction	1.5%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	dominant_species	Curtobacterium flaccumfaciens (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_BISULFITE_SINGLE_SRR9136308	top_species	Curtobacterium flaccumfaciens 100.0%	label			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	total_reads	43,604	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	q30_rate	91.3%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	passed_filter_pct	87.2%	fraction	90.0%	70.0%	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	duplication_rate	12.0%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	adapter_trimmed_pct	32.0%	fraction	30.0%		WARN	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	gc_content	39.4%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_SRR20168509	mean_read_length	35	bp			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	n_base_rate	0.03%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	host_fraction	0.02%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR20168509	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR20168509	unclassified_fraction	100.0%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR20168509	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR20168509	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR20168509	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_ERR1710178	total_reads	43,001	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	q30_rate	86.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	passed_filter_pct	86.0%	fraction	90.0%	70.0%	WARN	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	duplication_rate	4.8%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	adapter_trimmed_pct	10.1%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	gc_content	33.5%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_ERR1710178	mean_read_length	49	bp			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	host_fraction	0.07%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_ERR1710178	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_ERR1710178	unclassified_fraction	99.9%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_ERR1710178	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_ERR1710178	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_ERR1710178	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR28699420	total_reads	49,961	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	q30_rate	92.5%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	duplication_rate	18.1%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	adapter_trimmed_pct	8.7%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	gc_content	31.3%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_SRR28699420	mean_read_length	61	bp			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	host_fraction	0.11%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_SRR28699420	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR28699420	unclassified_fraction	99.9%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR28699420	bacterial_fraction	1.5%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR28699420	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR28699420	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR13012839	total_reads	49,846	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	q30_rate	93.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	duplication_rate	10.6%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	adapter_trimmed_pct	9.4%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	gc_content	29.9%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_SRR13012839	mean_read_length	100	bp			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	n_base_rate	0.06%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	fastqc_per_sequence_gc_content	PASS	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	host_fraction	0.52%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_SRR13012839	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR13012839	unclassified_fraction	97.9%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR13012839	bacterial_fraction	0.47%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR13012839	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR13012839	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR10606699	total_reads	48,525	reads	100,000	1,000	WARN	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	q30_rate	86.4%	fraction	75.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	passed_filter_pct	97.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	duplication_rate	0.06%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	adapter_trimmed_pct	3.2%	fraction	30.0%		PASS	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	gc_content	24.6%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_BISULFITE_SINGLE_SRR10606699	mean_read_length	100	bp			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	n_base_rate	0.19%	fraction	1.0%	5.0%	PASS	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	host_fraction	0.43%	fraction	1.0%	10.0%	exempt	not judged: bisulfite-converted reads cannot be classified reliably
+E6_ILM_BISULFITE_SINGLE_SRR10606699	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR10606699	unclassified_fraction	99.5%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	viral_fraction	0.00%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_BISULFITE_SINGLE_SRR10606699	bacterial_fraction	4.3%	fraction			info	
+E6_ILM_BISULFITE_SINGLE_SRR10606699	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_BISULFITE_SINGLE_SRR10606699	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR4812904	total_reads	1,150	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_ERR4812904	q30_rate	91.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR4812904	passed_filter_pct	77.5%	fraction	90.0%	70.0%	WARN	
+E6_ILM_TINY_2COLOUR_ERR4812904	duplication_rate	6.1%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_ERR4812904	adapter_trimmed_pct	12.3%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_ERR4812904	gc_content	67.1%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	insert_size_peak	38	bp			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	mean_read_length	139	bp			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR4812904	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	host_fraction	4.3%	fraction	1.0%	10.0%	WARN	
+E6_ILM_TINY_2COLOUR_ERR4812904	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR4812904	unclassified_fraction	36.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_ERR4812904	bacterial_fraction	91.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	dominant_species	Mycobacterium tuberculosis (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_ERR4812904	top_species	Mycobacterium tuberculosis 100.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	total_reads	600	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR24890315	q30_rate	92.3%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	passed_filter_pct	99.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	duplication_rate	6.0%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	adapter_trimmed_pct	25.2%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	gc_content	36.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	insert_size_peak	106	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	mean_read_length	93	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	host_fraction	0.33%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24890315	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24890315	unclassified_fraction	98.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR24890315	bacterial_fraction	50.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24890315	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24890315	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR32680547	total_reads	7,960	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR32680547	q30_rate	93.2%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	passed_filter_pct	99.1%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	duplication_rate	25.5%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	adapter_trimmed_pct	4.5%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	gc_content	40.3%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	insert_size_peak	59	bp			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	mean_read_length	84	bp			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR32680547	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR32680547	unclassified_fraction	97.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR32680547	bacterial_fraction	97.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR32680547	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR32680547	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR18059508	total_reads	1,218	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR18059508	q30_rate	93.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR18059508	passed_filter_pct	99.5%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR18059508	duplication_rate	4.4%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR18059508	adapter_trimmed_pct	0.16%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR18059508	gc_content	39.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	insert_size_peak	219	bp			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	mean_read_length	150	bp			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR18059508	fastqc_per_base_sequence_content	PASS	status			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	host_fraction	1.8%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR18059508	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR18059508	unclassified_fraction	98.2%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR18059508	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR18059508	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR18059508	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR25049086	total_reads	568	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR25049086	q30_rate	92.3%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	duplication_rate	0.70%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	adapter_trimmed_pct	29.7%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	gc_content	52.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	insert_size_peak	89	bp			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	mean_read_length	85	bp			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	host_fraction	0.35%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR25049086	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR25049086	unclassified_fraction	95.1%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR25049086	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR25049086	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR25049086	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR31440102	total_reads	649	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR31440102	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_TINY_2COLOUR_SRR31440102	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR31440102	duplication_rate	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR31440102	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR31440102	gc_content	45.6%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR31440102	mean_read_length	260	bp			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR31440102	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	host_fraction	0.15%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR31440102	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR31440102	unclassified_fraction	78.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR31440102	bacterial_fraction	68.1%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	dominant_species	Pseudomonas sp. CIP-10 (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR31440102	top_species	Pseudomonas sp. CIP-10 100.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	total_reads	2,914	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR28983653	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_TINY_2COLOUR_SRR28983653	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR28983653	duplication_rate	4.9%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR28983653	adapter_trimmed_pct	70.4%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR28983653	gc_content	30.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	insert_size_peak	48	bp			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	mean_read_length	104	bp			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR28983653	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	host_fraction	16.2%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR28983653	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR28983653	unclassified_fraction	77.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR28983653	bacterial_fraction	22.2%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	dominant_species	Staphylococcus aureus (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR28983653	top_species	Staphylococcus aureus 100.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	total_reads	7,092	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR33252586	q30_rate	89.5%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	passed_filter_pct	99.9%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	duplication_rate	51.9%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR33252586	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	gc_content	27.3%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	insert_size_peak	227	bp			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	mean_read_length	150	bp			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	host_fraction	0.06%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33252586	unclassified_fraction	99.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR33252586	bacterial_fraction	90.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	dominant_species	Virgibacillus sp. CBA3643 (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR33252586	top_species	Virgibacillus sp. CBA3643 100.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	total_reads	3,228	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR16548949	q30_rate	89.5%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	duplication_rate	0.37%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	gc_content	53.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	insert_size_peak	417	bp			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	mean_read_length	251	bp			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	host_fraction	0.43%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR16548949	off_target_fraction	13.0%	fraction	5.0%	20.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR16548949	unclassified_fraction	4.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR16548949	bacterial_fraction	36.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	dominant_species	Halomarina litorea (87.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR16548949	top_species	Halomarina litorea 87.0%; Pirellula sp. SH-Sr6A 13.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	total_reads	588	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR13356885	q30_rate	89.4%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	passed_filter_pct	99.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	duplication_rate	2.7%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	gc_content	89.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	insert_size_peak	150	bp			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	mean_read_length	150	bp			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	host_fraction	0.34%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR13356885	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR13356885	unclassified_fraction	99.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR13356885	bacterial_fraction	66.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR13356885	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR13356885	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR27691653	total_reads	4,764	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR27691653	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_TINY_2COLOUR_SRR27691653	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR27691653	duplication_rate	0.71%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR27691653	adapter_trimmed_pct	73.3%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR27691653	gc_content	38.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	insert_size_peak	77	bp			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	mean_read_length	84	bp			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR27691653	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	host_fraction	17.1%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR27691653	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR27691653	unclassified_fraction	80.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	viral_fraction	0.21%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR27691653	bacterial_fraction	9.6%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR27691653	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR27691653	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR26752335	total_reads	8,036	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR26752335	q30_rate	95.4%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	passed_filter_pct	96.3%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	duplication_rate	1.3%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	gc_content	36.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	insert_size_peak	44	bp			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	mean_read_length	39	bp			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	n_base_rate	0.20%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	fastqc_per_sequence_gc_content	PASS	status			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	host_fraction	0.05%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26752335	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR26752335	unclassified_fraction	99.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR26752335	bacterial_fraction	60.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26752335	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR26752335	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR12023110	total_reads	9,304	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR12023110	q30_rate	82.4%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	passed_filter_pct	95.6%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	duplication_rate	1.3%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	adapter_trimmed_pct	10.0%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	gc_content	57.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	insert_size_peak	212	bp			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	mean_read_length	147	bp			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	n_base_rate	0.08%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR12023110	off_target_fraction	73.6%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_TINY_2COLOUR_SRR12023110	unclassified_fraction	14.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR12023110	bacterial_fraction	99.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	dominant_species	Bacillus subtilis (26.4% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR12023110	top_species	Bacillus subtilis 26.4%; Deinococcus radiodurans 17.6%; Arthrobacter sp. KBS0702 14.1%	label			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	total_reads	194	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR24473667	q30_rate	73.8%	fraction	75.0%	70.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR24473667	passed_filter_pct	78.2%	fraction	90.0%	70.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR24473667	duplication_rate	8.1%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24473667	adapter_trimmed_pct	0.81%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24473667	gc_content	58.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	insert_size_peak	173	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	mean_read_length	141	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24473667	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	host_fraction	3.2%	fraction	1.0%	10.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR24473667	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24473667	unclassified_fraction	90.3%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR24473667	bacterial_fraction	8.3%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24473667	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24473667	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6022537	total_reads	419	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_ERR6022537	q30_rate	92.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6022537	passed_filter_pct	99.3%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6022537	duplication_rate	36.3%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_ERR6022537	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_ERR6022537	gc_content	42.1%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_ERR6022537	mean_read_length	94	bp			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	n_base_rate	0.07%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6022537	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6022537	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6022537	unclassified_fraction	99.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_ERR6022537	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6022537	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6022537	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24465295	total_reads	962	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR24465295	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24465295	passed_filter_pct	92.1%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24465295	duplication_rate	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24465295	adapter_trimmed_pct	4.4%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR24465295	gc_content	45.6%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	insert_size_peak	209	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	mean_read_length	148	bp			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR24465295	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	host_fraction	3.1%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR24465295	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24465295	unclassified_fraction	96.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR24465295	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR24465295	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR24465295	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR33938391	total_reads	7,448	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR33938391	q30_rate	89.1%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	passed_filter_pct	99.1%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	duplication_rate	25.0%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	adapter_trimmed_pct	0.03%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	gc_content	53.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	insert_size_peak	412	bp			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	mean_read_length	248	bp			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33938391	off_target_fraction	19.9%	fraction	5.0%	20.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR33938391	unclassified_fraction	4.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR33938391	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	dominant_species	Salmonella enterica (79.3% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR33938391	top_species	Salmonella enterica 79.3%; Klebsiella pneumoniae 12.7%; Mycoplasmopsis synoviae 1.7%; 1 trace species under 1% each, 0.8% in total (not counted as off-target)	label			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	total_reads	3,872	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR30989404	q30_rate	96.7%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR30989404	passed_filter_pct	99.4%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR30989404	duplication_rate	1.5%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR30989404	adapter_trimmed_pct	93.0%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR30989404	gc_content	31.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	insert_size_peak	73	bp			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	mean_read_length	70	bp			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR30989404	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	host_fraction	9.2%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR30989404	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR30989404	unclassified_fraction	90.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR30989404	bacterial_fraction	2.2%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR30989404	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR30989404	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR26863926	total_reads	4,644	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR26863926	q30_rate	91.9%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	passed_filter_pct	98.9%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	duplication_rate	8.7%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	adapter_trimmed_pct	0.38%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	gc_content	53.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	insert_size_peak	192	bp			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	mean_read_length	139	bp			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	host_fraction	0.21%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR26863926	off_target_fraction	85.2%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_TINY_2COLOUR_SRR26863926	unclassified_fraction	97.7%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR26863926	bacterial_fraction	90.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	dominant_species	Candidatus Mycobacterium wuenschmannii (14.8% of species-level reads, Kraken2)	label			info	
+E6_ILM_TINY_2COLOUR_SRR26863926	top_species	Candidatus Mycobacterium wuenschmannii 14.8%; Mycolicibacterium madagascariense 7.4%; Achromobacter marplatensis 3.7%	label			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	total_reads	108	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR33983780	q30_rate	58.3%	fraction	75.0%	70.0%	FAIL	
+E6_ILM_TINY_2COLOUR_SRR33983780	passed_filter_pct	44.1%	fraction	90.0%	70.0%	FAIL	
+E6_ILM_TINY_2COLOUR_SRR33983780	duplication_rate	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR33983780	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR33983780	gc_content	49.4%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR33983780	mean_read_length	150	bp			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	n_base_rate	0.01%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33983780	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR33983780	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR33983780	unclassified_fraction	99.6%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR33983780	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR33983780	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR33983780	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR20827649	total_reads	449	reads	100,000	1,000	FAIL	
+E6_ILM_TINY_2COLOUR_SRR20827649	q30_rate	95.3%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR20827649	passed_filter_pct	99.6%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR20827649	duplication_rate	30.8%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR20827649	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR20827649	gc_content	48.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_SRR20827649	mean_read_length	87	bp			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR20827649	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR20827649	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR20827649	unclassified_fraction	90.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR20827649	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR20827649	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR20827649	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6016623	total_reads	1,980	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_ERR6016623	q30_rate	98.3%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6016623	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6016623	duplication_rate	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_ERR6016623	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_ERR6016623	gc_content	37.8%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_TINY_2COLOUR_ERR6016623	mean_read_length	41	bp			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6016623	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	fastqc_per_sequence_gc_content	PASS	status			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_ERR6016623	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6016623	unclassified_fraction	100.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_ERR6016623	viral_fraction		fraction			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6016623	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_ERR6016623	bacterial_fraction		fraction			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6016623	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_ERR6016623	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR10507392	total_reads	4,126	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR10507392	q30_rate	92.2%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	passed_filter_pct	98.1%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	duplication_rate	40.3%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR10507392	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	gc_content	39.5%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	insert_size_peak	92	bp			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	mean_read_length	71	bp			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	host_fraction	0.29%	fraction	1.0%	10.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR10507392	unclassified_fraction	95.1%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR10507392	bacterial_fraction	94.2%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	dominant_species	Xanthomonas albilineans (100.0% of species-level reads, Bracken)	label			info	
+E6_ILM_TINY_2COLOUR_SRR10507392	top_species	Xanthomonas albilineans 100.0%	label			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	total_reads	5,394	reads	100,000	1,000	WARN	
+E6_ILM_TINY_2COLOUR_SRR14996999	q30_rate	94.2%	fraction	75.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR14996999	passed_filter_pct	97.7%	fraction	90.0%	70.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR14996999	duplication_rate	2.3%	fraction	30.0%		PASS	
+E6_ILM_TINY_2COLOUR_SRR14996999	adapter_trimmed_pct	63.7%	fraction	30.0%		WARN	
+E6_ILM_TINY_2COLOUR_SRR14996999	gc_content	35.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	insert_size_peak	76	bp			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	mean_read_length	91	bp			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	n_base_rate	0.20%	fraction	1.0%	5.0%	PASS	
+E6_ILM_TINY_2COLOUR_SRR14996999	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	host_fraction	3.4%	fraction	1.0%	10.0%	WARN	
+E6_ILM_TINY_2COLOUR_SRR14996999	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR14996999	unclassified_fraction	40.0%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	viral_fraction	0.00%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_TINY_2COLOUR_SRR14996999	bacterial_fraction	1.9%	fraction			info	
+E6_ILM_TINY_2COLOUR_SRR14996999	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_TINY_2COLOUR_SRR14996999	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_ISOLATE_SRR24565793	total_reads	98,888	reads	100,000	1,000	WARN	
+E6_ILM_ISOLATE_SRR24565793	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_ISOLATE_SRR24565793	passed_filter_pct	98.9%	fraction	90.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR24565793	duplication_rate	0.66%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR24565793	adapter_trimmed_pct	1.2%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR24565793	gc_content	59.1%	fraction			info	
+E6_ILM_ISOLATE_SRR24565793	insert_size_peak	263	bp			info	
+E6_ILM_ISOLATE_SRR24565793	mean_read_length	147	bp			info	
+E6_ILM_ISOLATE_SRR24565793	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_SRR24565793	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_ISOLATE_SRR24565793	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_ISOLATE_SRR24565793	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_ISOLATE_SRR24565793	host_fraction	0.02%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_SRR24565793	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_ISOLATE_SRR24565793	unclassified_fraction	9.1%	fraction			info	
+E6_ILM_ISOLATE_SRR24565793	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_SRR24565793	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_SRR24565793	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_ISOLATE_SRR24565793	dominant_species	Pseudomonas syringae (99.8% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_SRR24565793	top_species	Pseudomonas syringae 99.8%; Pseudomonas amygdali 0.1%; Pseudomonas cerasi 0.1%; 4 trace species under 1% each, 0.2% in total (not counted as off-target)	label			info	
+E6_ILM_ISOLATE_DRR502797	total_reads	99,808	reads	100,000	1,000	WARN	
+E6_ILM_ISOLATE_DRR502797	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_ISOLATE_DRR502797	passed_filter_pct	99.8%	fraction	90.0%	70.0%	PASS	
+E6_ILM_ISOLATE_DRR502797	duplication_rate	2.7%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_DRR502797	adapter_trimmed_pct	22.5%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_DRR502797	gc_content	53.2%	fraction			info	
+E6_ILM_ISOLATE_DRR502797	insert_size_peak	226	bp			info	
+E6_ILM_ISOLATE_DRR502797	mean_read_length	142	bp			info	
+E6_ILM_ISOLATE_DRR502797	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_DRR502797	fastqc_per_base_sequence_content	PASS	status			info	
+E6_ILM_ISOLATE_DRR502797	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_ISOLATE_DRR502797	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_ISOLATE_DRR502797	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_DRR502797	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_ISOLATE_DRR502797	unclassified_fraction	6.7%	fraction			info	
+E6_ILM_ISOLATE_DRR502797	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_DRR502797	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_DRR502797	bacterial_fraction	99.2%	fraction			info	
+E6_ILM_ISOLATE_DRR502797	dominant_species	Salmonella enterica (98.5% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_DRR502797	top_species	Salmonella enterica 98.5%; Xanthomonas euvesicatoria 0.6%; Escherichia coli / Shigella 0.4%; 5 trace species under 1% each, 1.5% in total (not counted as off-target)	label			info	
+E6_ILM_ISOLATE_SRR10729003	total_reads	87,382	reads	100,000	1,000	WARN	
+E6_ILM_ISOLATE_SRR10729003	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR10729003	passed_filter_pct	87.4%	fraction	90.0%	70.0%	WARN	
+E6_ILM_ISOLATE_SRR10729003	duplication_rate	1.6%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR10729003	adapter_trimmed_pct	16.3%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR10729003	gc_content	45.8%	fraction			info	
+E6_ILM_ISOLATE_SRR10729003	insert_size_peak	292	bp			info	
+E6_ILM_ISOLATE_SRR10729003	mean_read_length	242	bp			info	
+E6_ILM_ISOLATE_SRR10729003	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_SRR10729003	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_ISOLATE_SRR10729003	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_ISOLATE_SRR10729003	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_ISOLATE_SRR10729003	host_fraction	0.03%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_SRR10729003	off_target_fraction	6.6%	fraction	5.0%	20.0%	WARN	
+E6_ILM_ISOLATE_SRR10729003	unclassified_fraction	3.0%	fraction			info	
+E6_ILM_ISOLATE_SRR10729003	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_SRR10729003	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_SRR10729003	bacterial_fraction	99.9%	fraction			info	
+E6_ILM_ISOLATE_SRR10729003	dominant_species	Bacillus velezensis (91.8% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_SRR10729003	top_species	Bacillus velezensis 91.8%; Bacillus sp. SDLI1 2.6%; Bacillus sp. HNA3 2.2%; 9 trace species under 1% each, 1.5% in total (not counted as off-target)	label			info	
+E6_ILM_ISOLATE_SRR26374539	total_reads	100,000	reads	100,000	1,000	PASS	
+E6_ILM_ISOLATE_SRR26374539	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_ISOLATE_SRR26374539	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR26374539	duplication_rate	11.4%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR26374539	adapter_trimmed_pct	0.18%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR26374539	gc_content	41.2%	fraction			info	
+E6_ILM_ISOLATE_SRR26374539	insert_size_peak	268	bp			info	
+E6_ILM_ISOLATE_SRR26374539	mean_read_length	149	bp			info	
+E6_ILM_ISOLATE_SRR26374539	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_SRR26374539	fastqc_per_base_sequence_content	PASS	status			info	
+E6_ILM_ISOLATE_SRR26374539	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_ISOLATE_SRR26374539	fastqc_per_sequence_gc_content	PASS	status			info	
+E6_ILM_ISOLATE_SRR26374539	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_SRR26374539	off_target_fraction	0.00%	fraction	5.0%	20.0%	PASS	
+E6_ILM_ISOLATE_SRR26374539	unclassified_fraction	3.4%	fraction			info	
+E6_ILM_ISOLATE_SRR26374539	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_SRR26374539	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_SRR26374539	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_ISOLATE_SRR26374539	dominant_species	Bacillus altitudinis (98.4% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_SRR26374539	top_species	Bacillus altitudinis 98.4%; Bacillus safensis 0.5%; Bacillus sp. FSL M7-0307 0.4%; 5 trace species under 1% each, 1.6% in total (not counted as off-target)	label			info	
+E6_ILM_ISOLATE_SRR25131388	total_reads	373	reads	100,000	1,000	FAIL	
+E6_ILM_ISOLATE_SRR25131388	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR25131388	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR25131388	duplication_rate	0.00%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR25131388	adapter_trimmed_pct		fraction	30.0%		not_available	not reported by fastp
+E6_ILM_ISOLATE_SRR25131388	gc_content	47.2%	fraction			info	
+E6_ILM_ISOLATE_SRR25131388	insert_size_peak		bp			not_available	not reported by fastp
+E6_ILM_ISOLATE_SRR25131388	mean_read_length	5,638	bp			info	
+E6_ILM_ISOLATE_SRR25131388	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_SRR25131388	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_ISOLATE_SRR25131388	fastqc_overrepresented_sequences	WARN	status			info	
+E6_ILM_ISOLATE_SRR25131388	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_ISOLATE_SRR25131388	host_fraction	0.27%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_SRR25131388	off_target_fraction	48.2%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_ISOLATE_SRR25131388	unclassified_fraction	4.6%	fraction			info	
+E6_ILM_ISOLATE_SRR25131388	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_SRR25131388	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_SRR25131388	bacterial_fraction	99.4%	fraction			info	
+E6_ILM_ISOLATE_SRR25131388	dominant_species	Kingella kingae (51.8% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_SRR25131388	top_species	Kingella kingae 51.8%; Corynebacterium marquesiae 20.4%; Corynebacterium tuberculostearicum 16.3%	label			info	
+E6_ILM_ISOLATE_SRR26082397	total_reads	100,000	reads	100,000	1,000	PASS	
+E6_ILM_ISOLATE_SRR26082397	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR26082397	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_ISOLATE_SRR26082397	duplication_rate	0.01%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR26082397	adapter_trimmed_pct	0.12%	fraction	30.0%		PASS	
+E6_ILM_ISOLATE_SRR26082397	gc_content	52.3%	fraction			info	
+E6_ILM_ISOLATE_SRR26082397	insert_size_peak	267	bp			info	
+E6_ILM_ISOLATE_SRR26082397	mean_read_length	137	bp			info	
+E6_ILM_ISOLATE_SRR26082397	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_ISOLATE_SRR26082397	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_ISOLATE_SRR26082397	fastqc_overrepresented_sequences	PASS	status			info	
+E6_ILM_ISOLATE_SRR26082397	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_ISOLATE_SRR26082397	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_ISOLATE_SRR26082397	off_target_fraction	2.6%	fraction	5.0%	20.0%	PASS	
+E6_ILM_ISOLATE_SRR26082397	unclassified_fraction	10.2%	fraction			info	
+E6_ILM_ISOLATE_SRR26082397	viral_fraction	0.00%	fraction			info	
+E6_ILM_ISOLATE_SRR26082397	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_ISOLATE_SRR26082397	bacterial_fraction	97.6%	fraction			info	
+E6_ILM_ISOLATE_SRR26082397	dominant_species	Escherichia coli / Shigella (97.2% of species-level reads, Bracken)	label			info	
+E6_ILM_ISOLATE_SRR26082397	top_species	Escherichia coli / Shigella 97.2%; Salmonella enterica 2.6%; Escherichia fergusonii 0.1%; 3 trace species under 1% each, 0.2% in total (not counted as off-target)	label			info	
+E6_ILM_AMPLICON_16S_SRR30509225	total_reads	99,992	reads	100,000	1,000	WARN	
+E6_ILM_AMPLICON_16S_SRR30509225	q30_rate	95.2%	fraction	75.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR30509225	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR30509225	duplication_rate	68.5%	fraction	30.0%		WARN	
+E6_ILM_AMPLICON_16S_SRR30509225	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR30509225	gc_content	48.6%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR30509225	insert_size_peak	349	bp			info	
+E6_ILM_AMPLICON_16S_SRR30509225	mean_read_length	300	bp			info	
+E6_ILM_AMPLICON_16S_SRR30509225	n_base_rate	0.04%	fraction	1.0%	5.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR30509225	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR30509225	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR30509225	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR30509225	host_fraction	0.00%	fraction	1.0%	10.0%	exempt	not judged: human-dominated sample with no target_taxid declared
+E6_ILM_AMPLICON_16S_SRR30509225	off_target_fraction		fraction	5.0%	20.0%	not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_AMPLICON_16S_SRR30509225	unclassified_fraction	100.0%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR30509225	viral_fraction	0.00%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR30509225	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_AMPLICON_16S_SRR30509225	bacterial_fraction	0.00%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR30509225	dominant_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_AMPLICON_16S_SRR30509225	top_species		label			not_available	species-level estimate not possible: fewer than 10 reads were classified to a species
+E6_ILM_AMPLICON_16S_SRR25319409	total_reads	94,762	reads	100,000	1,000	WARN	
+E6_ILM_AMPLICON_16S_SRR25319409	q30_rate	100.0%	fraction	75.0%	70.0%	not_meaningful	not judged: quality scores are a placeholder (every base the same)
+E6_ILM_AMPLICON_16S_SRR25319409	passed_filter_pct	100.0%	fraction	90.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR25319409	duplication_rate	0.04%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR25319409	adapter_trimmed_pct	0.00%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR25319409	gc_content	51.9%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR25319409	insert_size_peak	292	bp			info	
+E6_ILM_AMPLICON_16S_SRR25319409	mean_read_length	250	bp			info	
+E6_ILM_AMPLICON_16S_SRR25319409	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR25319409	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR25319409	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR25319409	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR25319409	host_fraction	0.00%	fraction	1.0%	10.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR25319409	off_target_fraction	37.8%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_AMPLICON_16S_SRR25319409	unclassified_fraction	2.9%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR25319409	viral_fraction	0.00%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR25319409	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_AMPLICON_16S_SRR25319409	bacterial_fraction	100.0%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR25319409	dominant_species	Salmonella enterica (57.2% of species-level reads, Bracken)	label			info	
+E6_ILM_AMPLICON_16S_SRR25319409	top_species	Salmonella enterica 57.2%; Escherichia coli / Shigella 12.6%; Morganella morganii 12.2%; 27 trace species under 1% each, 4.9% in total (not counted as off-target)	label			info	
+E6_ILM_AMPLICON_16S_SRR23103751	total_reads	52,200	reads	100,000	1,000	WARN	
+E6_ILM_AMPLICON_16S_SRR23103751	q30_rate	100.0%	fraction	75.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR23103751	passed_filter_pct	67.8%	fraction	90.0%	70.0%	FAIL	
+E6_ILM_AMPLICON_16S_SRR23103751	duplication_rate	0.47%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR23103751	adapter_trimmed_pct	0.04%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR23103751	gc_content	66.4%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR23103751	insert_size_peak	329	bp			info	
+E6_ILM_AMPLICON_16S_SRR23103751	mean_read_length	300	bp			info	
+E6_ILM_AMPLICON_16S_SRR23103751	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR23103751	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR23103751	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR23103751	fastqc_per_sequence_gc_content	WARN	status			info	
+E6_ILM_AMPLICON_16S_SRR23103751	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR23103751	off_target_fraction	48.3%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_AMPLICON_16S_SRR23103751	unclassified_fraction	7.5%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR23103751	viral_fraction	0.00%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR23103751	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_AMPLICON_16S_SRR23103751	bacterial_fraction	99.4%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR23103751	dominant_species	Massilia forsythiae (5.4% of species-level reads, Bracken)	label			info	
+E6_ILM_AMPLICON_16S_SRR23103751	top_species	Massilia forsythiae 5.4%; Bradyrhizobium diazoefficiens 4.9%; Arthrobacter sp. NicSoilB4 4.4%; 200 trace species under 1% each, 46.2% in total (not counted as off-target)	label			info	
+E6_ILM_AMPLICON_16S_SRR29686115	total_reads	17,706	reads	100,000	1,000	WARN	
+E6_ILM_AMPLICON_16S_SRR29686115	q30_rate	78.9%	fraction	75.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	passed_filter_pct	94.2%	fraction	90.0%	70.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	duplication_rate	0.65%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	adapter_trimmed_pct	0.64%	fraction	30.0%		PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	gc_content	52.3%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR29686115	insert_size_peak	461	bp			info	
+E6_ILM_AMPLICON_16S_SRR29686115	mean_read_length	297	bp			info	
+E6_ILM_AMPLICON_16S_SRR29686115	n_base_rate	0.00%	fraction	1.0%	5.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	fastqc_per_base_sequence_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR29686115	fastqc_overrepresented_sequences	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR29686115	fastqc_per_sequence_gc_content	FAIL	status			info	
+E6_ILM_AMPLICON_16S_SRR29686115	host_fraction	0.01%	fraction	1.0%	10.0%	PASS	
+E6_ILM_AMPLICON_16S_SRR29686115	off_target_fraction	63.3%	fraction	5.0%	20.0%	FAIL	
+E6_ILM_AMPLICON_16S_SRR29686115	unclassified_fraction	3.4%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR29686115	viral_fraction	0.00%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR29686115	target_fraction		fraction			not_available	no target_taxid declared
+E6_ILM_AMPLICON_16S_SRR29686115	bacterial_fraction	99.0%	fraction			info	
+E6_ILM_AMPLICON_16S_SRR29686115	dominant_species	Segatella copri (27.3% of species-level reads, Bracken)	label			info	
+E6_ILM_AMPLICON_16S_SRR29686115	top_species	Segatella copri 27.3%; Faecalibacterium prausnitzii 18.3%; Streptococcus thermophilus 13.2%; 18 trace species under 1% each, 9.4% in total (not counted as off-target)	label			info	
+E6_ILM_BISULFITE_SRR22953761	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR22953761	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR8568291	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR8568291	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR30628922	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR30628922	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR23821573	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR23821573	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR13455166	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR13455166	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR33380330	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR33380330	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR23627495	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR23627495	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR21981277	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR21981277	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_ERR13999027	genome_size	5,235,775	bp			info	NCBI expected size for Xanthomonas euvesicatoria
+E6_ILM_BISULFITE_ERR13999027	depth_of_coverage	2.9x	depth			info	15,000,000 bases / 5,235,775
+E6_ILM_BISULFITE_SRR24202375	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SRR24202375	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR9136308	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR9136308	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR20168509	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR20168509	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_ERR1710178	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_ERR1710178	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR28699420	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR28699420	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR13012839	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR13012839	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR10606699	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_BISULFITE_SINGLE_SRR10606699	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_ERR4812904	genome_size	4,075,000	bp			info	NCBI expected size for Mycobacterium tuberculosis
+E6_ILM_TINY_2COLOUR_ERR4812904	depth_of_coverage	0.05x	depth			info	224,084 bases / 4,075,000
+E6_ILM_TINY_2COLOUR_SRR24890315	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR24890315	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR32680547	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR32680547	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR18059508	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR18059508	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR25049086	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR25049086	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR31440102	genome_size		bp			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E6_ILM_TINY_2COLOUR_SRR31440102	depth_of_coverage		depth			not_available	no genome size: declare genome_size or target_taxid (the screen found no species to look one up for)
+E6_ILM_TINY_2COLOUR_SRR28983653	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR28983653	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR33252586	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR33252586	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR16548949	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR16548949	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR13356885	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR13356885	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR27691653	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR27691653	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR26752335	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR26752335	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR12023110	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR12023110	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR24473667	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR24473667	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_ERR6022537	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_ERR6022537	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR24465295	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR24465295	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR33938391	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR33938391	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR30989404	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR30989404	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR26863926	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR26863926	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR33983780	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR33983780	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR20827649	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR20827649	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_ERR6016623	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_ERR6016623	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR10507392	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR10507392	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_TINY_2COLOUR_SRR14996999	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_TINY_2COLOUR_SRR14996999	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_ISOLATE_SRR24565793	genome_size	6,057,050	bp			info	NCBI expected size for Pseudomonas syringae
+E6_ILM_ISOLATE_SRR24565793	depth_of_coverage	2.4x	depth			info	14,767,082 bases / 6,057,050
+E6_ILM_ISOLATE_DRR502797	genome_size	5,050,000	bp			info	NCBI expected size for Salmonella enterica
+E6_ILM_ISOLATE_DRR502797	depth_of_coverage	3.0x	depth			info	15,100,000 bases / 5,050,000
+E6_ILM_ISOLATE_SRR10729003	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_ISOLATE_SRR10729003	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_ISOLATE_SRR26374539	genome_size	3,727,920	bp			info	NCBI expected size for Bacillus altitudinis
+E6_ILM_ISOLATE_SRR26374539	depth_of_coverage	4.0x	depth			info	15,000,000 bases / 3,727,920
+E6_ILM_ISOLATE_SRR25131388	genome_size		bp			not_available	not computed: not known to be one organism
+E6_ILM_ISOLATE_SRR25131388	depth_of_coverage		depth			not_available	not computed: not known to be one organism
+E6_ILM_ISOLATE_SRR26082397	genome_size	5,150,000	bp			info	NCBI expected size for Escherichia coli / Shigella
+E6_ILM_ISOLATE_SRR26082397	depth_of_coverage	2.5x	depth			info	12,863,238 bases / 5,150,000
+E6_ILM_AMPLICON_16S_SRR30509225	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR30509225	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR25319409	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR25319409	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR23103751	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR23103751	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR29686115	genome_size		bp			not_available	not computed: not a single genome
+E6_ILM_AMPLICON_16S_SRR29686115	depth_of_coverage		depth			not_available	not computed: not a single genome
+E6_ILM_BISULFITE_SRR22953761	kmer_repeat_share	13.6%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E6_ILM_BISULFITE_SRR22953761	gc_spread	0.069	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR8568291	kmer_repeat_share	8.3%	fraction			info	of sampled 21-mers in 7,321,623 bases
+E6_ILM_BISULFITE_SRR8568291	gc_spread	0.06	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR30628922	kmer_repeat_share	9.1%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E6_ILM_BISULFITE_SRR30628922	gc_spread	0.074	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR23821573	kmer_repeat_share	13.0%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E6_ILM_BISULFITE_SRR23821573	gc_spread	0.075	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR13455166	kmer_repeat_share	9.2%	fraction			info	of sampled 21-mers in 6,130,334 bases
+E6_ILM_BISULFITE_SRR13455166	gc_spread	0.06	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR33380330	kmer_repeat_share	38.7%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E6_ILM_BISULFITE_SRR33380330	gc_spread	0.065	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR23627495	kmer_repeat_share	11.4%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E6_ILM_BISULFITE_SRR23627495	gc_spread	0.081	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR21981277	kmer_repeat_share	15.5%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E6_ILM_BISULFITE_SRR21981277	gc_spread	0.09	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_ERR13999027	kmer_repeat_share	14.5%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E6_ILM_BISULFITE_ERR13999027	gc_spread	0.099	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SRR24202375	kmer_repeat_share	20.9%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E6_ILM_BISULFITE_SRR24202375	gc_spread	0.068	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_SRR9136308	kmer_repeat_share	7.4%	fraction			info	of sampled 21-mers in 4,050,000 bases
+E6_ILM_BISULFITE_SINGLE_SRR9136308	gc_spread	0.088	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_SRR20168509	kmer_repeat_share	10.3%	fraction			info	of sampled 21-mers in 2,000,000 bases
+E6_ILM_BISULFITE_SINGLE_SRR20168509	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_ERR1710178	kmer_repeat_share	6.6%	fraction			info	of sampled 21-mers in 2,500,000 bases
+E6_ILM_BISULFITE_SINGLE_ERR1710178	gc_spread	0.072	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_SRR28699420	kmer_repeat_share	17.2%	fraction			info	of sampled 21-mers in 3,132,551 bases
+E6_ILM_BISULFITE_SINGLE_SRR28699420	gc_spread	0.069	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_SRR13012839	kmer_repeat_share	13.0%	fraction			info	of sampled 21-mers in 5,050,000 bases
+E6_ILM_BISULFITE_SINGLE_SRR13012839	gc_spread	0.061	number			info	excess SD of per-read GC beyond chance
+E6_ILM_BISULFITE_SINGLE_SRR10606699	kmer_repeat_share	3.7%	fraction			info	of sampled 21-mers in 5,050,000 bases
+E6_ILM_BISULFITE_SINGLE_SRR10606699	gc_spread	0.078	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_ERR4812904	kmer_repeat_share	17.2%	fraction			info	of sampled 21-mers in 112,042 bases
+E6_ILM_TINY_2COLOUR_ERR4812904	gc_spread	0.05	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR24890315	kmer_repeat_share	12.3%	fraction			info	of sampled 21-mers in 30,401 bases
+E6_ILM_TINY_2COLOUR_SRR24890315	gc_spread	0.077	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR32680547	kmer_repeat_share	16.4%	fraction			info	of sampled 21-mers in 341,275 bases
+E6_ILM_TINY_2COLOUR_SRR32680547	gc_spread	0.056	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR18059508	kmer_repeat_share	76.1%	fraction			info	of sampled 21-mers in 92,412 bases
+E6_ILM_TINY_2COLOUR_SRR18059508	gc_spread	0.031	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR25049086	kmer_repeat_share	8.7%	fraction			info	of sampled 21-mers in 25,454 bases
+E6_ILM_TINY_2COLOUR_SRR25049086	gc_spread	0.092	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR31440102	kmer_repeat_share	8.3%	fraction			info	of sampled 21-mers in 168,757 bases
+E6_ILM_TINY_2COLOUR_SRR31440102	gc_spread	0.067	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR28983653	kmer_repeat_share	25.1%	fraction			info	of sampled 21-mers in 220,158 bases
+E6_ILM_TINY_2COLOUR_SRR28983653	gc_spread	0.102	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR33252586	kmer_repeat_share	54.3%	fraction			info	of sampled 21-mers in 534,937 bases
+E6_ILM_TINY_2COLOUR_SRR33252586	gc_spread	0.032	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR16548949	kmer_repeat_share	42.6%	fraction			info	of sampled 21-mers in 407,373 bases
+E6_ILM_TINY_2COLOUR_SRR16548949	gc_spread	0.014	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR13356885	kmer_repeat_share	37.8%	fraction			info	of sampled 21-mers in 44,550 bases
+E6_ILM_TINY_2COLOUR_SRR13356885	gc_spread	0.017	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR27691653	kmer_repeat_share	21.4%	fraction			info	of sampled 21-mers in 359,682 bases
+E6_ILM_TINY_2COLOUR_SRR27691653	gc_spread	0.11	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR26752335	kmer_repeat_share	3.2%	fraction			info	of sampled 21-mers in 164,864 bases
+E6_ILM_TINY_2COLOUR_SRR26752335	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR12023110	kmer_repeat_share	7.0%	fraction			info	of sampled 21-mers in 729,900 bases
+E6_ILM_TINY_2COLOUR_SRR12023110	gc_spread	0.101	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR24473667	kmer_repeat_share	5.0%	fraction			info	of sampled 21-mers in 17,608 bases
+E6_ILM_TINY_2COLOUR_SRR24473667	gc_spread		number			not_available	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_ERR6022537	kmer_repeat_share	32.0%	fraction			info	of sampled 21-mers in 39,769 bases
+E6_ILM_TINY_2COLOUR_ERR6022537	gc_spread	0.058	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR24465295	kmer_repeat_share	2.6%	fraction			info	of sampled 21-mers in 78,822 bases
+E6_ILM_TINY_2COLOUR_SRR24465295	gc_spread	0.114	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR33938391	kmer_repeat_share	26.9%	fraction			info	of sampled 21-mers in 932,045 bases
+E6_ILM_TINY_2COLOUR_SRR33938391	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR30989404	kmer_repeat_share	21.7%	fraction			info	of sampled 21-mers in 293,997 bases
+E6_ILM_TINY_2COLOUR_SRR30989404	gc_spread	0.073	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR26863926	kmer_repeat_share	17.4%	fraction			info	of sampled 21-mers in 327,470 bases
+E6_ILM_TINY_2COLOUR_SRR26863926	gc_spread	0.086	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR33983780	kmer_repeat_share	3.7%	fraction			info	of sampled 21-mers in 36,750 bases
+E6_ILM_TINY_2COLOUR_SRR33983780	gc_spread	0.049	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR20827649	kmer_repeat_share	31.2%	fraction			info	of sampled 21-mers in 39,237 bases
+E6_ILM_TINY_2COLOUR_SRR20827649	gc_spread	0.1	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_ERR6016623	kmer_repeat_share	44.1%	fraction			info	of sampled 21-mers in 81,914 bases
+E6_ILM_TINY_2COLOUR_ERR6016623	gc_spread	0.031	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR10507392	kmer_repeat_share	13.5%	fraction			info	of sampled 21-mers in 149,384 bases
+E6_ILM_TINY_2COLOUR_SRR10507392	gc_spread	0.068	number			info	excess SD of per-read GC beyond chance
+E6_ILM_TINY_2COLOUR_SRR14996999	kmer_repeat_share	24.5%	fraction			info	of sampled 21-mers in 416,911 bases
+E6_ILM_TINY_2COLOUR_SRR14996999	gc_spread	0.123	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_SRR24565793	kmer_repeat_share	41.5%	fraction			info	of sampled 21-mers in 7,383,278 bases
+E6_ILM_ISOLATE_SRR24565793	gc_spread	0.04	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_DRR502797	kmer_repeat_share	49.0%	fraction			info	of sampled 21-mers in 7,550,000 bases
+E6_ILM_ISOLATE_DRR502797	gc_spread	0.049	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_SRR10729003	kmer_repeat_share	55.4%	fraction			info	of sampled 21-mers in 10,000,091 bases
+E6_ILM_ISOLATE_SRR10729003	gc_spread	0.054	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_SRR26374539	kmer_repeat_share	57.5%	fraction			info	of sampled 21-mers in 7,500,000 bases
+E6_ILM_ISOLATE_SRR26374539	gc_spread	0.04	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_SRR25131388	kmer_repeat_share	0.66%	fraction			info	of sampled 21-mers in 2,103,138 bases
+E6_ILM_ISOLATE_SRR25131388	gc_spread	0.112	number			info	excess SD of per-read GC beyond chance
+E6_ILM_ISOLATE_SRR26082397	kmer_repeat_share	48.1%	fraction			info	of sampled 21-mers in 6,887,989 bases
+E6_ILM_ISOLATE_SRR26082397	gc_spread	0.037	number			info	excess SD of per-read GC beyond chance
+E6_ILM_AMPLICON_16S_SRR30509225	kmer_repeat_share	49.2%	fraction			info	of sampled 21-mers in 10,000,123 bases
+E6_ILM_AMPLICON_16S_SRR30509225	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E6_ILM_AMPLICON_16S_SRR25319409	kmer_repeat_share	28.4%	fraction			info	of sampled 21-mers in 10,000,170 bases
+E6_ILM_AMPLICON_16S_SRR25319409	gc_spread	0	number			info	excess SD of per-read GC beyond chance
+E6_ILM_AMPLICON_16S_SRR23103751	kmer_repeat_share	39.8%	fraction			info	of sampled 21-mers in 10,000,123 bases
+E6_ILM_AMPLICON_16S_SRR23103751	gc_spread	0.017	number			info	excess SD of per-read GC beyond chance
+E6_ILM_AMPLICON_16S_SRR29686115	kmer_repeat_share	22.1%	fraction			info	of sampled 21-mers in 2,798,098 bases
+E6_ILM_AMPLICON_16S_SRR29686115	gc_spread	0.012	number			info	excess SD of per-read GC beyond chance
