@@ -77,6 +77,13 @@ BISULFITE_MAX   <- 0.10
 BISULFITE_RATIO <- 0.50
 INTERLEAVED_MIN <- 0.9   # share of probed record pairs with the same read name
 PROBE_N     <- 2000   # reads read from the start of each file for headers and quality
+# D92: a record is read at most READ_CAP characters long, and probing stops at
+# PROBE_BASES bases, so one file of chromosome-length records (an assembly
+# uploaded as FASTQ) cannot exhaust memory or time. No sequencer read comes
+# near: the longest in any validation run is 554 kb (nanopore), and no
+# validation sample's mean read length is above 20 kb (2,000 x 20 kb = 40 Mb).
+READ_CAP    <- 1e6
+PROBE_BASES <- 1e8
 HEADER_FRAC <- 0.9    # share of probed headers that must match a format to count as evidence
 
 CONF_LEVELS <- c("uncertain", "low", "medium", "high")
@@ -89,10 +96,20 @@ cap_conf <- function(conf, max_level) {
 
 # WHAT IT DOES  Reads the first n records of a FASTQ (gzipped or not) and
 #               returns their headers, read names and quality strings.
+# WHAT IT DOES  Opens a FASTQ (gzipped or not) with every line cut to
+#               READ_CAP characters before R sees it (D92).
+open_capped <- function(path)
+  pipe(sprintf("gzip -dcf %s 2>/dev/null | cut -c1-%d", shQuote(path), as.integer(READ_CAP)), "r")
 probe_fastq <- function(path, n) {
-  con <- gzfile(path, "r")
+  con <- open_capped(path)
   on.exit(close(con))
-  x <- readLines(con, n = 4 * n, warn = FALSE)
+  # In chunks of 100 records, so a few huge records stop the probe early.
+  x <- character(0); bases <- 0
+  while (length(x) < 4 * n && bases < PROBE_BASES) {
+    y <- readLines(con, n = min(400, 4 * n - length(x)), warn = FALSE)
+    if (!length(y)) break
+    x <- c(x, y); if (length(y) >= 2) bases <- bases + sum(nchar(y[seq(2, length(y), by = 4)]))
+  }
   k <- length(x) %/% 4
   if (k == 0) return(list(headers = character(0), names = character(0), seq = character(0), qual = character(0)))
   i <- seq_len(k)
@@ -334,10 +351,10 @@ gc_excess_of <- function(seq) {
 revcomp_vec <- function(x) vapply(strsplit(chartr("ACGT", "TGCA", x), NULL, fixed = TRUE),
                                   function(v) paste(rev(v), collapse = ""), "")
 kmer_redundancy <- function(path) {
-  con <- gzfile(path, "r"); on.exit(close(con))
+  con <- open_capped(path); on.exit(close(con))
   keys <- character(0); used <- 0
   repeat {
-    x <- readLines(con, n = 40000, warn = FALSE)
+    x <- readLines(con, n = 4000, warn = FALSE)
     if (!length(x)) break
     sq <- toupper(x[seq(2, length(x), by = 4)])
     sq <- sq[nchar(sq) >= KMER_K]
@@ -345,12 +362,16 @@ kmer_redundancy <- function(path) {
     cs <- cumsum(as.numeric(nchar(sq)))
     if (used + cs[length(cs)] > KMER_BUDGET) sq <- sq[seq_len(max(1, which(used + cs >= KMER_BUDGET)[1]))]
     used <- used + sum(nchar(sq))
+    # Each read's length once: nchar(sq[rd]) measured the read again for every
+    # k-mer start, which hung for hours on an assembly uploaded as FASTQ
+    # (30 Mb "reads", layer E round 5, SRR18323457; D92).
+    ln <- nchar(sq)
     for (pat in c("(?=ACG)", "(?=CGT)")) {
       hits <- gregexpr(pat, sq, perl = TRUE)
       st <- unlist(lapply(seq_along(sq), function(i) { h <- hits[[i]]; if (h[1] < 0) integer(0) else h }))
       rd <- rep(seq_along(sq), vapply(hits, function(h) if (h[1] < 0) 0L else length(h), 0L))
       if (pat == "(?=CGT)") st <- st + 3L - KMER_K
-      ok <- st >= 1 & st + KMER_K - 1 <= nchar(sq[rd])
+      ok <- st >= 1 & st + KMER_K - 1 <= ln[rd]
       km <- substring(sq[rd[ok]], st[ok], st[ok] + KMER_K - 1)
       km <- km[!grepl("[^ACGT]", km)]
       if (!length(km)) next

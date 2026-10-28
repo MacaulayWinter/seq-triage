@@ -22,6 +22,9 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Fixed (D92): platform detection hung (hours, then a time-limit kill) on a
+  FASTQ of chromosome-length records, such as an assembly uploaded as reads.
+  Records are now read at most 1 Mb long and probing stops at 100 Mb.
 - Fixed (D91): the HPC validation scripts could decide an existing conda
   environment was missing (a broken pipe under `pipefail`) and stop at start.
 - Fixed (D90): no-signal poly-G reads (70% G, little C) were flagged as a
