@@ -148,6 +148,31 @@
                     "help_text": "Recommended: SortMeRNA's fast database, https://github.com/sortmerna/sortmerna/releases/download/v7.0.0/smr_v4.3_fast_db.fasta.gz (the v4.3 database series, matching the SortMeRNA 4.3.7 the pipeline runs). Only samples declared molecule = rna on short-read routes are screened."
                 }
             }
+        },
+        "pathogen_flags": {
+            "title": "Known human pathogens",
+            "type": "object",
+            "description": "Information only (D96): species the contamination screen counts that are on Bartlett et al. 2022's list of bacterial pathogens known to infect humans.",
+            "properties": {
+                "pathogen_list": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "exists": true,
+                    "description": "A folder written by bin/pathogen_list.R to use instead of the newest list on Zenodo (offline runs, or to repeat a run exactly).",
+                    "help_text": "Unset: the newest version of Zenodo record 10.5281/zenodo.7337534 is looked up at each run and built once into --pathogen_cache.",
+                    "fa_icon": "fas fa-list"
+                },
+                "pathogen_cache": {
+                    "type": "string",
+                    "description": "Where built copies of the pathogen list are kept, one folder per list version.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "skip_pathogen_flags": {
+                    "type": "boolean",
+                    "description": "Do not check counted species against the pathogen list.",
+                    "fa_icon": "fas fa-forward"
+                }
+            }
         }
     },
     "allOf": [
@@ -159,6 +184,9 @@
         },
         {
             "$ref": "#/$defs/rrna_screen"
+        },
+        {
+            "$ref": "#/$defs/pathogen_flags"
         }
     ]
 }

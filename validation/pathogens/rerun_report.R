@@ -7,7 +7,7 @@
 # every column the report reads from the metadata screen and from detection,
 # so the two are split back out of it.
 #
-# Usage:  rerun_report.R <outcomes_dir> <pathogen_list.tsv> <out_dir>
+# Usage:  rerun_report.R <outcomes_dir> <pathogen_list_dir/pathogen_list.tsv> <out_dir>
 # Writes: <out_dir>/triage_summary.tsv, _metrics.tsv, _pathogens.tsv, _summary.md
 # =============================================================================
 
@@ -30,7 +30,7 @@ status <- system2("Rscript", c("--vanilla", file.path(repo, "bin/triage_report.R
                                file.path(out, "screen.tsv"), file.path(out, "samples.tsv"),
                                file.path(repo, "assets/metric_guide.tsv"), file.path(run, "qc_values.tsv"),
                                file.path(repo, "assets/species_groups.tsv"), file.path(out, "triage"),
-                               file.path(repo, "assets/species_genome_size.tsv"), plist,
+                               file.path(repo, "assets/species_genome_size.tsv"), dirname(plist),
                                shQuote("validation re-run")))
 if (status != 0) stop("triage_report.R failed on ", run)
 cat("re-ran the report on", run, "\n")

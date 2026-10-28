@@ -102,6 +102,11 @@ jobs:
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
             Rscript tests/study_metadata/test_study_metadata.R
 
+      - name: Pathogen list and flags tests (D96)
+        run: |
+          docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \
+            Rscript tests/pathogens/test_pathogen_flags.R
+
       - name: Platform detection tests
         run: |
           docker run --rm -v "$PWD":/w -w /w "$R_IMAGE" \

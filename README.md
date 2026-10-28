@@ -242,6 +242,43 @@ for amplicons, which are rRNA by design). `--rrna_db` takes one FASTA or a
 run. The `smr_v4.3_*` databases match the SortMeRNA version the pipeline
 runs. Without `--rrna_db`, RNA samples say "not screened".
 
+### Known human pathogens (with the contamination screen)
+
+When the contamination screen runs, every species it counts (at least 1% of
+species-level reads) is checked against the list of bacterial pathogens known
+to infect humans by Bartlett, Padfield, Lear, Bendall & Vos (2022,
+*Microbiology* 168:001269; 1,513 species, "established" or "putative"). The
+report gets a section *Known human pathogens (information only)*, and
+`pathogens/pathogen_flags.tsv` has one row per flag. It is there to point you
+to what may matter while the rest of your work runs; **it changes no verdict**.
+
+- **Always the newest list.** At each run the pipeline asks Zenodo for the
+  newest version of the list. The first run that sees a new version builds it
+  (about 4 minutes and 4 GB of memory, once) into `~/.seq-triage/pathogens/`
+  (`--pathogen_cache`); later runs reuse it. Offline, the newest cached copy is
+  used and the report says the latest was not checked; with no copy at all,
+  the report says the check was not done. The list itself is never part of
+  this repository.
+- **Matched by NCBI taxonomy number, not name.** Names change: the list says
+  *Rhodococcus equi*, NCBI says *Prescottella equi*. Each name is matched to
+  NCBI's taxonomy once, including old names. Names NCBI files below species
+  level, such as *Salmonella typhi* (a serovar) or *Mycobacterium bovis* (a
+  variant of *M. tuberculosis*), cannot be told apart by species counts and are
+  not matched; every name not matched is listed, with the reason, in
+  `pathogens/pathogen_list_unresolved.tsv` (28 of 1,513 in version 1.0).
+- **Close relatives are marked, not hidden.** Pure cultures put 1-9% of their
+  reads on close relatives (an *E. coli* isolate shows some *Klebsiella* and
+  *Salmonella*). A flagged species from the same family as the sample's main
+  species therefore says "may be misread DNA of" the main species.
+- **What a flag does not mean.** It means the reads contain DNA classified to
+  a species on the list, not that a sample is infectious: "putative" species
+  have fewer than three reported human cases, and the list does not separate
+  pathogenic strains from harmless ones.
+
+`--skip_pathogen_flags` turns the check off. `--pathogen_list <folder>` uses a
+copy you built yourself (`bin/pathogen_list.R`), for offline runs or to repeat
+a run exactly.
+
 ### Samplesheet
 
 A CSV with one row per sample, or several rows with the same `sample` for

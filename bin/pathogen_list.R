@@ -13,6 +13,9 @@
 #                                      every older taxid merged into it
 #         <out_prefix>_unresolved.tsv  names with no single bacterial species
 #                                      match, and why
+#         <out_prefix>_families.tsv    NCBI family of every bacterial species
+#                                      taxid (and older taxids merged into it),
+#                                      for the close-relative caveat
 # Base R only (D42).
 # =============================================================================
 
@@ -135,6 +138,27 @@ strains <- unique(data.frame(taxid = nms$taxid, name = st_name)[st_name %in% lst
 nms <- unique(nms[nms$name %in% lst$species, ])
 merged <- dmp("merged.dmp", 1:2); names(merged) <- c("old", "new")
 
+# Family of every bacterial species (the close-relative caveat): climb all
+# nodes towards the root together, keeping the first family met.
+sci <- np[np[, 4] == "scientific name", ]
+sci_name <- setNames(sci[, 2], sci[, 1])
+family <- setNames(rep(NA_character_, nrow(nodes)), nodes$taxid)
+bact <- setNames(rep(FALSE, nrow(nodes)), nodes$taxid)
+cur <- nodes$taxid
+for (step in 1:100) {
+  hit <- is.na(family) & rank[cur] == "family"
+  family[hit] <- cur[hit]
+  bact[cur == BACTERIA] <- TRUE
+  nxt <- unname(parent[cur])
+  if (all(nxt == cur)) break
+  cur <- nxt
+}
+sp_bact <- nodes$taxid[nodes$rank == "species" & bact & !is.na(family)]
+fam <- data.frame(taxid = sp_bact, family_taxid = family[sp_bact], family = unname(sci_name[family[sp_bact]]), stringsAsFactors = FALSE)
+old_ids <- merged[merged$new %in% sp_bact, ]
+fam <- rbind(fam, data.frame(taxid = old_ids$old, family_taxid = family[old_ids$new], family = unname(sci_name[family[old_ids$new]]),
+                             stringsAsFactors = FALSE))
+
 in_bacteria <- function(id) {
   for (i in 1:100) {
     if (id == BACTERIA) return(TRUE)
@@ -207,6 +231,7 @@ rows$list_version <- version; rows$list_doi <- doi; rows$list_md5 <- list_md5
 rows$taxdump_date <- format(file.mtime(taxdump), "%Y-%m-%d")
 rows$list_resolved <- nrow(ok); rows$list_unresolved <- sum(is.na(lst$taxid))
 write.table(rows, paste0(out_prefix, ".tsv"), sep = "\t", quote = FALSE, row.names = FALSE)
+write.table(fam, paste0(out_prefix, "_families.tsv"), sep = "\t", quote = FALSE, row.names = FALSE)
 write.table(lst[is.na(lst$taxid), c("species", "status", "reason")], paste0(out_prefix, "_unresolved.tsv"),
             sep = "\t", quote = FALSE, row.names = FALSE)
 cat(sprintf("%d of %d list names resolved (%d by synonym, %d by strain names; %d names cleaned of stray characters); %d unresolved; %d taxids to match\n",
