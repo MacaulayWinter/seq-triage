@@ -223,6 +223,23 @@ ok <- !is.null(attr(msg, "status")) && any(grepl("could not read TRUNCATED.fastq
 res <- rbind(res, data.frame(case = "SEQKIT_SILENT_FAILURE", got = if (ok) "stopped with clear message" else paste(msg, collapse = " "),
                              expected = "stopped with clear message", stringsAsFactors = FALSE))
 
+# Regression (D92, layer E round 5): an assembly uploaded as FASTQ, with
+# chromosome-length records, hung detection for hours. Four 5 Mb records
+# must be done in 2 minutes (the old code takes far longer).
+set.seed(92)
+big <- file.path(tmp, "ASSEMBLY_AS_FASTQ_R1.fastq.gz"); con <- gzfile(big, "w")
+for (i in 1:4) writeLines(c(sprintf("@chr%d/1", i), paste(sample(c("A", "C", "G", "T"), 5e6, TRUE), collapse = ""), "+", strrep("?", 5e6)), con)
+close(con)
+big_stats <- file.path(tmp, "ASSEMBLY_AS_FASTQ.stats.tsv")
+writeLines(c("file\tnum_seqs\tmax_len\tQ1\tQ2\tQ3", sprintf("%s\t4\t5000000\t5000000\t5000000\t5000000", basename(big))), big_stats)
+big_out <- file.path(tmp, "ASSEMBLY_AS_FASTQ.detection.tsv")
+t0 <- Sys.time()
+st <- suppressWarnings(system2("Rscript", c("--vanilla", "bin/detect_platform.R", "ASSEMBLY_AS_FASTQ", big_stats, big_out, big),
+                               stdout = FALSE, stderr = FALSE, timeout = 120))
+secs <- as.numeric(difftime(Sys.time(), t0, units = "secs"))
+res <- rbind(res, data.frame(case = "HUGE_RECORDS_FINISH", got = if (st == 0 && file.exists(big_out)) "finished within 120 s" else sprintf("status %s after %.0f s", st, secs),
+                             expected = "finished within 120 s", stringsAsFactors = FALSE))
+
 res$result <- ifelse(res$got == res$expected, "PASS", "FAIL")
 print(res, row.names = FALSE, right = FALSE)
 
