@@ -16,6 +16,57 @@ def declaredValue(v) {
     return (v == null || v == []) ? null : v.toString().trim().toLowerCase()
 }
 
+// D95: study metadata columns are accepted (nf-schema's own check of unknown
+// headers is off), but a header that looks like a pipeline column stops the
+// run, so a typo can never be silently treated as something else (D19: a
+// missed fastq_2 would turn paired reads single-end). "Looks like": the
+// same letters ignoring case and punctuation, one keystroke away, or a
+// common synonym (R1, read1, sample_id ...). A column named in the column
+// guide (--column_guide) is confirmed as study metadata and is
+// not stopped: listing it is how the user says the name is intended.
+def levenshtein(String a, String b) {
+    def d = (0..b.size()).collect { j -> j }
+    (1..a.size()).each { i ->
+        def prev = d[0]
+        d[0] = i
+        (1..b.size()).each { j ->
+            def tmp = d[j]
+            d[j] = [ d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] == b[j - 1] ? 0 : 1) ].min()
+            prev = tmp
+        }
+    }
+    return d[b.size()]
+}
+def normCol(String x) {
+    return x.toLowerCase().replaceAll(/[^a-z0-9]/, '')
+}
+def headerOf(path) {
+    def line = path.withReader { r -> r.readLine() } ?: ''
+    def sep = path.name.toLowerCase().endsWith('.tsv') ? '\t' : ','
+    return line.replaceFirst(/^\uFEFF/, '').split(sep, -1).collect { c -> c.trim().replaceAll(/^"|"$/, '') }.findAll { c -> c }
+}
+def checkHeaders(path, List known, List confirmed) {
+    def synonyms = [ sampleid: 'sample', samplename: 'sample', name: 'sample', id: 'sample',
+                     r1: 'fastq_1', read1: 'fastq_1', reads1: 'fastq_1', fq1: 'fastq_1', forward: 'fastq_1',
+                     r2: 'fastq_2', read2: 'fastq_2', reads2: 'fastq_2', fq2: 'fastq_2', reverse: 'fastq_2',
+                     cram: 'bam', sam: 'bam', fastqdirectory: 'fastq_dir', folder: 'fastq_dir' ]
+    def study = headerOf(path).findAll { c -> !(c in known) }
+    def problems = []
+    study.findAll { c -> !(c in confirmed) }.each { c ->
+        def n = normCol(c)
+        // The closest pipeline column: the same letters first, then a synonym, then one keystroke away.
+        def hit = known.find { k -> normCol(k) == n } ?: synonyms[n] ?: known.find { k -> levenshtein(normCol(k), n) <= 1 }
+        if (hit) {
+            problems << "'${c}' looks like the pipeline column '${hit}'"
+        }
+    }
+    if (problems) {
+        error("Samplesheet header: " + problems.join('; ') + ". Nothing has been assumed: if it is that column, rename it exactly " +
+              "(as in the README); if it is your own study variable, list it in --column_guide to confirm the name is intended.")
+    }
+    return study
+}
+
 // FASTQ files in a fastq_dir folder (D75), sorted by name.
 def dirFastqs(dir) {
     def all   = dir.listFiles()
@@ -68,6 +119,15 @@ workflow {
     // One [meta, fastq_1, fastq_2, bam] list per row. Schema fields marked
     // "meta" become keys of the meta map: id, declared_platform, declared_type.
     // A row gives FASTQ files or one BAM, never both (the schema checks it).
+    // D95: any other column is study metadata, carried to metadata/study_metadata.tsv.
+    def known_cols = new groovy.json.JsonSlurper().parse(file("${projectDir}/assets/schema_input.json")).items.properties.keySet() as List
+    def confirmed = params.column_guide ? file(params.column_guide, checkIfExists: true).readLines().drop(1).collect { l ->
+        def c = l.split(params.column_guide.toString().toLowerCase().endsWith('.tsv') ? '\t' : ',', -1)[0]
+        c.trim().replaceAll(/^"|"$/, '') } : []
+    def study_cols = checkHeaders(file(params.input), known_cols, confirmed)
+    if (study_cols) {
+        log.info "Study metadata columns (carried through, not used for QC): ${study_cols.join(', ')}"
+    }
     def rows = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
     def same_mates = rows.findAll { _meta, r1, r2, _bam, _dir, _target, _gsize, _group -> r2 && r1 == r2 }
     if (same_mates) {

@@ -303,6 +303,117 @@ Unknown parameters and unknown samplesheet columns are errors, not warnings.
 This stops a typo such as `fastq2` from silently turning paired data into
 single-end.
 
+### Study metadata and the column guide
+
+Your study's own variables (treatment, temperature, day, animal, diet...)
+travel with the reads into every analysis pipeline. seq-triage does not use
+them for QC: it **checks** them and carries them on, so that problems surface
+before any analysis. Nothing about a column is ever guessed. You say what each
+column is in a **column guide**, and the data are used only to check what you
+said.
+
+**1. Put your metadata in a tidy table**
+
+- One row per sample, one column per variable, one value per cell.
+- The first row holds the column names, and nothing above or below the table.
+- Spell every value the same way every time (`control`, never also `Control`
+  or `control `).
+- Numbers only in number columns: units go in the guide, not in the cells
+  (`19.8`, not `19.8 g`). Use a decimal point (`12.5`, not `12,5`).
+- Dates as `YYYY-MM-DD`.
+- Leave a missing value blank (or `NA`). If your lab uses a code such as `99`
+  for "not recorded", say so in the guide's `missing_codes`.
+- No merged cells, no colours or bold carrying meaning, no notes in extra rows.
+- Save as CSV, or tab-separated `.tsv`/`.txt`. Windows line endings are fine.
+
+Give the table either as extra columns of the samplesheet, or as a separate
+file with `--metadata metadata.csv`, joined on its `sample` column. The
+separate file may contain samples that were not sequenced (they are left out
+and listed).
+
+**2. Describe every column in a column guide**
+
+Copy `assets/column_guide_template.csv` and add one row per metadata column.
+Three columns are required:
+
+| `role`: what the column does | |
+|---|---|
+| `sample_id` | the sample ID, if your metadata table does not call it `sample` |
+| `subject_id` | the unit sampled more than once (animal, patient, reactor) |
+| `predictor` | a variable that may explain differences (treatment, temperature, diet) |
+| `outcome` | a measurement on the sample to be explained (weight, MIC) |
+| `time` | when the sample was taken (day, visit, date) |
+| `block` | a grouping within which comparisons are made (cage, site, litter) |
+| `batch` | a technical grouping (extraction run, sequencing lane) |
+| `ignore` | kept in the outputs, never analysed (notes, duplicate information) |
+
+| `type`: how to handle it | |
+|---|---|
+| `binary` | two values (yes/no, 0/1) |
+| `categorical` | named groups with no order |
+| `ordinal` | groups with an order: list them in order in `levels` |
+| `count` | whole numbers 0 or more |
+| `continuous` | any number |
+| `proportion` | a number from 0 to 1 |
+| `date` | a date written `YYYY-MM-DD` |
+| `text` | free text or an identifier: described, never modelled |
+
+Each list ends in a catch-all, so every column fits: a column the pipeline
+cannot model is `text` or `ignore`. Whether a number is a quantity or a set of
+groups is yours to say. A temperature of 26 or 30 can be `categorical` (two
+groups) or `continuous` (a covariate), and the pipeline treats it as declared.
+
+Optional columns, when a type or the design needs them:
+
+- `levels`: the allowed values, separated by `|`; for `ordinal` in their
+  order, and the first is the reference group (`control|antibiotic`);
+- `missing_codes`: values meaning "not recorded" (`99`), or `none` to confirm
+  that values like 99 are real;
+- `unit` (for example `g`, `days`);
+- `nested_in`: the column this one sits within (each mouse lives in one cage:
+  `mouse` is nested in `cage`);
+- `derived_from`: the column(s) this one is made from (`collection_date` from
+  `day`). It is then checked against them, and analysed only through them;
+- `description`: plain words, copied into the reports.
+
+**3. Run it, read the check, fix, rerun**
+
+1. Run once without a guide. `metadata/column_guide_draft.csv` lists every
+   column with what the data show (`2 values: control|drug`,
+   `whole numbers: 0|1|2|99`), with `role` and `type` left blank for you.
+2. Fill it in and run again with `--column_guide column_guide.csv`.
+3. Read `metadata/metadata_check.md`: the design as read (groups and their
+   sizes, subjects, timepoints, whether it is a snapshot or a change over
+   time) and every finding.
+
+**What stops the run.** Each case is named; nothing is assumed:
+
+- a value that looks like a typo of another: differing only in case, spaces
+  or punctuation, or by one keystroke (`contol` and `control`). Confirm both
+  are intended by listing them in `levels`;
+- a column name close to one of the pipeline's (`fastq2`, `Platform`, `groups`):
+  rename it, or list it in the guide to confirm the name;
+- a value contradicting its type (`19.8g` in a `continuous` column, `0.5` in a
+  `count`, a third value in a `binary`) or outside its `levels`;
+- a code such as `99` in a number column without `missing_codes`;
+- a column missing from the guide, a guide row with no column in the data, or
+  a role or type not in the lists above;
+- a sample with two different values of one variable (for example two lanes);
+- a `derived_from` or `nested_in` the data contradict.
+
+**Warnings** do not stop the run but must be read. The main one is two
+columns that always move together (every female in extraction batch B1),
+whose effects can never be separated.
+
+**Worked example** (invented data): `assets/examples/metadata_example.csv`
+(24 samples, 8 mice, antibiotic x diet, 3 days, cages, extraction batches,
+a score with `99` for "not scored") and its guide,
+`assets/examples/column_guide_example.csv`. They pass with no warnings:
+
+```bash
+nextflow run MacaulayWinter/seq-triage -profile docker --input samplesheet.csv --metadata assets/examples/metadata_example.csv --column_guide assets/examples/column_guide_example.csv --outdir results
+```
+
 ### Outputs
 
 | File (in `--outdir`) | What it is |
@@ -314,8 +425,9 @@ single-end.
 | `multiqc/` | MultiQC report over all QC tools |
 | `fastp/`, `fastqc/`, `nanoplot/` | Each tool's own reports (no reads are ever copied here) |
 | `integrity/` | Whether each file was readable and well-formed FASTQ. A damaged file gets a FAIL row saying exactly what is wrong, and the other samples still finish |
-| `metadata/`, `detection/` | Metadata screen flags, and the platform evidence for each sample |
+| `metadata/` | `metadata_screen.tsv` (samplesheet checks), and for your study's variables: `study_metadata.tsv` (one row per sample), `metadata_check.md` / `.tsv` (the design as read and every finding), and `column_guide_draft.csv` (every column, to fill in) |
 | `recommendations/analyses.md` | **What can be done with each sample** (D82): every analysis the data supports (assembly, typing, AMR, plasmids, comparative genomics, profiling, binning, resistome, expression, single-cell, methylation, variant calling), each marked ready, possible (with the caveat) or not now (with what is missing: depth, reads, replicates, more samples, a declaration), and the nf-core pipeline where one exists. Also as `analyses.tsv`. |
+| `detection/` | The platform evidence for each sample |
 | `recommendations/` | The next nf-core pipeline for each ready sample (`recommendations.tsv`: a pipeline and pinned version, or the reason there is none), and one folder per rule (e.g. `bacass_short/`) with a `samplesheet.csv` in that pipeline's own format, a `params.yaml` and a `README.md` with the command. For the batch as a whole, `pathogensurveillance/` holds one nf-core/pathogensurveillance samplesheet of every isolate ready for assembly (species ID, reference choice and phylogeny across the batch). The pipelines take gzipped FASTQ, so samples given in another format get the reason instead of a samplesheet. Values only you know (primers, databases, reference) are never guessed: the pipeline will not run until you add them |
 | `pipeline_info/` | Software versions actually used, run timeline, resource report, workflow diagram (`pipeline_dag.html`) |
 

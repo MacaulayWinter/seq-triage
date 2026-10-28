@@ -24,6 +24,24 @@
                     "description": "Samplesheet CSV: one row per sample, columns sample, fastq_1, fastq_2, platform, sample_type, molecule.",
                     "help_text": "fastq_2, platform and sample_type are optional. Leave platform blank to have it detected from the reads."
                 },
+                "metadata": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(csv|tsv|txt)$",
+                    "description": "Optional study metadata table (CSV or TSV) with a `sample` column, joined to the samplesheet on it.",
+                    "help_text": "Study variables can also be extra columns of the samplesheet. Not used for QC; carried to metadata/study_metadata.tsv for the analysis pipelines (D95).",
+                    "fa_icon": "fas fa-table"
+                },
+                "column_guide": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "pattern": "^\\S+\\.(csv|tsv|txt)$",
+                    "description": "Optional column guide: one row per study column, saying what it does (role) and how to handle it (type).",
+                    "help_text": "Template: assets/column_guide_template.csv; worked example: assets/examples/. Roles: sample_id, subject_id, predictor, outcome, time, block, batch, ignore. Types: binary, categorical, ordinal, count, continuous, proportion, date, text. Without one, metadata/column_guide_draft.csv lists every column to fill in (D95).",
+                    "fa_icon": "fas fa-book"
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",

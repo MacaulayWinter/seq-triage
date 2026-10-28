@@ -8,6 +8,11 @@ All notable changes to seq-triage. Versions follow
 
 ### Added
 
+- Study metadata and the column guide (D95): any number of extra samplesheet
+  columns (or a `--metadata` table) are carried to `metadata/study_metadata.tsv`
+  and checked against a user-written column guide (`--column_guide`; template
+  and an invented worked example in `assets/`). Nothing about a column is
+  guessed; anything that looks like a typo stops the run, naming it.
 - Samplesheet column `library` (D93): declare `bisulfite` (or WGBS, RRBS,
   PBAT, EM-seq) for a methylation library. It is treated as one even when the
   reads show no conversion, which validation found in about 1 in 6 ENA
@@ -26,6 +31,8 @@ All notable changes to seq-triage. Versions follow
 
 ### Changed
 
+- Unknown samplesheet columns no longer stop the run (they are study
+  metadata); a column name close to a pipeline column still does (D95, D19).
 - Fixed (D94): `validation/fetch_panel.sh` now fetches runs by role (panel,
   then backup) instead of file order, so a panel with other rows (screened
   out) fetches the right runs. Earlier panels fetch the same runs as before.

@@ -1,0 +1,13 @@
+column,role,type,levels,missing_codes,unit,nested_in,derived_from,description
+sample,sample_id,text,,,,,,One row per sequenced sample; the same IDs as the samplesheet
+mouse,subject_id,text,,,,cage,,The mouse sampled at each time
+treatment,predictor,binary,control|antibiotic,,,,,Antibiotic in the drinking water from day 0; control is the reference (listed first)
+diet,predictor,categorical,standard|high_fibre,,,,,Diet fed throughout
+cage,block,categorical,,,,,,Two mice per cage; comparisons are made within cages where possible
+sex,predictor,binary,F|M,,,,,
+day,time,count,,,days,,,Days since the start of treatment
+collection_date,ignore,date,,,,,day,Calendar date of collection (the same information as day)
+extraction_batch,batch,categorical,,,,,,DNA extraction run
+body_weight,outcome,continuous,,none,g,,,Weighed at collection
+faecal_score,outcome,ordinal,1|2|3|4,99,,,,1 = formed ... 4 = liquid; 99 = not scored
+notes,ignore,text,,,,,,Lab notes

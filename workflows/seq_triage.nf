@@ -7,6 +7,7 @@
  */
 
 include { SCREEN_METADATA } from '../modules/local/screen_metadata/main'
+include { STUDY_METADATA  } from '../modules/local/study_metadata/main'
 include { CHECK_FASTQ     } from '../modules/local/check_fastq/main'
 include { DETECT_PLATFORM } from '../modules/local/detect_platform/main'
 include { TRIAGE_REPORT   } from '../modules/local/triage_report/main'
@@ -288,6 +289,11 @@ workflow SEQ_TRIAGE {
     // 1. Metadata screen: one task for the whole sheet, then one
     //    [ id, row ] element per sample so it can be joined.
     SCREEN_METADATA(samplesheet)
+    // 1a. Study metadata (D95): the study's own columns, checked against the
+    //     optional column guide; not used for QC.
+    STUDY_METADATA(samplesheet, file("${projectDir}/assets/schema_input.json"),
+                   params.metadata ? file(params.metadata, checkIfExists: true) : [],
+                   params.column_guide ? file(params.column_guide, checkIfExists: true) : [])
     ch_screen = SCREEN_METADATA.out.tsv
         .splitCsv(header: true, sep: '\t')
         .map { row -> [ row.sample, row ] }
