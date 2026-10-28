@@ -52,8 +52,8 @@ fetch_one() {
 col() { awk -F'\t' -v c="$1" 'NR==1{for(i=1;i<=NF;i++) h[$i]=i; next} {print $h[c]}' "$panel"; }
 
 # Strata in panel order; for each, take panel runs, falling back to backups.
-for stratum in $(col stratum | awk '!seen[$0]++'); do
-    need=$(awk -F'\t' -v s="$stratum" 'NR>1 && $1==s && $2=="panel"' "$panel" | wc -l | tr -d ' ')
+for stratum in $(awk -F'\t' 'NR==1{for(i=1;i<=NF;i++) h[$i]=i; next} $h["role"]=="panel" {print $h["stratum"]}' "$panel" | awk '!seen[$0]++'); do
+    need=$(awk -F'\t' -v s="$stratum" 'NR==1{for(i=1;i<=NF;i++) h[$i]=i; next} $h["stratum"]==s && $h["role"]=="panel"' "$panel" | wc -l | tr -d ' ')
     got=0
     # Fields are split on '|', not tab: bash merges consecutive tabs (tab is
     # whitespace to IFS), so an empty field would shift every later one.
@@ -86,8 +86,13 @@ for stratum in $(col stratum | awk '!seen[$0]++'); do
         printf '%s,%s,%s,%s,%s,%s\n' "$id" "$r1" "$r2" "$decl" "$stype" "$mol" >> "$sheet"
         got=$((got + 1))
         echo "  $id: ${counts[*]} reads"
+    # Panel runs first, then backups, whatever the file order; any other role
+    # (round 7's screened_out, D94) is never fetched. Earlier panels list
+    # panel rows before backups, so their order is unchanged.
     done < <(awk -F'\t' -v s="$stratum" 'NR==1{for(i=1;i<=NF;i++) h[$i]=i; next}
-               $h["stratum"]==s {print $h["run_accession"]"|"$h["truth"]"|"$h["library_layout"]"|"$h["sample_type"]"|"$h["molecule"]"|"$h["fastq_ftp"]}' "$panel")
+               $h["stratum"]==s && $h["role"]=="panel"  {p[++np]=$h["run_accession"]"|"$h["truth"]"|"$h["library_layout"]"|"$h["sample_type"]"|"$h["molecule"]"|"$h["fastq_ftp"]}
+               $h["stratum"]==s && $h["role"]=="backup" {b[++nb]=$h["run_accession"]"|"$h["truth"]"|"$h["library_layout"]"|"$h["sample_type"]"|"$h["molecule"]"|"$h["fastq_ftp"]}
+               END {for(i=1;i<=np;i++) print p[i]; for(i=1;i<=nb;i++) print b[i]}' "$panel")
     [ "$got" -lt "$need" ] && echo "WARNING: $stratum: only $got of $need runs fetched" >&2
 done
 echo "Done: $(($(wc -l < "$sheet") - 1)) samples in $sheet"

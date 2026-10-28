@@ -66,6 +66,18 @@ Score on your Mac:
 Rscript validation/layer_E/score_layer_E_round4.R validation/outcomes/layer_E_round4/panel.tsv ~/seqtriage-scratch/validation/layer_E_r4_results layer_E_r4
 ```
 
+## Round 7 (D94)
+
+G-dominated tiny runs only, chosen by a fixed rule; run on the Mac (the runs
+are tiny). From the repository root:
+
+```bash
+python3 validation/layer_E/round7/screen_pool.py <pool_panel.tsv> validation/outcomes/layer_E_round7/panel.tsv
+bash validation/fetch_panel.sh validation/outcomes/layer_E_round7/panel.tsv ~/seqtriage-scratch/validation/layer_E_r7/panel
+nextflow run . -profile docker --input ~/seqtriage-scratch/validation/layer_E_r7/panel/samplesheet.csv --outdir ~/seqtriage-scratch/validation/layer_E_r7/results
+Rscript validation/layer_E/score_layer_E_round7.R validation/outcomes/layer_E_round7/panel.tsv ~/seqtriage-scratch/validation/layer_E_r7 layer_E_r7
+```
+
 ## Round 6 (D93)
 
 After round 5's mark C failed. Same steps; the bisulfite share is the fourth
