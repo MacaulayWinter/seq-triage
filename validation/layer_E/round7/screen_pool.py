@@ -68,6 +68,7 @@ for i, r in enumerate(rows):
     r["role"] = "screened_out"
     if r["g_share"] and float(r["g_share"]) >= G_MIN and kept < PANEL_N + BACKUP_N:
         r["role"] = "panel" if kept < PANEL_N else "backup"
+        r["stratum"] = "E7_ILM_TINY_G"   # one group over both pools, so a backup covers either
         kept += 1
 cols = list(dict.fromkeys(c for r in rows for c in r))
 with open(sys.argv[1], "w", newline="") as fh:
