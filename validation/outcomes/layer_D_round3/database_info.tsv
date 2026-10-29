@@ -1,0 +1,8 @@
+kraken2_db_name	k2_std8_20251015
+hash_k2d_bytes	8000000032
+libraries	UniVec_Core:3155 archaea:1289 bacteria:141909 human:729 plasmid:114949 viral:18678 
+files_dated	2025-10-15
+sylph_db	gtdb-r226-c1000-dbv1.syldb
+sylph_db_bytes	3713953632
+sylph_db_md5	e56ac73c24e0e77f7e72a6e25a08c6a5
+sylph_db_last_modified	2025-06-29
