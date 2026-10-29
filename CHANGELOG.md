@@ -8,6 +8,12 @@ All notable changes to seq-triage. Versions follow
 
 ### Added
 
+- Off-target contamination estimated by sylph (D99): genome-wide k-mer
+  containment against GTDB r226 species representatives (3.7 GB, downloaded
+  once into `--sylph_cache`; `--sylph_db`, `--skip_sylph`). Kraken2 keeps
+  the host fraction, names, type calls and pathogen flags; without sylph
+  (offline, skipped, declared target) off-target comes from Kraken2/Bracken,
+  and the report names the estimator. Validated as layer D round 3.
 - Control samples (D97): a column-guide role `sample_control` marks extraction
   and PCR blanks and mock communities, from a closed list (`sample`,
   `negative_extraction`, `negative_pcr`, `negative_other`, `positive_mock`,

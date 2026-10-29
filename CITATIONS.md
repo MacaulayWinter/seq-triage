@@ -35,6 +35,15 @@ Exact versions used in a run are in `pipeline_info/software_versions.tsv`.
 - **Bracken**: Lu J, Breitwieser FP, Thielen P, Salzberg SL. (2017) Bracken:
   estimating species abundance in metagenomics data. *PeerJ Computer Science*.
   [doi:10.7717/peerj-cs.104](https://doi.org/10.7717/peerj-cs.104)
+- **sylph**: Shaw J, Yu YW. (2024) Rapid species-level metagenome profiling
+  and containment estimation with sylph. *Nature Biotechnology*.
+  [doi:10.1038/s41587-024-02412-y](https://doi.org/10.1038/s41587-024-02412-y)
+- **GTDB** (the default sylph database, release 226): Parks DH, Chaumeil PA,
+  Mussig AJ, Rinke C, et al. (2025) GTDB release 10: a complete and systematic
+  taxonomy for 715 230 bacterial and 17 245 archaeal genomes. *Nucleic Acids
+  Research*. [doi:10.1093/nar/gkaf1040](https://doi.org/10.1093/nar/gkaf1040).
+  GTDB data are CC BY-SA 4.0; the pipeline downloads the database, it does
+  not redistribute it.
 - **SAMtools**: Danecek P, et al. (2021) Twelve years of SAMtools and
   BCFtools. *GigaScience*.
   [doi:10.1093/gigascience/giab008](https://doi.org/10.1093/gigascience/giab008)

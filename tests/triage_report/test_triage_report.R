@@ -120,6 +120,22 @@ cases <- list(
        verdict = "WARN", check = c(off_target_fraction = "WARN"), hint = TRUE),
   list(id = "SCREEN_BRACKEN",     route = "illumina", screen = TRUE, bracken = c("S|562|Escherichia coli" = 700000, "S|573|Klebsiella pneumoniae" = 300000),
        verdict = "FAIL", check = c(off_target_fraction = "FAIL"), hint = TRUE),
+  # D99: off-target from sylph when it ran: it overrides Bracken/Kraken2,
+  # keeps the 1% floor, falls back when it found nothing, and is not used
+  # against a declared target (GTDB genomes carry no NCBI taxid).
+  list(id = "SYLPH_OVERRIDES_BRACKEN", route = "illumina", screen = TRUE, bracken = c("S|562|Escherichia coli" = 700000, "S|573|Klebsiella pneumoniae" = 300000),
+       sylph = c("genome|ec.fna|c1" = 96, "genome|kp.fna|c2" = 4), verdict = "PASS", check = c(off_target_fraction = "PASS"),
+       expect_note = "estimated by sylph \\(Kraken2/Bracken: 30.0%\\)"),
+  list(id = "SYLPH_SISTER_SPECIES", route = "ont", screen = TRUE, sylph = c("genome|kp.fna|c1" = 88, "genome|kv.fna|c2" = 12),
+       verdict = "WARN", check = c(off_target_fraction = "WARN"), hint = TRUE),
+  # Seven genomes at 0.9% each: 6.3% (WARN) without the 1% floor, 0% with it.
+  list(id = "SYLPH_FLOOR", route = "ont", screen = TRUE, sylph = c("genome|ec.fna|c1" = 93.7, setNames(rep(0.9, 7), sprintf("genome|t%d.fna|c", 1:7))),
+       verdict = "PASS", check = c(off_target_fraction = "PASS"), expect_note = "^estimated by sylph"),
+  list(id = "SYLPH_NOTHING_DETECTED", route = "illumina", screen = TRUE, bracken = c("S|562|Escherichia coli" = 700000, "S|573|Klebsiella pneumoniae" = 300000),
+       sylph = character(0), verdict = "FAIL", check = c(off_target_fraction = "FAIL"), hint = TRUE,
+       expect_note = "estimated by Bracken \\(sylph detected no genome\\)"),
+  list(id = "SYLPH_NOT_WITH_TARGET", route = "ont", screen = TRUE, target = "562", sylph = c("genome|ec.fna|c1" = 50, "genome|kp.fna|c2" = 50),
+       verdict = "PASS", check = c(off_target_fraction = "PASS"), expect_note = "^estimated by Kraken2$"),
   list(id = "SCREEN_NO_SPECIES",  route = "ont", screen = TRUE, kraken = c("U|0|unclassified" = 999995, "R|1|root" = 5, "S|562|Escherichia coli" = 5, "S|623|Shigella flexneri" = 0, "S|573|Klebsiella pneumoniae" = 0, "S|9606|Homo sapiens" = 0),
        verdict = "PASS", check = c(off_target_fraction = "not_available", unclassified_fraction = "info")),
   # D47: trace species (< 1% each) do not count as off-target, however many;
@@ -314,6 +330,8 @@ build <- function(cases, dir) {
       }
       qc[[paste0(cs$id, "k")]] <- kr
       if (!is.null(cs$bracken)) qc[[paste0(cs$id, "b")]] <- add("Bracken", cs$bracken, NULL)
+      # D99: sylph Sequence_abundance (%) per genome, plus the genomes_detected row.
+      if (!is.null(cs$sylph)) qc[[paste0(cs$id, "y")]] <- add("sylph", c(cs$sylph, genomes_detected = length(cs$sylph)), NULL)
     }
   }
   write_tsv(do.call(rbind, screen),  file.path(dir, "screen.tsv"))
@@ -342,6 +360,7 @@ for (part in list(cases[!screened], cases[screened])) {
   mets <- rbind(mets, read.delim(file.path(d, "out_metrics.tsv"), colClasses = "character", na.strings = ""))
 }
 
+options(width = 400)
 res <- do.call(rbind, lapply(cases, function(cs) {
   got_v <- summ$verdict[summ$sample == cs$id]
   got_c <- if (length(cs$check)) paste(names(cs$check), mets$result[match(paste(cs$id, names(cs$check)), paste(mets$sample, mets$metric))], sep = "=", collapse = " ") else ""
@@ -357,6 +376,12 @@ res <- do.call(rbind, lapply(cases, function(cs) {
     if (!nrow(m)) "no depth row" else if (m$result == "info") m$value else m$note }
   got_c <- paste(got_c, got_d)
   exp_c <- paste(exp_c, if (is.null(cs$expect_depth)) "" else cs$expect_depth)
+  # D99: expect_note = a pattern the off_target_fraction note must match.
+  if (!is.null(cs$expect_note)) {
+    n <- mets$note[mets$sample == cs$id & mets$metric == "off_target_fraction"]
+    got_c <- paste(got_c, if (length(n) && grepl(cs$expect_note, n)) "note ok" else sprintf("note '%s'", n))
+    exp_c <- paste(exp_c, "note ok")
+  }
   ok <- identical(got_v, cs$verdict) && got_c == exp_c && got_h == isTRUE(cs$hint) &&
         got_t == (if (is.null(cs$expect_type)) "" else cs$expect_type) && got_f == (if (is.null(cs$expect_flag)) "" else cs$expect_flag)
   data.frame(case = cs$id, got = paste(got_v, got_c, if (got_h) "+hint" else "", got_t, got_f),

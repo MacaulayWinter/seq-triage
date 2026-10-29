@@ -294,6 +294,23 @@ contamination <- function(rows, route, target = NA_character_) {
                              if (length(trace)) sprintf("%d trace species under 1%% each, %.1f%% in total (not counted as off-target)",
                                                         length(trace), 100 * sum(trace))),
                            collapse = "; ")
+  # D99: off-target from sylph when it ran on this sample: genome-wide k-mer
+  # containment against one genome per species (GTDB) separates sister
+  # species that read-by-read classification mixes up. Every genome but the
+  # top one, each counted at 1% or more (as above). Not with a declared
+  # target: GTDB genomes carry no NCBI taxid to match it. Everything else
+  # (names, type calls, pathogen flags) stays on Kraken2.
+  out$off_target_method <- source
+  y <- rows[rows$tool == "sylph", ]
+  if (nrow(y) && !has_target && !is.na(out$off_target_fraction)) {
+    ab <- as.numeric(y$value[y$field != "genomes_detected"]) / 100
+    if (length(ab)) {
+      ab <- sort(ab / sum(ab), decreasing = TRUE)
+      out$off_target_other <- out$off_target_fraction
+      out$off_target_fraction <- sum(ab[-1][ab[-1] >= MIN_SPECIES_SHARE])
+      out$off_target_method <- "sylph"
+    } else out$off_target_method <- paste(source, "(sylph detected no genome)")
+  }
   out
 }
 
@@ -376,6 +393,11 @@ judge_sample <- function(s) {
                        else sprintf("not judged: %s library", exempt[1]),
       not_meaningful = "not judged: quality scores are a placeholder (every base the same)",
       "")
+    # D99: say which estimator gave off-target, and the other's figure.
+    if (g$metric == "off_target_fraction" && !is.null(contam$off_target_method) && !is.na(value))
+      note <- paste(c(if (nzchar(note)) note,
+                      if (identical(contam$off_target_method, "sylph")) sprintf("estimated by sylph (Kraken2/Bracken: %s)", format_value(contam$off_target_other, "fraction"))
+                      else sprintf("estimated by %s", contam$off_target_method)), collapse = "; ")
     data.frame(metric = g$metric, value = format_value(value, g$unit), result = result, note = note, gi = j)
   })
   m <- do.call(rbind, out)
