@@ -66,3 +66,4 @@ layer_D_*.log
 
 # Local output of tests/recommend/test_recommend.R (CI makes its own)
 .rec_out/
+.nf-test-*.nf

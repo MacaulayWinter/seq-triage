@@ -283,6 +283,8 @@ workflow SEQ_TRIAGE {
     metric_guide    // assets/metric_guide.tsv or the user's own
     species_groups  // assets/species_groups.tsv or the user's own
     genome_sizes    // assets/species_genome_size.tsv (NCBI), for depth of coverage (D80)
+    pathogen_dir    // D96: resolved pathogen list folder, or assets/no_pathogen_list
+    pathogen_note   // D96: how the list was obtained, or why there is none
 
     main:
 
@@ -617,7 +619,8 @@ workflow SEQ_TRIAGE {
         .mix(ch_rrna_logs.flatMap           { meta, f -> sortmernaRows(meta.id, f) })
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 
-    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups, genome_sizes)
+    TRIAGE_REPORT(SCREEN_METADATA.out.tsv, ch_samples_tsv, metric_guide, ch_qc_values, species_groups, genome_sizes,
+                  pathogen_dir, pathogen_note)
 
     // 7b. Next pipeline for each ready sample (D66), with a ready-to-run
     //     samplesheet and params file in that pipeline's own format.

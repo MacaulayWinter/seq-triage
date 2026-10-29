@@ -17,11 +17,12 @@
 #               116_check_rerun_complete.sh: nothing vanishes silently.
 #
 # Usage:  triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix>
+#                         [species_genome_size.tsv] [pathogen_list_dir] [provenance, or why there is no list]
 #*******************************************************************************
 
 args <- commandArgs(trailingOnly = TRUE)
-if (!length(args) %in% 6:7) {
-  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix> [species_genome_size.tsv]")
+if (!length(args) %in% c(6:7, 9)) {
+  stop("Usage: triage_report.R <metadata_screen.tsv> <samples.tsv> <metric_guide.tsv> <qc_values.tsv> <species_groups.tsv> <out_prefix> [species_genome_size.tsv] [pathogen_list_dir] [provenance, or why there is no list]")
 }
 read_tsv <- function(f) read.delim(f, colClasses = "character", na.strings = "", check.names = FALSE, quote = "")
 screen  <- read_tsv(args[1])
@@ -32,6 +33,21 @@ groups  <- read_tsv(args[5])
 prefix  <- args[6]
 # D80: NCBI expected genome sizes per species taxid (optional 7th argument).
 gsizes  <- if (length(args) >= 7 && file.exists(args[7])) read_tsv(args[7]) else data.frame(species_taxid = character(0), expected_ungapped_length = character(0))
+# D96: known human pathogens (optional 8th and 9th arguments): the folder
+# pathogen_list.R wrote (the list resolved to NCBI taxids, the NCBI family of
+# each bacterial species for the close-relative caveat, and the names it could
+# not resolve), and how this copy was obtained. A folder without the list
+# means there is none, and the 9th argument says why.
+pathogen_list <- NULL; pathogen_off <- "not checked: no pathogen list was given"
+pathogen_source <- if (length(args) >= 9) args[9] else ""
+families <- data.frame(taxid = character(0), family_taxid = character(0), family = character(0))
+if (length(args) >= 8) {
+  pf <- function(x) file.path(args[8], paste0("pathogen_list", x))
+  if (file.exists(pf(".tsv"))) {
+    pathogen_list <- read_tsv(pf(".tsv")); families <- read_tsv(pf("_families.tsv"))
+    file.copy(pf("_unresolved.tsv"), file.path(dirname(prefix), "pathogen_list_unresolved.tsv"), overwrite = TRUE)
+  } else pathogen_off <- paste("not checked:", pathogen_source)
+}
 options(scipen = 999)
 
 
@@ -263,6 +279,15 @@ contamination <- function(rows, route, target = NA_character_) {
   top_rows <- sp[sp$unit == names(share)[1], ]
   out$dominant_taxid <- top_rows$taxid[which.max(top_rows$n)]
   out$n_species_1pct <- 1 + length(counted)
+  # D96: every unit at the 1% floor, the top one included (an isolate of a
+  # pathogen is itself worth naming), with the taxids of its species.
+  kept <- names(share)[share >= MIN_SPECIES_SHARE]
+  out$units <- data.frame(unit = kept, share = as.numeric(share[kept]),
+                          taxids = vapply(kept, function(u) paste(sp$taxid[sp$unit == u], collapse = ","), ""),
+                          stringsAsFactors = FALSE)
+  # The sample's main species: the declared target when the screen saw it,
+  # otherwise the most common unit.
+  out$main_unit <- if (length(target_unit) == 1) target_unit else names(share)[1]
   out$dominant_species <- sprintf("%s (%.1f%% of species-level reads, %s)", names(share)[1], 100 * share[[1]], source)
   top <- head(share, 3)
   out$top_species <- paste(c(sprintf("%s %.1f%%", names(top), 100 * top),
@@ -702,6 +727,78 @@ for (i in seq_len(nrow(d))) {
 }
 
 
+# 3d. Known human pathogens (D96) --------------------------------------------------
+# Information only: changes no verdict, flag or recommendation. Matched by NCBI
+# taxid (D41), against the species the screen already counts (>= 1% of
+# species-level reads); a look-alike group is named if any member is listed.
+pathogen_rows <- list()
+pathogen_line <- setNames(rep("", nrow(d)), d$sample)
+for (i in seq_len(nrow(d))) {
+  s <- d$sample[i]
+  if (!d$route[i] %in% QC_ROUTES) next
+  base <- data.frame(sample = s, result = "", species = "", ncbi_taxid = "", reported_as = "", share = "",
+                     list_status = "", note = "", caveat = "", stringsAsFactors = FALSE)
+  if (!SCREEN_ON) {
+    pathogen_line[s] <- "not checked: the contamination screen did not run"
+    base$result <- "not_checked"; base$note <- "contamination screen did not run"
+  } else if (is.null(pathogen_list)) {
+    pathogen_line[s] <- pathogen_off
+    base$result <- "not_checked"; base$note <- sub("^not checked: ", "", pathogen_off)
+  } else {
+    cs <- contamination(qc[qc$sample == s, ], d$route[i], d$declared_target[i])
+    u <- cs$units
+    # Close relatives (D96 amendment): a flagged unit in the same NCBI family
+    # as the main species may be its reads misclassified; pure cultures put
+    # 1-9% of reads on relatives (D47). Said, never hidden.
+    fam_of <- function(taxids) unique(na.omit(families$family_taxid[families$taxid %in% strsplit(taxids, ",")[[1]]]))
+    main_fam <- if (!is.null(cs$main_unit)) fam_of(u$taxids[u$unit == cs$main_unit]) else character(0)
+    if (is.null(u) || !nrow(u)) {
+      pathogen_line[s] <- "not checked: no species-level estimate was possible"
+      base$result <- "not_checked"; base$note <- "no species-level estimate"
+    } else {
+      hits <- do.call(rbind, lapply(seq_len(nrow(u)), function(k) {
+        h <- pathogen_list[pathogen_list$match_taxid %in% strsplit(u$taxids[k], ",")[[1]], ]
+        if (!nrow(h)) return(NULL)
+        h <- h[!duplicated(h$taxid), ]
+        # One row per unit: a look-alike group cannot be split by the reads,
+        # so it is flagged as the group, naming each listed member.
+        data.frame(sample = s, result = "listed", species = paste(h$species, collapse = "; "),
+                   ncbi_taxid = paste(h$taxid, collapse = ","), reported_as = u$unit[k],
+                   share = sprintf("%.1f%%", 100 * u$share[k]),
+                   list_status = if (any(h$status == "established")) "established" else "putative",
+                   note = if (nrow(h) > 1) paste(sprintf("%s: %s", h$species, h$status), collapse = "; ") else "",
+                   caveat = if (u$unit[k] != cs$main_unit && length(intersect(fam_of(u$taxids[k]), main_fam)))
+                     sprintf("may be misread DNA of %s (same family): pure cultures put 1-9%% of reads on close relatives", cs$main_unit) else "",
+                   stringsAsFactors = FALSE)
+      }))
+      if (is.null(hits)) {
+        pathogen_line[s] <- sprintf("none of the %d species counted (>= 1%% of species-level reads) is on the list", nrow(u))
+        base$result <- "none_listed"; base$note <- sprintf("%d species counted", nrow(u))
+      } else {
+        pathogen_line[s] <- paste(paste0(ifelse(hits$reported_as == hits$species,
+                                         sprintf("%s (%s, %s of species-level reads)", hits$species, hits$list_status, hits$share),
+                                         sprintf("%s (%s of species-level reads; listed: %s)", hits$reported_as, hits$share,
+                                                 ifelse(nzchar(hits$note), hits$note, paste0(hits$species, ": ", hits$list_status)))),
+                                         ifelse(nzchar(hits$caveat), paste0(" [", hits$caveat, "]"), "")),
+                                  collapse = "; ")
+        base <- hits
+      }
+    }
+  }
+  pathogen_rows[[s]] <- base
+}
+pathogens <- do.call(rbind, pathogen_rows)
+if (is.null(pathogens)) pathogens <- data.frame(sample = character(0), result = character(0))
+pathogen_header <- if (!is.null(pathogen_list) && nrow(pathogen_list)) {
+  pl <- pathogen_list[1, ]
+  pathogens$list_version <- if (nrow(pathogens)) pl$list_version else character(0)
+  c(sprintf("Matched against the list of bacterial pathogens known to infect humans by Bartlett, Padfield, Lear, Bendall & Vos (2022, *Microbiology* 168:001269; CC BY 4.0), version %s (doi:%s)%s. %s of its names were matched to NCBI species (taxonomy of %s); %s could not be, and are listed in `pathogen_list_unresolved.tsv`.",
+            pl$list_version, pl$list_doi, if (nzchar(pathogen_source)) paste0(", ", pathogen_source) else "",
+            pl$list_resolved, pl$taxdump_date, pl$list_unresolved),
+    "",
+    "**Information only.** A listed species means the reads contain DNA classified to it, not that a sample is infectious or clinically relevant: putative species have fewer than three reported human cases, and the list does not separate pathogenic strains from harmless ones. It changes no verdict.")
+} else c(sprintf("Known human pathogens were %s.", pathogen_off))
+
 # 5. Write -----------------------------------------------------------------------
 
 cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hint",
@@ -711,6 +808,7 @@ cols <- c("sample", "verdict", "verdict_reason", "qc_result", "qc_findings", "hi
           "detected_type", "type_confidence", "type_reason", "declared_target")
 write.table(d[, cols], paste0(prefix, "_summary.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 write.table(metrics[, setdiff(names(metrics), "gi")], paste0(prefix, "_metrics.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
+write.table(pathogens, paste0(prefix, "_pathogens.tsv"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
 show <- function(x) ifelse(is.na(x) | x == "", "-", x)
 SYMBOL <- c(PASS = "pass", WARN = "**warn**", FAIL = "**FAIL**", info = "info", exempt = "not judged",
@@ -778,6 +876,10 @@ md <- c(
           ifelse(d$declared_type %in% c("isolate", "metagenome", "amplicon"), sprintf("%s (declared)", d$declared_type),
                  ifelse(d$detected_type == "uncertain", "-", sprintf("%s (%s)", d$detected_type, d$type_confidence))),
           show(d$qc_result), show(d$n_flags)), "",
+  "## Known human pathogens (information only)", "",
+  pathogen_header, "",
+  if (nrow(pathogens)) c("| Sample | Result |", "|---|---|",
+                         sprintf("| %s | %s |", names(pathogen_line)[d$route %in% QC_ROUTES], pathogen_line[d$route %in% QC_ROUTES]), ""),
   "## Per-sample detail", "",
   unlist(lapply(seq_len(nrow(d)), function(i) c(
     sprintf("### %s: %s", d$sample[i], d$verdict[i]), "",
@@ -792,6 +894,7 @@ md <- c(
             if (d$type_confidence[i] %in% c("high", "medium")) sprintf(", %s confidence", d$type_confidence[i]) else "",
             d$type_reason[i]),
     if (!is.na(d$flags[i])) paste0("- Metadata: ", strsplit(d$flags[i], " | ", fixed = TRUE)[[1]]),
+    if (nzchar(pathogen_line[d$sample[i]])) paste0("- Known human pathogens (information only): ", pathogen_line[d$sample[i]]),
     metric_table(d$sample[i]),
     ""))),
   if (length(guide_section)) c("## How to read these numbers", "", guide_section)

@@ -1,0 +1,9 @@
+match_taxid	taxid	species	status	resolved_by	list_version	list_doi	list_md5	taxdump_date	list_resolved	list_unresolved
+1001	562	Escherichia coli	established	scientific_name	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+1002	43767	Rhodococcus equi / Prescottella equi	established	synonym / scientific_name	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+1772	1772	Mycobacterium smegmatis	established	synonym	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+1774	1774	Mycobacterium chelonae	established	synonym	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+2104	2104	Mycoplasma pneumoniae	established	strain_names	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+43767	43767	Rhodococcus equi / Prescottella equi	established	synonym / scientific_name	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+47715	47715	Lactobacillus rhamnosus	established	synonym	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
+562	562	Escherichia coli	established	scientific_name	fixture	10.0000/test	e3aaec3ca9bb51dbf1fc264c28114356	2026-10-28	7	3
