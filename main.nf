@@ -9,6 +9,7 @@
 
 include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin/nf-schema'
 include { SEQ_TRIAGE } from './workflows/seq_triage'
+include { FETCH_PATHOGEN_LIST } from './modules/local/fetch_pathogen_list/main'
 
 // Empty cells arrive as [] (D22); case and spaces do not make two
 // declarations differ.
@@ -99,6 +100,60 @@ def sampleFromRows(List rs) {
     return [ meta + [ single_end: single_end ] + extra, units.flatten() ]
 }
 
+// D96: Bartlett et al. 2022's list of bacterial human pathogens, from the
+// authors' GitHub repository: the newest commit that changed the list file is
+// looked up at each run (the user's choice, 2026-10-29: the authors corrected
+// names there in 2025 without a new Zenodo version). Cited with the paper and
+// the Zenodo DOI. NCBI's taxonomy turns names into taxids once per version.
+def PATHOGEN_REPO() { 'padpadpadpad/bartlett_et_al_2022_human_pathogens' }
+def PATHOGEN_FILE() { 'data/bacteria_human_pathogens.xlsx' }
+def PATHOGEN_DOI() { '10.5281/zenodo.7337534' }
+def NCBI_TAXDUMP_URL() { 'https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz' }
+
+// WHAT IT DOES  Decides where the pathogen list comes from (D96): skipped;
+//               a prepared folder (--pathogen_list); the cached copy of the
+//               newest commit; a fresh build of it; or, offline, the newest
+//               cached copy, labelled as such. Never stops the run.
+// RETURNS       [mode: 'none' | 'dir' | 'fetch', note: <for the report>,
+//               dir: <folder> | version, doi, zip: <download URL>]
+def pathogenListSource() {
+    if (params.skip_pathogen_flags) {
+        return [mode: 'none', note: 'turned off with --skip_pathogen_flags']
+    }
+    if (params.pathogen_list) {
+        def d = file(params.pathogen_list, type: 'dir', checkIfExists: true)
+        if (!d.resolve('pathogen_list.tsv').exists() || !d.resolve('pathogen_list_families.tsv').exists()) {
+            error("--pathogen_list must be a folder written by bin/pathogen_list.R (pathogen_list.tsv, pathogen_list_families.tsv, pathogen_list_unresolved.tsv): ${d}")
+        }
+        return [mode: 'dir', dir: d, note: 'the copy given with --pathogen_list (latest not checked)']
+    }
+    def cache = file(params.pathogen_cache, type: 'dir')
+    def today = new Date().format('yyyy-MM-dd')
+    try {
+        def conn = new java.net.URI("https://api.github.com/repos/${PATHOGEN_REPO()}/commits?path=${PATHOGEN_FILE()}&per_page=1").toURL().openConnection()
+        conn.setConnectTimeout(20000)
+        conn.setReadTimeout(20000)
+        def commit = new groovy.json.JsonSlurper().parse(conn.getInputStream())[0]
+        def sha = commit.sha.toString()
+        // e.g. github-2380c3a265-2025-07-28: the commit and the day it was made
+        def version = "github-${sha.take(10)}-${commit.commit.committer.date.toString().take(10)}"
+        def hit = cache.resolve(version).resolve('pathogen_list')
+        if (hit.resolve('pathogen_list.tsv').exists()) {
+            return [mode: 'dir', dir: hit, note: "the newest on the authors' GitHub on ${today}, from the cache"]
+        }
+        return [mode: 'fetch', version: version, doi: PATHOGEN_DOI(),
+                zip: "https://raw.githubusercontent.com/${PATHOGEN_REPO()}/${sha}/${PATHOGEN_FILE()}",
+                note: "the newest on the authors' GitHub on ${today}, downloaded for this run"]
+    } catch (Exception e) {
+        def cached = cache.exists() ? cache.listFiles().findAll { v -> v.resolve('pathogen_list/pathogen_list.tsv').exists() }.sort { v -> v.lastModified() } : []
+        if (cached) {
+            return [mode: 'dir', dir: cached[-1].resolve('pathogen_list'),
+                    note: "from the cache; latest not checked, as GitHub could not be reached (${e.getClass().getSimpleName()})"]
+        }
+        return [mode: 'none', note: "the pathogen list is unavailable: GitHub could not be reached and nothing is cached (${e.getClass().getSimpleName()})"]
+    }
+}
+
 workflow {
     // --help / --helpFull: nf-schema has already printed the help (generated
     // from nextflow_schema.json, D53). Stop here, so a help request is not
@@ -179,5 +234,24 @@ workflow {
     ch_samples = channel.fromList(rows.groupBy { row -> row[0].id }.values() as List)
         .map { rs -> sampleFromRows(rs) }
 
-    SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide), file(params.species_groups), file(params.genome_sizes))
+    // D96: the known-pathogen list. Looked up here, on the machine running
+    //      Nextflow (an HPC login node has the internet; compute nodes may
+    //      not); built by FETCH_PATHOGEN_LIST only for a version not cached.
+    def pl = pathogenListSource()
+    def no_list = file("${projectDir}/assets/no_pathogen_list", type: 'dir')
+    def ch_pathogen_dir
+    def ch_pathogen_note
+    if (pl.mode == 'fetch') {
+        log.info "Pathogen list: building version ${pl.version} (first use; cached in ${params.pathogen_cache})"
+        FETCH_PATHOGEN_LIST(pl.zip, NCBI_TAXDUMP_URL(), pl.version, pl.doi)
+        ch_pathogen_dir  = FETCH_PATHOGEN_LIST.out.dir.ifEmpty(no_list)
+        ch_pathogen_note = FETCH_PATHOGEN_LIST.out.dir.map { _d -> pl.note }
+            .ifEmpty("the pathogen list could not be built (download or processing failed, see the run log)")
+    } else {
+        ch_pathogen_dir  = channel.value(pl.mode == 'dir' ? pl.dir : no_list)
+        ch_pathogen_note = channel.value(pl.note)
+    }
+
+    SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide), file(params.species_groups), file(params.genome_sizes),
+               ch_pathogen_dir, ch_pathogen_note)
 }

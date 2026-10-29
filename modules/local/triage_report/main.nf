@@ -17,11 +17,15 @@ process TRIAGE_REPORT {
     path qc_values    // qc_values.tsv: every QC number, one row per sample/tool/field
     path species_groups
     path genome_sizes   // NCBI expected genome sizes (D80)
+    path pathogen_dir   // D96: the resolved pathogen list, or assets/no_pathogen_list
+    val  pathogen_note  // how the list was obtained, or why there is none
 
     output:
     path 'triage_summary.tsv', emit: tsv
     path 'triage_summary.md',  emit: md
     path 'triage_metrics.tsv', emit: metrics
+    path 'triage_pathogens.tsv', emit: pathogens
+    path 'pathogen_list_unresolved.tsv', optional: true, emit: pathogens_unresolved
     // The raw QC numbers the report judged, published alongside it so any
     // value in the report can be traced back to the tool that produced it.
     path 'qc_values.tsv', includeInputs: true, emit: qc_values
@@ -29,6 +33,7 @@ process TRIAGE_REPORT {
 
     script:
     """
-    triage_report.R ${screen} ${samples} ${metric_guide} ${qc_values} ${species_groups} triage ${genome_sizes}
+    triage_report.R ${screen} ${samples} ${metric_guide} ${qc_values} ${species_groups} triage ${genome_sizes} \
+        ${pathogen_dir} "${pathogen_note}"
     """
 }
