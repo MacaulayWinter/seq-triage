@@ -23,3 +23,6 @@ M07_D14,reads/M07_D14_R1.fastq.gz,reads/M07_D14_R2.fastq.gz,illumina,metagenome
 M08_D00,reads/M08_D00_R1.fastq.gz,reads/M08_D00_R2.fastq.gz,illumina,metagenome
 M08_D07,reads/M08_D07_R1.fastq.gz,reads/M08_D07_R2.fastq.gz,illumina,metagenome
 M08_D14,reads/M08_D14_R1.fastq.gz,reads/M08_D14_R2.fastq.gz,illumina,metagenome
+BLANK1,reads/BLANK1_R1.fastq.gz,reads/BLANK1_R2.fastq.gz,illumina,metagenome
+BLANK2,reads/BLANK2_R1.fastq.gz,reads/BLANK2_R2.fastq.gz,illumina,metagenome
+MOCK1,reads/MOCK1_R1.fastq.gz,reads/MOCK1_R2.fastq.gz,illumina,metagenome

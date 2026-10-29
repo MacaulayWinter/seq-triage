@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# Test for bin/study_metadata.R (CLAUDE.md D95)
+# Test for bin/study_metadata.R (CLAUDE.md D95; controls D97)
 #
 # One case per rule: what must pass, and what must stop (and that the stop
 # names the problem). Then a fuzz test: random, messy metadata sheets must
@@ -23,6 +23,7 @@ run <- function(sheet, meta = NULL, guide = NULL) {
        meta = if (file.exists("study_metadata.tsv")) read.delim("study_metadata.tsv", colClasses = "character", check.names = FALSE) else NULL)
 }
 `%||%` <- function(a, b) if (is.null(a)) b else a
+options(width = 300)
 res <- data.frame(case = character(0), got = character(0), expected = character(0))
 expect <- function(case, got, expected) res <<- rbind(res, data.frame(case = case, got = as.character(got), expected = as.character(expected)))
 reads <- function(ids) data.frame(sample = ids, fastq_1 = paste0(ids, "_R1.fastq.gz"), fastq_2 = paste0(ids, "_R2.fastq.gz"))
@@ -112,6 +113,31 @@ r <- run(normalizePath("assets/examples/samplesheet_example.csv"), meta = normal
          guide = normalizePath("assets/examples/column_guide_example.csv"))
 expect("EXAMPLE_PASSES_NO_WARNING", r$status == 0 && !grepl("\\*\\*warning\\*\\*", r$md), TRUE)
 expect("TEMPLATE_HEADER", readLines("assets/column_guide_template.csv")[1], "column,role,type,levels,missing_codes,unit,nested_in,derived_from,description")
+
+# Controls: the sample_control role (D97) -----------------------------------------------
+ctl <- rbind(cbind(base, kind = "sample"),
+             data.frame(reads(c("NEG1", "MOCK1")), trt = "", temp = "", day = "", animal = "", weight = "", kind = c("negative_extraction", "positive_mock")))
+guide_ctl <- rbind(guide_ok, row("kind", "sample_control", "categorical"))
+r <- run(csv(ctl, "ctl.csv"), guide = csv(guide_ctl, "g_ctl.csv"))
+expect("CTL_OK_EXIT", r$status, 0)
+expect("CTL_COUNTED_BY_KIND", grepl("`kind` \\(sample_control\\): 8 real sample\\(s\\); controls: negative_extraction \\(n = 1\\), positive_mock \\(n = 1\\)", r$md), TRUE)
+expect("CTL_NOT_IN_GROUPS", grepl("`trt` \\(predictor, binary\\): control \\(n = 4\\), drug \\(n = 4\\)\n", r$md) &&
+                            grepl("Samples per combination of `trt`, `temp`, `day`: 1 in each of 8\\.", r$md), TRUE)
+expect("CTL_NOT_SUBJECTS", grepl("`animal` \\(subject_id\\): 4 subjects, 2 sample\\(s\\) each", r$md), TRUE)
+expect("CTL_BLANKS_NOT_MISSING", grepl("Missing for", r$md), FALSE)
+expect("CTL_NO_WARNING", grepl("\\*\\*warning\\*\\*", r$md), FALSE)
+expect("CTL_KEPT_IN_OUTPUT", if (!is.null(r$meta)) paste(r$meta$kind[r$meta$sample %in% c("NEG1", "MOCK1")], collapse = ",") else "no output", "negative_extraction,positive_mock")
+stops("STOP_CTL_CASE", within(ctl, kind[9] <- "negative_PCR"), "'negative_PCR' \\(did you mean 'negative_pcr'\\?\\)", guide = guide_ctl)
+stops("STOP_CTL_UNKNOWN", within(ctl, kind[9] <- "blank"), "not among the sample_control values: 'blank'", guide = guide_ctl)
+stops("STOP_CTL_EMPTY", within(ctl, kind[3] <- ""), "`kind`: empty for 1 sample\\(s\\) \\(e.g. S03\\)", guide = guide_ctl)
+stops("STOP_CTL_NONE_IS_EMPTY", within(ctl, kind[3] <- "none"), "write `sample` for a real sample", guide = guide_ctl)
+stops("STOP_CTL_TWO_COLUMNS", cbind(ctl, kind2 = ctl$kind), "role sample_control to more than one column", guide = rbind(guide_ctl, row("kind2", "sample_control", "categorical")))
+stops("STOP_CTL_TYPE", ctl, "a sample_control column must be categorical \\(it is text\\)", guide = within(guide_ctl, type[column == "kind"] <- "text"))
+stops("STOP_CTL_LEVELS", ctl, "`levels` names value\\(s\\) that are not sample_control values: 'blank'", guide = within(guide_ctl, levels[column == "kind"] <- "sample|blank"))
+r <- run(csv(base, "s_noctl.csv"), guide = csv(guide_ok, "g_noctl.csv"))
+expect("WARN_NO_CTL_COLUMN", r$status == 0 && grepl("\\*\\*warning\\*\\* `design`: No column has role sample_control", r$md), TRUE)
+r <- run(csv(cbind(base, kind = "sample"), "s_allreal.csv"), guide = csv(guide_ctl, "g_allreal.csv"))
+expect("WARN_ALL_REAL", r$status == 0 && grepl("Every sample is a real sample", r$md), TRUE)
 
 # Fuzz: messy random sheets either pass or stop with a message, never crash --------------
 set.seed(95)

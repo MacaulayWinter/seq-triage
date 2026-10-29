@@ -345,6 +345,7 @@ Three columns are required:
 | `time` | when the sample was taken (day, visit, date) |
 | `block` | a grouping within which comparisons are made (cage, site, litter) |
 | `batch` | a technical grouping (extraction run, sequencing lane) |
+| `sample_control` | which samples are controls (below) |
 | `ignore` | kept in the outputs, never analysed (notes, duplicate information) |
 
 | `type`: how to handle it | |
@@ -362,6 +363,25 @@ Each list ends in a catch-all, so every column fits: a column the pipeline
 cannot model is `text` or `ignore`. Whether a number is a quantity or a set of
 groups is yours to say. A temperature of 26 or 30 can be `categorical` (two
 groups) or `continuous` (a covariate), and the pipeline treats it as declared.
+
+**Controls** (blanks, mock communities) need a column of their own with role
+`sample_control` and type `categorical`. Every sample gets one of these values:
+
+| `sample_control` value | |
+|---|---|
+| `sample` | a real sample, not a control |
+| `negative_extraction` | an extraction blank |
+| `negative_pcr` | a PCR or library blank |
+| `negative_other` | any other negative control |
+| `positive_mock` | a mock community of known make-up |
+| `positive_other` | any other positive control |
+
+Controls are counted by kind in the check and are never analysed as biology.
+They need no other values: a blank's empty diet or day is expected. A real
+sample is `sample`, not `none`, because `none` is read as an empty cell. An
+*experimental* control group (untreated animals) is not a control sample: it
+is a value of a `predictor`, listed first in `levels` as the reference
+(`control|antibiotic`).
 
 Optional columns, when a type or the design needs them:
 
@@ -399,15 +419,20 @@ Optional columns, when a type or the design needs them:
 - a column missing from the guide, a guide row with no column in the data, or
   a role or type not in the lists above;
 - a sample with two different values of one variable (for example two lanes);
-- a `derived_from` or `nested_in` the data contradict.
+- a `derived_from` or `nested_in` the data contradict;
+- in the `sample_control` column, an empty cell or a value not in its list
+  (`negative_PCR`, `blank`), or a second `sample_control` column.
 
 **Warnings** do not stop the run but must be read. The main one is two
 columns that always move together (every female in extraction batch B1),
-whose effects can never be separated.
+whose effects can never be separated. A run with no controls (no
+`sample_control` column, or every sample `sample`) is warned about too, since
+contamination from reagents cannot then be measured.
 
 **Worked example** (invented data): `assets/examples/metadata_example.csv`
-(24 samples, 8 mice, antibiotic x diet, 3 days, cages, extraction batches,
-a score with `99` for "not scored") and its guide,
+(24 samples from 8 mice, antibiotic x diet, 3 days, cages, extraction
+batches, a score with `99` for "not scored", plus 2 extraction blanks and a
+mock community) and its guide,
 `assets/examples/column_guide_example.csv`. They pass with no warnings:
 
 ```bash

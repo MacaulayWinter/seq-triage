@@ -22,7 +22,9 @@
 #               duplicated entry; a value that contradicts its type or its
 #               listed levels; values that look like typos of each other
 #               (differing only in case, spaces or punctuation, or by one
-#               keystroke) in a column whose levels are not listed.
+#               keystroke) in a column whose levels are not listed; in a
+#               sample_control column (D97), an empty cell, a value not in
+#               CONTROLS, or a second such column.
 # WRITES        study_metadata.tsv, metadata_check.tsv, metadata_check.md,
 #               column_guide_draft.csv
 #
@@ -45,6 +47,7 @@ ROLES <- c(sample_id  = "the sample ID (only needed when a --metadata table does
            time       = "when the sample was taken (day, visit, date)",
            block      = "a grouping within which comparisons are made (site, litter)",
            batch      = "a technical grouping (extraction run, sequencing lane)",
+           sample_control = "which samples are controls (D97): `sample`, or the kind of control",
            ignore     = "kept in the outputs, never analysed")
 TYPES <- c(binary      = "two values (yes/no, 0/1)",
            categorical = "named groups with no order",
@@ -54,6 +57,14 @@ TYPES <- c(binary      = "two values (yes/no, 0/1)",
            proportion  = "a number from 0 to 1",
            date        = "a date written YYYY-MM-DD",
            text        = "free text or an identifier: described, never modelled")
+# The values of a sample_control column (D97), a closed list. `sample` is a
+# real sample; `none` cannot be used, as it is read as an empty cell (EMPTY).
+CONTROLS <- c(sample              = "a real sample, not a control",
+              negative_extraction = "an extraction blank",
+              negative_pcr        = "a PCR or library blank",
+              negative_other      = "any other negative control",
+              positive_mock       = "a mock community of known make-up",
+              positive_other      = "any other positive control")
 GUIDE_COLS <- c("column", "role", "type", "levels", "missing_codes", "unit", "nested_in", "derived_from", "description", "seen_in_data")
 # Values conventionally used to mean "not recorded" in survey and lab data. A
 # numeric column holding one must say whether it is a code (missing_codes) or
@@ -210,13 +221,18 @@ typo_pairs <- function(v) {
 }
 
 # Check each column ------------------------------------------------------------------------
+# D97: the real samples. A control's empty cells (a blank has no diet) are expected, not missing.
+ctl_col <- if (is.null(guide)) NA_character_ else intersect(guide$column[guide$role %in% "sample_control"], analysed)[1]
+real <- if (is.na(ctl_col)) rep(TRUE, nrow(md)) else md[[ctl_col]] %in% "sample"
 for (c in analysed) {
   v <- na.omit(md[[c]]); r <- g(c, "role"); t <- g(c, "type")
   lv <- g(c, "levels"); lv <- if (is.na(lv)) character(0) else trimws(strsplit(lv, "|", fixed = TRUE)[[1]])
-  if (g(c, "role") %in% "ignore") { }   # never analysed: no notes about its spread
+  if (g(c, "role") %in% c("ignore", "sample_control")) { }   # never analysed, or checked below (D97): no notes about its spread
   else if (!length(v)) add(c, "note", "No values for any sample in this run.")
   else if (length(unique(v)) == 1) add(c, "note", sprintf("The same value ('%s') for every sample: it cannot explain differences in this run.", v[1]))
-  if (!g(c, "role") %in% "ignore" && info$n_missing[match(c, info$column)] > 0 && length(v)) add(c, "note", sprintf("Missing for %d of %d sample(s).", info$n_missing[match(c, info$column)], nrow(md)))
+  n_miss_real <- sum(is.na(md[[c]]) & real)
+  if (!g(c, "role") %in% c("ignore", "sample_control") && n_miss_real > 0 && length(v))
+    add(c, "note", sprintf("Missing for %d of %d %s.", n_miss_real, sum(real), if (is.na(ctl_col)) "sample(s)" else "real sample(s) (controls not counted)"))
   if (!is.null(code_n[[c]]) && code_n[[c]] > 0) add(c, "note", sprintf("%d value(s) were missing-value codes (%s) and are treated as missing.", code_n[[c]], g(c, "missing_codes")))
   codes_here <- intersect(unique(v), CONVENTIONAL_CODES)
   if (is.null(guide)) {
@@ -230,6 +246,19 @@ for (c in analysed) {
   if (!c %in% guide$column) { stop_if(TRUE, sprintf("`%s` is not in --column_guide: give it a role and type (role ignore keeps it without analysing it).", c)); next }
   stop_if(is.na(r) || !r %in% names(ROLES), sprintf("`%s`: role '%s' is not one of: %s.", c, r %||% "", paste(names(ROLES), collapse = ", ")))
   stop_if(is.na(t) || !t %in% names(TYPES), sprintf("`%s`: type '%s' is not one of: %s.", c, t %||% "", paste(names(TYPES), collapse = ", ")))
+  if (r %in% "sample_control") {
+    # D97: every sample says what it is; nothing outside the closed list.
+    stop_if(!t %in% "categorical", sprintf("`%s`: a sample_control column must be categorical (it is %s).", c, t %||% ""))
+    n_miss <- info$n_missing[match(c, info$column)]
+    stop_if(n_miss > 0, sprintf("`%s`: empty for %d sample(s) (e.g. %s). Nothing has been assumed: write `sample` for a real sample, or the kind of control (%s).",
+                                c, n_miss, paste(head(md$sample[is.na(md[[c]])], 3), collapse = ", "), paste(names(CONTROLS)[-1], collapse = ", ")))
+    out <- setdiff(unique(v), names(CONTROLS))
+    near <- vapply(out, function(x) { d <- adist(tolower(x), names(CONTROLS)); if (min(d) <= 3) sprintf(" (did you mean '%s'?)", names(CONTROLS)[which.min(d)]) else "" }, "")
+    stop_if(length(out) > 0, sprintf("`%s`: value(s) not among the sample_control values: %s. Use only: %s.", c,
+                                     paste(sprintf("'%s'%s", out, near), collapse = ", "), paste(names(CONTROLS), collapse = ", ")))
+    stop_if(length(setdiff(lv, names(CONTROLS))) > 0, sprintf("`%s`: `levels` names value(s) that are not sample_control values: %s.", c, paste(sprintf("'%s'", setdiff(lv, names(CONTROLS))), collapse = ", ")))
+    next
+  }
   if (!t %in% names(TYPES) || !length(v)) next
   stop_if(length(codes_here) > 0 && t %in% c("count", "continuous", "proportion", "ordinal") && is.na(g(c, "missing_codes")),
           sprintf("`%s`: contains %s, often a code for 'not recorded'. Nothing has been assumed: list it in this column's missing_codes, or write none there if it is a real value.",
@@ -276,6 +305,8 @@ for (c in analysed) {
 if (!is.null(guide)) {
   extra_rows <- setdiff(guide$column, c(analysed, id_col_meta, "sample"))
   for (c in extra_rows) stop_if(TRUE, sprintf("`%s` is in --column_guide but not in the data (check the spelling of the column name).", c))
+  ctl_cols <- guide$column[guide$role %in% "sample_control"]
+  stop_if(length(ctl_cols) > 1, sprintf("--column_guide gives role sample_control to more than one column: %s. Put every sample's status in one column.", q(ctl_cols)))
   stop_if(sum(guide$role %in% "sample_id") > 1, sprintf("--column_guide gives role sample_id to more than one column: %s.", q(guide$column[guide$role %in% "sample_id"])))
 }
 if (length(not_in_sheet)) add("sample", "note", sprintf("%d sample(s) in --metadata are not in the samplesheet and were left out (e.g. %s).", length(not_in_sheet), paste(head(not_in_sheet, 3), collapse = ", ")))
@@ -298,6 +329,20 @@ if (length(cand) >= 2) for (a in seq_along(cand)) for (b in seq_along(cand)) if 
 design <- character(0)
 if (!is.null(guide) && nrow(md) && length(analysed)) {
   role_of <- function(r) info$column[info$role %in% r]
+  # D97: controls are counted on their own line, and the design is read from
+  # real samples only, so a blank or a mock is never a group or a subject.
+  ctl <- role_of("sample_control")[1]
+  md_all <- md
+  if (!is.na(ctl)) {
+    kinds <- table(factor(md[[ctl]], levels = names(CONTROLS)))
+    k <- kinds[-1][kinds[-1] > 0]
+    design <- c(design, sprintf("- `%s` (sample_control): %d real sample(s); %s", ctl, kinds[["sample"]],
+                                if (length(k)) sprintf("controls: %s. Controls are left out of the lines below and never modelled as biology.",
+                                                       paste(sprintf("%s (n = %d)", names(k), as.vector(k)), collapse = ", "))
+                                else "no controls."))
+    md <- md[md[[ctl]] %in% "sample", , drop = FALSE]
+    if (!length(k)) add("design", "warning", sprintf("Every sample is a real sample (`%s` is `sample` throughout): this run has no negative or positive controls, so contamination from reagents and the kit cannot be measured.", ctl))
+  } else add("design", "warning", "No column has role sample_control, so controls (extraction or PCR blanks, mock communities) cannot be told from real samples: any in this run would be analysed as biology. If there are controls, add a column with role sample_control (README, Study metadata).")
   pred <- role_of("predictor"); subj <- role_of("subject_id"); tim <- role_of("time")
   grouping <- pred[info$type[match(pred, info$column)] %in% c("binary", "categorical", "ordinal")]
   for (c in c(pred, role_of("block"))) {
@@ -331,6 +376,8 @@ if (!is.null(guide) && nrow(md) && length(analysed)) {
     if (any(cells == 1)) add("design", "note", sprintf("%d combination(s) have a single sample: no variation can be estimated within them.", sum(cells == 1)))
   }
 }
+
+if (exists("md_all")) md <- md_all
 
 # Draft guide: every column, what the data show, choices left blank ---------------------------
 if (length(analysed) || !is.na(id_col_meta)) {

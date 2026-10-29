@@ -1,5 +1,6 @@
 column,role,type,levels,missing_codes,unit,nested_in,derived_from,description
 sample,sample_id,text,,,,,,One row per sequenced sample; the same IDs as the samplesheet
+control,sample_control,categorical,,,,,,"sample for a mouse sample; extraction blanks and a mock community are the controls"
 mouse,subject_id,text,,,,cage,,The mouse sampled at each time
 treatment,predictor,binary,control|antibiotic,,,,,Antibiotic in the drinking water from day 0; control is the reference (listed first)
 diet,predictor,categorical,standard|high_fibre,,,,,Diet fed throughout

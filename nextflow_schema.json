@@ -39,7 +39,7 @@
                     "exists": true,
                     "pattern": "^\\S+\\.(csv|tsv|txt)$",
                     "description": "Optional column guide: one row per study column, saying what it does (role) and how to handle it (type).",
-                    "help_text": "Template: assets/column_guide_template.csv; worked example: assets/examples/. Roles: sample_id, subject_id, predictor, outcome, time, block, batch, ignore. Types: binary, categorical, ordinal, count, continuous, proportion, date, text. Without one, metadata/column_guide_draft.csv lists every column to fill in (D95).",
+                    "help_text": "Template: assets/column_guide_template.csv; worked example: assets/examples/. Roles: sample_id, subject_id, predictor, outcome, time, block, batch, sample_control, ignore. Types: binary, categorical, ordinal, count, continuous, proportion, date, text. Without one, metadata/column_guide_draft.csv lists every column to fill in (D95).",
                     "fa_icon": "fas fa-book"
                 },
                 "outdir": {
