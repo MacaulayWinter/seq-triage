@@ -252,8 +252,10 @@ report gets a section *Known human pathogens (information only)*, and
 `pathogens/pathogen_flags.tsv` has one row per flag. It is there to point you
 to what may matter while the rest of your work runs; **it changes no verdict**.
 
-- **Always the newest list.** At each run the pipeline asks Zenodo for the
-  newest version of the list. The first run that sees a new version builds it
+- **Always the newest list.** At each run the pipeline asks the authors'
+  GitHub repository for the newest change to the list (they corrected names
+  there in 2025; Zenodo still holds the 2022 file). The report names the
+  commit, so a run can be repeated exactly. The first run that sees a new version builds it
   (about 4 minutes and 4 GB of memory, once) into `~/.seq-triage/pathogens/`
   (`--pathogen_cache`); later runs reuse it. Offline, the newest cached copy is
   used and the report says the latest was not checked; with no copy at all,
@@ -265,7 +267,7 @@ to what may matter while the rest of your work runs; **it changes no verdict**.
   level, such as *Salmonella typhi* (a serovar) or *Mycobacterium bovis* (a
   variant of *M. tuberculosis*), cannot be told apart by species counts and are
   not matched; every name not matched is listed, with the reason, in
-  `pathogens/pathogen_list_unresolved.tsv` (28 of 1,513 in version 1.0).
+  `pathogens/pathogen_list_unresolved.tsv` (28 of 1,513 in the July 2025 version).
 - **Close relatives are marked, not hidden.** Pure cultures put 1-9% of their
   reads on close relatives (an *E. coli* isolate shows some *Klebsiella* and
   *Salmonella*). A flagged species from the same family as the sample's main

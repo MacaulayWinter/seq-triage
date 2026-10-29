@@ -158,8 +158,8 @@
                     "type": "string",
                     "format": "directory-path",
                     "exists": true,
-                    "description": "A folder written by bin/pathogen_list.R to use instead of the newest list on Zenodo (offline runs, or to repeat a run exactly).",
-                    "help_text": "Unset: the newest version of Zenodo record 10.5281/zenodo.7337534 is looked up at each run and built once into --pathogen_cache.",
+                    "description": "A folder written by bin/pathogen_list.R to use instead of the newest list on the authors' GitHub (offline runs, or to repeat a run exactly).",
+                    "help_text": "Unset: the newest commit of the list in the authors' repository (github.com/padpadpadpad/bartlett_et_al_2022_human_pathogens) is looked up at each run and built once into --pathogen_cache.",
                     "fa_icon": "fas fa-list"
                 },
                 "pathogen_cache": {
