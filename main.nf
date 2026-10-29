@@ -236,7 +236,7 @@ workflow {
     def ch_pathogen_note
     if (pl.mode == 'fetch') {
         log.info "Pathogen list: building version ${pl.version} (first use; cached in ${params.pathogen_cache})"
-        FETCH_PATHOGEN_LIST(file(pl.zip), file(NCBI_TAXDUMP_URL()), pl.version, pl.doi)
+        FETCH_PATHOGEN_LIST(pl.zip, NCBI_TAXDUMP_URL(), pl.version, pl.doi)
         ch_pathogen_dir  = FETCH_PATHOGEN_LIST.out.dir.ifEmpty(no_list)
         ch_pathogen_note = FETCH_PATHOGEN_LIST.out.dir.map { _d -> pl.note }
             .ifEmpty("the pathogen list could not be built (download or processing failed, see the run log)")

@@ -275,6 +275,10 @@ to what may matter while the rest of your work runs; **it changes no verdict**.
   have fewer than three reported human cases, and the list does not separate
   pathogenic strains from harmless ones.
 
+If the list cannot be downloaded or built, the run carries on and the report
+says the check was not done; Nextflow's end-of-run line then counts the
+`FETCH_PATHOGEN_LIST` task as failed, which is expected.
+
 `--skip_pathogen_flags` turns the check off. `--pathogen_list <folder>` uses a
 copy you built yourself (`bin/pathogen_list.R`), for offline runs or to repeat
 a run exactly.
