@@ -591,7 +591,10 @@ a later round tests it. Full write-up: [docs/validation.md](docs/validation.md).
 | Layer E | Sample type: isolate / metagenome / amplicon | 57 runs | **failed: 4 wrong at high confidence** (fragmented viral amplicons; a mostly-unclassified soil metagenome); led to D67 |
 | Layer E round 2 | D67 on unseen studies | 49 runs | **failed: 7 wrong at high**, all true isolates called metagenome or amplicon (D67's own target held: nothing wrongly called isolate); led to D73 |
 | Layer E round 3 | D73 on unseen studies | 50 runs | **failed: 4 wrong at high** (3 archaea, 1 phage); D73 prevented 6 others, and cost 6 correct metagenomes their high confidence |
-| Layer E round 4 | D86, plus library structure (D78), rRNA (D81) and RNA starts (D85), on unseen studies | 74 runs | pre-registered |
+| Layer E round 4 | D86, plus library structure (D78), rRNA (D81) and RNA starts (D85), on unseen studies | 74 runs | A (type) **0 wrong at high**, C 7/8 bisulfite found; **B failed: 1 false bisulfite flag** (no-signal poly-G reads); led to D90 |
+| Layer E round 5 | D90 on unseen studies, with tiny two-colour runs on purpose | 40 runs | A 0 wrong at high, B 0 false flags; **C failed: bisulfite found in 11 of 14** (3 runs show no conversion in the reads); D inconclusive; led to the `library` column (D93) |
+| Layer E round 6 | D93 on unseen studies | 50 runs | **A, B, C met** (bisulfite found in 14 of 16); D inconclusive (too few G-dominated tiny runs) |
+| Layer E round 7 | G-dominated tiny runs, found by a rule fixed before looking | 12 runs | **B and D met**: every bisulfite pass mark has now passed on unseen data |
 
 Along the way validation found: a silent failure in a dependency (seqkit
 reports success on a truncated gzip), two runs whose ENA instrument labels
@@ -619,9 +622,10 @@ reorganisation) that broke a rule on real data while synthetic tests passed.
   novel bacteria, some phages) can look like a metagenome: its reads scatter
   across many species and genera. Since D86 a metagenome call is high only
   when the reads themselves (k-mer recurrence and GC spread, no database)
-  also look like many genomes; on held-out data this removed 3 of 4 such
-  errors, but it is not yet confirmed by a pre-registered round. Declare
-  `sample_type` when you know it.
+  also look like many genomes. This was confirmed by pre-registered rounds 4-6
+  (no wrong type call at high confidence on unseen data), at a cost: some
+  isolates of poorly known organisms are called metagenome at medium
+  confidence. Declare `sample_type` when you know it.
 - **Contamination:** species level only (another strain of the same species
   is invisible); same-genus contamination is under-estimated on short reads;
   estimates depend on the Kraken2 database (see layer D).
@@ -634,7 +638,7 @@ seq-triage was built by Macaulay Winter with
 [Claude Code](https://claude.com/claude-code) as a coding assistant; commits
 it wrote carry a `Co-Authored-By: Claude` line. The design decisions and
 their reasons are recorded as they were made in [CLAUDE.md](CLAUDE.md)
-(D1-D87), including every rule that validation overturned and every CI
+(D1-D98), including every rule that validation overturned and every CI
 failure and how it was fixed.
 
 ## Roadmap
@@ -665,12 +669,19 @@ failure and how it was fixed.
 - [x] Next nf-core pipeline with a ready-to-fill samplesheet (D66), and the analysis menu (D82)
 - [x] Linked samples: hybrid assembly, RNA/DNA pairs (D83)
 
+**v0.3.0 (in progress)**
+
+- [x] One genome or many from the reads (k-mer recurrence, GC spread), validated in layer E rounds 4-6 (D86)
+- [x] Bisulfite libraries recognised, and declared with `library`, validated in layer E rounds 4-7 (D90, D93, D94)
+- [x] Comparative genomics across the batch: nf-core/pathogensurveillance (D89)
+- [x] Study metadata and the column guide (D95), with control samples (`sample_control`, D97)
+- [x] Known human pathogens flagged in the contamination screen, information only (D96)
+
 **Next**
 
-- A per-read GC-spread signal for isolates the database knows poorly (layer E rounds 2-3)
+- Contamination accuracy: same-genus contamination on short reads and another strain of the same species (layer D's open misses)
 - QC for declared Ion Torrent samples
-- A validation round for the library-structure, depth and rRNA rules (D78-D81)
-- Strain-level contamination
+- A validation round for depth of coverage (D80) and the rRNA limits (D81)
 
 ## Data policy
 
