@@ -71,7 +71,6 @@
                 "samtools\t1.24",
                 "seqkit\t2.13.0",
                 "sortmerna\t4.3.7",
-                "sylph\t0.9.0",
                 "untar\t1.34"
             ]
         ],

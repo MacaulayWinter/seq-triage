@@ -20,7 +20,6 @@ include { UNTAR           } from '../modules/nf-core/untar/main'
 include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../modules/nf-core/kraken2/kraken2/main'
 include { BRACKEN_BRACKEN as BRACKEN } from '../modules/nf-core/bracken/bracken/main'
 include { KRAKEN2_BATCH   } from '../modules/local/kraken2_batch/main'
-include { SYLPH_PROFILE   } from '../modules/nf-core/sylph/profile/main'
 include { RECOMMEND       } from '../modules/local/recommend/main'
 include { CHECK_BAM       } from '../modules/local/check_bam/main'
 include { NORMALISE_FASTQ } from '../modules/local/normalise_fastq/main'
@@ -173,18 +172,6 @@ def brackenRows(String sample, tsv) {
     }
 }
 
-// sylph profile (D99): one row per genome detected, with Genome_file,
-// Sequence_abundance (% of the reads matched to some genome) and Contig_name.
-// Field = "genome|<file>|<first contig>", value = Sequence_abundance; plus one
-// "genomes_detected" row, so a run that found nothing is told apart from one
-// that did not run.
-def sylphRows(String sample, tsv) {
-    def rs = tsv.text.trim() ? tsv.splitCsv(header: true, sep: '\t') : []
-    return rs.collect { r ->
-        qcRow(sample, 'sylph', tsv.name, "genome|${file(r.Genome_file as String).name}|${(r.Contig_name as String).tokenize(' ')[0]}", r.Sequence_abundance)
-    } + [ qcRow(sample, 'sylph', tsv.name, 'genomes_detected', rs.size() as String) ]
-}
-
 // Largest species-level clade count in a Kraken2 report. Bracken stops with
 // "no reads found" (and writes nothing, which would stop the run) when no
 // species has at least 10 reads, so it only runs above that (D41).
@@ -298,7 +285,6 @@ workflow SEQ_TRIAGE {
     genome_sizes    // assets/species_genome_size.tsv (NCBI), for depth of coverage (D80)
     pathogen_dir    // D96: resolved pathogen list folder, or assets/no_pathogen_list
     pathogen_note   // D96: how the list was obtained, or why there is none
-    sylph_db        // D99: the sylph database, or an empty channel (sylph does not run)
 
     main:
 
@@ -546,7 +532,6 @@ workflow SEQ_TRIAGE {
     //     a fixed read length, so it is not used on nanopore reads.
     ch_kraken_reports = channel.empty()
     ch_bracken_tables = channel.empty()
-    ch_sylph_profiles = channel.empty()
     if (params.kraken2_db) {
         if (params.kraken2_db.endsWith('.tar.gz') || params.kraken2_db.endsWith('.tgz')) {
             UNTAR(channel.of([ [ id: 'kraken2_db' ], file(params.kraken2_db, checkIfExists: true) ]))
@@ -579,9 +564,6 @@ workflow SEQ_TRIAGE {
         }
         BRACKEN(ch_kraken_reports.filter { meta, report -> readClass(meta.route as String) == 'short' && maxSpeciesReads(report) >= 10 }, ch_db)
         ch_bracken_tables = BRACKEN.out.reports
-        // D99: sylph on the same reads, for the off-target estimate.
-        SYLPH_PROFILE(ch_to_classify, sylph_db)
-        ch_sylph_profiles = SYLPH_PROFILE.out.profile_out
     }
 
     // 6c. rRNA screen (D81), only with --rrna_db: SortMeRNA on samples
@@ -634,7 +616,6 @@ workflow SEQ_TRIAGE {
         .mix(FASTQC.out.zip.flatMap         { meta, f -> [ f ].flatten().collectMany { x -> fastqcRows(meta.id, x) } })
         .mix(ch_kraken_reports.flatMap      { meta, f -> kraken2Rows(meta.id, f) })
         .mix(ch_bracken_tables.flatMap      { meta, f -> brackenRows(meta.id, f) })
-        .mix(ch_sylph_profiles.flatMap      { meta, f -> sylphRows(meta.id, f) })
         .mix(ch_rrna_logs.flatMap           { meta, f -> sortmernaRows(meta.id, f) })
         .collectFile(name: 'qc_values.tsv', seed: "sample\ttool\tfile\tfield\tvalue", newLine: true, sort: true)
 

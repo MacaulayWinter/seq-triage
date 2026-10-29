@@ -218,21 +218,7 @@ other than the most common one, the unclassified fraction and the top
 species. Illumina samples get Bracken's species-level re-estimate. Results
 depend on the database, and the screen **cannot detect contamination by
 another strain of the same species**. Without a database the report says
-"not screened".
-
-**Off-target from sylph (D99).** With the screen on, the off-target share
-is estimated by [sylph](https://github.com/bluenote-1577/sylph), which
-compares each sample's k-mers with whole reference genomes (one per species,
-GTDB release 226). Validation (layer D) found that read-by-read
-classification mixes up sister species (*K. variicola* in *K. pneumoniae*
-read as 6.6% for a true 10%) and, with an 8 GB database, inflates
-*K. pneumoniae* in short reads. Kraken2 still gives the human fraction,
-species names, the sample-type call and pathogen flags. The database
-(3.7 GB) is downloaded once into `~/.seq-triage/sylph/` (`--sylph_cache`);
-`--sylph_db` takes another `.syldb` file or URL, and `--skip_sylph` turns it
-off. Without it (offline, skipped, or with a declared `target_taxid`, which
-GTDB genomes cannot be matched to), off-target comes from Kraken2/Bracken as
-before, and the report says which estimate it used. On a laptop, add `--kraken2_memory_mapping` to read the
+"not screened". On a laptop, add `--kraken2_memory_mapping` to read the
 database from disk instead of loading it into memory. With a big database
 on an HPC (the full Standard database is ~94 GB), add `--kraken2_batch`:
 every sample is classified in one task, so the database is read once

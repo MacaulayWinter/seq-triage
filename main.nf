@@ -10,7 +10,6 @@
 include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin/nf-schema'
 include { SEQ_TRIAGE } from './workflows/seq_triage'
 include { FETCH_PATHOGEN_LIST } from './modules/local/fetch_pathogen_list/main'
-include { FETCH_SYLPH_DB      } from './modules/local/fetch_sylph_db/main'
 
 // Empty cells arrive as [] (D22); case and spaces do not make two
 // declarations differ.
@@ -155,22 +154,6 @@ def pathogenListSource() {
     }
 }
 
-// WHAT IT DOES  Decides where the sylph database comes from (D99): none
-//               (skipped, or no contamination screen); a local file; the
-//               cached copy of a URL; or a download into --sylph_cache.
-// RETURNS       [mode: 'none' | 'file' | 'fetch', file: <path> | url: <URL>]
-def sylphDbSource() {
-    if (params.skip_sylph || !params.kraken2_db || !params.sylph_db) {
-        return [mode: 'none']
-    }
-    def db = params.sylph_db as String
-    if (!(db ==~ /(?i)^(https?|ftp):\/\/.*/)) {
-        return [mode: 'file', file: file(db, checkIfExists: true)]
-    }
-    def hit = file(params.sylph_cache, type: 'dir').resolve(file(db).name)
-    return hit.exists() ? [mode: 'file', file: hit] : [mode: 'fetch', url: db]
-}
-
 workflow {
     // --help / --helpFull: nf-schema has already printed the help (generated
     // from nextflow_schema.json, D53). Stop here, so a help request is not
@@ -269,19 +252,6 @@ workflow {
         ch_pathogen_note = channel.value(pl.note)
     }
 
-    // D99: the sylph database, downloaded once when it is not cached. An
-    //      empty channel (skipped, or the download failed) means sylph does
-    //      not run, and off-target comes from Kraken2/Bracken as before.
-    def sy = sylphDbSource()
-    def ch_sylph_db = channel.empty()
-    if (sy.mode == 'file') {
-        ch_sylph_db = channel.value(sy.file)
-    } else if (sy.mode == 'fetch') {
-        log.info "sylph database: downloading ${sy.url} once into ${params.sylph_cache}"
-        FETCH_SYLPH_DB(sy.url)
-        ch_sylph_db = FETCH_SYLPH_DB.out.db.first()
-    }
-
     SEQ_TRIAGE(ch_samples, file(params.input), file(params.metric_guide), file(params.species_groups), file(params.genome_sizes),
-               ch_pathogen_dir, ch_pathogen_note, ch_sylph_db)
+               ch_pathogen_dir, ch_pathogen_note)
 }

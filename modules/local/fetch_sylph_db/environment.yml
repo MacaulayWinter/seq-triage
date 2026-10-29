@@ -1,7 +1,0 @@
-# Used by -profile conda (e.g. on HPCs without Apptainer/Singularity).
-# Same R version as the pinned container docker.io/rocker/r-ver:4.5.2;
-# the scripts use base R only, so nothing else is needed (CLAUDE.md D42).
-channels:
-  - conda-forge
-dependencies:
-  - conda-forge::r-base=4.5.2

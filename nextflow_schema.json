@@ -132,23 +132,6 @@
                     "default": false,
                     "description": "Classify every sample in one Kraken2 task, reading the database once (it stays in the node's file cache and each sample uses it with --memory-mapping).",
                     "help_text": "Use with big databases (the full Standard database is ~94 GB), where loading it once per sample dominates the run. Samples then run one after another, and -resume reruns the whole batch if any sample changes. Results are identical to the default per-sample mode."
-                },
-                "sylph_db": {
-                    "type": "string",
-                    "default": "https://faust.compbio.cs.cmu.edu/sylph-stuff/gtdb-r226-c1000-dbv1.syldb",
-                    "description": "sylph database (.syldb) for the off-target estimate: a URL (downloaded once into --sylph_cache) or a local file (D99).",
-                    "help_text": "Default: GTDB r226 species representatives at c1000 (3.7 GB, from the sylph authors; GTDB data are CC BY-SA 4.0). Off-target contamination is then the share of every genome but the top one (each at 1% or more); Kraken2 still gives the host fraction, species names and the type call. If the database cannot be had, off-target falls back to Kraken2/Bracken and the report says so.",
-                    "fa_icon": "fas fa-database"
-                },
-                "sylph_cache": {
-                    "type": "string",
-                    "description": "Where a downloaded sylph database is kept for later runs.",
-                    "fa_icon": "fas fa-folder"
-                },
-                "skip_sylph": {
-                    "type": "boolean",
-                    "description": "Do not run sylph; estimate off-target with Kraken2/Bracken (as before D99).",
-                    "fa_icon": "fas fa-forward"
                 }
             }
         },
