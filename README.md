@@ -680,9 +680,10 @@ failure and how it was fixed.
 
 **Next**
 
-- Contamination accuracy: same-genus contamination on short reads and another strain of the same species (layer D: not met; sylph tried and not adopted, D99)
+- Contamination accuracy: same-genus contamination on short reads and another strain of the same species (layer D: not met; sylph tried and not adopted, D99). Kept as a documented limit for now, for the limitations sweep below
 - QC for declared Ion Torrent samples
 - A validation round for depth of coverage (D80) and the rRNA limits (D81)
+- **Limitations sweep:** once the planned pipelines (seq-triage, seq-resistome, the compendium engine) are finished, every outstanding limitation in [Known limitations](#known-limitations) is revisited, to make the pipelines as universal as possible
 
 ## Data policy
 
