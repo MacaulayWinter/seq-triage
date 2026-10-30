@@ -8,6 +8,19 @@ All notable changes to seq-triage. Versions follow
 
 ### Added
 
+- Control samples (D97): a column-guide role `sample_control` marks extraction
+  and PCR blanks and mock communities, from a closed list (`sample`,
+  `negative_extraction`, `negative_pcr`, `negative_other`, `positive_mock`,
+  `positive_other`). Controls are counted by kind and left out of the design;
+  an unknown or empty value stops the run; a run without controls is warned
+  about.
+- Known human pathogens (D96): each species unit at 1% or more in the
+  contamination screen is checked against Bartlett et al. 2022's list of
+  bacterial human pathogens (from the authors' GitHub, resolved to NCBI
+  taxids, cached in `--pathogen_cache`); `pathogens/pathogen_flags.tsv` and a
+  report section, information only, with a caveat on close relatives of the
+  main organism. Off with `--skip_pathogen_flags`; offline it uses the cached
+  copy or says "not checked".
 - Study metadata and the column guide (D95): any number of extra samplesheet
   columns (or a `--metadata` table) are carried to `metadata/study_metadata.tsv`
   and checked against a user-written column guide (`--column_guide`; template
