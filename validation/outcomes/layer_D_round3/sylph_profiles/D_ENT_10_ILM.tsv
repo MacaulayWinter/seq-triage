@@ -1,0 +1,3 @@
+Sample_file	Genome_file	Taxonomic_abundance	Sequence_abundance	Adjusted_ANI	Eff_cov	ANI_5-95_percentile	Eff_lambda	Lambda_5-95_percentile	Median_cov	Mean_cov_geq1	Containment_ind	Naive_ANI	kmers_reassigned	Contig_name
+D_ENT_10_ILM_R1.fastq.gz	gtdb_genomes_reps_r226/database/GCF/003/697/165/GCF_003697165.2_genomic.fna.gz	93.6821	93.9937	97.55	2.849	NA-NA	HIGH	NA-NA	3	2.849	2177/4698	97.55	42	NZ_CP033092.2 Escherichia coli DSM 30083 = JCM 1649 = ATCC 11775 chromosome, complete genome
+D_ENT_10_ILM_R1.fastq.gz	gtdb_genomes_reps_r226/database/GCF/007/035/645/GCF_007035645.1_genomic.fna.gz	6.3179	6.0063	99.04	0.192	98.32-99.84	0.192	0.15-0.24	1	1.244	591/4560	93.62	0	NZ_AP019632.1 Enterobacter asburiae strain 1808-013 chromosome, complete genome

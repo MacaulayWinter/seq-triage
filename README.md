@@ -588,6 +588,7 @@ a later round tests it. Full write-up: [docs/validation.md](docs/validation.md).
 | Round 2 | as round 1, whole-ENA draw | 115 runs, 31 damaged samples | B 1158/1158, C 30/30; **A failed: 2 wrong at high confidence** (one an ENA labelling error; one led to rule D58) |
 | Round 3 | D58 on unseen studies | 54 runs | **all pass marks met**; D58 stopped a wrong call it was not designed on |
 | Layer D, rounds 1-2 | Contamination estimates on mixtures with known answers | 13 mixtures x 2 platforms, 2 databases | host DNA right in every case; **all-samples pass mark not met** (best: 22/24 with the full database) |
+| Layer D round 3 | sylph as the off-target estimator (D99), new isolates | 13 mixtures x 2 platforms | **failed: 15/24**; on the same reads sylph's estimate was within tolerance 16 times, Kraken2/Bracken's 19, so sylph was not adopted |
 | Layer E | Sample type: isolate / metagenome / amplicon | 57 runs | **failed: 4 wrong at high confidence** (fragmented viral amplicons; a mostly-unclassified soil metagenome); led to D67 |
 | Layer E round 2 | D67 on unseen studies | 49 runs | **failed: 7 wrong at high**, all true isolates called metagenome or amplicon (D67's own target held: nothing wrongly called isolate); led to D73 |
 | Layer E round 3 | D73 on unseen studies | 50 runs | **failed: 4 wrong at high** (3 archaea, 1 phage); D73 prevented 6 others, and cost 6 correct metagenomes their high confidence |
@@ -679,9 +680,10 @@ failure and how it was fixed.
 
 **Next**
 
-- Contamination accuracy: same-genus contamination on short reads and another strain of the same species (layer D's open misses)
+- Contamination accuracy: same-genus contamination on short reads and another strain of the same species (layer D: not met; sylph tried and not adopted, D99). Kept as a documented limit for now, for the limitations sweep below
 - QC for declared Ion Torrent samples
 - A validation round for depth of coverage (D80) and the rRNA limits (D81)
+- **Limitations sweep:** once the planned pipelines (seq-triage, seq-resistome, the compendium engine) are finished, every outstanding limitation in [Known limitations](#known-limitations) is revisited, to make the pipelines as universal as possible
 
 ## Data policy
 

@@ -1,0 +1,10 @@
+within tolerance (24 scored): sylph 16, Kraken2/Bracken 19
+        sample true sylph kraken_bracken sylph_ok kb_ok
+   D_KPN_2_ILM    2   3.1            2.2    FALSE  TRUE
+   D_KPN_2_ONT    2   7.7            3.7    FALSE FALSE
+  D_KPN_10_ONT   10  17.8           12.4    FALSE FALSE
+  D_KPN_30_ONT   30  43.0           33.1    FALSE  TRUE
+  D_ENT_10_ILM   10   6.0            8.1    FALSE  TRUE
+  D_ENT_10_ONT   10   7.4            3.4    FALSE FALSE
+ D_KQUA_10_ILM   10  16.7            2.9    FALSE FALSE
+ D_KQUA_10_ONT   10   6.5            7.4    FALSE FALSE
