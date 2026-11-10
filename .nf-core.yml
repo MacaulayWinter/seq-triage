@@ -71,6 +71,10 @@ lint:
     - LICENSE
     - .github/PULL_REQUEST_TEMPLATE.md
     - .gitattributes
+    # The bug-report form and its config are this repository's own (privacy
+    # reminder, no blank issues), not nf-core's community templates.
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
   # Test data is pinned by commit in conf/test.config and tests/nextflow.config
   # (D30), and the pipeline test snapshots each tool's version from
   # software_versions.tsv rather than a versions.yml file (D46).
