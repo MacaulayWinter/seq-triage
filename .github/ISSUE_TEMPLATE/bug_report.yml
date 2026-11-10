@@ -1,0 +1,106 @@
+name: Bug report
+description: Something failed or gave a result that looks wrong
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This issue is public, and anything posted here can be copied and indexed even after it is deleted.**
+        Do not paste sequencing reads, counts, sample or feature names, metadata values or folder paths.
+        Human sequencing reads are personal data and must never be posted.
+        If your run wrote a `bug_report.md`, it has already been cleaned of these; read it once before pasting it.
+  - type: input
+    id: version
+    attributes:
+      label: Pipeline version and commit
+      description: For example `0.2.0 (1a2b3c4)`. It is in `bug_report.md` or the run's version record.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: The command and profile
+      description: "The full `nextflow run …` command and profile. Replace folder paths with placeholders such as <path-1>."
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: runner
+    attributes:
+      label: How it ran
+      options:
+        - on one machine (local)
+        - SLURM
+        - PBS / Torque
+        - LSF
+        - SGE
+        - cloud batch service
+        - other
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Container or environment
+      options:
+        - docker
+        - singularity / apptainer
+        - conda
+        - other
+    validations:
+      required: true
+  - type: input
+    id: step
+    attributes:
+      label: The step that failed
+      description: The name of the step, process or question that stopped, if you know it.
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: The error
+      description: The error message and the last lines of the log. Remove any names, paths or values first.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+  - type: dropdown
+    id: test_data
+    attributes:
+      label: "Does the same error happen with `-profile test` (the public test data)?"
+      options:
+        - "yes"
+        - "no"
+        - "didn't try"
+    validations:
+      required: true
+  - type: textarea
+    id: bug_report_md
+    attributes:
+      label: bug_report.md (optional)
+      description: If your run wrote a `bug_report.md`, paste the whole file here after reading it.
+      render: markdown
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I checked this report contains no data, sample names, metadata values or private paths.
+          required: true
